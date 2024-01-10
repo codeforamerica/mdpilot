@@ -1,4 +1,4 @@
-flow: laDigitalAssister
+flow: mdBenefitsFlow
 pdf: /pdfs/la_application_for_assistance.pdf
 inputFields:
   # submission field name --> PDF field name

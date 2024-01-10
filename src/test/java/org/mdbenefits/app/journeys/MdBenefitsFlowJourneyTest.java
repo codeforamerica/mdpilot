@@ -14,13 +14,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
 @Slf4j
-public class LaDigitalAssisterFlowJourneyTest extends AbstractBasePageTest {
+public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
   protected static final String RANGE_ERROR_MESSAGE = "Make sure to provide a value between 1 and 100.";
 
   @Test
   void chooseProgramsFlow() {
-    testPage.navigateToFlowScreen("laDigitalAssister/choosePrograms");
+    testPage.navigateToFlowScreen("mdBenefitsFlow/choosePrograms");
     testPage.clickContinue();
 
     assert (testPage.hasErrorText(message("error.missing-general")));
@@ -32,7 +32,7 @@ public class LaDigitalAssisterFlowJourneyTest extends AbstractBasePageTest {
 
   @Test
   void whosApplyingFlow() {
-    testPage.navigateToFlowScreen("laDigitalAssister/whosApplying");
+    testPage.navigateToFlowScreen("mdBenefitsFlow/whosApplying");
     testPage.clickContinue();
 
     assert (testPage.hasErrorText(message("error.missing-general")));
@@ -44,7 +44,7 @@ public class LaDigitalAssisterFlowJourneyTest extends AbstractBasePageTest {
 
   @Test
   void personalInformationFlow() {
-    testPage.navigateToFlowScreen("laDigitalAssister/personalInfo");
+    testPage.navigateToFlowScreen("mdBenefitsFlow/personalInfo");
     testPage.clickContinue();
 
     testPage.enter("birthMonth", "01");
@@ -178,7 +178,7 @@ public class LaDigitalAssisterFlowJourneyTest extends AbstractBasePageTest {
   void socialSecurityFlow() {
     loadUserPersonalData();
 
-    testPage.navigateToFlowScreen("laDigitalAssister/ssnForm");
+    testPage.navigateToFlowScreen("mdBenefitsFlow/ssnForm");
 
     assertThat(testPage.getTitle()).isEqualTo(message("ssn-form.title"));
 
@@ -197,7 +197,7 @@ public class LaDigitalAssisterFlowJourneyTest extends AbstractBasePageTest {
     loadUserPersonalData();
     loadAddressData();
     loadContactData();
-    testPage.navigateToFlowScreen("laDigitalAssister/reviewContactInfo");
+    testPage.navigateToFlowScreen("mdBenefitsFlow/reviewContactInfo");
     assertThat(testPage.getTitle()).isEqualTo(message("review-contact-info.title"));
     testPage.clickLink(message("review-contact-info.submit-incomplete"));
     // Expedited Snap Start
@@ -242,7 +242,7 @@ public class LaDigitalAssisterFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickElementById("translate-button");
     testPage.clickLink("Tiếng Việt");
 
-    testPage.navigateToFlowScreen("laDigitalAssister/ethnicitySelection");
+    testPage.navigateToFlowScreen("mdBenefitsFlow/ethnicitySelection");
     // the titles don't seem to render correctly in test
     // assertThat(testPage.getTitle()).isEqualTo("L\u1ef1a ch\u1ecdn dân t\u1ed9c");
 
@@ -318,7 +318,7 @@ public class LaDigitalAssisterFlowJourneyTest extends AbstractBasePageTest {
 
   @Test
   void docUploadSkipTest() {
-    testPage.navigateToFlowScreen("laDigitalAssister/docUploadIntro");
+    testPage.navigateToFlowScreen("mdBenefitsFlow/docUploadIntro");
     assertThat(testPage.getTitle()).isEqualTo(message("doc-upload-intro.title"));
     testPage.clickButton(message("doc-upload-intro.skip"));
     assertThat(testPage.getTitle()).isEqualTo(message("confirmation.title"));
@@ -920,7 +920,7 @@ public class LaDigitalAssisterFlowJourneyTest extends AbstractBasePageTest {
 
 
   void loadUserPersonalData() {
-    testPage.navigateToFlowScreen("laDigitalAssister/personalInfo");
+    testPage.navigateToFlowScreen("mdBenefitsFlow/personalInfo");
 
     testPage.enter("firstName", "test");
     testPage.enter("lastName", "test2");
@@ -932,7 +932,7 @@ public class LaDigitalAssisterFlowJourneyTest extends AbstractBasePageTest {
   }
 
   void loadHouseHoldData(String firstName, String lastName, String month, String day, String year) {
-    testPage.navigateToFlowScreen("laDigitalAssister/householdInfo");
+    testPage.navigateToFlowScreen("mdBenefitsFlow/householdInfo");
     testPage.enter("householdMemberFirstName", firstName);
     testPage.enter("householdMemberLastName", lastName);
     testPage.enter("householdMemberBirthMonth", month);
@@ -944,7 +944,7 @@ public class LaDigitalAssisterFlowJourneyTest extends AbstractBasePageTest {
   }
   
   void loadAddressData() {
-    testPage.navigateToFlowScreen("laDigitalAssister/homeAddress");
+    testPage.navigateToFlowScreen("mdBenefitsFlow/homeAddress");
     testPage.enter("homeAddressStreetAddress1", "123 Test St");
     testPage.enter("homeAddressCity", "Testland");
     testPage.enter("homeAddressZipCode", "12345");
@@ -955,7 +955,7 @@ public class LaDigitalAssisterFlowJourneyTest extends AbstractBasePageTest {
   }
   
   void loadContactData() {
-    testPage.navigateToFlowScreen("laDigitalAssister/contactInfo");
+    testPage.navigateToFlowScreen("mdBenefitsFlow/contactInfo");
     testPage.enter("emailAddress", "test@gmail.com");
     testPage.enter("phoneNumber", "555-456-7891");
     testPage.clickElementById("remindersMethod-By email-label");
@@ -963,7 +963,7 @@ public class LaDigitalAssisterFlowJourneyTest extends AbstractBasePageTest {
   }
 
   void preloadIncomeScreen() {
-    testPage.navigateToFlowScreen("laDigitalAssister/incomeSignPost");
+    testPage.navigateToFlowScreen("mdBenefitsFlow/incomeSignPost");
     testPage.clickContinue();
 
     testPage.clickButton("Yes");

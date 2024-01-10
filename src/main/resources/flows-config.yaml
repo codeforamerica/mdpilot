@@ -20,7 +20,7 @@ flow:
     nextScreens:
       - name: finalConfirmation
 ---
-name: laDigitalAssister
+name: mdBenefitsFlow
 flow:
   parish:
     nextScreens:

@@ -5,10 +5,10 @@ sftp:
   environment-path: 'prod'
 form-flow:
   lock-after-submitted:
-    - flow: laDigitalAssister
+    - flow: mdBenefitsFlow
       redirect: confirmation
   disabled-flows:
-    - flow: laDigitalAssister
+    - flow: mdBenefitsFlow
       staticRedirectPage: /
   pdf:
     path: 'src/main/resources/pdfs/'

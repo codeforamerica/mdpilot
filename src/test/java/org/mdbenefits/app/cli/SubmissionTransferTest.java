@@ -129,7 +129,7 @@ class SubmissionTransferTest {
     OffsetDateTime submittedDate = OffsetDateTime.now().minusHours(2L);
     Submission submission = Submission.builder()
         .submittedAt(submittedDate)
-        .flow("laDigitalAssister")
+        .flow("mdBenefitsFlow")
         .urlParams(new HashMap<>())
         .inputData(new HashMap<>()).build();
     submissionRepository.save(submission);
@@ -141,7 +141,7 @@ class SubmissionTransferTest {
     OffsetDateTime submittedDate = OffsetDateTime.now().minusHours(2L);
     var submission = Submission.builder()
         .submittedAt(submittedDate)
-        .flow("laDigitalAssister")
+        .flow("mdBenefitsFlow")
         .urlParams(new HashMap<>())
         .inputData(new HashMap<>(Map.of(
             "firstName", "Other",
@@ -178,7 +178,7 @@ class SubmissionTransferTest {
     OffsetDateTime submittedDate = OffsetDateTime.now().minusHours(2L);
     Submission submission = Submission.builder()
         .submittedAt(submittedDate)
-        .flow("laDigitalAssister")
+        .flow("mdBenefitsFlow")
         .urlParams(new HashMap<>())
         .inputData(Map.of(
             "firstName", "Tester",

@@ -28,7 +28,7 @@ public class DocUploadDisabledInterceptor implements HandlerInterceptor {
 
     private final Locale locale;
 
-    private final String redirectUrl = "/flow/laDigitalAssister/confirmation";
+    private final String redirectUrl = "/flow/mdBenefitsFlow/confirmation";
     public static List<String> docUploadScreens = List.of(
             "docUploadIntro", "docUploadSignpost", "docUploadInstructions",
             "docUploadRecommendations", "docUpload", "docUploadType", "docUploadReview",
@@ -47,7 +47,7 @@ public class DocUploadDisabledInterceptor implements HandlerInterceptor {
         try {
             var parsedUrl = new AntPathMatcher().extractUriTemplateVariables(PATH_FORMAT, request.getRequestURI());
             FlashMap outputFlashMap = RequestContextUtils.getOutputFlashMap(request); // use this to populate messages
-            if (!parsedUrl.get("flow").equals("laDigitalAssister")){
+            if (!parsedUrl.get("flow").equals("mdBenefitsFlow")){
                 return true;
             }
             if (docUploadScreens.contains(parsedUrl.get("screen"))){

@@ -26,8 +26,8 @@ public class TransmissionRepositoryService {
     }
 
     public Transmission createTransmissionRecord(Submission submission, TransmissionType transmissionType) {
-        if (!submission.getFlow().equals("laDigitalAssister")) {
-            throw new RuntimeException("Non-laDigitalAssister object passed to createTransmissionRecord");
+        if (!submission.getFlow().equals("mdBenefitsFlow")) {
+            throw new RuntimeException("Non-mdBenefitsFlow object passed to createTransmissionRecord");
         }
 
         var transmission = Transmission.fromSubmission(submission);

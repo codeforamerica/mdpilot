@@ -53,11 +53,11 @@
                       <span th:text="${householdMember.householdMemberLastName}"></span>
                     </span>
                     <span class="text--small spacing-below-0">
-                      <a th:href="'/flow/laDigitalAssister/' + ${iterationStartScreen} + '/' + ${householdMember.uuid} + '/edit'"
+                      <a th:href="'/flow/mdBenefitsFlow/' + ${iterationStartScreen} + '/' + ${householdMember.uuid} + '/edit'"
                          th:text="#{general.edit}"
                          th:id="'edit-iteration-' + ${householdMember.uuid}"
                          class="subflow-edit"></a>
-                      <a th:href="'/flow/laDigitalAssister/household/' + ${householdMember.uuid} + '/deleteConfirmation'"
+                      <a th:href="'/flow/mdBenefitsFlow/household/' + ${householdMember.uuid} + '/deleteConfirmation'"
                          th:text="#{general.delete}"
                          class="subflow-delete"
                          th:id="'delete-iteration-' + ${householdMember.uuid}"></a>
