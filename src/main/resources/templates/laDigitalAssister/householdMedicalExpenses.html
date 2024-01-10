@@ -20,7 +20,7 @@
                   content=~{::whichHouseholdExpenses})}">
                 <th:block th:ref="whichHouseholdExpenses">
                   <th:block
-                      th:each="option : ${T(org.ladocuploader.app.data.enums.MedicalExpensesType).values()}">
+                      th:each="option : ${T(org.mdbenefits.app.data.enums.MedicalExpensesType).values()}">
                     <th:block
                         th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(inputName='householdMedicalExpenses',value=${option.getValue()}, label=#{${option.getLabelSrc()}})}"/>
                   </th:block>

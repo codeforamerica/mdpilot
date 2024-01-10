@@ -17,7 +17,7 @@
                   ariaLabel=#{home-expenses.header},
                   content=~{::whichHomeExpenses})}">
                 <th:block th:ref="whichHomeExpenses">
-                  <th:block th:each="option : ${T(org.ladocuploader.app.data.enums.HomeExpensesType).values()}">
+                  <th:block th:each="option : ${T(org.mdbenefits.app.data.enums.HomeExpensesType).values()}">
                     <th:block
                         th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(inputName='householdHomeExpenses', value=${option.getValue()}, label=#{${option.getLabelSrc()}})}"/>
                   </th:block>

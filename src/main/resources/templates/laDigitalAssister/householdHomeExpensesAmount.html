@@ -19,7 +19,7 @@
                 <th:block
                     th:with="inputName=${'householdHomeExpenseAmount' + T(formflow.library.inputs.FieldNameMarkers).DYNAMIC_FIELD_MARKER + expense}">
                   <th:block
-                      th:with="labelName=${T(org.ladocuploader.app.data.enums.HomeExpensesType).getLabelSrcFromValue(expense)}">
+                      th:with="labelName=${T(org.mdbenefits.app.data.enums.HomeExpensesType).getLabelSrcFromValue(expense)}">
                     <th:block
                         th:replace="~{fragments/inputs/money :: money(inputName=${inputName},
                       label=${#messages.msg(labelName)},

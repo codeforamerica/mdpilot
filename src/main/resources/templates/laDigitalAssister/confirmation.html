@@ -12,8 +12,8 @@
         });
       </script>
       <main id="content" role="main" class="form-card spacing-above-35"
-            th:with="inLinkGroup=${T(org.ladocuploader.app.utils.SubmissionUtilities).inExperimentGroup('LINK', submission)},
-        inApplyGroup=${T(org.ladocuploader.app.utils.SubmissionUtilities).inExperimentGroup('APPLY', submission)}">
+            th:with="inLinkGroup=${T(org.mdbenefits.app.utils.SubmissionUtilities).inExperimentGroup('LINK', submission)},
+        inApplyGroup=${T(org.mdbenefits.app.utils.SubmissionUtilities).inExperimentGroup('APPLY', submission)}">
         <div th:if="${lockedSubmissionMessage}" class="notice--warning">
           <p th:text="${lockedSubmissionMessage}"></p>
         </div>

@@ -20,7 +20,7 @@
                   ariaLabel=#{race-selection.header},
                   content=~{::raceSelectionOptions})}">
                 <th:block th:ref="raceSelectionOptions">
-                  <th:block th:each="raceType : ${T(org.ladocuploader.app.data.enums.RaceType).values()}">
+                  <th:block th:each="raceType : ${T(org.mdbenefits.app.data.enums.RaceType).values()}">
                     <th:block
                         th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(inputName='raceSelected', value=${raceType.getValue()}, label=#{${raceType.getLabelSrc()}})}"/>
                   </th:block>
@@ -41,7 +41,7 @@
                         ariaLabel=#{race-selection.question(${householdMember.householdMemberFirstName})},
                         content=~{::householdRaceSelectionFieldSet})}">
                       <th:block th:ref="householdRaceSelectionFieldSet">
-                        <th:block th:each="raceType : ${T(org.ladocuploader.app.data.enums.RaceType).values()}">
+                        <th:block th:each="raceType : ${T(org.mdbenefits.app.data.enums.RaceType).values()}">
                           <th:block
                               th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(inputName=${householdInputName}, value=${raceType.getValue()}, label=#{${raceType.getLabelSrc()}})}"/>
                         </th:block>

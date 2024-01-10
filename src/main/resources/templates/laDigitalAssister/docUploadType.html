@@ -13,8 +13,8 @@
         <th:block th:replace="~{fragments/form :: form(action=${formAction}, content=~{::clientInfoFormContents})}">
           <th:block th:ref="clientInfoFormContents"
                     th:with="
-                fileIds = ${T(org.ladocuploader.app.utils.UserFileUtilities).getUserFileIdsInOrder(userFiles)},
-                userFileInfo = ${T(org.ladocuploader.app.utils.UserFileUtilities).getUserFileInfo(session.userFiles, userFiles, flow, 'uploadDocuments')},
+                fileIds = ${T(org.mdbenefits.app.utils.UserFileUtilities).getUserFileIdsInOrder(userFiles)},
+                userFileInfo = ${T(org.mdbenefits.app.utils.UserFileUtilities).getUserFileInfo(session.userFiles, userFiles, flow, 'uploadDocuments')},
                 numberOfFiles = ${userFileInfo.keySet().size()},
                 maxFiles=${@environment.getProperty('form-flow.uploads.max-files')}">
             <div th:id="upload-doc-div-details" class="spacing-below-25">
@@ -38,7 +38,7 @@
                       <th:block th:ref="docTypes">
                         <th:block
                             th:replace="~{fragments/inputs/selectOptionPlaceholder :: selectOptionPlaceholder(optionText=#{add-document-types.doc-type-label.placeholder})}"/>
-                        <th:block th:each="docTypeOpt : ${T(org.ladocuploader.app.file.DocTypeEnum).values()}">
+                        <th:block th:each="docTypeOpt : ${T(org.mdbenefits.app.file.DocTypeEnum).values()}">
                           <th:block
                               th:replace="~{fragments/inputs/selectOption :: selectOption(value=${docTypeOpt.getValue()}, optionText=#{${docTypeOpt.getNameSrc()}})}"/>
                         </th:block>

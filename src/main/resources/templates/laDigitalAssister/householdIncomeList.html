@@ -19,7 +19,7 @@
                 <strong th:text="#{income-list.box-title}"></strong>
 
                 <ul class="subflow-list">
-                  <li th:each="incomeItem, iter: ${T(org.ladocuploader.app.utils.SubmissionUtilities).getHouseholdIncomeReviewItems(submission)}"
+                  <li th:each="incomeItem, iter: ${T(org.mdbenefits.app.utils.SubmissionUtilities).getHouseholdIncomeReviewItems(submission)}"
                       class="subflow-list__item">
                     <th:block th:if="${incomeItem.get('itemType').equals('job')}">
 

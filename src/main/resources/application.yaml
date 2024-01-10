@@ -13,7 +13,7 @@ form-flow:
   pdf:
     path: 'src/main/resources/pdfs/'
     map-file: pdf-map.yaml
-  inputs: 'org.ladocuploader.app.inputs.'
+  inputs: 'org.mdbenefits.app.inputs.'
   path: 'flows-config.yaml'
   uploads:
     default-doc-type-label: "NotSet"

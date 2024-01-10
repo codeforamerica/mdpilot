@@ -20,7 +20,7 @@
                         ariaLabel=#{ethnicity-selection.header},
                         content=~{::ethnicitySelectionFieldSet})}">
                 <th:block th:ref="ethnicitySelectionFieldSet">
-                  <th:block th:each="ethnicityType : ${T(org.ladocuploader.app.data.enums.EthnicityType).values()}">
+                  <th:block th:each="ethnicityType : ${T(org.mdbenefits.app.data.enums.EthnicityType).values()}">
                     <th:block
                         th:replace="~{fragments/inputs/radio ::
                             radio(
@@ -43,7 +43,7 @@
                         ariaLabel=#{ethnicity-selection.question(${householdMember.householdMemberFirstName})},
                         content=~{::householdEthnicitySelectionFieldSet})">
                       <th:block th:ref="householdEthnicitySelectionFieldSet">
-                        <th:block th:each="ethnicityType : ${T(org.ladocuploader.app.data.enums.EthnicityType).values()}">
+                        <th:block th:each="ethnicityType : ${T(org.mdbenefits.app.data.enums.EthnicityType).values()}">
                             <th:block
                               th:replace="~{fragments/inputs/radio ::
                                   radio(
