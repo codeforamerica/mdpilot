@@ -72,8 +72,7 @@ spring:
     locale: ${DEFAULT_LOCALE}
     locale-resolver: fixed
   datasource:
-    url: jdbc:postgresql://localhost:5432/la-doc-uploader
-    username: la-doc-uploader
+    url: jdbc:postgresql://localhost:5432/mdbenefits
   servlet:
     multipart:
       max-file-size: ${form-flow.uploads.max-file-size}MB

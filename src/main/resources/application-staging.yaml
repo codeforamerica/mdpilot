@@ -2,7 +2,7 @@ spring:
   thymeleaf:
     cache: true
   datasource:
-    url: jdbc:postgresql://host.docker.internal:5432/la-doc-uploader
+    url: jdbc:postgresql://host.docker.internal:5432/mdbenefits
 management:
   endpoints:
     enabled-by-default: false

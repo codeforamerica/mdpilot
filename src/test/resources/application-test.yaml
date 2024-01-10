@@ -13,8 +13,8 @@ spring:
   messages:
     basename: messages, messages-form-flow
   datasource:
-    url: jdbc:postgresql://localhost:5432/la-doc-uploader-test
-    username: la-doc-uploader-test
+    url: jdbc:postgresql://localhost:5432/mdbenefits_test
+    username: mdbenefits_test
     password: postgres
   flyway:
     baselineOnMigrate: true
