@@ -19,9 +19,9 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_USER: la-doc-uploader-test
-          POSTGRES_DB: la-doc-uploader-test
+          POSTGRES_USER: mdbenefits_test
           POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: mdbenefits_test
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
         ports:
           - 5432:5432
@@ -70,8 +70,8 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_USER: la-doc-uploader-test
-          POSTGRES_DB: la-doc-uploader-test
+          POSTGRES_USER: mdbenefits_test
+          POSTGRES_DB: mdbenefits_test
           POSTGRES_PASSWORD: postgres
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
         ports:

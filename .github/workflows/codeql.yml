@@ -19,8 +19,8 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_USER: la-doc-uploader-test
-          POSTGRES_DB: la-doc-uploader-test
+          POSTGRES_USER: mdbenefits_test
+          POSTGRES_DB: mdbenefits_test
           POSTGRES_PASSWORD: postgres
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
         ports:
@@ -75,5 +75,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.ARTIFACT_ID }}
-          path: /home/runner/work/la-doc-uploader/results
+          path: /home/runner/work/mdbenefits/results
           retention-days: 14
