@@ -1,6 +1,6 @@
 # Overview
 
-This is a prototype app for LA Document Uploader. This is a standard Spring Boot application that uses the `form-flows` Java package as a library.
+This is the app for the MD Pilot. This is a standard Spring Boot application that uses the `form-flow` Java package as a library.
 
 To see an example of an application built on form flow, check out the [form-flow-starter-app repo.](https://github.com/codeforamerica/form-flow-starter-app)
 
@@ -10,7 +10,7 @@ To see an example of an application built on form flow, check out the [form-flow
 - java
 - java development kit
 - gradle
-- postgress
+- postgres
 - intelliJ and EnvFile
 - Database Setup
 - [form-flow library](https://github.com/codeforamerica/form-flow)
@@ -63,13 +63,11 @@ jenv add /Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home
     - Or on macOS, through homebrew: `brew install postgresql@14`
 
 ## Database Setup
-Create a new database and user for the la-doc-uploader app and test app:
+Create a new database for the mdbenefits app and test app:
 ```
-$ createdb la-doc-uploader
-$ createuser -s la-doc-uploader.
+$ createdb mdbenefits
 
-$ createdb la-doc-uploader-test
-$ createuser -s la-doc-uploader-test
+$ createdb mdbenefits_test
 ```
 
 ## Setup IntelliJ and EnvFile
@@ -92,11 +90,11 @@ convenience.
 To use a local version of the  [form-flow](https://github.com/codeforamerica/form-flow) library you
 can do the following:
 
-1. Clone the `form-flow` repo in the same directory as the la-doc-uploader app.
+1. Clone the `form-flow` repo in the same directory as the mdbenefits app.
 2. Build the `form-flow` library jar: `./gradlew clean test build`
 3. In this starter app, set the `SPRING_PROFILES_ACTIVE`  to `dev` in
    the .env file
-4. Start the `la-doc-uploader-app`: `./gradlew clean test build`  
+4. Start the `mdbenefits-app`: `./gradlew clean test build`  
 
 Changing the `SPRING_PROFILES_ACTIVE` to `dev` will cause the starter
 app's [build.gradle](build.gradle) to pull in the local library, via this line:
