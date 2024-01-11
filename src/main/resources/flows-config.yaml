@@ -1,25 +1,3 @@
-name: laDocUpload
-flow:
-  clientInfo:
-    onPostAction: TrackClientInfoEvent
-    beforeSaveAction: EncryptSSNBeforeSaving
-    beforeDisplayAction: DecryptSSNBeforeDisplaying
-    nextScreens:
-      - name: howToAddDocuments
-  howToAddDocuments:
-    beforeDisplayAction: TrackClientSuccessEvent
-    nextScreens:
-      - name: uploadDocuments
-  uploadDocuments:
-    nextScreens:
-      - name: docSubmitConfirmation
-  docSubmitConfirmation:
-    nextScreens:
-      - name: finalConfirmation
-  finalConfirmation:
-    nextScreens:
-      - name: finalConfirmation
----
 name: mdBenefitsFlow
 flow:
   parish:
