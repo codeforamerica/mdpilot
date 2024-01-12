@@ -108,9 +108,6 @@ pgp:
   seckey-file-path: ${PGP_SECKEY_FILE_PATH}
   pubkey-file-path: ${PGP_PUBKEY_FILE_PATH}
   sigkey-password: ${PGP_SIGKEY_PASSWORD}
-sentry:
-  dsn: ${SENTRY_DSN}
-  traces-sample-rate: 0.6
 management:
   endpoints:
     enabled-by-default: false
