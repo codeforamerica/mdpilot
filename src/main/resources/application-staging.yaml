@@ -3,6 +3,13 @@ spring:
     cache: true
   datasource:
     url: jdbc:postgresql://host.docker.internal:5432/mdbenefits
+  flyway:
+    placeholders:
+      uuid_function: "gen_random_uuid"
+      user_file_doc_type_default_label: ${form-flow.uploads.default-doc-type-label:#{null}}
+  session:
+    jdbc:
+      initialize-schema: always
 management:
   endpoints:
     enabled-by-default: false
