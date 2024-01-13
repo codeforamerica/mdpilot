@@ -239,9 +239,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     loadHouseHoldData("Person", "Two", "12", "12", "2016");
     loadHouseHoldData("Person", "Three", "12", "12", "2017");
 
-    testPage.clickElementById("translate-button");
-    testPage.clickLink("Tiếng Việt");
-
     testPage.navigateToFlowScreen("mdBenefitsFlow/ethnicitySelection");
     // the titles don't seem to render correctly in test
     // assertThat(testPage.getTitle()).isEqualTo("L\u1ef1a ch\u1ecdn dân t\u1ed9c");
@@ -255,11 +252,10 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         .filter(ei ->  ei.getAttribute("value").equals("Hispanic or Latino"))
         .forEach(ei -> {
           ei.click();
-          // make sure found them, even with the site language being in Vietnamese
           assertThat(ei.isSelected()).isTrue();
         });
 
-    testPage.clickContinue(Locale.forLanguageTag("vi"));
+    testPage.clickContinue();
     testPage.goBack();
 
     //assertThat(testPage.getTitle()).isEqualTo("L\u1ef1a ch\u1ecdn dân t\u1ed9c");
@@ -270,7 +266,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
       assertThat(element.getAttribute("value")).isEqualTo("Hispanic or Latino");
     });
 
-    testPage.clickContinue(Locale.forLanguageTag("vi"));
+    testPage.clickContinue();
     //assertThat(testPage.getTitle()).isEqualTo("L\u1ef1a ch\u1ecdn ch\u1ee7ng t\u1ed9c");
 
     // set for the applicant
@@ -292,7 +288,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
           assertThat(ri.isSelected()).isTrue();
         });
 
-    testPage.clickContinue(Locale.forLanguageTag("vi"));
+    testPage.clickContinue();
     testPage.goBack();
 
     //assertThat(testPage.getTitle()).isEqualTo("L\u1ef1a ch\u1ecdn ch\u1ee7ng t\u1ed9c");
@@ -310,9 +306,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
       assertThat(value).isNotEqualTo("American Indian");
     });
 
-    // change the language back
-    testPage.clickElementById("translate-button");
-    testPage.clickLink("English");
     assertThat(testPage.getTitle()).isEqualTo("Race Selection");
   }
 
@@ -326,20 +319,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
   @Test
   void fullDigitalAssisterFlow() {
-    // Landing screen (language toggled)
-    assertThat(testPage.getTitle()).isEqualTo("Louisiana Digital Assister");
-    testPage.clickElementById("translate-button");
-    String languages = testPage.getElementText("menu2");
-    assertThat(languages).contains("Español");
-    assertThat(languages).contains("English");
-    assertThat(languages).contains("Tiếng Việt");
-    testPage.clickLink("Español");
-    assertThat(testPage.getElementText("translate-button")).contains("Traducir");
-    testPage.clickElementById("translate-button");
-    testPage.clickLink("Tiếng Việt");
-    assertThat(testPage.getElementText("translate-button")).contains("Phiên dịch");
-    testPage.clickElementById("translate-button");
-    testPage.clickLink("English");
+    assertThat(testPage.getTitle()).isEqualTo("Maryland Benefits Application");
 
     testPage.clickButton("Apply Now");
 

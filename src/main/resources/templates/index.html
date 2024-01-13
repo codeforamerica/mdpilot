@@ -8,33 +8,16 @@
     <section class="slab slab--white">
       <div class="grid">
         <div class="grid__item width-one-half">
+          <!--          TODO: How are icons overridden?-->
+          <th:block th:replace="~{fragments/icons :: nextSteps}"></th:block>
           <h1 class="spacing-below-15 spacing-above-0" th:utext="#{index.header}"></h1>
-          <p class="spacing-below-15" th:utext="#{index.upload-description}"></p>
-          <p class="text--help spacing-below-25">
-            <small th:text="#{index.louisiana-partner}"></small>
-          </p>
+          <p class="spacing-below-15" th:utext="#{index.description}"></p>
           <a id="upload_docs_1" th:href="#{index.upload-documents-primary.link}"
              th:utext="#{index.upload-documents-primary}"
              th:rel="keep-params"
              class="button button--primary spacing-below-10"><i
               class="button__icon icon-arrow_forward"></i></a>
-          <p class="text--help spacing-below-25">
-            <small>
-              <i class="icon-lock_outline"></i>
-              <span th:text="#{index.safe-and-secure}"></span>
-            </small>
-          </p>
-
-          <div class="display-inline-grid">
-            <a id="upload_docs_2" th:href="#{index.upload-documents-second.link}"
-               th:utext="#{index.upload-documents-second}"
-               th:rel="keep-params"
-               class="button button--small spacing-below-15 button--other"></a>
-            <a id="upload_docs_3" th:href="#{index.upload-documents-third.link}"
-               th:utext="#{index.upload-documents-third}"
-               th:rel="keep-params"
-               class="button button--small button--other"></a>
-          </div>
+          <p th:utext="#{index.apply-on-mdthink}"></p>
         </div>
         <div class="grid__item width-one-half">
           <picture>
@@ -45,54 +28,6 @@
                  alt="A mother with laptop while father and child playing">
           </picture>
         </div>
-      </div>
-    </section>
-
-    <section class="slab slab--la-blue">
-      <div class="grid">
-        <div class="grid__item width-one-half">
-          <div class="seal">
-            <picture>
-              <source srcset="/assets/images/Seal_of_Louisiana.webp" type="image/webp"
-                      width="100px">
-              <source srcset="/assets/images/Seal_of_Louisiana.png" type="image/png" width="100px">
-              <img src="/assets/images/Seal_of_Louisiana.png"
-                   alt="Louisiana State Seal"
-                   class="border-right"
-                   style="width: 100px;">
-            </picture>
-          </div>
-          <div class="logo">
-            <picture>
-              <source srcset="/assets/images/dcfs-logo-bg.webp" type="image/webp" width="160px">
-              <source srcset="/assets/images/dcfs-logo-bg.png" type="image/png" width="160px">
-              <img src="/assets/images/dcfs-logo-bg.png"
-                   alt="DCFS Logo"
-                   style="width: 160px;">
-            </picture>
-          </div>
-        </div>
-        <div class="grid__item width-one-half">
-          <p class="spacing-above-25 text--centered" th:text="#{index.website-description}"></p>
-        </div>
-      </div>
-    </section>
-
-    <section class="slab slab--yellow spacing-below-0">
-      <h2 class="spacing-above-5 spacing-below-35"
-          th:text="#{index.apply-for-snap}"></h2>
-
-      <div class="spacing-above-35">
-        <p th:utext="#{index.apply-for-snap.paragraph}"></p>
-      </div>
-
-
-    </section>
-    <section class="slab slab--white">
-      <h2 class="spacing-above-5 spacing-below-35"
-          th:text="#{index.assistance-question}"></h2>
-      <div class="spacing-above-35">
-        <p th:utext="#{index.assistance-subheader}"></p>
       </div>
     </section>
   </main>
