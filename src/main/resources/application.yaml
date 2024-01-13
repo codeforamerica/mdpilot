@@ -7,9 +7,7 @@ form-flow:
   lock-after-submitted:
     - flow: mdBenefitsFlow
       redirect: confirmation
-  disabled-flows:
-    - flow: mdBenefitsFlow
-      staticRedirectPage: /
+  disabled-flows: ~
   pdf:
     path: 'src/main/resources/pdfs/'
     map-file: pdf-map.yaml
@@ -41,6 +39,10 @@ form-flow:
       smarty_auth_token: ${SMARTY_AUTH_TOKEN}
       smarty_url: "https://us-street.api.smartystreets.com/street-address"
 spring:
+  flyway:
+    placeholders:
+      uuid_function: "gen_random_uuid"
+      user_file_doc_type_default_label: ${form-flow.uploads.default-doc-type-label:#{null}}
   profiles:
     group:
       test:
