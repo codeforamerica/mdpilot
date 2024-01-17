@@ -4,8 +4,6 @@ import formflow.library.config.submission.Condition;
 import formflow.library.data.Submission;
 import org.springframework.stereotype.Component;
 
-import static org.mdbenefits.app.submission.actions.SetExperimentGroups.ExperimentGroup.APPLY;
-import static org.mdbenefits.app.utils.SubmissionUtilities.inExperimentGroup;
 import static org.mdbenefits.app.utils.SubmissionUtilities.isNolaParish;
 
 @Component
@@ -13,6 +11,6 @@ public class EligibleForNolaWicEceApply implements Condition {
 
   @Override
   public Boolean run(Submission submission) {
-    return isNolaParish(submission) && inExperimentGroup(APPLY.name(), submission);
+    return isNolaParish(submission);
   }
 }
