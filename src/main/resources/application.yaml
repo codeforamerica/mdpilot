@@ -54,6 +54,12 @@ spring:
       demo:
         - demo
         - form-flow-library
+      staging:
+        - staging
+        - form-flow-library
+      prod:
+        - prod
+        - form-flow-library
   security:
     user:
       name: ${DEFAULT_USER}

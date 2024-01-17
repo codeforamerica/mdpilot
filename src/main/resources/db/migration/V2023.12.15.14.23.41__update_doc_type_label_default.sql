@@ -1,1 +1,0 @@
-UPDATE user_files SET doc_type_label='${user_file_doc_type_default_label}';
