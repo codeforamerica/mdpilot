@@ -131,7 +131,6 @@ flow:
     nextScreens:
       - name: householdPregnancy
   householdPregnancy:
-    beforeSaveAction: SetExperimentGroups
     nextScreens:
       - name: householdPregnancyWho
         condition: IsPregnant

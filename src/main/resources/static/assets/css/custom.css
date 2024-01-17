@@ -1,7 +1,7 @@
 /* This file is provided for addition of custom CSS styles */
 
 :root {
-  --primary: #00284D;
+  --primary: #000000;
   --light: #F5F5F5;
   --primary-light: #C0CEDB;
   --dark-grey: #121111;
@@ -464,6 +464,3 @@ button.button.button--secondary{
 .main-footer {
   position: static;
 }
-
-
-
