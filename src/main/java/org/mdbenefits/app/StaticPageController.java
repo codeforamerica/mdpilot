@@ -22,36 +22,26 @@ public class StaticPageController {
    * @return the static page template
    */
   @GetMapping("/")
-  ModelAndView getIndex(HttpServletRequest request,
-      @RequestParam(required = false) String ref_id) {
+  ModelAndView getIndex(HttpServletRequest request) {
     HttpSession httpSession = request.getSession(false);
     if (httpSession != null) {
-    httpSession.invalidate();
+      httpSession.invalidate();
     }
     httpSession = request.getSession(true);
 
-    // start new session
-    httpSession.setAttribute("ref_id", ref_id);
-
-    Map<String, Object> model = new HashMap();
+    Map<String, Object> model = new HashMap<>();
     model.put("screen", "/");
 
     return new ModelAndView("index", model);
   }
 
   @GetMapping("/privacy")
-  ModelAndView getPrivacy() {
-    Map<String, Object> model = new HashMap();
-    model.put("screen", "privacy");
-
-    return new ModelAndView("privacy", model);
+  String getPrivacy() {
+    return "privacy";
   }
 
   @GetMapping("/ssnFAQs")
-  ModelAndView getSSNFaqs() {
-    Map<String, Object> model = new HashMap();
-    model.put("screen", "ssnFAQs");
-
-    return new ModelAndView("ssnFAQs", model);
+  String getSSNFaqs() {
+    return "ssnFAQs";
   }
 }
