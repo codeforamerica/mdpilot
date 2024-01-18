@@ -11,15 +11,13 @@
         <th:block th:replace="~{fragments/form :: form(action=('/flow/' + ${flow} + '/'+ ${screen} + '/submit' ), content=~{::docSubmitConfirmation})}">
           <th:block th:ref="docSubmitConfirmation">
             <div class="form-card__content">
-              <th:block th:replace="~{fragments/icons :: 'fileWithCheckmark'}"></th:block>
-              <th:block th:replace="~{fragments/cardHeader :: cardHeader(header=#{doc-submit-confirmation.header})}" />
+              <th:block th:replace="~{fragments/icons :: 'documentAndEnvelope'}"/>
+              <th:block th:replace="~{fragments/cardHeader :: cardHeader(header=#{doc-submit-confirmation.header})}"/>
+              <span th:text="#{doc-submit-confirmation.subheader}"></span>
             </div>
             <div class="form-card__footer">
               <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
-                  text=#{doc-submit-confirmation.yes-submit-and-finish})}" />
-              <br>
-              <a id="add_more" class="button button--other"  th:href="'/flow/' + ${flow} + '/docUpload'"
-                 th:text="#{doc-submit-confirmation.no-add-more-documents}"></a>
+                  text=#{doc-submit-confirmation.submit})}" />
             </div>
           </th:block>
         </th:block>
