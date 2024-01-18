@@ -26,7 +26,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickElementById("programs-SNAP");
     testPage.clickContinue();
 
-    assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap.title"));
+    assertThat(testPage.getTitle()).isEqualTo(message("doc-upload-intro.title"));
   }
 
   @Test
@@ -346,9 +346,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickElementById("programs-SNAP");
     testPage.clickContinue();
 
-    assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap.title"));
-    testPage.clickContinue();
-
+/* NOT USED YET
     // Signpost
     assertThat(testPage.getTitle()).isEqualTo(message("signpost.title"));
     testPage.clickContinue();
@@ -840,18 +838,13 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     assertThat(testPage.getTitle()).isEqualTo(message("signature-title"));
     testPage.enter("signature", "My signature");
     testPage.clickButton(message("signature-submit"));
+*/
 
     assertThat(testPage.getTitle()).isEqualTo(message("doc-upload-intro.title"));
     testPage.clickButton(message("doc-upload-intro.continue"));
 
-    assertThat(testPage.getTitle()).isEqualTo(message("doc-upload-signpost.title"));
-    testPage.clickContinue();
-
     assertThat(testPage.getTitle()).isEqualTo(message("how-to-add-documents.title"));
-    testPage.clickContinue();
-
-    assertThat(testPage.getTitle()).isEqualTo(message("doc-upload-recommendations.title"));
-    testPage.clickContinue();
+    testPage.clickButton(message("doc-upload-instructions.add-documents"));
 
     // Upload documents
     assertThat(testPage.getTitle()).isEqualTo(message("upload-documents.title"));
@@ -862,36 +855,14 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         () -> !(testPage.findElementById("form-submit-button").getAttribute("class").contains("display-none"))
     );
 
-    testPage.clickContinue();
-
-    // Add document type
-    assertThat(testPage.getTitle()).isEqualTo(message("add-document-types.title"));
-
     assertThat(driver.findElement(By.className("filename-text-name")).getText()).isEqualTo("test");
     assertThat(driver.findElement(By.className("filename-text-ext")).getText()).isEqualTo(".jpeg");
-    WebElement docTypeSelect = driver.findElements(By.className("select__element")).get(0);
-    testPage.selectFromDropdown(docTypeSelect.getAttribute("name"), "Divorce Decree");
-    testPage.clickContinue();
 
-    // Doc type review page
-    assertThat(testPage.getTitle()).isEqualTo(message("review-documents.title"));
-    assertThat(driver.findElement(By.className("filename-text-name")).getText()).isEqualTo("test");
-    assertThat(driver.findElement(By.className("filename-text-ext")).getText()).isEqualTo(".jpeg");
-    assertThat(driver.findElement(By.className("dz-detail")).findElement(By.tagName("span")).getText()).isEqualTo("Type: Divorce Decree");
-    testPage.clickButton("Yes, continue");
+    testPage.clickButton("I'm done");
 
     // Confirm submit
     assertThat(testPage.getTitle()).isEqualTo(message("doc-submit-confirmation.title"));
-    testPage.clickButton("No, add more documents");
-    assertThat(testPage.getTitle()).isEqualTo("Upload documents");
-    // add document types
-    testPage.clickContinue();
-    // review document types
-    testPage.clickContinue();
-    // doc submit confirmation
-    testPage.clickButton("Yes, continue");
-    // final confirmation
-    testPage.clickButton("Yes, submit and finish");
+    testPage.clickButton("Next");
 
     // Confirmation page
     assertThat(testPage.getTitle()).isEqualTo(message("confirmation.title"));

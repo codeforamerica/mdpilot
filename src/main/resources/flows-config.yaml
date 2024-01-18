@@ -17,9 +17,13 @@ flow:
       - name: docUploadIntro
   docUploadIntro:
     nextScreens:
+      - name: confirmation
+        condition: DoesNotWantToAddDocs
       - name: docUploadInstructions
   docUploadInstructions:
     nextScreens:
+      - name: confirmation
+        condition: DoesNotWantToAddDocs
       - name: docUpload
   docUpload:
     nextScreens:

@@ -70,6 +70,8 @@
     var thumbnailHeight = thumbnailHeightFromAppYml ? thumbnailHeightFromAppYml : '60';
     var maxFilesFromAppYaml = [[${@environment.getProperty('form-flow.uploads.max-files')}]];
     var maxFiles = maxFilesFromAppYaml ? maxFilesFromAppYaml : 20;
+    var acceptedFileTypesStr = [[${@environment.getProperty('form-flow.uploads.accepted-file-types')}]].toString().replaceAll(
+        ",", ", ");
     var maxFileSize = Number(
         [[${@environment.getProperty('form-flow.uploads.max-file-size')}]]);
 
@@ -249,10 +251,7 @@
       dictFileTooBig: [[#{upload-documents.this-file-is-too-large(0)}]].toString().replace("0",
           maxFileSize),
       dictMaxFilesExceeded: [[#{upload-documents.error-maximum-number-of-files}]],
-      dictInvalidFileType: [[#{upload-documents.error-invalid-file-type}]]
-          + ' '
-          + [[${@environment.getProperty('form-flow.uploads.accepted-file-types')}]].toString().replaceAll(
-              ",", ", "),
+      dictInvalidFileType: [[#{upload-documents.error-invalid-file-type}]] + ' ' + acceptedFileTypesStr,
       acceptedFiles: [[${@environment.getProperty('form-flow.uploads.accepted-file-types')}]],
       clickable: ".drag-and-drop-box",
       previewTemplate: `
@@ -310,11 +309,11 @@
           window['isUploadComplete' + [[${inputName}]]] = false;
           if (file.type.includes('heic')) {
             window[dropzonePrefix + [[${inputName}]]].emit("error", file,
-                [[#{upload-documents.error-heic}]]);
+                [[#{upload-documents.error-heic}]] + " " + acceptedFileTypesStr);
           }
           if (file.type.includes('tif') || file.type.includes('tiff')) {
             window[dropzonePrefix + [[${inputName}]]].emit("error", file,
-                [[#{upload-documents.error-tiff}]]);
+                [[#{upload-documents.error-tiff}]] + " " + acceptedFileTypesStr);
           }
           if (!file.type.includes("image")) {
             setDefaultThumbnail(file);
