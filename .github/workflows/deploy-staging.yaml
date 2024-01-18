@@ -1,100 +1,44 @@
 name: Deploy to Aptible Staging
-# 1. Run tests on merges to main
-# 2. (Attempt) to deploy to staging
-# 3. if successful, draft release and merge main to staging branch
 
 on:
+  push:
+    branches: [ main ]
   workflow_dispatch:
     inputs: { }
 
-env:
-  USERNAME: ${{ secrets.GPR_USER }}
-  TOKEN: ${{ secrets.GPR_KEY }}
-  APTIBLE_BRANCH: staging
 jobs:
   deploy:
-    name: Deploy to Aptible Staging
+    name: Deploy to aptible-staging
     runs-on: ubuntu-latest
+    environment: staging
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.inputs.branch }}
           fetch-depth: 0
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2.6.1
+      - uses: webfactory/ssh-agent@v0.8.0
         with:
-          key: ${{ secrets.APTIBLE_SSH_PRIVATE_KEY }}
-          known_hosts: ${{ secrets.APTIBLE_KNOWN_HOSTS }}
-      - name: Push to Aptible remote branch
-        run: git push --force ${{ vars.APTIBLE_REMOTE_URL_STAGING }} "${GITHUB_SHA}:staging-deploy"
-      - name: Set Aptible environment variables and deploy
+          ssh-private-key: ${{ secrets.APTIBLE_GIT_SSH_KEY }}
+      - name: Deploy Using Aptible CLI
         run: |
+          ssh-keyscan beta.aptible.com >> ~/.ssh/known_hosts
           wget -O aptible-package https://omnibus-aptible-toolbelt.s3.amazonaws.com/aptible/omnibus-aptible-toolbelt/master/206/pkg/aptible-toolbelt_0.16.5%2B20200508143656~ubuntu.16.04-1_amd64.deb
           sudo dpkg -i aptible-package
-          aptible login --email=${{ secrets.APTIBLE_USERNAME }} --password=${{ secrets.APTIBLE_PASSWORD}}
-          aptible deploy --app app-staging --git-commitish ${GITHUB_SHA} \
-          'SPRING_PROFILES_ACTIVE=staging' \
-          'DEFAULT_LOCALE=en' \
-          'SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL_STAGING }}' \
-          'AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY_STAGING }}' \
-          'AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY_STAGING }}' \
-          'AWS_BUCKET=${{ secrets.AWS_BUCKET_STAGING }}' \
-          'AWS_CMK=${{ secrets.AWS_CMK_STAGING }}' \
-          'PGP_KEYS_DIR'=${{ secrets.PGP_KEYS_DIR }}' \
-          'PGP_SECKEY_FILE_PATH'=${{ secrets.PGP_SECKEY_FILE_PATH_STAGING }}' \
-          'PGP_PUBKEY_FILE_PATH'=${{ secrets.PGP_PUBKEY_FILE_PATH_STAGING }}' \
-          'PGP_SIGKEY_PASSWORD'=${{ secrets.SIGKEY_PASSWORD_STAGING }}' \
-          'FTPS_USERNAME'=${{ secrets.FTPS_USERNAME }}
-          'FTPS_PASSWORD'=${{ secrets.FTPS_PASSWORD }}
-          'FTPS_UPLOAD_URL'=${{ secrets.FTPS_UPLOAD_URL }}
-          'FTPS_UPLOAD_DIR'=${{ secrets.FTPS_UPLOAD_DIR_STAGING }}
-          'SENTRY_DSN=${{ secrets.SENTRY_DSN }}' \
-          'SENTRY_ENVIRONMENT=staging' \
-          'FORCE_SSL=true' \
-          'SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME_STAGING }}' \
-          'SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD_STAGING }}' \
-          'SFTP_USERNAME=${{ secrets.SFTP_USERNAME_STAGING }}' \
-          'SFTP_PASSWORD=${{ secrets.SFTP_PASSWORD_STAGING }}' \
-          'SFTP_UPLOAD_URL=${{ secrets.SFTP_UPLOAD_URL }}' \
-          'demo=true' \
-          'RELEASE_HEALTHCHECK_TIMEOUT=900'
-  draft-release:
-    name: Draft a new release
-    needs: deploy
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create tag name
-        id: create-tagname
-        run: echo "::set-output name=TAG_NAME::$(date +'%Y-%m-%d-%H%M')"
-      - name: Draft Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: release-${{ steps.create-tagname.outputs.TAG_NAME }}
-          release_name: release-${{ steps.create-tagname.outputs.TAG_NAME }}
-          commitish: ${{ github.event.inputs.branch }}
-          body: |
-            Fill in details about this release
-          draft: true
-          prerelease: true
-  merge_to_staging:
-    name: Merge main -> staging
-    needs: deploy
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: '0'
-          ref: main
-      - uses: MaximeHeckel/github-action-merge-fast-forward@v1.1.1
-        with:
-          branchtomerge: main
-          branch: staging
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          aptible login \
+            --email='${{ secrets.APTIBLE_USERNAME }}' \
+            --password='${{ secrets.APTIBLE_PASSWORD}}'      
+          git push --force ${{ vars.APTIBLE_REMOTE_URL }} ${GITHUB_SHA}:${{ vars.APTIBLE_REMOTE_BRANCH }}
+          aptible deploy \
+            --app sn-md-pilot-staging \
+            --git-commitish ${GITHUB_SHA} \
+            'SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}' \
+            'SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}' \
+            'SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}' \
+            'AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}' \
+            'AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}' \
+            'AWS_BUCKET=${{ vars.AWS_BUCKET }}' \
+            'SPRING_PROFILES_ACTIVE=staging' \
+            'ENCRYPTION_KEYSET=${{ secrets.ENCRYPTION_KEYSET }}' \
+            'DEFAULT_LOCALE=en' \
+            'AWS_CMK=${{ secrets.AWS_CMK }}' \
+            'demo=true' \
+            'FORCE_SSL=true'
