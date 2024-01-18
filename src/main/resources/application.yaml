@@ -23,7 +23,7 @@ form-flow:
     # file size limit in MB
     # If this is not set then the server values below for servlet max-file-size and tomcat max POST size will not be set
     # which will cause the server to use the default values of 1MB preventing uploads larger than that.
-    max-file-size: '5'
+    max-file-size: '20'
   mixpanel:
     api-key: ${MIXPANEL_API_KEY}
   aws:

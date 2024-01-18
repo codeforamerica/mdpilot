@@ -14,9 +14,24 @@ flow:
       - name: choosePrograms
   choosePrograms:
     nextScreens:
-      - name: expeditedSnapNotice
-        condition: ProgramsIncludeSnap
-      - name: signPost
+      - name: docUploadIntro
+  docUploadIntro:
+    nextScreens:
+      - name: docUploadInstructions
+  docUploadInstructions:
+    nextScreens:
+      - name: docUpload
+  docUpload:
+    nextScreens:
+      - name: docUploadSubmit
+  docUploadSubmit:
+    nextScreens:
+      - name: confirmation
+  confirmation:
+    beforeDisplayAction: FormatSubmittedAtDate
+    nextScreens:
+      - name: confirmation
+#pages past this are unused
   expeditedSnapNotice:
     nextScreens:
       - name: signPost
@@ -498,49 +513,9 @@ flow:
     afterSaveAction: HandleApplicationSigned
     nextScreens:
       - name: docUploadIntro
-  docUploadIntro:
-    nextScreens:
-      - name: docUploadSignpost
-        condition: IsAddDocumentsSelected
-      - name: confirmation
-  docUploadSignpost:
-    nextScreens:
-      - name: docUploadInstructions
-  docUploadInstructions:
-    nextScreens:
-      - name: docUploadRecommendations
-  docUploadRecommendations:
-    nextScreens:
-      - name: docUpload
-  docUpload:
-    nextScreens:
-      - name: docUploadType
-  docUploadType:
-    beforeSaveAction: AssociateDocTypeLabel
-    nextScreens:
-      - name: docUploadReview
-  docUploadReview:
-    nextScreens:
-      - name: docUploadSubmit
-  docUploadSubmit:
-    beforeSaveAction: FinalizeDocuments
-    nextScreens:
-      - name: confirmation
-  confirmation:
-    beforeDisplayAction: FormatSubmittedAtDate
-    nextScreens:
-      - name: confirmation
 landmarks:
   afterSubmitPages:
     - confirmation
-    - docUploadIntro
-    - docUploadSignpost
-    - docUploadInstructions
-    - docUploadRecommendations
-    - docUpload
-    - docUploadType
-    - docUploadReview
-    - docUploadSubmit
 subflows:
   household:
     entryScreen: multiplePersonHousehold

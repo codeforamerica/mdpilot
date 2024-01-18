@@ -12,30 +12,30 @@
                      maxSize=${@environment.getProperty('form-flow.uploads.max-file-size')}">
         <th:block
             th:replace="~{fragments/cardHeader :: cardHeader(header=#{how-to-add-documents.header})}"/>
-        <div class="center">
-          <th:block th:replace="~{fragments/icons :: takingPicWithPhone}"></th:block>
-        </div>
-        <ul class="list--bulleted">
-          <li th:text="#{how-to-add-documents.take-photos}"></li>
-          <li th:text="#{how-to-add-documents.select-files}"></li>
-          <li th:text="#{how-to-add-documents.take-screenshot}"></li>
-        </ul>
-        <span class="spacing-left-1_5" th:utext="${#messages.msg('how-to-add-documents.you-can-upload', maxFiles)}"></span>
-        <br/>
-        <span class="spacing-left-1_5" th:utext="${#messages.msg('how-to-add-documents.each-file', maxSize)}"></span>
-
-        <div class="vertical-steps spacing-above-25">
-          <div class="vertical-steps__step">
-            <div class="notice--warning steps-box spacing-below-0">
-<!--              <th:block th:replace="~{fragments/icons :: socialGroup}"></th:block>-->
-              <p th:utext="#{doc-upload-instructions.optional}"></p>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-card__footer">
-          <th:block th:replace="~{fragments/continueButton :: continue}" />
-        </div>
+       <th:block th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
+         <th:block th:ref="formContent">
+           <div class="form-card__content">
+             <div class="center">
+               <th:block th:replace="~{fragments/icons :: takingPicWithPhone}"></th:block>
+             </div>
+             <ul class="list--bulleted">
+               <li th:text="#{how-to-add-documents.take-photos}"></li>
+               <li th:text="#{how-to-add-documents.select-files}"></li>
+               <li th:text="#{how-to-add-documents.take-screenshot}"></li>
+             </ul>
+             <span class="spacing-left-1_5" th:utext="${#messages.msg('how-to-add-documents.you-can-upload', maxFiles)}"></span>
+             <br/>
+             <span class="spacing-left-1_5" th:utext="${#messages.msg('how-to-add-documents.each-file', maxSize)}"></span>
+           </div>
+           <div class="form-card__footer">
+             <th:block th:replace="~{fragments/inputs/yesOrNo :: yesOrNo(
+                inputName='addDocuments',
+                ariaDescribe='header',
+                overrideNoText=#{doc-upload-instructions.skip-documents},
+                overrideYesText=#{doc-upload-instructions.add-documents})}"/>
+           </div>
+         </th:block>
+        </th:block>
       </main>
     </div>
   </section>
