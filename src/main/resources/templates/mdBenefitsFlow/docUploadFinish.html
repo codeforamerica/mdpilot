@@ -8,7 +8,7 @@
     <div class="grid">
       <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
-        <th:block th:replace="~{fragments/form :: form(action=('/flow/' + ${flow} + '/'+ ${screen} + '/submit' ), content=~{::docSubmitConfirmation})}">
+        <th:block th:replace="~{fragments/form :: form(action=${formAction}, content=~{::docSubmitConfirmation})}">
           <th:block th:ref="docSubmitConfirmation">
             <div class="form-card__content">
               <th:block th:replace="~{fragments/icons :: 'documentAndEnvelope'}"/>

@@ -14,28 +14,9 @@ flow:
       - name: choosePrograms
   choosePrograms:
     nextScreens:
-      - name: docUploadIntro
-  docUploadIntro:
-    nextScreens:
-      - name: confirmation
-        condition: DoesNotWantToAddDocs
-      - name: docUploadInstructions
-  docUploadInstructions:
-    nextScreens:
-      - name: confirmation
-        condition: DoesNotWantToAddDocs
-      - name: docUpload
-  docUpload:
-    nextScreens:
-      - name: docUploadSubmit
-  docUploadSubmit:
-    nextScreens:
-      - name: confirmation
-  confirmation:
-    beforeDisplayAction: FormatSubmittedAtDate
-    nextScreens:
-      - name: confirmation
-#pages past this are unused
+      - name: expeditedSnapNotice
+        condition: ProgramsIncludeSnap
+      - name: signPost
   expeditedSnapNotice:
     nextScreens:
       - name: signPost
@@ -512,11 +493,31 @@ flow:
       - name: legalStuff
   legalStuff:
     nextScreens:
+      - name: docUploadIntro
+  docUploadIntro:
+    nextScreens:
+      - name: signature
+        condition: DoesNotWantToAddDocs
+      - name: docUploadInstructions
+  docUploadInstructions:
+    nextScreens:
+      - name: signature
+        condition: DoesNotWantToAddDocs
+      - name: docUpload
+  docUpload:
+    nextScreens:
+      - name: docUploadFinish
+  docUploadFinish:
+    nextScreens:
       - name: signature
   signature:
     afterSaveAction: HandleApplicationSigned
     nextScreens:
-      - name: docUploadIntro
+      - name: confirmation
+  confirmation:
+    beforeDisplayAction: FormatSubmittedAtDate
+    nextScreens:
+      - name: confirmation
 landmarks:
   afterSubmitPages:
     - confirmation
