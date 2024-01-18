@@ -25,9 +25,6 @@ spring:
     clean-disabled: false
   thymeleaf:
     prefix: classpath:/templates/
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
   main:
     allow-circular-references: true
   session:
