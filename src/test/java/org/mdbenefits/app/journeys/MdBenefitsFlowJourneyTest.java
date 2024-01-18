@@ -26,7 +26,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickElementById("programs-SNAP");
     testPage.clickContinue();
 
-    assertThat(testPage.getTitle()).isEqualTo(message("doc-upload-intro.title"));
+    assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap.title"));
   }
 
   @Test
@@ -313,7 +313,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     testPage.navigateToFlowScreen("mdBenefitsFlow/docUploadIntro");
     assertThat(testPage.getTitle()).isEqualTo(message("doc-upload-intro.title"));
     testPage.clickButton(message("doc-upload-intro.skip"));
-    assertThat(testPage.getTitle()).isEqualTo(message("confirmation.title"));
+    assertThat(testPage.getTitle()).isEqualTo(message("signature-title"));
   }
 
   @Test
@@ -346,7 +346,9 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickElementById("programs-SNAP");
     testPage.clickContinue();
 
-/* NOT USED YET
+    assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap.title"));
+    testPage.clickContinue();
+
     // Signpost
     assertThat(testPage.getTitle()).isEqualTo(message("signpost.title"));
     testPage.clickContinue();
@@ -835,18 +837,13 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     testPage.clickElementById("nonDiscriminationStatementAgree-true");
     testPage.clickContinue();
 
-    assertThat(testPage.getTitle()).isEqualTo(message("signature-title"));
-    testPage.enter("signature", "My signature");
-    testPage.clickButton(message("signature-submit"));
-*/
-
+    // Upload documents
     assertThat(testPage.getTitle()).isEqualTo(message("doc-upload-intro.title"));
     testPage.clickButton(message("doc-upload-intro.continue"));
 
     assertThat(testPage.getTitle()).isEqualTo(message("how-to-add-documents.title"));
     testPage.clickButton(message("doc-upload-instructions.add-documents"));
 
-    // Upload documents
     assertThat(testPage.getTitle()).isEqualTo(message("upload-documents.title"));
     assertThat(testPage.findElementById("form-submit-button").getAttribute("class").contains("display-none")).isTrue();
     uploadJpgFile();
@@ -860,9 +857,14 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
     testPage.clickButton("I'm done");
 
-    // Confirm submit
+    // Confirm doc upload submit
     assertThat(testPage.getTitle()).isEqualTo(message("doc-submit-confirmation.title"));
     testPage.clickButton("Next");
+
+    // signature
+    assertThat(testPage.getTitle()).isEqualTo(message("signature-title"));
+    testPage.enter("signature", "My signature");
+    testPage.clickButton(message("signature-submit"));
 
     // Confirmation page
     assertThat(testPage.getTitle()).isEqualTo(message("confirmation.title"));
