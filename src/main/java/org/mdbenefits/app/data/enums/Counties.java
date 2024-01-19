@@ -1,7 +1,6 @@
 package org.mdbenefits.app.data.enums;
 
 public enum Counties {
-
   ALLEGANY("Allegany"),
   ANNE_ARUNDEL("Anne Arundel"),
   BALTIMORE_CITY("Baltimore City"),
@@ -19,13 +18,13 @@ public enum Counties {
   KENT("Kent"),
   MONTGOMERY("Montgomery"),
   PRINCE_GEORGES("Prince George's"),
- QUEEN_ANNES("Queen Anne's"),
- SOMERSET("Somerset"),
- ST_MARYS("St. Mary's"),
- TALBOT("Talbot"),
- WASHINGTON("Washington"),
- WICOMICO("Wicomico"),
- WORCESTER("Worcester");
+  QUEEN_ANNES("Queen Anne's"),
+  SOMERSET("Somerset"),
+  ST_MARYS("St. Mary's"),
+  TALBOT("Talbot"),
+  WASHINGTON("Washington"),
+  WICOMICO("Wicomico"),
+  WORCESTER("Worcester");
 
   private final String displayName;
 
