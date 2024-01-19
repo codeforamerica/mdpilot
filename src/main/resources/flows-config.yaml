@@ -395,25 +395,9 @@ flow:
     nextScreens:
       - name: expensesElderlyCareAmount
         condition: HasElderlyCareExpenses
-      - name: nolaEceLinks
-        condition: EligibleForNolaWicEceLinks
-      - name: wicLinks
-        condition: EligibleForOutsideNolaWicLinks
-      - name: nolaApplyStart
-        condition: EligibleForNolaWicEceApply
-      - name: wicApply
-        condition: EligibleForOutsideNolaWicApply
       - name: finalSignPost
   expensesElderlyCareAmount:
     nextScreens:
-      - name: nolaEceLinks
-        condition: EligibleForNolaWicEceLinks
-      - name: wicLinks
-        condition: EligibleForOutsideNolaWicLinks
-      - name: nolaApplyStart
-        condition: EligibleForNolaWicEceApply
-      - name: wicApply
-        condition: EligibleForOutsideNolaWicApply
       - name: finalSignPost
   nolaEceLinks:
     nextScreens:
