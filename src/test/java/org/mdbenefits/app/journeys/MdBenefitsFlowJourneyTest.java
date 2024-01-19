@@ -322,7 +322,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
     testPage.clickButton("Apply Now");
 
-    testPage.selectFromDropdown("parish", "Orleans");
+    testPage.selectFromDropdown("county", "Baltimore City");
     testPage.clickContinue();
 
     // How this works
@@ -754,23 +754,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     testPage.enter("expensesElderlyCare", "123");
     testPage.clickContinue();;
 
-    var title = testPage.getTitle();
-    if ("ECE link".equals(title)) {
-      testPage.clickButton("Yes");
-      assertThat(testPage.getTitle()).isEqualTo("WIC link");
-      testPage.clickButton("Yes");
-    } else if ("ECE apply".equals(title)) {
-      testPage.clickButton("Yes, start my free childcare app");
-      testPage.clickContinue();
-      testPage.clickButton("Yes");
-      testPage.selectRadio("adultsWorking", "SOME");
-      testPage.clickContinue();
-      assertThat(testPage.getTitle()).isEqualTo("WIC apply");
-      testPage.clickButton("Yes, start my WIC app");
-      testPage.clickContinue();
-    }
-
-    log.info("before check: " + testPage.getTitle());
     // Final SignPost
     assertThat(testPage.getTitle()).isEqualTo(message("final-signpost.title"));
     testPage.clickContinue();
