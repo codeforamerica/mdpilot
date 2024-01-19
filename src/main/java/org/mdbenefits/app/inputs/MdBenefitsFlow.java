@@ -20,9 +20,8 @@ public class MdBenefitsFlow extends FlowInputs {
 
   MultipartFile uploadDocuments;
 
-  // Parish (WIC/ECE)
   @NotEmpty(message="{error.missing-general}")
-  private String parish;
+  private String county;
 
   // Language
   private String languageRead;

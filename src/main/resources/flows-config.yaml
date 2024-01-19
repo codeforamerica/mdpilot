@@ -1,6 +1,6 @@
 name: mdBenefitsFlow
 flow:
-  parish:
+  county:
     nextScreens:
       - name: howThisWorks
   howThisWorks:

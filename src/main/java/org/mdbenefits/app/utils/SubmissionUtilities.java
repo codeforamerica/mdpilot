@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import org.mdbenefits.app.data.enums.Counties;
 
 import static formflow.library.inputs.FieldNameMarkers.DYNAMIC_FIELD_MARKER;
 import static java.util.Collections.emptyList;
@@ -89,7 +90,7 @@ public class SubmissionUtilities {
     }
 
     public static boolean isNolaParish(Submission submission) {
-        return Parish.ORLEANS.name().equals(submission.getInputData().get("parish"));
+        return false;
     }
 
     public static boolean isEligibleForExperiment(Submission submission) {
