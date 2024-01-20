@@ -30,18 +30,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
   }
 
   @Test
-  void whosApplyingFlow() {
-    testPage.navigateToFlowScreen("mdBenefitsFlow/whosApplying");
-    testPage.clickContinue();
-
-    assert (testPage.hasErrorText(message("error.missing-general")));
-    testPage.clickElementById("whosApplying-Self");
-    testPage.clickContinue();
-
-    assertThat(testPage.getTitle()).isEqualTo(message("personal-info.title"));
-  }
-
-  @Test
   void personalInformationFlow() {
     testPage.navigateToFlowScreen("mdBenefitsFlow/personalInfo");
     testPage.clickContinue();
@@ -351,15 +339,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
     // Signpost
     assertThat(testPage.getTitle()).isEqualTo(message("signpost.title"));
-    testPage.clickContinue();
-
-    // Who's Applying
-    assertThat(testPage.getTitle()).isEqualTo(message("whos-applying.title"));
-    testPage.clickElementById("whosApplying-CommunityPartner");
-    testPage.clickContinue();
-
-    // Applicant is not self - check that flow next page is the notice
-    assertThat(testPage.getTitle()).isEqualTo(message("applicant-notice.title"));
     testPage.clickContinue();
 
     // Personal Info
@@ -777,32 +756,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
     assertThat(testPage.getTitle()).isEqualTo(message("ebtcard-title"));
     testPage.clickButton("No");
-
-    assertThat(testPage.getTitle()).isEqualTo(message("authorized-rep.title"));
-    testPage.clickButton("No");
-    assertThat(testPage.getTitle()).isEqualTo(message("medicaid.title"));
-
-    testPage.goBack();
-    assertThat(testPage.getTitle()).isEqualTo(message("authorized-rep.title"));
-    testPage.clickButton("Yes");
-
-    assertThat(testPage.getTitle()).isEqualTo(message("authorized-rep-communication.title"));
-    testPage.clickButton("Yes");
-
-    assertThat(testPage.getTitle()).isEqualTo(message("authorized-rep-mail.title"));
-    testPage.clickButton("Yes");
-
-    assertThat(testPage.getTitle()).isEqualTo(message("authorized-rep-spending.title"));
-    testPage.clickButton("Yes");
-
-    assertThat(testPage.getTitle()).isEqualTo(message("authorized-rep-contact-info.title"));
-    testPage.enter("authorizedRepFirstName", "test");
-    testPage.enter("authorizedRepLastName", "test");
-    testPage.enter("authorizedRepStreetAddress1", "test5");
-    testPage.enter("authorizedRepCity", "test2");
-    testPage.enter("authorizedRepZipCode", "12345");
-    testPage.selectFromDropdown("authorizedRepState", "CO - Colorado");
-    testPage.clickContinue();
 
     assertThat(testPage.getTitle()).isEqualTo(message("medicaid.title"));
     testPage.clickButton(message("medicaid.yes"));
