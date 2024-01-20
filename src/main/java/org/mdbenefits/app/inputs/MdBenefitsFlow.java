@@ -32,12 +32,8 @@ public class MdBenefitsFlow extends FlowInputs {
   @NotEmpty(message="{error.missing-general}")
   private List<String> programs;
 
-  // Who is Applying
-  @NotBlank(message="{error.missing-general}")
-  private String whosApplying;
-
-  // Personal Information
-  @NotBlank(message="{error.missing-firstname}")
+    // Personal Information
+  @NotBlank(message = "{error.missing-firstname}")
   private String firstName;
 
   @NotBlank(message="{error.missing-lastname}")
@@ -335,48 +331,6 @@ public class MdBenefitsFlow extends FlowInputs {
 
   private String authorizedRepresentative;
 
-  private String authorizedRepCommsAuthorization;
-
-  private String authorizedRepMailAuthorization;
-
-  private String authorizedRepSpendingAuthorization;
-
-  @NotBlank(message="{error.missing-firstname}")
-  private String authorizedRepFirstName;
-
-  @NotBlank(message="{error.missing-lastname}")
-  private String authorizedRepLastName;
-
-  private String authorizedRepOtherNames;
-
-  @NotBlank(message="{error.missing-general}")
-  private String authorizedRepStreetAddress1;
-
-  private String authorizedRepStreetAddress2;
-
-  @NotBlank(message="{error.missing-general}")
-  private String authorizedRepCity;
-
-  @NotBlank(message="{error.missing-general}")
-  private String authorizedRepState;
-
-  @NotBlank(message="{error.missing-general}")
-  @Pattern(regexp = "\\d{5}", message = "{error.format-zip}")
-  private String authorizedRepZipCode;
-
-  @Pattern(regexp = "^\\(\\d{3}\\) \\d{3}-\\d{4}$", message="{error.invalid-phone}")
-  private String authorizedRepPhoneNumber;
-
-  private String needsMedicaid;
-
-  @NotBlank(message="{error.missing-general}")
-  private String votingRegistrationRequested;
-
-  @NotBlank(message="{error.missing-general}")
-  private String votingRegistrationHelpRequested;
-
-  private String permissionToAskAboutRace;
-
   private String ethnicitySelected;
 
   @DynamicField
@@ -387,8 +341,23 @@ public class MdBenefitsFlow extends FlowInputs {
   @DynamicField
   private List<String> householdMemberRace;
 
-  @NotEmpty(message="{error.missing-checkbox}")
+  @NotEmpty(message = "{error.missing-checkbox}")
   private List<String> rightsAndResponsibilitiesAgree;
+
+  @NotEmpty(message = "{error.missing-checkbox}")
+  private List<String> noIncorrectInformationAgree;
+
+  private String authorizedRepMailAuthorization;
+
+  private String authorizedRepSpendingAuthorization;
+
+  @NotBlank(message="{error.missing-firstname}")
+  private String authorizedRepFirstName;
+
+  @NotBlank(message = "{error.missing-general}")
+  private String votingRegistrationRequested;
+
+  private String permissionToAskAboutRace;
 
   @NotEmpty(message="{error.missing-checkbox}")
   private List<String> noIncorrectInformationAgree;
