@@ -747,10 +747,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     testPage.selectRadio("votingRegistrationRequested", "Yes");
     testPage.clickContinue();
 
-    assertThat(testPage.getTitle()).isEqualTo(message("voter-registration-help.title"));
-    testPage.selectRadio("votingRegistrationHelpRequested", "No");
-    testPage.clickContinue();
-
     assertThat(testPage.getTitle()).isEqualTo(message("race-ethnicity.title"));
     testPage.clickButton("No, skip this question");
 

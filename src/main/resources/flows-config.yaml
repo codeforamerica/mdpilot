@@ -402,9 +402,6 @@ flow:
       - name: registerToVote
   registerToVote:
     nextScreens:
-      - name: registerToVoteHelp
-  registerToVoteHelp:
-    nextScreens:
       - name: raceEthnicityAsk
   raceEthnicityAsk:
     nextScreens:
