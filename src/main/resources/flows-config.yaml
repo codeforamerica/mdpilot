@@ -396,9 +396,6 @@ flow:
       - name: ebtCard
   ebtCard:
     nextScreens:
-      - name: medicaid
-  medicaid:
-    nextScreens:
       - name: registerToVote
   registerToVote:
     nextScreens:
