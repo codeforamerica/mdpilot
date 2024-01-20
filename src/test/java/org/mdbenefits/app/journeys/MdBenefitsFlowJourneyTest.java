@@ -740,9 +740,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     assertThat(testPage.getTitle()).isEqualTo(message("ebtcard-title"));
     testPage.clickButton("No");
 
-    assertThat(testPage.getTitle()).isEqualTo(message("medicaid.title"));
-    testPage.clickButton(message("medicaid.yes"));
-
     assertThat(testPage.getTitle()).isEqualTo(message("voter-registration.title"));
     testPage.selectRadio("votingRegistrationRequested", "Yes");
     testPage.clickContinue();
