@@ -7,402 +7,400 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class MdBenefitsFlow extends FlowInputs {
 
-  MultipartFile uploadDocuments;
+    MultipartFile uploadDocuments;
 
-  @NotEmpty(message="{error.missing-general}")
-  private String county;
+    @NotEmpty(message = "{error.missing-general}")
+    private String county;
 
-  // Language
-  private String languageRead;
-  private String languageSpeak;
-  private String needInterpreter;
+    // Language
+    private String languageRead;
+    private String languageSpeak;
+    private String needInterpreter;
 
-  // Choose programs
-  @NotEmpty(message="{error.missing-general}")
-  private List<String> programs;
+    // Choose programs
+    @NotEmpty(message = "{error.missing-general}")
+    private List<String> programs;
 
     // Personal Information
-  @NotBlank(message = "{error.missing-firstname}")
-  private String firstName;
+    @NotBlank(message = "{error.missing-firstname}")
+    private String firstName;
 
-  @NotBlank(message="{error.missing-lastname}")
-  private String lastName;
+    @NotBlank(message = "{error.missing-lastname}")
+    private String lastName;
 
-  private String otherNames;
+    private String otherNames;
 
-  private String birthDay;
-  private String birthMonth;
-  private String birthYear;
+    private String birthDay;
+    private String birthMonth;
+    private String birthYear;
 
-  @NotBlank(message="{error.missing-general}")
-  private String sex;
+    @NotBlank(message = "{error.missing-general}")
+    private String sex;
 
-  private String maritalStatus;
+    private String maritalStatus;
 
-  private String highestEducation;
+    private String highestEducation;
 
-  // home address
-  private String noHomeAddress;
+    // home address
+    private String noHomeAddress;
 
-  private String homeAddressStreetAddress1;
+    private String homeAddressStreetAddress1;
 
-  private String homeAddressStreetAddress2;
+    private String homeAddressStreetAddress2;
 
-  private String homeAddressCity;
+    private String homeAddressCity;
 
-  private String homeAddressState;
+    private String homeAddressState;
 
-  private String homeAddressZipCode;
+    private String homeAddressZipCode;
 
-  //Mailing Address
-  private String sameAsHomeAddress;
+    //Mailing Address
+    private String sameAsHomeAddress;
 
-  private String mailingAddressStreetAddress1;
+    private String mailingAddressStreetAddress1;
 
-  private String mailingAddressStreetAddress2;
+    private String mailingAddressStreetAddress2;
 
-  private String mailingAddressCity;
+    private String mailingAddressCity;
 
-  private String mailingAddressState;
+    private String mailingAddressState;
 
-  private String mailingAddressZipCode;
+    private String mailingAddressZipCode;
 
-  //Contact Info
-  private String phoneNumber;
+    //Contact Info
+    private String phoneNumber;
 
-  @Pattern(regexp = "^\\(\\d{3}\\) \\d{3}-\\d{4}$", message="{error.invalid-phone}")
-  private String cellPhoneNumber;
+    @Pattern(regexp = "^\\(\\d{3}\\) \\d{3}-\\d{4}$", message = "{error.invalid-phone}")
+    private String cellPhoneNumber;
 
-  @Pattern(regexp = "^\\(\\d{3}\\) \\d{3}-\\d{4}$", message="{error.invalid-phone}")
-  private String workPhoneNumber;
+    @Pattern(regexp = "^\\(\\d{3}\\) \\d{3}-\\d{4}$", message = "{error.invalid-phone}")
+    private String workPhoneNumber;
 
-  private String wantsReminders;
+    private String wantsReminders;
 
-  private String identifiesAsDeaf;
+    private String identifiesAsDeaf;
 
-  private String preferredCommsMethod;
+    private String preferredCommsMethod;
 
-  private String emailAddress;
+    private String emailAddress;
 
-  private List<String> remindersMethod;
+    private List<String> remindersMethod;
 
-  // Household
-  private String multiplePersonHousehold;
+    // Household
+    private String multiplePersonHousehold;
 
-  @NotBlank(message="{error.missing-firstname}")
-  private String householdMemberFirstName;
+    @NotBlank(message = "{error.missing-firstname}")
+    private String householdMemberFirstName;
 
-  @NotBlank(message="{error.missing-lastname}")
-  private String householdMemberLastName;
+    @NotBlank(message = "{error.missing-lastname}")
+    private String householdMemberLastName;
 
-  private String householdMemberOtherNames;
+    private String householdMemberOtherNames;
 
-  private String householdMemberBirthDay;
+    private String householdMemberBirthDay;
 
-  private String householdMemberBirthMonth;
+    private String householdMemberBirthMonth;
 
-  private String householdMemberBirthYear;
+    private String householdMemberBirthYear;
 
-  @NotBlank(message="{error.missing-general}")
-  private String householdMemberRelationship;
+    @NotBlank(message = "{error.missing-general}")
+    private String householdMemberRelationship;
 
-  @NotBlank(message="{error.missing-general}")
-  private String householdMemberSex;
+    @NotBlank(message = "{error.missing-general}")
+    private String householdMemberSex;
 
-  private String householdMemberMaritalStatus;
+    private String householdMemberMaritalStatus;
 
-  private String householdMemberHighestEducation;
+    private String householdMemberHighestEducation;
 
-  @Size(min=11, max=11, message="{error.invalid-ssn}")
-  private String ssn;
+    @Size(min = 11, max = 11, message = "{error.invalid-ssn}")
+    private String ssn;
 
-  @Size(min=11, max=11, message="{error.invalid-ssn}")
-  @DynamicField
-  private String householdMemberSsn;
+    @Size(min = 11, max = 11, message = "{error.invalid-ssn}")
+    @DynamicField
+    private String householdMemberSsn;
 
-  private String schoolInd;
+    private String schoolInd;
 
-  @NotEmpty(message="{error.missing-general}")
-  private List<String> students;
+    @NotEmpty(message = "{error.missing-general}")
+    private List<String> students;
 
-  @NotBlank(message="{error.missing-general}")
-  @DynamicField
-  private String schoolName;
+    @NotBlank(message = "{error.missing-general}")
+    @DynamicField
+    private String schoolName;
 
-  @NotBlank(message="{error.missing-general}")
-  @DynamicField
-  private String schoolEnrollmentLevel;
+    @NotBlank(message = "{error.missing-general}")
+    @DynamicField
+    private String schoolEnrollmentLevel;
 
-  private String pregnancyInd;
+    private String pregnancyInd;
 
-  @NotEmpty(message="{error.missing-general}")
-  private List<String> pregnancies;
+    @NotEmpty(message = "{error.missing-general}")
+    private List<String> pregnancies;
 
-//  With dynamic fields and the date template, the data is stored as pregnancyDueDate<wildcard><uuid>Day so changed the ordering to start with the date piece
-  @NotBlank(message="{error.missing-general}")
-  @DynamicField
-  private String dayPregnancyDueDate;
+    //  With dynamic fields and the date template, the data is stored as pregnancyDueDate<wildcard><uuid>Day so changed the ordering to start with the date piece
+    @NotBlank(message = "{error.missing-general}")
+    @DynamicField
+    private String dayPregnancyDueDate;
 
-  @NotBlank(message="{error.missing-general}")
-  @DynamicField
-  private String monthPregnancyDueDate;
+    @NotBlank(message = "{error.missing-general}")
+    @DynamicField
+    private String monthPregnancyDueDate;
 
-  @NotBlank(message="{error.missing-general}")
-  @Pattern(regexp = "^(2024|2025)$", message="{error.invalid-dob}")
-  @DynamicField
-  private String yearPregnancyDueDate;
+    @NotBlank(message = "{error.missing-general}")
+    @Pattern(regexp = "^(2024|2025)$", message = "{error.invalid-dob}")
+    @DynamicField
+    private String yearPregnancyDueDate;
 
-  private String outOfStateBenefitsInd;
+    private String outOfStateBenefitsInd;
 
-  private String outOfStateBenefitsRecipients;
+    private String outOfStateBenefitsRecipients;
 
-  // SNAP
-  private String buyPrepareMealsSeparateIndicator;
+    // SNAP
+    private String buyPrepareMealsSeparateIndicator;
 
-  private String preparesFood;
+    private String preparesFood;
 
-  private String migrantOrSeasonalFarmWorkerInd;
+    private String migrantOrSeasonalFarmWorkerInd;
 
-  private String citizenshipInd;
+    private String citizenshipInd;
 
-  private String nonCitizens;
+    private String nonCitizens;
 
-  private String citizenshipNumber;
+    private String citizenshipNumber;
 
-  private String veteranInd;
+    private String veteranInd;
 
-  private String veterans;
+    private String veterans;
 
-  private String fosterInd;
+    private String fosterInd;
 
-  private String fosters;
+    private String fosters;
 
-  private String fosterAgedOutInd;
+    private String fosterAgedOutInd;
 
-  private String fostersAgedOut;
+    private String fostersAgedOut;
 
-  private String homelessInd;
+    private String homelessInd;
 
-  private String homeless;
+    private String homeless;
 
-  private String roomRentalInd;
+    private String roomRentalInd;
 
-  private String roomRentals;
+    private String roomRentals;
 
-  private String mealInd;
+    private String mealInd;
 
-  private String meals;
+    private String meals;
 
 
-  //  Sensitive Questions
-  private String householdHasPersonalSituations;
-  
-  private String personalSituationsHouseholdUUID;
-  
-  private List<String> personalSituationsListed;
-  
-  private String householdHasDomesticViolenceSituation;
-  
-  private String householdHasCriminalJusticeSituation;
+    //  Sensitive Questions
+    private String householdHasPersonalSituations;
 
-  @NotEmpty(message="{error.missing-general}")
-  @DynamicField
-  private List<String> personalSituations;
+    private String personalSituationsHouseholdUUID;
 
-  // Income
-  private String householdSearchingForJob;
+    private List<String> personalSituationsListed;
 
-  @NotEmpty(message="{error.missing-general}")
-  private List<String> jobSearch;
+    private String householdHasDomesticViolenceSituation;
 
-  private String workDisqualificationInd;
+    private String householdHasCriminalJusticeSituation;
 
-  private String selfEmploymentIncome;
+    @NotEmpty(message = "{error.missing-general}")
+    @DynamicField
+    private List<String> personalSituations;
 
-  @NotBlank(message="{error.missing-general}")
-  private String householdMemberJobAdd;
+    // Income
+    private String householdSearchingForJob;
 
-  @NotBlank(message="{error.missing-general}")
-  private String employerName;
+    @NotEmpty(message = "{error.missing-general}")
+    private List<String> jobSearch;
 
-  private String selfEmployed;
+    private String workDisqualificationInd;
 
-  private String jobPaidByHour;
+    private String selfEmploymentIncome;
 
-  @Money(message="{error.invalid-money}")
-  @NotBlank(message="{error.missing-dollar-amount}")
-  private String hourlyWage;
+    @NotBlank(message = "{error.missing-general}")
+    private String householdMemberJobAdd;
 
-  @Range(message="{error.invalid-range}", min=1, max=100)
-  @NotBlank(message="{error.missing-general}")
-  private String hoursPerWeek;
+    @NotBlank(message = "{error.missing-general}")
+    private String employerName;
 
-  @NotBlank(message="{error.missing-pay-period}")
-  private String payPeriod;
+    private String selfEmployed;
 
-  @Money(message="{error.invalid-money}")
-  @NotBlank(message="{error.missing-dollar-amount}")
-  private String payPeriodAmount;
+    private String jobPaidByHour;
 
-  @NotEmpty(message="{error.missing-general}")
-  private List<String> additionalIncome;
+    @Money(message = "{error.invalid-money}")
+    @NotBlank(message = "{error.missing-dollar-amount}")
+    private String hourlyWage;
 
-  @NotEmpty
-  private List<String> moneyOnHandTypes;
+    @Range(message = "{error.invalid-range}", min = 1, max = 100)
+    @NotBlank(message = "{error.missing-general}")
+    private String hoursPerWeek;
 
-  @DynamicField
-  private String moneyOnHandOwner;
+    @NotBlank(message = "{error.missing-pay-period}")
+    private String payPeriod;
 
-  @Money
-  @DynamicField
-  private String moneyOnHandValue;
+    @Money(message = "{error.invalid-money}")
+    @NotBlank(message = "{error.missing-dollar-amount}")
+    private String payPeriodAmount;
 
-  @Money(message="{error.invalid-money}")
-  @NotBlank(message="{error.missing-dollar-amount}")
-  private String monthlyHouseholdIncome;
-  
-  private String switchToIncomeByJob;
+    @NotEmpty(message = "{error.missing-general}")
+    private List<String> additionalIncome;
 
-  @NotEmpty(message="{error.missing-general}")
-  private List<String> householdHomeExpenses;
+    @NotEmpty
+    private List<String> moneyOnHandTypes;
 
-  @NotBlank(message="{error.missing-dollar-amount}")
-  @Money(message="{error.invalid-money}")
-  @DynamicField
-  private String householdHomeExpenseAmount;
+    @DynamicField
+    private String moneyOnHandOwner;
 
-  @NotEmpty(message="{error.missing-general}")
-  private List<String> householdUtilitiesExpenses;
+    @Money
+    @DynamicField
+    private String moneyOnHandValue;
 
-  @NotBlank(message="{error.missing-dollar-amount}")
-  @Money(message="{error.invalid-money}")
-  @DynamicField
-  private String householdUtilitiesExpenseAmount;
+    @Money(message = "{error.invalid-money}")
+    @NotBlank(message = "{error.missing-dollar-amount}")
+    private String monthlyHouseholdIncome;
 
-  private String receivesEnergyAssistance;
+    private String switchToIncomeByJob;
 
-  private String assistanceThroughLiheap;
+    @NotEmpty(message = "{error.missing-general}")
+    private List<String> householdHomeExpenses;
 
-  private String hasDependentCareExpenses;
+    @NotBlank(message = "{error.missing-dollar-amount}")
+    @Money(message = "{error.invalid-money}")
+    @DynamicField
+    private String householdHomeExpenseAmount;
 
-  @Money(message="{error.invalid-money}")
-  @NotBlank(message="{error.missing-dollar-amount}")
-  private String expensesDependentCare;
+    @NotEmpty(message = "{error.missing-general}")
+    private List<String> householdUtilitiesExpenses;
 
-  private String hasChildSupportExpenses;
+    @NotBlank(message = "{error.missing-dollar-amount}")
+    @Money(message = "{error.invalid-money}")
+    @DynamicField
+    private String householdUtilitiesExpenseAmount;
 
-  @Money(message="{error.invalid-money}")
-  @NotBlank(message="{error.missing-dollar-amount}")
-  private String expensesChildSupport;
+    private String receivesEnergyAssistance;
 
-  @NotEmpty(message="{error.missing-general}")
-  private List<String> householdMedicalExpenses;
+    private String assistanceThroughLiheap;
 
-  @NotBlank(message="{error.missing-dollar-amount}")
-  @Money(message="{error.invalid-money}")
-  @DynamicField
-  private String householdMedicalExpenseAmount;
+    private String hasDependentCareExpenses;
 
-  private String hasElderlyCareExpenses;
+    @Money(message = "{error.invalid-money}")
+    @NotBlank(message = "{error.missing-dollar-amount}")
+    private String expensesDependentCare;
 
-  @Money(message="{error.invalid-money}")
-  @NotBlank(message="{error.missing-dollar-amount}")
-  private String expensesElderlyCare;
+    private String hasChildSupportExpenses;
 
-  // WIC / ECE
-  private String interestedInEceInd;
-  private String interestedInWicInd;
-  private String adultsWorking;
-  private String guardiansHaveDisabilityInd;
+    @Money(message = "{error.invalid-money}")
+    @NotBlank(message = "{error.missing-dollar-amount}")
+    private String expensesChildSupport;
 
-  // Final Screen
-  private String needsNewEbtCard;
+    @NotEmpty(message = "{error.missing-general}")
+    private List<String> householdMedicalExpenses;
 
-  private String authorizedRepresentative;
+    @NotBlank(message = "{error.missing-dollar-amount}")
+    @Money(message = "{error.invalid-money}")
+    @DynamicField
+    private String householdMedicalExpenseAmount;
 
-  private String ethnicitySelected;
+    private String hasElderlyCareExpenses;
 
-  @DynamicField
-  private String householdMemberEthnicity;
+    @Money(message = "{error.invalid-money}")
+    @NotBlank(message = "{error.missing-dollar-amount}")
+    private String expensesElderlyCare;
 
-  private List<String> raceSelected;
+    // WIC / ECE
+    private String interestedInEceInd;
+    private String interestedInWicInd;
+    private String adultsWorking;
+    private String guardiansHaveDisabilityInd;
 
-  @DynamicField
-  private List<String> householdMemberRace;
+    // Final Screen
+    private String needsNewEbtCard;
 
-  @NotEmpty(message = "{error.missing-checkbox}")
-  private List<String> rightsAndResponsibilitiesAgree;
+    private String authorizedRepresentative;
 
-  @NotEmpty(message = "{error.missing-checkbox}")
-  private List<String> noIncorrectInformationAgree;
+    private String authorizedRepCommsAuthorization;
 
-  private String authorizedRepMailAuthorization;
+    private String authorizedRepMailAuthorization;
 
-  private String authorizedRepSpendingAuthorization;
+    private String authorizedRepSpendingAuthorization;
 
-  @NotBlank(message="{error.missing-firstname}")
-  private String authorizedRepFirstName;
+    @NotBlank(message = "{error.missing-firstname}")
+    private String authorizedRepFirstName;
 
-  @NotBlank(message = "{error.missing-general}")
-  private String votingRegistrationRequested;
+    @NotBlank(message = "{error.missing-general}")
+    private String votingRegistrationRequested;
 
-  private String permissionToAskAboutRace;
+    private String permissionToAskAboutRace;
 
-  @NotEmpty(message="{error.missing-checkbox}")
-  private List<String> noIncorrectInformationAgree;
+    private String ethnicitySelected;
 
-  @NotEmpty(message="{error.missing-checkbox}")
-  private List<String> programsSharingDataAccessAgree;
+    @DynamicField
+    private String householdMemberEthnicity;
 
-  @NotEmpty(message="{error.missing-checkbox}")
-  private List<String> nonDiscriminationStatementAgree;
+    private List<String> raceSelected;
 
-  @NotBlank(message="{error.missing-general}")
-  private String signature;
+    @DynamicField
+    private List<String> householdMemberRace;
 
-  @NotBlank(message = "{final-confirmation.answer-feedback-question}")
-  private String digitalAssisterFeedback;
+    @NotEmpty(message = "{error.missing-checkbox}")
+    private List<String> rightsAndResponsibilitiesAgree;
 
-  private String digitalAssisterFeedbackDetail;
-  
-  // Expedited Snap Start
-  private String isApplyingForExpeditedSnap;
-  
-  // Household 30 Day Income
-  @Money(message="{error.invalid-money}")
-  @NotBlank(message="{error.missing-dollar-amount}")
-  private String householdIncomeLast30Days;
-  
-  // Household Money on Hand
-  private String householdMoneyOnHand;
-  
-  // Expedited Money on Hand Amount
-  @Money(message="{error.invalid-money}")
-  @NotBlank(message="{error.missing-dollar-amount}")
-  private String expeditedMoneyOnHandAmount;
-  
-  // Household Rent
-  private String householdPaysRent;
-  
-  // Household Rent Amount
-  @Money(message="{error.invalid-money}")
-  @NotBlank(message="{error.missing-dollar-amount}")
-  private String householdRentAmount;
+    @NotEmpty(message = "{error.missing-checkbox}")
+    private List<String> noIncorrectInformationAgree;
 
-  private String addDocuments;
+    @NotEmpty(message = "{error.missing-checkbox}")
+    private List<String> programsSharingDataAccessAgree;
 
-  @NotBlank(message = "{doc-type.select-a-type}")
-  @DynamicField
-  private String docType;
+    @NotEmpty(message = "{error.missing-checkbox}")
+    private List<String> nonDiscriminationStatementAgree;
+
+    @NotBlank(message = "{error.missing-general}")
+    private String signature;
+
+    @NotBlank(message = "{final-confirmation.answer-feedback-question}")
+    private String digitalAssisterFeedback;
+
+    private String digitalAssisterFeedbackDetail;
+
+    // Expedited Snap Start
+    private String isApplyingForExpeditedSnap;
+
+    // Household 30 Day Income
+    @Money(message = "{error.invalid-money}")
+    @NotBlank(message = "{error.missing-dollar-amount}")
+    private String householdIncomeLast30Days;
+
+    // Household Money on Hand
+    private String householdMoneyOnHand;
+
+    // Expedited Money on Hand Amount
+    @Money(message = "{error.invalid-money}")
+    @NotBlank(message = "{error.missing-dollar-amount}")
+    private String expeditedMoneyOnHandAmount;
+
+    // Household Rent
+    private String householdPaysRent;
+
+    // Household Rent Amount
+    @Money(message = "{error.invalid-money}")
+    @NotBlank(message = "{error.missing-dollar-amount}")
+    private String householdRentAmount;
+
+    private String addDocuments;
+
+    @NotBlank(message = "{doc-type.select-a-type}")
+    @DynamicField
+    private String docType;
 }

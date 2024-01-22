@@ -14,7 +14,8 @@ import org.springframework.test.context.ActiveProfiles;
 @SpringBootTest()
 @ActiveProfiles("test")
 class ValidateHomeAddressTest {
-    private final String BLANK_VALUE="";
+
+    private final String BLANK_VALUE = "";
     private final String NOT_BLANK_VALUE = "test";
     private final String INVALID_ZIPCODE = "54";
     private final String VALID_ZIPCODE = "12345";
@@ -31,10 +32,10 @@ class ValidateHomeAddressTest {
     @Test
     public void testAddressHappyPath() {
         FormSubmission form = new FormSubmission(Map.of(
-            ADDRESS_1_INPUT_NAME, NOT_BLANK_VALUE,
-            CITY_INPUT_NAME, NOT_BLANK_VALUE,
-            STATE_INPUT_NAME, NOT_BLANK_VALUE,
-            ZIP_INPUT_NAME, VALID_ZIPCODE
+                ADDRESS_1_INPUT_NAME, NOT_BLANK_VALUE,
+                CITY_INPUT_NAME, NOT_BLANK_VALUE,
+                STATE_INPUT_NAME, NOT_BLANK_VALUE,
+                ZIP_INPUT_NAME, VALID_ZIPCODE
         ));
 
         Map<String, List<String>> result = validator.runValidation(form, null);
@@ -44,17 +45,19 @@ class ValidateHomeAddressTest {
         assertThat(result.get(STATE_INPUT_NAME)).isNullOrEmpty();
         assertThat(result.get(ZIP_INPUT_NAME)).isNullOrEmpty();
     }
+
     @Test
     public void testAddressBlankDoesRaiseError() {
         FormSubmission form = new FormSubmission(Map.of(
-            ADDRESS_1_INPUT_NAME, BLANK_VALUE,
-            CITY_INPUT_NAME, BLANK_VALUE,
-            STATE_INPUT_NAME, BLANK_VALUE,
-            ZIP_INPUT_NAME, BLANK_VALUE
+                ADDRESS_1_INPUT_NAME, BLANK_VALUE,
+                CITY_INPUT_NAME, BLANK_VALUE,
+                STATE_INPUT_NAME, BLANK_VALUE,
+                ZIP_INPUT_NAME, BLANK_VALUE
         ));
 
         Map<String, List<String>> result = validator.runValidation(form, null);
-        assertThat(result.get(NO_HOME_ADDRESS_INPUT_NAME)).containsAll(List.of("Make sure to provide a home address or select 'I don't have a permanent address'."));
+        assertThat(result.get(NO_HOME_ADDRESS_INPUT_NAME)).containsAll(
+                List.of("Make sure to provide a home address or select 'I don't have a permanent address'."));
         assertThat(result.get(ADDRESS_1_INPUT_NAME)).isNullOrEmpty();
         assertThat(result.get(CITY_INPUT_NAME)).isNullOrEmpty();
         assertThat(result.get(STATE_INPUT_NAME)).isNullOrEmpty();
@@ -64,11 +67,11 @@ class ValidateHomeAddressTest {
     @Test
     public void testAddressBlankDoesNotRaiseErrorWhenUnhoused() {
         FormSubmission form = new FormSubmission(Map.of(
-            "noHomeAddress[]", new ArrayList<>(List.of("true")),
-            ADDRESS_1_INPUT_NAME, BLANK_VALUE,
-            CITY_INPUT_NAME, BLANK_VALUE,
-            STATE_INPUT_NAME, BLANK_VALUE,
-            ZIP_INPUT_NAME, BLANK_VALUE
+                "noHomeAddress[]", new ArrayList<>(List.of("true")),
+                ADDRESS_1_INPUT_NAME, BLANK_VALUE,
+                CITY_INPUT_NAME, BLANK_VALUE,
+                STATE_INPUT_NAME, BLANK_VALUE,
+                ZIP_INPUT_NAME, BLANK_VALUE
         ));
 
         Map<String, List<String>> result = validator.runValidation(form, null);
@@ -82,10 +85,10 @@ class ValidateHomeAddressTest {
     @Test
     public void testAddressWithMissingValuesRaiseError() {
         FormSubmission form = new FormSubmission(Map.of(
-            ADDRESS_1_INPUT_NAME, BLANK_VALUE,
-            CITY_INPUT_NAME, BLANK_VALUE,
-            STATE_INPUT_NAME, BLANK_VALUE,
-            ZIP_INPUT_NAME, INVALID_ZIPCODE
+                ADDRESS_1_INPUT_NAME, BLANK_VALUE,
+                CITY_INPUT_NAME, BLANK_VALUE,
+                STATE_INPUT_NAME, BLANK_VALUE,
+                ZIP_INPUT_NAME, INVALID_ZIPCODE
         ));
 
         Map<String, List<String>> result = validator.runValidation(form, null);

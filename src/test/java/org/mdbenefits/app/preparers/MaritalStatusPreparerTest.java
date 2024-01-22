@@ -1,14 +1,13 @@
 package org.mdbenefits.app.preparers;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import formflow.library.data.Submission;
 import formflow.library.pdf.SingleField;
 import formflow.library.pdf.SubmissionField;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.SubmissionTestBuilder;
-
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class MaritalStatusPreparerTest {
 

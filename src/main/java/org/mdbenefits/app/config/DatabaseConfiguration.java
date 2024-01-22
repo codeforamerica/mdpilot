@@ -6,6 +6,7 @@ import org.springframework.session.jdbc.PostgreSqlJdbcIndexedSessionRepositoryCu
 
 @Configuration
 class DatabaseConfig {
+
     @Bean
     public PostgreSqlJdbcIndexedSessionRepositoryCustomizer sessionRepositoryCustomizer() {
         return new PostgreSqlJdbcIndexedSessionRepositoryCustomizer();

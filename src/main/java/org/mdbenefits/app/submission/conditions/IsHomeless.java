@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class IsHomeless extends BasicCondition {
 
-  @Override
-  public Boolean run(Submission submission) {
-    return run(submission, "homelessInd", "true");
-  }
+    @Override
+    public Boolean run(Submission submission) {
+        return run(submission, "homelessInd", "true");
+    }
 }

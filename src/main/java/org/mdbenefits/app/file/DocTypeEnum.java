@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public enum DocTypeEnum {
-    BIRTH_CERTIFICATE ("BirthCertificate", "add-document-types.doc-type-label.permanent-documents.birth-certificate"),
+    BIRTH_CERTIFICATE("BirthCertificate", "add-document-types.doc-type-label.permanent-documents.birth-certificate"),
     DRIVERS_LICENSE("DriversLicense", "add-document-types.doc-type-label.permanent-documents.drivers-license"),
     SOCIAL_SECURITY_CARD("SocialSecurityCard", "add-document-types.doc-type-label.permanent-documents.social-security-card"),
     CHECK_STUB("CheckStub", "add-document-types.doc-type-label.income.check-stub"),
@@ -13,7 +13,7 @@ public enum DocTypeEnum {
     MEDICAL_INFO("MedicalInfo", "add-document-types.doc-type-label.medical.medical-info"),
     BANKING_INFO("BankingInfo", "add-document-types.doc-type-label.resources.banking-info"),
     MARRIAGE_LICENSE("MarriageLicense", "add-document-types.doc-type-label.legal.marriage-license"),
-    DIVORCE_DECREE("DivorceDecree","add-document-types.doc-type-label.legal.divorce-decree"),
+    DIVORCE_DECREE("DivorceDecree", "add-document-types.doc-type-label.legal.divorce-decree"),
     COURT_ORDER("CourtOrder", "add-document-types.doc-type-label.legal.court-order"),
     PATERNITY("Paternity", "add-document-types.doc-type-label.paternity.ack-of-paternity"),
     OTHER("Other", "add-document-types.doc-type-label.correspondence.other");
@@ -35,9 +35,9 @@ public enum DocTypeEnum {
     }
 
     public static String findNameSrcForValue(String value) {
-      Optional<DocTypeEnum> maybeEnum = Arrays.stream(DocTypeEnum.values())
-          .filter(e -> e.value.equals(value))
-          .findFirst();
-      return maybeEnum.map(docTypeEnum -> docTypeEnum.nameSrc).orElse(null);
+        Optional<DocTypeEnum> maybeEnum = Arrays.stream(DocTypeEnum.values())
+                .filter(e -> e.value.equals(value))
+                .findFirst();
+        return maybeEnum.map(docTypeEnum -> docTypeEnum.nameSrc).orElse(null);
     }
 }

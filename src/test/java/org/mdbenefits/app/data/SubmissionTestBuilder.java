@@ -1,7 +1,6 @@
 package org.mdbenefits.app.data;
 
 import formflow.library.data.Submission;
-
 import formflow.library.inputs.FieldNameMarkers;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,11 +59,11 @@ public class SubmissionTestBuilder {
         household.add(member);
         if (raceInfo != null && !raceInfo.isEmpty()) {
             submission.getInputData().put(
-                "householdMemberRace" + FieldNameMarkers.DYNAMIC_FIELD_MARKER + uuid + "[]", raceInfo);
+                    "householdMemberRace" + FieldNameMarkers.DYNAMIC_FIELD_MARKER + uuid + "[]", raceInfo);
         }
         if (ethnicity != null && !ethnicity.isBlank()) {
             submission.getInputData().put(
-                "householdMemberEthnicity" + FieldNameMarkers.DYNAMIC_FIELD_MARKER + uuid, ethnicity);
+                    "householdMemberEthnicity" + FieldNameMarkers.DYNAMIC_FIELD_MARKER + uuid, ethnicity);
         }
 
         submission.getInputData().put("household", household);
@@ -105,7 +104,8 @@ public class SubmissionTestBuilder {
         return this;
     }
 
-    public SubmissionTestBuilder withJob(String employeeName, String employerName, String freq, String amount, String isSelfEmployed, String jobPaidByHour) {
+    public SubmissionTestBuilder withJob(String employeeName, String employerName, String freq, String amount,
+            String isSelfEmployed, String jobPaidByHour) {
         List<Map<String, Object>> income = (List<Map<String, Object>>) submission.getInputData().get("income");
         if (income == null) {
             income = new ArrayList<>();

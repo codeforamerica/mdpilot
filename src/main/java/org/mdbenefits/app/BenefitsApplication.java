@@ -10,9 +10,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @EnableConfigurationProperties
 public class BenefitsApplication {
 
-  public static void main(String[] args) {
+    public static void main(String[] args) {
 
-    SpringApplication.run(BenefitsApplication.class, args);
-  }
+        SpringApplication.run(BenefitsApplication.class, args);
+    }
 
 }

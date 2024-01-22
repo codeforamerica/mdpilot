@@ -11,17 +11,17 @@ import org.springframework.context.annotation.Scope;
 @TestConfiguration
 public class WebDriverConfiguration {
 
-  @Autowired
-  private Path tempdir;
+    @Autowired
+    private Path tempdir;
 
-  @Bean(initMethod = "start", destroyMethod = "stop")
-  @Scope("singleton")
-  public SeleniumFactory seleniumComponent() {
-    return new SeleniumFactory(tempdir);
-  }
+    @Bean(initMethod = "start", destroyMethod = "stop")
+    @Scope("singleton")
+    public SeleniumFactory seleniumComponent() {
+        return new SeleniumFactory(tempdir);
+    }
 
-  @Bean
-  public Path tempDir() throws IOException {
-    return Files.createTempDirectory("");
-  }
+    @Bean
+    public Path tempDir() throws IOException {
+        return Files.createTempDirectory("");
+    }
 }

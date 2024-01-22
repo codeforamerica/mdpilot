@@ -8,9 +8,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class IsApplyingForExpeditedSnapAndHasNoUtilityExpenses implements Condition {
-    
+
     @Autowired
     private IsApplyingForExpeditedSnap isApplyingForExpeditedSnap;
+
     @Override
     public Boolean run(Submission submission) {
         var inputData = submission.getInputData();

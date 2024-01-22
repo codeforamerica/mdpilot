@@ -1,11 +1,11 @@
 package org.mdbenefits.app.config;
 
-import java.io.IOException;
-import java.util.*;
-
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,58 +25,59 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 @Slf4j
 public class LocaleConfiguration implements WebMvcConfigurer {
 
-  @Value("${spring.web.locale: 'en'}")
-  private String defaultLocale;
-  private static final Map<String, Locale> LOCALE_MAP = new HashMap<>();
-  static {
-    LOCALE_MAP.put("en", Locale.ENGLISH);
-    LOCALE_MAP.put("es", new Locale("es"));
-    LOCALE_MAP.put("vi", new Locale("vi"));
-  }
+    @Value("${spring.web.locale: 'en'}")
+    private String defaultLocale;
+    private static final Map<String, Locale> LOCALE_MAP = new HashMap<>();
 
-  public static class SupportedLocaleAwareLocaleChangeInterceptor extends LocaleChangeInterceptor {
+    static {
+        LOCALE_MAP.put("en", Locale.ENGLISH);
+        LOCALE_MAP.put("es", new Locale("es"));
+        LOCALE_MAP.put("vi", new Locale("vi"));
+    }
+
+    public static class SupportedLocaleAwareLocaleChangeInterceptor extends LocaleChangeInterceptor {
+
+        @Override
+        @ResponseStatus(HttpStatus.NOT_FOUND)
+        public boolean preHandle(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler)
+                throws RuntimeException {
+
+            String newLocale = request.getParameter("lang");
+            if (newLocale != null && LOCALE_MAP.containsKey(newLocale)) {
+                LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
+                if (localeResolver == null) {
+                    throw new IllegalStateException("No LocaleResolver found: not in a DispatcherServlet request");
+                }
+                localeResolver.setLocale(request, response, StringUtils.parseLocaleString(newLocale));
+            } else if (newLocale != null) {
+                try {
+                    response.sendRedirect("/error");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return true;
+        }
+    }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        CookieLocaleResolver localeResolver = new CookieLocaleResolver();
+        localeResolver.setCookieHttpOnly(true);
+        localeResolver.setCookieSecure(true);
+        localeResolver.setDefaultLocale(LOCALE_MAP.getOrDefault(defaultLocale, Locale.ENGLISH));
+        return localeResolver;
+    }
+
+    @Bean
+    public LocaleChangeInterceptor localeChangeInterceptor() {
+        LocaleChangeInterceptor interceptor = new SupportedLocaleAwareLocaleChangeInterceptor();
+        interceptor.setParamName("lang");
+        return interceptor;
+    }
 
     @Override
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public boolean preHandle(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler)
-            throws RuntimeException {
-
-      String newLocale = request.getParameter("lang");
-      if (newLocale != null && LOCALE_MAP.containsKey(newLocale )) {
-        LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
-        if (localeResolver == null) {
-          throw new IllegalStateException("No LocaleResolver found: not in a DispatcherServlet request");
-        }
-        localeResolver.setLocale(request, response, StringUtils.parseLocaleString(newLocale));
-      } else if (newLocale != null) {
-        try {
-          response.sendRedirect("/error");
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-      }
-      return true;
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(localeChangeInterceptor());
     }
-  }
-
-  @Bean
-  public LocaleResolver localeResolver() {
-    CookieLocaleResolver localeResolver = new CookieLocaleResolver();
-    localeResolver.setCookieHttpOnly(true);
-    localeResolver.setCookieSecure(true);
-    localeResolver.setDefaultLocale(LOCALE_MAP.getOrDefault(defaultLocale, Locale.ENGLISH));
-    return localeResolver;
-  }
-
-  @Bean
-  public LocaleChangeInterceptor localeChangeInterceptor() {
-    LocaleChangeInterceptor interceptor = new SupportedLocaleAwareLocaleChangeInterceptor();
-    interceptor.setParamName("lang");
-    return interceptor;
-  }
-
-  @Override
-  public void addInterceptors(InterceptorRegistry registry) {
-    registry.addInterceptor(localeChangeInterceptor());
-  }
 }

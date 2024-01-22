@@ -10,7 +10,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-
+import java.util.Locale;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
@@ -20,80 +20,79 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.context.MessageSource;
-import java.util.Locale;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @Import({WebDriverConfiguration.class})
 @ActiveProfiles("test")
 public abstract class AbstractBasePageTest {
-  
-  private static final String UPLOADED_JPG_FILE_NAME = "test.jpeg";
 
-  private static final String VALID_REF_ID = "T9203206181";
+    private static final String UPLOADED_JPG_FILE_NAME = "test.jpeg";
 
-  @Autowired
-  protected MessageSource messageSource;
-  
-  @Autowired
-  protected RemoteWebDriver driver;
+    private static final String VALID_REF_ID = "T9203206181";
 
-  @Autowired
-  protected Path path;
+    @Autowired
+    protected MessageSource messageSource;
 
-  protected String baseUrl;
+    @Autowired
+    protected RemoteWebDriver driver;
 
-  @LocalServerPort
-  protected String localServerPort;
+    @Autowired
+    protected Path path;
 
-  protected Page testPage;
+    protected String baseUrl;
 
-  @BeforeEach
-  protected void setUp() throws IOException, URISyntaxException {
-    initTestPage();
-    baseUrl = "http://localhost:%s/?ref_id=%s".formatted(localServerPort, VALID_REF_ID);
-    driver.navigate().to(baseUrl);
-  }
+    @LocalServerPort
+    protected String localServerPort;
 
-  protected void initTestPage() {
-    testPage = new Page(driver, localServerPort, messageSource);
-  }
+    protected Page testPage;
 
-  @SuppressWarnings("unused")
-  public void takeSnapShot(String fileWithPath) {
-    TakesScreenshot screenshot = driver;
-    Path sourceFile = screenshot.getScreenshotAs(OutputType.FILE).toPath();
-    Path destinationFile = new File(fileWithPath).toPath();
-    try {
-      System.out.println("DestinationFile:" + destinationFile);
-      Files.copy(sourceFile, destinationFile, StandardCopyOption.REPLACE_EXISTING);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+    @BeforeEach
+    protected void setUp() throws IOException, URISyntaxException {
+        initTestPage();
+        baseUrl = "http://localhost:%s/?ref_id=%s".formatted(localServerPort, VALID_REF_ID);
+        driver.navigate().to(baseUrl);
     }
-  }
 
-  protected void uploadFile(String filepath) {
-    WebElement upload = driver.findElement(By.className("dz-hidden-input"));
-    upload.sendKeys(TestUtils.getAbsoluteFilepathString(filepath));
-    waitUntilFileIsUploaded();
-  }
+    protected void initTestPage() {
+        testPage = new Page(driver, localServerPort, messageSource);
+    }
 
-  protected void uploadJpgFile() {
-    uploadFile(UPLOADED_JPG_FILE_NAME);
-    assertThat(driver.findElement(By.id("file-preview-template-uploadDocuments")).getText().replace("\n", ""))
-        .contains(UPLOADED_JPG_FILE_NAME);
-  }
+    @SuppressWarnings("unused")
+    public void takeSnapShot(String fileWithPath) {
+        TakesScreenshot screenshot = driver;
+        Path sourceFile = screenshot.getScreenshotAs(OutputType.FILE).toPath();
+        Path destinationFile = new File(fileWithPath).toPath();
+        try {
+            System.out.println("DestinationFile:" + destinationFile);
+            Files.copy(sourceFile, destinationFile, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-  private void waitUntilFileIsUploaded() {
-    await().until(
-        () -> !driver.findElements(By.className("file-details")).get(0).getAttribute("innerHTML")
-            .isBlank());
-  }
+    protected void uploadFile(String filepath) {
+        WebElement upload = driver.findElement(By.className("dz-hidden-input"));
+        upload.sendKeys(TestUtils.getAbsoluteFilepathString(filepath));
+        waitUntilFileIsUploaded();
+    }
 
-  public String message(String message) {
-    return messageSource
-        .getMessage(message, null, Locale.ENGLISH);
-  }
+    protected void uploadJpgFile() {
+        uploadFile(UPLOADED_JPG_FILE_NAME);
+        assertThat(driver.findElement(By.id("file-preview-template-uploadDocuments")).getText().replace("\n", ""))
+                .contains(UPLOADED_JPG_FILE_NAME);
+    }
+
+    private void waitUntilFileIsUploaded() {
+        await().until(
+                () -> !driver.findElements(By.className("file-details")).get(0).getAttribute("innerHTML")
+                        .isBlank());
+    }
+
+    public String message(String message) {
+        return messageSource
+                .getMessage(message, null, Locale.ENGLISH);
+    }
 }

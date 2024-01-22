@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class IsPregnant extends BasicCondition {
 
-  @Override
-  public Boolean run(Submission submission) {
-    return run(submission, "pregnancyInd", "true");
-  }
+    @Override
+    public Boolean run(Submission submission) {
+        return run(submission, "pregnancyInd", "true");
+    }
 }
