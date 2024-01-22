@@ -399,39 +399,6 @@ flow:
   expensesElderlyCareAmount:
     nextScreens:
       - name: finalSignPost
-  nolaEceLinks:
-    nextScreens:
-      - name: wicLinks
-  wicLinks:
-    nextScreens:
-      - name: finalSignPost
-  nolaApplyStart:
-    nextScreens:
-      - name: nolaApplyQuestions
-        condition: InterestedInECE
-      - name: wicApply
-  nolaApplyQuestions:
-    nextScreens:
-      - name: nolaApplyIEP
-  nolaApplyIEP:
-    nextScreens:
-      - name: nolaApplyHouseholdAdultsWork
-  nolaApplyHouseholdAdultsWork:
-    nextScreens:
-      - name: wicApply
-  wicApply:
-    nextScreens:
-      - name: nolaApplyThankYou
-        condition: InterestedInWicEce
-      - name: outsideNolaApplyThankYou
-        condition: InterestedInWIC
-      - name: finalSignPost
-  nolaApplyThankYou:
-    nextScreens:
-      - name: finalSignPost
-  outsideNolaApplyThankYou:
-    nextScreens:
-      - name: finalSignPost
   finalSignPost:
     nextScreens:
       - name: ebtCard

@@ -32,7 +32,6 @@
         <th:block
             th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
           <th:block th:ref="formContent">
-            <div th:replace="~{fragments/wicEceConfirmation :: wicEceConfirmation}"></div>
 
             <th:block th:unless="${inApplyGroup || inLinkGroup}">
               <hr>
