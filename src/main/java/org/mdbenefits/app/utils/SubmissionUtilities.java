@@ -3,11 +3,12 @@ package org.mdbenefits.app.utils;
 import formflow.library.data.Submission;
 
 import java.text.DecimalFormat;
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import org.mdbenefits.app.data.enums.Counties;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static formflow.library.inputs.FieldNameMarkers.DYNAMIC_FIELD_MARKER;
 import static java.util.Collections.emptyList;
@@ -17,13 +18,9 @@ public class SubmissionUtilities {
 
     public static Long expiryHours = 2L;
 
-    public static final DateTimeFormatter MM_DD_YYYY = DateTimeFormatter.ofPattern("M/d/uuuu");
-
     public static final Map<String, String> PDF_EDUCATION_MAP = new HashMap<>();
     public static final Map<String, String> PDF_MARITAL_STATUS_MAP = new HashMap<>();
     public static final Map<String, String> PDF_RELATIONSHIP_MAP = new HashMap<>();
-
-    private static final LocalDate FIVE_YEARS_AGO = LocalDate.now().minusYears(5);
 
     static {
         PDF_EDUCATION_MAP.put("firstGrade", "1st grade");
@@ -89,36 +86,6 @@ public class SubmissionUtilities {
         return "$" + decimalFormat.format(value);
     }
 
-    public static boolean isNolaParish(Submission submission) {
-        return false;
-    }
-
-    public static boolean isEligibleForExperiment(Submission submission) {
-        // Someone in household is pregnant
-        var pregnancyInHousehold = (String) submission.getInputData().getOrDefault("pregnancyInd", "false");
-        if ("true".equals(pregnancyInHousehold)) {
-            return true;
-        }
-
-        // Has child under 5
-        var household = submission.getInputData().get("household");
-        if (household != null) {
-            for (Map<String, Object> member : ((List<Map<String, Object>>) household)) {
-                if ("child".equals(member.get("householdMemberRelationship"))) {
-                    var day = member.get("householdMemberBirthDay");
-                    var year = member.get("householdMemberBirthYear");
-                    var month = member.get("householdMemberBirthMonth");
-                    LocalDate birthdate =LocalDate.parse("%s/%s/%s".formatted(month, day, year), MM_DD_YYYY);
-                    if (birthdate.isAfter(FIVE_YEARS_AGO)) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
     public static boolean isDocUploadActive(Submission submission){
         OffsetDateTime submittedAt = submission.getSubmittedAt();
         OffsetDateTime now = OffsetDateTime.now();
@@ -138,11 +105,6 @@ public class SubmissionUtilities {
     public static String householdMemberFullName(Map<String, Object> householdMember) {
         return householdMember.get("householdMemberFirstName") + " " + householdMember.get("householdMemberLastName");
     }
-
-//    public ParentGuardian getParentGuardianMap(Submission submission){
-//
-//
-//    }
 
     public static List<String> getHouseholdMemberNames(Submission submission) {
         ArrayList<String> names = new ArrayList<>();
