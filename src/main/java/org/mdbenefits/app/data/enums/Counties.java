@@ -4,7 +4,7 @@ public enum Counties {
   ALLEGANY("Allegany County"),
   ANNE_ARUNDEL("Anne Arundel County"),
   BALTIMORE_CITY("Baltimore City"),
-  BALITMORE("Baltimore County"),
+  BALTIMORE("Baltimore County"),
   CALVERT("Calvert County"),
   CAROLINE("Caroline County"),
   CARROLL("Carroll County"),
