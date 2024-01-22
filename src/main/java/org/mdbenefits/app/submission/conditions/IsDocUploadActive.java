@@ -10,7 +10,7 @@ public class IsDocUploadActive implements Condition {
 
 
     @Override
-    public Boolean run(Submission submission){
+    public Boolean run(Submission submission) {
         return SubmissionUtilities.isDocUploadActive(submission);
     }
 }

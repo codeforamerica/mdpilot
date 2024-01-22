@@ -6,12 +6,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class TrackClientInfoEvent extends TrackClientInfo {
 
-  public TrackClientInfoEvent(MixpanelTracker mixpanelTracker) {
-    super(mixpanelTracker);
-  }
+    public TrackClientInfoEvent(MixpanelTracker mixpanelTracker) {
+        super(mixpanelTracker);
+    }
 
-  @Override
-  String getEventName() {
-    return "doc_uploader_client_details";
-  }
+    @Override
+    String getEventName() {
+        return "doc_uploader_client_details";
+    }
 }

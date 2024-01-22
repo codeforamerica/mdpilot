@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -15,33 +14,33 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class StaticPageController {
 
-  /**
-   * Renders the website index page.
-   *
-   * @param request  The current request, not null
-   * @return the static page template
-   */
-  @GetMapping("/")
-  ModelAndView getIndex(HttpServletRequest request) {
-    HttpSession httpSession = request.getSession(false);
-    if (httpSession != null) {
-      httpSession.invalidate();
+    /**
+     * Renders the website index page.
+     *
+     * @param request The current request, not null
+     * @return the static page template
+     */
+    @GetMapping("/")
+    ModelAndView getIndex(HttpServletRequest request) {
+        HttpSession httpSession = request.getSession(false);
+        if (httpSession != null) {
+            httpSession.invalidate();
+        }
+        httpSession = request.getSession(true);
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("screen", "/");
+
+        return new ModelAndView("index", model);
     }
-    httpSession = request.getSession(true);
 
-    Map<String, Object> model = new HashMap<>();
-    model.put("screen", "/");
+    @GetMapping("/privacy")
+    String getPrivacy() {
+        return "privacy";
+    }
 
-    return new ModelAndView("index", model);
-  }
-
-  @GetMapping("/privacy")
-  String getPrivacy() {
-    return "privacy";
-  }
-
-  @GetMapping("/ssnFAQs")
-  String getSSNFaqs() {
-    return "ssnFAQs";
-  }
+    @GetMapping("/ssnFAQs")
+    String getSSNFaqs() {
+        return "ssnFAQs";
+    }
 }

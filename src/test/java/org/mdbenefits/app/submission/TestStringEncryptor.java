@@ -6,13 +6,14 @@ import org.springframework.stereotype.Component;
 @Component
 @Profile({"test"})
 public class TestStringEncryptor implements StringEncryptor {
-  @Override
-  public String decrypt(String ciphertext) {
-    return ciphertext != null ? ciphertext.replace("encrypted_", "") : "";
-  }
 
-  @Override
-  public String encrypt(String plaintext) {
-    return "encrypted_" + plaintext;
-  }
+    @Override
+    public String decrypt(String ciphertext) {
+        return ciphertext != null ? ciphertext.replace("encrypted_", "") : "";
+    }
+
+    @Override
+    public String encrypt(String plaintext) {
+        return "encrypted_" + plaintext;
+    }
 }

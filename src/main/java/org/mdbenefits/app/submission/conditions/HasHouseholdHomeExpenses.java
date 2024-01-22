@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class HasHouseholdHomeExpenses extends BasicArrayCondition {
 
-  @Override
-  public Boolean run(Submission submission) {
-    return run(submission, "householdHomeExpenses[]");
-  }
+    @Override
+    public Boolean run(Submission submission) {
+        return run(submission, "householdHomeExpenses[]");
+    }
 }

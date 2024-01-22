@@ -6,12 +6,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class HasChildSupportExpenses implements Condition {
-  @Override
-  public Boolean run(Submission submission) {
-    var inputData = submission.getInputData();
-    if (inputData.containsKey("hasChildSupportExpenses")) {
-      return submission.getInputData().get("hasChildSupportExpenses").equals("true");
+
+    @Override
+    public Boolean run(Submission submission) {
+        var inputData = submission.getInputData();
+        if (inputData.containsKey("hasChildSupportExpenses")) {
+            return submission.getInputData().get("hasChildSupportExpenses").equals("true");
+        }
+        return false;
     }
-    return false;
-  }
 }

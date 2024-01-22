@@ -1,19 +1,18 @@
 package org.mdbenefits.app.preparers;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
+
 import formflow.library.data.Submission;
 import formflow.library.pdf.SingleField;
 import formflow.library.pdf.SubmissionField;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.SubmissionTestBuilder;
 import org.mdbenefits.app.submission.StringEncryptor;
 import org.mockito.Mockito;
-
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
 
 class SsnPreparerTest {
 
@@ -37,7 +36,7 @@ class SsnPreparerTest {
     @Test
     public void testApplicantSSN() {
         Submission submission = new SubmissionTestBuilder()
-                .withPersonalInfo("","","","","", "","","","",
+                .withPersonalInfo("", "", "", "", "", "", "", "", "",
                         "somethingencrypted")
                 .build();
         when(encryptor.decrypt(eq("somethingencrypted"))).thenReturn("111223333");
@@ -50,15 +49,15 @@ class SsnPreparerTest {
     @Test
     public void testHouseholdSSNs() {
         Submission submission = new SubmissionTestBuilder()
-            .withPersonalInfo("applicant","test","","","", "","","","",
-                "")
-            .withHouseholdMember("member1", "test", "", "", "", "", "", "", "",
-                "somethingencrypted", null, null)
-            .withHouseholdMember("member2", "test", "", "", "", "", "", "", "",
-                "", null, null)
-            .withHouseholdMember("member3", "test", "", "", "", "", "", "", "",
-                "somethingelseencrypted", null, null)
-            .build();
+                .withPersonalInfo("applicant", "test", "", "", "", "", "", "", "",
+                        "")
+                .withHouseholdMember("member1", "test", "", "", "", "", "", "", "",
+                        "somethingencrypted", null, null)
+                .withHouseholdMember("member2", "test", "", "", "", "", "", "", "",
+                        "", null, null)
+                .withHouseholdMember("member3", "test", "", "", "", "", "", "", "",
+                        "somethingelseencrypted", null, null)
+                .build();
         when(encryptor.decrypt(eq("somethingencrypted"))).thenReturn("111223333");
         when(encryptor.decrypt(eq("somethingelseencrypted"))).thenReturn("444556666");
 

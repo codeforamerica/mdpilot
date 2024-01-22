@@ -2,7 +2,6 @@ package org.mdbenefits.app.submission.conditions;
 
 import formflow.library.config.submission.Condition;
 import formflow.library.data.Submission;
-
 import java.util.ArrayList;
 import java.util.Map;
 

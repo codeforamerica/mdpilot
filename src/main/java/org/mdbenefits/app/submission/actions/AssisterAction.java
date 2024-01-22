@@ -11,19 +11,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class AssisterAction implements Action {
 
-  protected static final String DATE_REGEX_PATTERN = "MM/dd/yyyy";
-  protected static final String MIN_DATE_ALLOWED = "01/01/1900";
-  protected static final String PHONE_REGEX_PATTERN="^\\(\\d{3}\\) \\d{3}-\\d{4}$";
-  protected static final String EMAIL_REGEX_PATTERN="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+    protected static final String DATE_REGEX_PATTERN = "MM/dd/yyyy";
+    protected static final String MIN_DATE_ALLOWED = "01/01/1900";
+    protected static final String PHONE_REGEX_PATTERN = "^\\(\\d{3}\\) \\d{3}-\\d{4}$";
+    protected static final String EMAIL_REGEX_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 
-  protected static final String ZIPCODE_REGEX_PATTERN="\\d{5}";
+    protected static final String ZIPCODE_REGEX_PATTERN = "\\d{5}";
 
 
+    @Autowired
+    MessageSource source;
 
-  @Autowired
-  MessageSource source;
-  public String translateMessage(String messageKey) {
-    return source.getMessage(messageKey, null, LocaleContextHolder.getLocale());
+    public String translateMessage(String messageKey) {
+        return source.getMessage(messageKey, null, LocaleContextHolder.getLocale());
 
-  }
+    }
 }

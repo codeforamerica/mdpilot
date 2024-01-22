@@ -14,23 +14,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class MixpanelTracker {
 
-  private final MessageBuilder messageBuilder;
+    private final MessageBuilder messageBuilder;
 
-  public MixpanelTracker(@Value("${form-flow.mixpanel.api-key}") String apiToken) {
-    messageBuilder = new MessageBuilder(apiToken);
-  }
-
-  public void trackWithProfile(String sessionId, String eventName, Map<String, Object> properties) {
-    try {
-      JSONObject event = messageBuilder.event(sessionId, eventName, new JSONObject(properties));
-      JSONObject userProfile = messageBuilder.set(sessionId, new JSONObject(properties));
-
-      ClientDelivery delivery = new ClientDelivery();
-      delivery.addMessage(event);
-      delivery.addMessage(userProfile);
-      new MixpanelAPI().deliver(delivery);
-    } catch (IOException e) {
-      log.warn("Issue sending mixpanel tracking event", e);
+    public MixpanelTracker(@Value("${form-flow.mixpanel.api-key}") String apiToken) {
+        messageBuilder = new MessageBuilder(apiToken);
     }
-  }
+
+    public void trackWithProfile(String sessionId, String eventName, Map<String, Object> properties) {
+        try {
+            JSONObject event = messageBuilder.event(sessionId, eventName, new JSONObject(properties));
+            JSONObject userProfile = messageBuilder.set(sessionId, new JSONObject(properties));
+
+            ClientDelivery delivery = new ClientDelivery();
+            delivery.addMessage(event);
+            delivery.addMessage(userProfile);
+            new MixpanelAPI().deliver(delivery);
+        } catch (IOException e) {
+            log.warn("Issue sending mixpanel tracking event", e);
+        }
+    }
 }

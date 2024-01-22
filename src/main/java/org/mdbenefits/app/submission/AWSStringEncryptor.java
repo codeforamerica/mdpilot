@@ -8,56 +8,57 @@ import com.amazonaws.services.kms.AWSKMSClientBuilder;
 import com.amazonaws.services.kms.model.DecryptRequest;
 import com.amazonaws.services.kms.model.EncryptRequest;
 import com.google.crypto.tink.subtle.Base64;
+import java.nio.ByteBuffer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.nio.ByteBuffer;
-
 @Component
 @Profile({"!test"})
 public class AWSStringEncryptor implements StringEncryptor {
-  private final AWSKMS kmsClient;
 
-  private final String keyArn;
+    private final AWSKMS kmsClient;
 
-  public AWSStringEncryptor(@Value("${form-flow.aws.cmk}") String keyArn, @Value("${form-flow.aws.access_key}") String accessKey,
-                            @Value("${form-flow.aws.secret_key}") String secretKey) {
-    AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
-    kmsClient = AWSKMSClientBuilder.standard()
-        .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
-        .withRegion("us-east-2")
-        .build();
-    this.keyArn = keyArn;
-  }
+    private final String keyArn;
 
-  @Override
-  public String decrypt(String ciphertext) {
-    if (ciphertext == null || ciphertext.isEmpty()) {
-      return "";
+    public AWSStringEncryptor(@Value("${form-flow.aws.cmk}") String keyArn,
+            @Value("${form-flow.aws.access_key}") String accessKey,
+            @Value("${form-flow.aws.secret_key}") String secretKey) {
+        AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
+        kmsClient = AWSKMSClientBuilder.standard()
+                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+                .withRegion("us-east-2")
+                .build();
+        this.keyArn = keyArn;
     }
 
-    DecryptRequest decryptRequest = new DecryptRequest()
-        .withEncryptionAlgorithm("RSAES_OAEP_SHA_256")
-        .withKeyId(keyArn)
-        .withCiphertextBlob(ByteBuffer.wrap(Base64.decode(ciphertext)));
+    @Override
+    public String decrypt(String ciphertext) {
+        if (ciphertext == null || ciphertext.isEmpty()) {
+            return "";
+        }
 
-    ByteBuffer plaintext = kmsClient.decrypt(decryptRequest).getPlaintext();
-    return new String(plaintext.array());
-  }
+        DecryptRequest decryptRequest = new DecryptRequest()
+                .withEncryptionAlgorithm("RSAES_OAEP_SHA_256")
+                .withKeyId(keyArn)
+                .withCiphertextBlob(ByteBuffer.wrap(Base64.decode(ciphertext)));
 
-  @Override
-  public String encrypt(String plaintext) {
-    if (plaintext == null || plaintext.isEmpty()) {
-      return "";
+        ByteBuffer plaintext = kmsClient.decrypt(decryptRequest).getPlaintext();
+        return new String(plaintext.array());
     }
 
-    EncryptRequest req = new EncryptRequest()
-        .withEncryptionAlgorithm("RSAES_OAEP_SHA_256")
-        .withKeyId(keyArn)
-        .withPlaintext(ByteBuffer.wrap(plaintext.getBytes()));
+    @Override
+    public String encrypt(String plaintext) {
+        if (plaintext == null || plaintext.isEmpty()) {
+            return "";
+        }
 
-    ByteBuffer ciphertext = kmsClient.encrypt(req).getCiphertextBlob();
-    return Base64.encode(ciphertext.array());
-  }
+        EncryptRequest req = new EncryptRequest()
+                .withEncryptionAlgorithm("RSAES_OAEP_SHA_256")
+                .withKeyId(keyArn)
+                .withPlaintext(ByteBuffer.wrap(plaintext.getBytes()));
+
+        ByteBuffer ciphertext = kmsClient.encrypt(req).getCiphertextBlob();
+        return Base64.encode(ciphertext.array());
+    }
 }

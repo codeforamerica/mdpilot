@@ -12,9 +12,9 @@ public class BasicArrayCondition implements Condition {
     @Override
     public Boolean run(Submission submission, String key) {
         var inputData = submission.getInputData();
-        if (inputData.containsKey(key)){
+        if (inputData.containsKey(key)) {
             var array = (ArrayList) submission.getInputData().get(key);
-            if(array.isEmpty()){
+            if (array.isEmpty()) {
                 return false;
             }
             return !array.contains("None");

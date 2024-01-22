@@ -1,17 +1,18 @@
 package org.mdbenefits.app.utils;
+
 import com.deque.html.axecore.results.Results;
 import com.deque.html.axecore.results.Rule;
 import com.deque.html.axecore.selenium.AxeBuilder;
-import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.remote.RemoteWebDriver;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.context.MessageSource;
 
 
 @Slf4j
 public class AccessibilityTestPage extends Page {
+
     public List<Rule> resultsList = new ArrayList<>();
 
 

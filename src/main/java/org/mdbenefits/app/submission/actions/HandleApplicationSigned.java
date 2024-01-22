@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class HandleApplicationSigned implements Action {
 
-  @Override
-  public void run(Submission submission) {
-  }
+    @Override
+    public void run(Submission submission) {
+    }
 }

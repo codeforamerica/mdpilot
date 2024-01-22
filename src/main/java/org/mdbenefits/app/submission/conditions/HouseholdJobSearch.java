@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class HouseholdJobSearch implements Condition {
+
     @Override
     public Boolean run(Submission submission) {
         var inputData = submission.getInputData();

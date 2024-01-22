@@ -1,15 +1,14 @@
 package org.mdbenefits.app.preparers;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import formflow.library.data.Submission;
 import formflow.library.pdf.SingleField;
 import formflow.library.pdf.SubmissionField;
-import org.junit.jupiter.api.Test;
-import org.mdbenefits.app.data.SubmissionTestBuilder;
-
 import java.util.List;
 import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
+import org.mdbenefits.app.data.SubmissionTestBuilder;
 
 class PersonalSituationsPreparerTest {
 
@@ -36,7 +35,7 @@ class PersonalSituationsPreparerTest {
     @Test
     public void testHouseholdDisablityIndicator() {
         Submission submission = new SubmissionTestBuilder()
-                .withHouseholdMember("test", "test", "","","","","","","","", null, null)
+                .withHouseholdMember("test", "test", "", "", "", "", "", "", "", "", null, null)
                 .withPersonalSituations(List.of("test-test"))
                 .build();
         Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);

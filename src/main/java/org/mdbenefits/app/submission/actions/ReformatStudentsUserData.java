@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class ReformatStudentsUserData implements Action {
 
-  @Override
-  public void run(Submission submission) {
-    submission.getInputData().put("studentsFullNames[]", HouseholdUtilities.formattedHouseholdData(submission, "students[]"));
-  }
+    @Override
+    public void run(Submission submission) {
+        submission.getInputData().put("studentsFullNames[]", HouseholdUtilities.formattedHouseholdData(submission, "students[]"));
+    }
 
 }

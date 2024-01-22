@@ -4,18 +4,17 @@ import formflow.library.FormFlowController;
 import formflow.library.data.SubmissionRepositoryService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.util.Map;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import java.util.Map;
-import java.util.UUID;
-
 @Component
 @Slf4j
 public class DataRequiredInterceptor implements HandlerInterceptor {
+
     public static final String PATH_FORMAT = "/flow/{flow}/{screen}";
     private final SubmissionRepositoryService submissionRepositoryService;
     private static final Map<String, String> REQUIRED_DATA = Map.ofEntries(
@@ -49,7 +48,7 @@ public class DataRequiredInterceptor implements HandlerInterceptor {
                 return false;
             }
 
-            Map<String, UUID> submissionMap = (Map)session.getAttribute(FormFlowController.SUBMISSION_MAP_NAME);
+            Map<String, UUID> submissionMap = (Map) session.getAttribute(FormFlowController.SUBMISSION_MAP_NAME);
             UUID submissionId = null;
 
             if (submissionMap != null && submissionMap.get(parsedUrl.get("flow")) != null) {
@@ -61,17 +60,20 @@ public class DataRequiredInterceptor implements HandlerInterceptor {
                 if (submissionMaybe.isPresent()) {
                     var submission = submissionMaybe.get();
                     if (submission.getInputData().getOrDefault(requiredData, "").toString().isBlank()) {
-                        log.error("Submission %s missing field data %s, redirecting to clientInfo page".formatted(submissionId, requiredData));
+                        log.error("Submission %s missing field data %s, redirecting to clientInfo page".formatted(submissionId,
+                                requiredData));
                         response.sendRedirect(redirect_url);
                         return false;
                     }
                 } else {
-                    log.error("Submission %s not found in database (required field %s), redirecting to clientInfo page".formatted(submissionId, requiredData));
+                    log.error("Submission %s not found in database (required field %s), redirecting to clientInfo page".formatted(
+                            submissionId, requiredData));
                     response.sendRedirect(redirect_url);
                     return false;
                 }
             } else {
-                log.error("No submission ID in session (required field %s), redirecting to clientInfo page".formatted(requiredData));
+                log.error("No submission ID in session (required field %s), redirecting to clientInfo page".formatted(
+                        requiredData));
                 response.sendRedirect(redirect_url);
                 return false;
             }

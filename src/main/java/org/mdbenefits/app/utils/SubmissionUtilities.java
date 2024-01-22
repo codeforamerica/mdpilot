@@ -1,7 +1,9 @@
 package org.mdbenefits.app.utils;
 
-import formflow.library.data.Submission;
+import static formflow.library.inputs.FieldNameMarkers.DYNAMIC_FIELD_MARKER;
+import static java.util.Collections.emptyList;
 
+import formflow.library.data.Submission;
 import java.text.DecimalFormat;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -10,10 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static formflow.library.inputs.FieldNameMarkers.DYNAMIC_FIELD_MARKER;
-import static java.util.Collections.emptyList;
-
 public class SubmissionUtilities {
+
     public static final String ENCRYPTED_SSNS_INPUT_NAME = "householdMemberEncryptedSSN";
 
     public static Long expiryHours = 2L;
@@ -66,6 +66,7 @@ public class SubmissionUtilities {
         PDF_RELATIONSHIP_MAP.put("grandchild", "grandchild");
         PDF_RELATIONSHIP_MAP.put("other", "other");
     }
+
     public static String formatMoney(String value) {
         if (value == null) {
             return "";
@@ -86,11 +87,11 @@ public class SubmissionUtilities {
         return "$" + decimalFormat.format(value);
     }
 
-    public static boolean isDocUploadActive(Submission submission){
+    public static boolean isDocUploadActive(Submission submission) {
         OffsetDateTime submittedAt = submission.getSubmittedAt();
         OffsetDateTime now = OffsetDateTime.now();
 
-        if (submittedAt != null){
+        if (submittedAt != null) {
             OffsetDateTime expiryTime = submittedAt.plusHours(expiryHours);
 
             return expiryTime.isAfter(now);
@@ -110,7 +111,8 @@ public class SubmissionUtilities {
         ArrayList<String> names = new ArrayList<>();
 
         var applicantName = submission.getInputData().get("firstName") + " " + submission.getInputData().get("lastName");
-        var householdMembers = (List<Map<String, Object>>) submission.getInputData().getOrDefault("household", new ArrayList<HashMap<String, Object>>());
+        var householdMembers = (List<Map<String, Object>>) submission.getInputData()
+                .getOrDefault("household", new ArrayList<HashMap<String, Object>>());
 
         names.add(applicantName);
         householdMembers.forEach(hh -> names.add(householdMemberFullName(hh)));
@@ -127,12 +129,15 @@ public class SubmissionUtilities {
         }
         return "%s %s".formatted(inputData.get("firstName"), inputData.get("lastName"));
     }
+
     public static ArrayList<HashMap<String, Object>> getHouseholdIncomeReviewItems(Submission submission) {
-        var applicantFullName = submission.getInputData().getOrDefault("firstName", "") + " " + submission.getInputData().getOrDefault("lastName", "");
+        var applicantFullName = submission.getInputData().getOrDefault("firstName", "") + " " + submission.getInputData()
+                .getOrDefault("lastName", "");
         var notYetShownNames = getHouseholdMemberNames(submission);
         ArrayList<HashMap<String, Object>> items = new ArrayList<>();
 
-        for (var job : (List<HashMap<String, Object>>) submission.getInputData().getOrDefault("income", new ArrayList<HashMap<String, Object>>())) {
+        for (var job : (List<HashMap<String, Object>>) submission.getInputData()
+                .getOrDefault("income", new ArrayList<HashMap<String, Object>>())) {
             var item = new HashMap<String, Object>();
             var name = job.get("householdMemberJobAdd").equals("you") ? applicantFullName : job.get("householdMemberJobAdd");
             item.put("name", name);
@@ -140,11 +145,14 @@ public class SubmissionUtilities {
             item.put("jobName", job.get("employerName"));
             item.put("isApplicant", name.equals(applicantFullName));
             // TODO: handle income types - hourly vs. non hourly
-            var payPeriod = job.getOrDefault("jobPaidByHour", "false").equals("true") ? "Hourly, " + job.get("hoursPerWeek").toString() + " hours per week" : job.getOrDefault("payPeriod", "It varies").toString();
+            var payPeriod =
+                    job.getOrDefault("jobPaidByHour", "false").equals("true") ? "Hourly, " + job.get("hoursPerWeek").toString()
+                            + " hours per week" : job.getOrDefault("payPeriod", "It varies").toString();
             item.put("payPeriod", payPeriod);
 
             // TODO: add wage amount and not future income
-            var payAmount = job.getOrDefault("jobPaidByHour", "false").equals("true") ? job.get("hourlyWage").toString() : job.get("payPeriodAmount").toString();
+            var payAmount = job.getOrDefault("jobPaidByHour", "false").equals("true") ? job.get("hourlyWage").toString()
+                    : job.get("payPeriodAmount").toString();
             item.put("income", formatMoney(payAmount));
             item.put("uuid", job.get("uuid"));
 
@@ -164,7 +172,7 @@ public class SubmissionUtilities {
 
         // Sort the list so the applicant shows up first and the rest of the names are alphabetical
         items.sort(Comparator.comparing(
-                job -> (String)job.get("name"),
+                job -> (String) job.get("name"),
                 (a, b) -> {
                     if (a.equals(applicantFullName) && !b.equals(applicantFullName)) {
                         return -1;

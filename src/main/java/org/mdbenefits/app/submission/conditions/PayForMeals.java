@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class PayForMeals extends BasicCondition {
 
-  @Override
-  public Boolean run(Submission submission) {
-    return run(submission, "mealInd", "true");
-  }
+    @Override
+    public Boolean run(Submission submission) {
+        return run(submission, "mealInd", "true");
+    }
 }

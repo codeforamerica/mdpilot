@@ -6,6 +6,7 @@ public enum SubmissionErrorTypes {
     OTHER("OTHER");
 
     private final String name;
+
     SubmissionErrorTypes(String name) {
         this.name = name;
     }

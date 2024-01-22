@@ -15,7 +15,8 @@ import org.springframework.test.context.ActiveProfiles;
 @SpringBootTest()
 @ActiveProfiles("test")
 class ValidateMailingAddressTest {
-    private final String BLANK_VALUE="";
+
+    private final String BLANK_VALUE = "";
     private final String NOT_BLANK_VALUE = "test";
     private final String VALID_ZIPCODE = "12345";
 
@@ -31,10 +32,10 @@ class ValidateMailingAddressTest {
     @Test
     public void testAddressHappyPath() {
         FormSubmission form = new FormSubmission(Map.of(
-            ADDRESS_1_INPUT_NAME, NOT_BLANK_VALUE,
-            CITY_INPUT_NAME, NOT_BLANK_VALUE,
-            STATE_INPUT_NAME, NOT_BLANK_VALUE,
-            ZIP_INPUT_NAME, VALID_ZIPCODE
+                ADDRESS_1_INPUT_NAME, NOT_BLANK_VALUE,
+                CITY_INPUT_NAME, NOT_BLANK_VALUE,
+                STATE_INPUT_NAME, NOT_BLANK_VALUE,
+                ZIP_INPUT_NAME, VALID_ZIPCODE
         ));
 
         Map<String, List<String>> result = validator.runValidation(form, null);
@@ -44,13 +45,14 @@ class ValidateMailingAddressTest {
         assertThat(result.get(STATE_INPUT_NAME)).isNullOrEmpty();
         assertThat(result.get(ZIP_INPUT_NAME)).isNullOrEmpty();
     }
+
     @Test
     public void testAddressBlankDoesRaiseError() {
         FormSubmission form = new FormSubmission(Map.of(
-            ADDRESS_1_INPUT_NAME, BLANK_VALUE,
-            CITY_INPUT_NAME, BLANK_VALUE,
-            STATE_INPUT_NAME, BLANK_VALUE,
-            ZIP_INPUT_NAME, BLANK_VALUE
+                ADDRESS_1_INPUT_NAME, BLANK_VALUE,
+                CITY_INPUT_NAME, BLANK_VALUE,
+                STATE_INPUT_NAME, BLANK_VALUE,
+                ZIP_INPUT_NAME, BLANK_VALUE
         ));
 
         Map<String, List<String>> result = validator.runValidation(form, null);
@@ -65,17 +67,17 @@ class ValidateMailingAddressTest {
     public void testHomeAddressIsCheckedWhenSameAsHome() {
         Submission submission = new Submission();
         submission.setInputData(Map.of(
-            "homeAddressStreetAddress1", NOT_BLANK_VALUE,
-            "homeAddressCity", NOT_BLANK_VALUE,
-            "homeAddressState", NOT_BLANK_VALUE,
-            "homeAddressZipCode", VALID_ZIPCODE
+                "homeAddressStreetAddress1", NOT_BLANK_VALUE,
+                "homeAddressCity", NOT_BLANK_VALUE,
+                "homeAddressState", NOT_BLANK_VALUE,
+                "homeAddressZipCode", VALID_ZIPCODE
         ));
         FormSubmission form = new FormSubmission(Map.of(
-            "sameAsHomeAddress[]", new ArrayList<>(List.of("true")),
-            ADDRESS_1_INPUT_NAME, BLANK_VALUE,
-            CITY_INPUT_NAME, BLANK_VALUE,
-            STATE_INPUT_NAME, BLANK_VALUE,
-            ZIP_INPUT_NAME, BLANK_VALUE
+                "sameAsHomeAddress[]", new ArrayList<>(List.of("true")),
+                ADDRESS_1_INPUT_NAME, BLANK_VALUE,
+                CITY_INPUT_NAME, BLANK_VALUE,
+                STATE_INPUT_NAME, BLANK_VALUE,
+                ZIP_INPUT_NAME, BLANK_VALUE
         ));
 
         Map<String, List<String>> result = validator.runValidation(form, submission);

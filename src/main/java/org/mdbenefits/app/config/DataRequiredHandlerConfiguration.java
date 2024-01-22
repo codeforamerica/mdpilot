@@ -9,11 +9,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class DataRequiredHandlerConfiguration implements WebMvcConfigurer {
+
     @Autowired
     SubmissionRepositoryService submissionRepositoryService;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new DataRequiredInterceptor(this.submissionRepositoryService)).addPathPatterns(DataRequiredInterceptor.PATH_FORMAT);
+        registry.addInterceptor(new DataRequiredInterceptor(this.submissionRepositoryService))
+                .addPathPatterns(DataRequiredInterceptor.PATH_FORMAT);
     }
 }

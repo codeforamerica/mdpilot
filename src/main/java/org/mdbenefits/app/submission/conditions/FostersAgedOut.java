@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class FostersAgedOut extends BasicCondition {
 
-  @Override
-  public Boolean run(Submission submission) {
-    return run(submission, "fosterAgedOutInd", "true");
-  }
+    @Override
+    public Boolean run(Submission submission) {
+        return run(submission, "fosterAgedOutInd", "true");
+    }
 }

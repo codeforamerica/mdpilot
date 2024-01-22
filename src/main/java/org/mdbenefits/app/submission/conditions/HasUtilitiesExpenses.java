@@ -13,7 +13,7 @@ public class HasUtilitiesExpenses implements Condition {
         var inputData = submission.getInputData();
         if (inputData.containsKey("householdUtilitiesExpenses[]")) {
             var utilitiesArray = (ArrayList) submission.getInputData().get("householdUtilitiesExpenses[]");
-          return !utilitiesArray.isEmpty() && !utilitiesArray.contains("None");
+            return !utilitiesArray.isEmpty() && !utilitiesArray.contains("None");
         }
         return false;
     }
