@@ -23,34 +23,18 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
 
         Map<String, Object> inputData = submission.getInputData();
 
-        // Convert "who does this apply to" responses to a boolean indicator
-        Map.of("students[]", "applicantStudentInd",
-                        "nonCitizens[]", "applicantNonCitizenInd",
-                        "homeless[]", "applicantHomelessInd")
-                .forEach((key, value) -> {
-                    var inputs = (List<String>) inputData.getOrDefault(key, new ArrayList<>());
-                    var ind = inputs != null && inputs.contains("you") ? "Yes" : "No";
-                    results.put(value, new SingleField(value, ind, null));
-                });
+        String fullName = String.format("%s, %s", inputData.get("lastName"), inputData.get("firstName"));
+        results.put("applicantFullName", new SingleField("applicantFullName", (String) fullName, null));
+        results.put("applicantFullName_1", new SingleField("applicantFullName", (String) fullName, 1));
 
-        // Format birthday
-        var birthday = Stream.of("birthMonth", "birthDay", "birthYear")
+        var dob = Stream.of("birthMonth", "birthDay", "birthYear")
                 .map(inputData::get)
                 .reduce((e, c) -> e + "/" + c)
                 .get();
-        results.put("applicantBirthday", new SingleField("applicantBirthdayFormatted", (String) birthday, null));
+        results.put("applicantDOB", new SingleField("applicantDOB", (String) dob, null));
 
-        var educationStatus = inputData.get("highestEducation");
-        results.put("highestEducation",
-                new SingleField("highestEducationFormatted", SubmissionUtilities.PDF_EDUCATION_MAP.get(educationStatus), null));
-
-        // If they said they don't want us to collect this info, don't pass it on, even if they had previously set it.
-        // This check helps if they went back and forward in the pages changing values. The data that prepares these fields is
-        // the default OneToManyPreparer in the ffl. This code just overwrites the fields to _unset_ them.
-        if (submission.getInputData().getOrDefault("permissionToAskAboutRace", "false").equals("false")) {
-            results.put("raceSelected", new CheckboxField("raceSelected", List.of(), null));
-            results.put("ethnicitySelected", new SingleField("ethnicitySelected", "", null));
-        }
+        results.put("applicantSSN", new SingleField("applicantSSN", SubmissionUtilities.formatSSN((String) inputData.get("encryptedSSN")), null));
+        results.put("speaksEnglish", new SingleField("speaksEnglish", (String) "Yes", null));
 
         return results;
     }
