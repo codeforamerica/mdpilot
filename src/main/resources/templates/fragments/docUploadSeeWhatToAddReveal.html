@@ -9,15 +9,19 @@
                       </span>
       <span th:text="#{doc-upload-recommendations.recommended}"></span>
     </th:block>
-    <th:block th:ref="revealContent1">
-      <b th:text="#{doc-upload-recommendations.income}"></b>
-      <p th:text="#{doc-upload-recommendations.income-content}"></p>
-      <b th:text="#{doc-upload-recommendations.residency}"></b>
-      <p th:text="#{doc-upload-recommendations.residency-content}"></p>
-      <b th:text="#{doc-upload-recommendations.identity}"></b>
-      <p th:text="#{doc-upload-recommendations.identity-content}"></p>
-      <b th:text="#{doc-upload-recommendations.types-of-files}"></b>
-      <p th:text="#{doc-upload-recommendations.types-of-files-content}"></p>
+    <th:block th:ref="revealContent1"
+              th:with="
+                  maxFiles=${@environment.getProperty('form-flow.uploads.max-files')},
+                  maxFileSize=${@environment.getProperty('form-flow.uploads.max-file-size')},
+                  fileTypes=${@environment.getProperty('form-flow.uploads.accepted-file-types')}">
+        <b th:text="#{doc-upload-recommendations.income}"></b>
+        <p th:text="#{doc-upload-recommendations.income-content}"></p>
+        <b th:text="#{doc-upload-recommendations.residency}"></b>
+        <p th:text="#{doc-upload-recommendations.residency-content}"></p>
+        <b th:text="#{doc-upload-recommendations.identity}"></b>
+        <p th:text="#{doc-upload-recommendations.identity-content}"></p>
+        <b th:text="#{doc-upload-recommendations.types-of-files}"></b>
+        <p th:text="#{doc-upload-recommendations.types-of-files-content(${fileTypes}, ${maxFileSize}, ${maxFiles})}"></p>
     </th:block>
   </th:block>
 </th:block>
