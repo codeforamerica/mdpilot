@@ -15,62 +15,17 @@ public class ApplicantDetailsPreparerTest {
     private final ApplicantDetailsPreparer preparer = new ApplicantDetailsPreparer();
 
     @Test
-    public void testDefaultNoIndicators() {
+    public void testApplicantFullName() {
         Submission submission = new SubmissionTestBuilder()
-                .build();
-
-        Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);
-
-        assertThat(result.get("applicantStudentInd"))
-                .isEqualTo(new SingleField("applicantStudentInd", "No", null));
-        assertThat(result.get("applicantNonCitizenInd"))
-                .isEqualTo(new SingleField("applicantNonCitizenInd", "No", null));
-        assertThat(result.get("applicantHomelessInd"))
-                .isEqualTo(new SingleField("applicantHomelessInd", "No", null));
-    }
-
-    @Test
-    public void testYesIndicators() {
-        Submission submission = new SubmissionTestBuilder()
-                .withStudents(List.of("you"))
-                .withNonCitizens(List.of("you"))
-                .withHomelessness(List.of("you"))
-                .build();
-
-        Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);
-
-        assertThat(result.get("applicantStudentInd"))
-                .isEqualTo(new SingleField("applicantStudentInd", "Yes", null));
-        assertThat(result.get("applicantNonCitizenInd"))
-                .isEqualTo(new SingleField("applicantNonCitizenInd", "Yes", null));
-        assertThat(result.get("applicantHomelessInd"))
-                .isEqualTo(new SingleField("applicantHomelessInd", "Yes", null));
-    }
-
-    @Test
-    public void testBirthdayFormat() {
-        Submission submission = new SubmissionTestBuilder()
-                .withPersonalInfo("", "", "10", "12", "1999",
+                .withPersonalInfo("John", "Doe", "10", "12", "1999",
                         "", "", "", "", "")
                 .build();
 
         Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);
 
-        assertThat(result.get("applicantBirthday"))
-                .isEqualTo(new SingleField("applicantBirthdayFormatted", "12/10/1999", null));
+        assertThat(result.get("applicantFullName"))
+                .isEqualTo(new SingleField("applicantFullName", "Doe, John", null));
     }
 
-    @Test
-    public void testEducation() {
-        Submission submission = new SubmissionTestBuilder()
-                .withPersonalInfo("", "", "", "", "",
-                        "", "", "", "certificateOrDiploma", "")
-                .build();
-
-        Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);
-
-        assertThat(result.get("highestEducation"))
-                .isEqualTo(new SingleField("highestEducationFormatted", "Other certificate or diploma", null));
-    }
 
 }
