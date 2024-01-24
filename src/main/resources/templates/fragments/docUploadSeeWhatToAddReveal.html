@@ -1,9 +1,8 @@
 <th:block th:fragment="docUploadSeeWhatToAddReveal">
-  <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
-                  controlId='r1',
-                  linkLabel=~{::revealLabel1},
-                  content=~{::revealContent1})}">
-    <th:block th:ref="revealLabel1">
+  <th:block th:replace="~{fragments/accordion :: accordion(
+    buttonLabel=~{::contentLabel},
+    content=~{::contentContent})}">
+    <th:block th:ref="contentLabel">
                       <span class="clipboard-icon">
                         <i class="icon-">&#xE862;</i>
                       </span>
