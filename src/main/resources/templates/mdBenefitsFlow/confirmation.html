@@ -84,6 +84,15 @@
             </th:block>
 
             <div th:replace="~{fragments/feedback :: feedback}"></div>
+            <div class="success-confirmation-box zero-flex-shrink spacing-below-60">
+              <th:block th:replace="~{fragments/icons :: smallDownloadDocuments}"></th:block>
+              <div>
+                <p th:text="#{confirmation.save-a-copy-of-your-application}"></p>
+                <a th:href="'/download/' + ${flow} + '/' + ${submission.getId()}"
+                   th:text="#{confirmation.download-your-application}"></a>
+              </div>
+            </div>
+
 
           </th:block>
         </th:block>
