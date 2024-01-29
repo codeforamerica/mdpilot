@@ -320,12 +320,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("timeout-notice.title"));
         testPage.clickContinue();
 
-        // Language preference
-        assertThat(testPage.getTitle()).isEqualTo(message("language-preference.title"));
-        testPage.selectFromDropdown("languageRead", "Spanish");
-        testPage.selectRadio("needInterpreter", "Yes");
-        testPage.clickContinue();
-
         // Choose programs
         assertThat(testPage.getTitle()).isEqualTo(message("choose-programs.title"));
 
