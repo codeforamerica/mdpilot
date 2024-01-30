@@ -17,6 +17,23 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     protected static final String RANGE_ERROR_MESSAGE = "Make sure to provide a value between 1 and 100.";
 
     @Test
+    void selectHelpNeededFlow() {
+        testPage.navigateToFlowScreen("mdBenefitsFlow/selectHelpNeeded");
+        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo("Select help");
+        assertThat(testPage.hasErrorText(message("error.missing-general")));
+
+        testPage.clickElementById("helpNeededList-SNAP");
+        testPage.clickElementById("helpNeededList-OTHER");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo("Choose programs");
+        assertThat(testPage.findElementById("programs-SNAP")).isNotNull();
+        assertThat(testPage.findElementById("programs-OTHER")).isNotNull();
+        assertThat(testPage.elementDoesNotExistById("programs-OHEP")).isTrue();
+        assertThat(testPage.elementDoesNotExistById("programs-TCA")).isTrue();
+    }
+    @Test
     void chooseProgramsFlow() {
         testPage.navigateToFlowScreen("mdBenefitsFlow/choosePrograms");
         testPage.clickContinue();
@@ -25,7 +42,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickElementById("programs-SNAP");
         testPage.clickContinue();
 
-        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap.title"));
+        assertThat(testPage.getTitle()).isEqualTo(message("signpost.title"));
     }
 
     @Test
@@ -309,25 +326,28 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         testPage.clickButton("Apply Now");
 
+        assertThat(testPage.getTitle()).isEqualTo("Select application");
+
+        testPage.clickElementById("none__checkbox");
+        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo("County");
+
         testPage.selectFromDropdown("county", "Baltimore City");
         testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo("Select help");
 
-        // How this works
-        assertThat(testPage.getTitle()).isEqualTo("How this works");
+        testPage.clickElementById("helpNeededList-Help with food");
+        testPage.clickElementById("helpNeededList-Help with utilities");
+        testPage.clickElementById("helpNeededList-Help with money for children");
         testPage.clickContinue();
 
-        // Timeout notice
-        assertThat(testPage.getTitle()).isEqualTo(message("timeout-notice.title"));
-        testPage.clickContinue();
-
-        // Choose programs
+        // choose program
         assertThat(testPage.getTitle()).isEqualTo(message("choose-programs.title"));
 
-        // Choose SNAP program
         testPage.clickElementById("programs-SNAP");
-        testPage.clickContinue();
+        testPage.clickElementById("programs-OHEP");
+        testPage.clickElementById("programs-TCA");
 
-        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap.title"));
         testPage.clickContinue();
 
         // Signpost

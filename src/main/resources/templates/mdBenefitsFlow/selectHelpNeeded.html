@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html th:lang="${#locale.language}">
-<head th:replace="~{fragments/head :: head(title=#{choose-programs.title})}"></head>
+<head th:replace="~{fragments/head :: head(title=#{help-needed.title})}"></head>
 <body>
 <div class="page-wrapper">
   <div th:replace="~{fragments/toolbar :: toolbar}"></div>
@@ -8,29 +8,24 @@
     <div class="grid">
       <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
+        <th:block th:replace="~{fragments/icons :: choosePrograms}"></th:block>
         <th:block
-            th:replace="~{fragments/cardHeader :: cardHeader(header=#{choose-programs.header})}"/>
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{help-needed.header}, subtext=#{help-needed.subheader})}"/>
         <th:block
             th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
           <th:block th:ref="formContent">
             <div class="form-card__content">
               <th:block th:replace="~{fragments/inputs/checkboxFieldset ::
-                  checkboxFieldset(inputName='programs',
-                  label=#{choose-programs.check-all-that-apply},
+                  checkboxFieldset(inputName='helpNeededList',
+                  label=#{general.check-all-that-apply},
                   content=~{::content})}">
                 <th:block th:ref="content">
-                  <th:block th:each="programType : ${T(org.mdbenefits.app.data.enums.ProgramType).values()}">
-                    <th:block th:if="${fieldData.get('helpNeededList[]').contains(programType.name())}">
-                      <span th:with="shortDesc=${programType.getShortDescSrc().isBlank()} ? '' : #{${programType.getShortDescSrc()}}"
-                            th:utext="${'<b>' + shortDesc + '</b>'}">
-                      </span>
-                      <th:block
-                          th:replace="~{fragments/inputs/checkboxInSet:: checkboxInSet(
-                              inputName='programs',
-                              value=${programType.name()},
-                              label=#{${programType.getNameSrc()}},
-                              checkboxHelpText=#{${programType.getDescSrc()}})}">
-                      </th:block>
+                  <th:block th:each="helpNeededType : ${T(org.mdbenefits.app.data.enums.HelpNeededType).values()}">
+                    <th:block
+                        th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(
+                            inputName='helpNeededList',
+                            value=${helpNeededType.getProgramType()},
+                            label=#{${helpNeededType.getLabelSrc()}})}">
                     </th:block>
                   </th:block>
                 </th:block>

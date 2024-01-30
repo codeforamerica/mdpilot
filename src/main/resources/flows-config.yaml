@@ -1,20 +1,15 @@
 name: mdBenefitsFlow
 flow:
+  selectApplication:
+    nextScreens:
+      - name: county
   county:
     nextScreens:
-      - name: howThisWorks
-  howThisWorks:
-    nextScreens:
-      - name: timeoutNotice
-  timeoutNotice:
+      - name: selectHelpNeeded
+  selectHelpNeeded:
     nextScreens:
       - name: choosePrograms
   choosePrograms:
-    nextScreens:
-      - name: expeditedSnapNotice
-        condition: ProgramsIncludeSnap
-      - name: signPost
-  expeditedSnapNotice:
     nextScreens:
       - name: signPost
   signPost:
