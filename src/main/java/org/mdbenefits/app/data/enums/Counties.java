@@ -1,5 +1,8 @@
 package org.mdbenefits.app.data.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum Counties {
     ALLEGANY("Allegany County"),
     ANNE_ARUNDEL("Anne Arundel County"),
@@ -32,7 +35,4 @@ public enum Counties {
         this.displayName = displayName;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
 }

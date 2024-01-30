@@ -19,13 +19,16 @@ public class MdBenefitsFlow extends FlowInputs {
 
     MultipartFile uploadDocuments;
 
+    // selectApplication information
+    @NotEmpty(message = "{error.missing-general}")
+    private List<String> applicationInfoList;
+
     @NotEmpty(message = "{error.missing-general}")
     private String county;
 
-    // Language
-    private String languageRead;
-    private String languageSpeak;
-    private String needInterpreter;
+    // Choose help
+    @NotEmpty(message = "{error.missing-general}")
+    private List<String> helpNeededList;
 
     // Choose programs
     @NotEmpty(message = "{error.missing-general}")

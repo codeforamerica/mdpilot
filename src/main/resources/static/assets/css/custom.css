@@ -471,3 +471,7 @@ button.button.button--secondary{
 .main-footer {
   position: static;
 }
+
+.form-question {
+  font-weight: unset
+}
