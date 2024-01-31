@@ -8,7 +8,7 @@
                       </span>
       <span th:text="#{doc-upload-recommendations.recommended}"></span>
     </th:block>
-    <th:block th:ref="revealContent1"
+    <th:block th:ref="content"
               th:with="
                   maxFiles=${@environment.getProperty('form-flow.uploads.max-files')},
                   maxFileSize=${@environment.getProperty('form-flow.uploads.max-file-size')},
