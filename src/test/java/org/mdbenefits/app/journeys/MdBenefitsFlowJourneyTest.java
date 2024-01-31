@@ -49,7 +49,8 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     }
 
     @Test
-    void selectHelpNeededFlow() {
+    void selectHelpNeededAndChooseProgramFlow() {
+        // select help needed
         testPage.navigateToFlowScreen("mdBenefitsFlow/selectHelpNeeded");
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("Select help");
@@ -59,18 +60,16 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickElementById("helpNeeded-OTHER");
         testPage.clickContinue();
 
+        // choose program flow
         assertThat(testPage.getTitle()).isEqualTo("Choose programs");
         assertThat(testPage.findElementById("programs-SNAP")).isNotNull();
         assertThat(testPage.findElementById("programs-OTHER")).isNotNull();
         assertThat(testPage.elementDoesNotExistById("programs-OHEP")).isTrue();
         assertThat(testPage.elementDoesNotExistById("programs-TCA")).isTrue();
-    }
-    @Test
-    void chooseProgramsFlow() {
-        testPage.navigateToFlowScreen("mdBenefitsFlow/choosePrograms");
-        testPage.clickContinue();
 
+        testPage.clickContinue();
         assert (testPage.hasErrorText(message("error.missing-general")));
+
         testPage.clickElementById("programs-SNAP");
         testPage.clickContinue();
 
@@ -364,13 +363,13 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("County");
 
-        testPage.selectFromDropdown("county", "Baltimore City");
+        testPage.selectFromDropdown("county", "Baltimore County");
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("Select help");
 
-        testPage.clickElementById("helpNeeded-Help with food");
-        testPage.clickElementById("helpNeeded-Help with utilities");
-        testPage.clickElementById("helpNeeded-Help with money for children");
+        testPage.clickElementById("helpNeeded-SNAP");
+        testPage.clickElementById("helpNeeded-OHEP");
+        testPage.clickElementById("helpNeeded-TCA");
         testPage.clickContinue();
 
         // choose program
