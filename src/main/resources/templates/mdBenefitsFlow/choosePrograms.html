@@ -20,7 +20,7 @@
                   content=~{::content})}">
                 <th:block th:ref="content">
                   <th:block th:each="programType : ${T(org.mdbenefits.app.data.enums.ProgramType).values()}">
-                    <th:block th:if="${fieldData.get('helpNeededList[]').contains(programType.name())}">
+                    <th:block th:if="${fieldData.get('helpNeeded[]').contains(programType.name())}">
                       <span th:with="shortDesc=${programType.getShortDescSrc().isBlank()} ? '' : #{${programType.getShortDescSrc()}}"
                             th:utext="${'<b>' + shortDesc + '</b>'}">
                       </span>

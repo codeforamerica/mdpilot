@@ -2,10 +2,18 @@ name: mdBenefitsFlow
 flow:
   selectApplication:
     nextScreens:
+      - name: redirectToMDThink
+        condition: ShouldRedirectToMDThink
       - name: county
   county:
     nextScreens:
+      - name: redirectToMDThink
+        condition: ShouldRedirectToMDThink
       - name: selectHelpNeeded
+  # this page is offboarding them
+  redirectToMDThink:
+    nextScreens:
+      - name: redirectToMDThink
   selectHelpNeeded:
     nextScreens:
       - name: choosePrograms

@@ -13,7 +13,7 @@ public enum HelpNeededType {
 
   FOOD("Help with food", "help-needed.food", SNAP),
   CHILDREN("Help with money for children", "help-needed.children", TCA),
-  UTILITIES("Help with utilities", "help-needed.utilites", OHEP),
+  UTILITIES("Help with utilities", "help-needed.utilities", OHEP),
   DISABILITY("Help for a disability", "help-needed.disability", TDAP),
   NOT_SURE("I'm not sure", "help-needed.not-sure", OTHER);
 

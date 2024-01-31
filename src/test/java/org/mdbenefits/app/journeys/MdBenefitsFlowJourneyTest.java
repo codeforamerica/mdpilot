@@ -17,14 +17,46 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     protected static final String RANGE_ERROR_MESSAGE = "Make sure to provide a value between 1 and 100.";
 
     @Test
+    void redirectMDThink() {
+        testPage.navigateToFlowScreen("mdBenefitsFlow/selectApplication");
+        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo("Select application");
+        assertThat(testPage.hasErrorText(message("error.missing-general")));
+
+        // there are two scenarios where we redirect to MDTHINK
+        //   1. they need more help than this site can give.
+        //   2. they live in a county that our site doesn't currently support
+
+        // scenario one - they don't choose the "other" option:
+        testPage.clickElementById("applicationInfo-" + message("select-app.college-student-in-home"));
+        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo(message("redirect.mdthink.title"));
+
+        testPage.navigateToFlowScreen("mdBenefitsFlow/selectApplication");
+        testPage.clickElementById("none__checkbox");
+        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo(message("county.title"));
+
+        // scenario two - they choose a county we don't support
+        testPage.selectFromDropdown("county", "Frederick County");
+        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo(message("redirect.mdthink.title"));
+
+        testPage.navigateToFlowScreen("mdBenefitsFlow/county");
+        testPage.selectFromDropdown("county", "Baltimore County");
+        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo(message("help-needed.title"));
+    }
+
+    @Test
     void selectHelpNeededFlow() {
         testPage.navigateToFlowScreen("mdBenefitsFlow/selectHelpNeeded");
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("Select help");
         assertThat(testPage.hasErrorText(message("error.missing-general")));
 
-        testPage.clickElementById("helpNeededList-SNAP");
-        testPage.clickElementById("helpNeededList-OTHER");
+        testPage.clickElementById("helpNeeded-SNAP");
+        testPage.clickElementById("helpNeeded-OTHER");
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo("Choose programs");
@@ -336,9 +368,9 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("Select help");
 
-        testPage.clickElementById("helpNeededList-Help with food");
-        testPage.clickElementById("helpNeededList-Help with utilities");
-        testPage.clickElementById("helpNeededList-Help with money for children");
+        testPage.clickElementById("helpNeeded-Help with food");
+        testPage.clickElementById("helpNeeded-Help with utilities");
+        testPage.clickElementById("helpNeeded-Help with money for children");
         testPage.clickContinue();
 
         // choose program

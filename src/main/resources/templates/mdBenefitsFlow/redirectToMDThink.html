@@ -1,96 +1,27 @@
 <!DOCTYPE html>
 <html th:lang="${#locale.language}">
-<head th:replace="~{fragments/head :: head(title=#{confirmation.title})}"></head>
+<head th:replace="~{fragments/head :: head(title=#{redirect.mdthink.title})}"></head>
 <body>
 <div class="page-wrapper">
   <div th:replace="~{fragments/toolbar :: toolbar}"></div>
   <section class="slab">
     <div class="grid">
-      <script th:inline="javascript">
-        $(function () {
-          $('.reveal:not(.force-show-content)').removeClass('is-hiding-content');
-        });
-      </script>
-      <main id="content" role="main" class="form-card spacing-above-35"
-            th:with="inLinkGroup=${T(org.mdbenefits.app.utils.SubmissionUtilities).inExperimentGroup('LINK', submission)},
-        inApplyGroup=${T(org.mdbenefits.app.utils.SubmissionUtilities).inExperimentGroup('APPLY', submission)}">
-        <div th:if="${lockedSubmissionMessage}" class="notice--warning">
-          <p th:text="${lockedSubmissionMessage}"></p>
-        </div>
-        <div th:if="${docUploadFinalized}" class="notice--warning">
-          <p th:text="${docUploadFinalized}"></p>
-        </div>
-        <div th:if="${addDocumentsSkipped}" class="notice--warning">
-          <p th:text="${addDocumentsSkipped}"></p>
-        </div>
-        <div th:if="${docUploadExpired}" class="notice--warning">
-          <p th:text="${docUploadExpired}"></p>
-        </div>
-        <th:block th:replace="~{fragments/icons :: computerWithCheckmark}"></th:block>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <th:block th:replace="~{fragments/icons :: nextSteps}"/>
         <th:block
-            th:replace="~{fragments/cardHeader :: cardHeader(header=#{confirmation.header}, subtext=#{confirmation.subtext(${inputData.get('formattedSubmittedAt')})})}"/>
-        <th:block
-            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
-          <th:block th:ref="formContent">
-
-            <th:block th:unless="${inApplyGroup || inLinkGroup}">
-              <hr>
-              <h2 class="h2" th:text="#{confirmation.next-steps}"></h2>
-              <div class="vertical-steps">
-                <div class="vertical-steps__step">
-                  <div class="notice--warning steps-box spacing-below-0">
-                    <th:block th:replace="~{fragments/icons :: socialGroup}"></th:block>
-                    <p class="spacing-below-15"
-                       th:utext="#{confirmation.p1_html(${inputData.get('interviewDate')})}"></p>
-                  </div>
-                </div>
-                <div
-                    th:if="${inputData.getOrDefault('householdSearchingForJob', 'false').equals('true')}"
-                    class="vertical-steps__step">
-                  <div class="notice--warning steps-box spacing-below-0">
-                    <i class="icon-large icon-">&#xE8f9;</i>
-                    <p class="spacing-below-15" th:utext="#{confirmation.looking_for_job_html}"></p>
-                  </div>
-                </div>
-                <div class="vertical-steps__step">
-                  <div class="notice-info steps-box">
-                    <th:block th:replace="~{fragments/icons :: localPostOfficeBlack}"></th:block>
-                    <p th:utext="#{confirmation.p2_html}"></p>
-                  </div>
-                </div>
-                <div class="vertical-steps__step">
-                  <div class="notice-info steps-box vertical-step-bottom">
-                    <th:block th:replace="~{fragments/icons :: contactPhone}"></th:block>
-                    <p th:utext="#{confirmation.p3}"></p>
-                  </div>
-                </div>
-              </div>
-            </th:block>
-            <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
-                controlId='r1',
-                linkLabel=~{::revealLabel1},
-                content=~{::revealContent1},
-                forceShowContent='true')}">
-              <th:block th:ref="revealLabel1">
-                <i class="icon-">&#xE862;</i>
-                <th:span th:text="#{confirmation.helpful-resources}"></th:span>
-              </th:block>
-              <th:block th:ref="revealContent1">
-                <ul class="list--bulleted">
-                  <li th:utext="#{confirmation.helpful-resources.l1}"></li>
-                  <li th:utext="#{confirmation.helpful-resources.l2}"></li>
-                </ul>
-              </th:block>
-            </th:block>
-
-            <div th:replace="~{fragments/feedback :: feedback}"></div>
-
-          </th:block>
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{redirect.mdthink.header})}"/>
+        <th:block>
+            <div class="form-card__content">
+               <a th:text="#{redirect.mdthink.linktext}"
+                  href="https://identity.mymdthink.maryland.gov/identityiq/external/portal-registration.jsf?gotoUrl=https://mymdthink.maryland.gov/cp/"
+                  target="_blank">
+               </a>
+            </div>
         </th:block>
       </main>
     </div>
   </section>
 </div>
-<th:block th:replace="~{fragments/footer :: footer}"/>
+<th:block th:replace="~{fragments/footer :: footer}" />
 </body>
 </html>
