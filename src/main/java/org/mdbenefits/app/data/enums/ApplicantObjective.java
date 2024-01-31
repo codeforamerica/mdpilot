@@ -3,7 +3,7 @@ package org.mdbenefits.app.data.enums;
 import lombok.Getter;
 
 @Getter
-public enum ApplicationDescriptionType {
+public enum ApplicantObjective {
 
   NEED_HELP_IN_OTHER_LANGUAGE("I need help in a language that isn’t English ((Español, 中文, Tiếng Việt)", "select-app.help-in-other-language"),
   COLLEGE_STUDENT_IN_APP("I am a college student or have a student who will be on my aplication", "select-app.college-student-in-home"),
@@ -15,7 +15,7 @@ public enum ApplicationDescriptionType {
   private final String value;
   private final String labelSrc;
 
-  ApplicationDescriptionType(String value, String labelSrc) {
+  ApplicantObjective(String value, String labelSrc) {
     this.value = value;
     this.labelSrc = labelSrc;
   }
