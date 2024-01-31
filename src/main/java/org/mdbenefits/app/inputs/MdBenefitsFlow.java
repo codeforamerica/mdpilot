@@ -21,14 +21,14 @@ public class MdBenefitsFlow extends FlowInputs {
 
     // selectApplication information
     @NotEmpty(message = "{error.missing-general}")
-    private List<String> applicationInfoList;
+    private List<String> applicationInfo;
 
     @NotEmpty(message = "{error.missing-general}")
     private String county;
 
     // Choose help
     @NotEmpty(message = "{error.missing-general}")
-    private List<String> helpNeededList;
+    private List<String> helpNeeded;
 
     // Choose programs
     @NotEmpty(message = "{error.missing-general}")
