@@ -12,10 +12,7 @@
             th:replace="~{fragments/cardHeader :: cardHeader(header=#{redirect.mdthink.header})}"/>
         <th:block>
             <div class="form-card__content">
-               <a th:text="#{redirect.mdthink.linktext}"
-                  href="https://identity.mymdthink.maryland.gov/identityiq/external/portal-registration.jsf?gotoUrl=https://mymdthink.maryland.gov/cp/"
-                  target="_blank">
-               </a>
+              <p th:utext="#{index.apply-on-mdthink}"></p>
             </div>
         </th:block>
       </main>

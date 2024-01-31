@@ -20,13 +20,13 @@
                   label=#{general.check-all-that-apply},
                   content=~{::content})}">
                 <th:block th:ref="content">
-                  <th:block th:each="appDescType : ${T(org.mdbenefits.app.data.enums.ApplicationDescriptionType).values()}">
+                  <th:block th:each="appObjective : ${T(org.mdbenefits.app.data.enums.ApplicantObjective).values()}">
                     <th:block
                         th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(
                             inputName='applicationInfo',
-                            value=${appDescType.getValue()},
-                            label=#{${appDescType.getLabelSrc()}},
-                            noneOfTheAbove=${appDescType.name().equals('OTHER')}
+                            value=${appObjective.getValue()},
+                            label=#{${appObjective.getLabelSrc()}},
+                            noneOfTheAbove=${appObjective.name().equals('OTHER')}
                             )}">
                     </th:block>
                   </th:block>

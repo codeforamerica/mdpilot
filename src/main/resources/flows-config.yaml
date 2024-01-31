@@ -1,11 +1,11 @@
 name: mdBenefitsFlow
 flow:
-  selectApplication:
+  county:
     nextScreens:
       - name: redirectToMDThink
         condition: ShouldRedirectToMDThink
-      - name: county
-  county:
+      - name: selectApplication
+  selectApplication:
     nextScreens:
       - name: redirectToMDThink
         condition: ShouldRedirectToMDThink
@@ -439,6 +439,7 @@ flow:
     nextScreens:
       - name: confirmation
 landmarks:
+  firstScreen: county
   afterSubmitPages:
     - confirmation
 subflows:

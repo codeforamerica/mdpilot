@@ -17,35 +17,37 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     protected static final String RANGE_ERROR_MESSAGE = "Make sure to provide a value between 1 and 100.";
 
     @Test
-    void redirectMDThink() {
+    void redirectToMyMDTHINKOnUnsupportedApplicationType() {
         testPage.navigateToFlowScreen("mdBenefitsFlow/selectApplication");
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("Select application");
         assertThat(testPage.hasErrorText(message("error.missing-general")));
 
-        // there are two scenarios where we redirect to MDTHINK
-        //   1. they need more help than this site can give.
-        //   2. they live in a county that our site doesn't currently support
-
-        // scenario one - they don't choose the "other" option:
+        // should redirect to MyMDTHINK
         testPage.clickElementById("applicationInfo-" + message("select-app.college-student-in-home"));
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("redirect.mdthink.title"));
 
+        // should not redirect
         testPage.navigateToFlowScreen("mdBenefitsFlow/selectApplication");
         testPage.clickElementById("none__checkbox");
         testPage.clickContinue();
-        assertThat(testPage.getTitle()).isEqualTo(message("county.title"));
+        assertThat(testPage.getTitle()).isEqualTo(message("help-needed.title"));
+    }
 
-        // scenario two - they choose a county we don't support
+    @Test
+    void redirectToMyMDTHINKOnUnsupportedCounty() {
+        testPage.navigateToFlowScreen("mdBenefitsFlow/county");
+        // should redirect to MyMDTHINK
         testPage.selectFromDropdown("county", "Frederick County");
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("redirect.mdthink.title"));
 
+        // should not redirect
         testPage.navigateToFlowScreen("mdBenefitsFlow/county");
         testPage.selectFromDropdown("county", "Baltimore County");
         testPage.clickContinue();
-        assertThat(testPage.getTitle()).isEqualTo(message("help-needed.title"));
+        assertThat(testPage.getTitle()).isEqualTo(message("select-app.title"));
     }
 
     @Test
@@ -356,19 +358,17 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo("Maryland Benefits Application");
 
         testPage.clickButton("Apply Now");
-
-        assertThat(testPage.getTitle()).isEqualTo("Select application");
-
-        testPage.clickElementById("none__checkbox");
-        testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("County");
 
         testPage.selectFromDropdown("county", "Baltimore County");
         testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo("Select application");
+
+        testPage.clickElementById("none__checkbox");
+        testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("Select help");
 
         testPage.clickElementById("helpNeeded-SNAP");
-        testPage.clickElementById("helpNeeded-OHEP");
         testPage.clickElementById("helpNeeded-TCA");
         testPage.clickContinue();
 
@@ -376,7 +376,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("choose-programs.title"));
 
         testPage.clickElementById("programs-SNAP");
-        testPage.clickElementById("programs-OHEP");
         testPage.clickElementById("programs-TCA");
 
         testPage.clickContinue();

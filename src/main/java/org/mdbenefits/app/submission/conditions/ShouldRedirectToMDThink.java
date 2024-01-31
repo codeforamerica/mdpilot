@@ -5,15 +5,20 @@ import formflow.library.data.Submission;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.mdbenefits.app.data.enums.ApplicationDescriptionType;
+import org.mdbenefits.app.data.enums.ApplicantObjective;
 import org.mdbenefits.app.data.enums.Counties;
 import org.springframework.stereotype.Component;
 
 /**
  * If certain conditions are met, we will have the flow go to a page
- * that recommends the user visit MDTHINK instead.
- * The conditions are that they selected a county that this demo is not for,
- * or they have a situation that our pilot cannot work with.
+ * that recommends the user visit myMDTHINK instead.
+ * <p>
+ * This will return true (for a redirect) if:
+ * <ol>
+ *   <li>they are in a county this pilot is not working in, or</li>
+ *   <li>they have a need that this pilot is unable to work with</li>
+ * </ol>
+ * </p>
  */
 @Component
 public class ShouldRedirectToMDThink implements Condition {
@@ -35,7 +40,7 @@ public class ShouldRedirectToMDThink implements Condition {
             return true;
         }
 
-        if (!applicationInfoList.isEmpty() && !applicationInfoList.contains(ApplicationDescriptionType.OTHER.getValue())) {
+        if (!applicationInfoList.isEmpty() && !applicationInfoList.contains(ApplicantObjective.OTHER.getValue())) {
             return true;
         }
 
