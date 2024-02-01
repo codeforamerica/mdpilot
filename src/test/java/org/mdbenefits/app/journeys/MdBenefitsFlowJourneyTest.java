@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.mdbenefits.app.data.enums.ApplicantObjective;
 import org.mdbenefits.app.utils.AbstractBasePageTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -24,7 +25,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.hasErrorText(message("error.missing-general")));
 
         // should redirect to MyMDTHINK
-        testPage.clickElementById("applicationInfo-" + message("select-app.college-student-in-home"));
+        testPage.clickElementById("applicationInfo-" + ApplicantObjective.COLLEGE_STUDENT_IN_APP.name());
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("redirect.mdthink.title"));
 
