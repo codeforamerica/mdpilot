@@ -15,7 +15,7 @@ form-flow:
   path: 'flows-config.yaml'
   uploads:
     default-doc-type-label: "NotSet"
-    accepted-file-types: '.doc,.docx,.pdf,.xls,.xlsx,.ppt,.pptx,.txt,.csv'
+    accepted-file-types: '.jpg,.jpeg,.png,.doc,.docx,.pdf,.xls,.xlsx,.ppt,.pptx,.txt,.csv'
     thumbnail-width: '64'
     thumbnail-height: '60'
     # 20 files maximum
