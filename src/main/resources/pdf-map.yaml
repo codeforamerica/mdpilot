@@ -26,6 +26,22 @@ inputFields:
   mailingAddress: mailingAddress
   signature: signature
   sex: applicantSex
+  
+  someoneHasDrugKingpinFelony: someoneHasDrugKingpinFelony
+  noOneHasDrugKingpinFelony: noOneHasDrugKingpinFelony
+  someoneHasVolumeDrugDealerFelony: someoneHasVolumeDrugDealerFelony
+  noOneHasVolumeDrugDealerFelony: noOneHasVolumeDrugDealerFelony
+  someoneHasSexualOffenceConviction: someoneHasSexualOffenceConviction
+  noOneHasSexualOffenceConviction: noOneHasSexualOffenceConviction
+  someoneIsViolatingParole: someoneIsViolatingParole
+  noOneIsViolatingParole: noOneIsViolatingParole
+  someoneConvictedForLyingAboutBenefits: someoneConvictedForLyingAboutBenefits
+  noOneConvictedForLyingAboutBenefits: noOneConvictedForLyingAboutBenefits
+  someoneConvictedForTradingBenefits: someoneConvictedForTradingBenefits
+  noOneConvictedForTradingBenefits: noOneConvictedForTradingBenefits
+  someoneIsReceivingBenefitsWithFakeID: someoneIsReceivingBenefitsWithFakeID
+  noOneIsReceivingBenefitsWithFakeID: noOneIsReceivingBenefitsWithFakeID
+
   # Vraj - Usable to here
 
 

@@ -9,6 +9,7 @@ import formflow.library.data.Submission;
 import formflow.library.pdf.PdfService;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.SubmissionTestBuilder;
@@ -37,6 +38,8 @@ class PDFServiceTest {
                 .with("homeAddressZipCode", "94103")
                 .with("phoneNumber", "(510) 555-1212")
                 .with("signature", "John Hancock")
+                .with("noOneIsReceivingBenefitsWithFakeID[]", List.of("true"))
+                .with("noOneHasDrugKingpinFelony[]", List.of())
                 .build();
         submission.setFlow("mdBenefitsFlow");
 
