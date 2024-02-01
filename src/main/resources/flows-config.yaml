@@ -413,6 +413,13 @@ flow:
       - name: legalStuff
   legalStuff:
     nextScreens:
+      - name: sensitiveConvictionQuestionsIntro
+  sensitiveConvictionQuestionsIntro:
+    nextScreens:
+      - name: sensitiveConvictionQuestions
+  sensitiveConvictionQuestions:
+    beforeDisplayAction: SetDefaultSensitiveConvictionAnswers
+    nextScreens:
       - name: rightsAndResponsibilities
   rightsAndResponsibilities:
     nextScreens:

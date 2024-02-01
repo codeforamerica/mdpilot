@@ -406,4 +406,12 @@ public class MdBenefitsFlow extends FlowInputs {
     @NotBlank(message = "{doc-type.select-a-type}")
     @DynamicField
     private String docType;
+
+    private String noOneHasDrugKingpinFelony;
+    private String noOneHasVolumeDrugDealerFelony;
+    private String noOneHasSexualOffenceConviction;
+    private String noOneIsViolatingParole;
+    private String noOneConvictedForLyingAboutBenefits;
+    private String noOneConvictedForTradingBenefits;
+    private String noOneIsReceivingBenefitsWithFakeID;
 }

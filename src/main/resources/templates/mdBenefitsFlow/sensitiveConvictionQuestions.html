@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="~{fragments/head :: head(title=#{sensitive-conviction-questions.title})}"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <th:block
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{sensitive-conviction-questions.header}, subtext=#{sensitive-conviction-questions.subtext})}"/>
+        <th:block
+            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::sensitiveQuestionsContent})}">
+          <th:block th:ref="sensitiveQuestionsContent">
+            <div class="form-card__content"
+                 th:each="question : ${T(org.mdbenefits.app.submission.actions.SetDefaultSensitiveConvictionAnswers).SENSITIVE_CONVICTION_QUESTIONS}">
+              <div th:with="inputName='noOne' + ${question}, label='sensitive-conviction-question-' + ${question}">
+                <th:block th:replace="~{fragments/inputs/checkboxFieldset ::
+                  checkboxFieldset(inputName=${inputName},
+                  label=#{${label}},
+                  content=~{::checkboxInSetContent})}">
+                  <th:block th:ref="checkboxInSetContent">
+                    <th:block
+                        th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(inputName=${inputName}, value='true', label=#{sensitive-conviction-question-true})}"/>
+                  </th:block>
+              </div>
+            </div>
+            <div class="form-card__footer">
+              <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
+                  text=#{general.inputs.continue})}"/>
+            </div>
+          </th:block>
+        </th:block>
+        </th:block>
+      </main>
+    </div>
+  </section>
+ </div>
+<th:block th:replace="~{fragments/footer :: footer}" />
+</body>
+</html>
