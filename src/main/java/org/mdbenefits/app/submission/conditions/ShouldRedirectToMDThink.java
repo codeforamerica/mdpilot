@@ -24,8 +24,8 @@ import org.springframework.stereotype.Component;
 public class ShouldRedirectToMDThink implements Condition {
 
     private final List<String> acceptableCounties = List.of(
-        Counties.BALTIMORE.getDisplayName(),
-        Counties.QUEEN_ANNES.getDisplayName()
+        Counties.BALTIMORE.name(),
+        Counties.QUEEN_ANNES.name()
     );
 
     @Override
@@ -40,7 +40,7 @@ public class ShouldRedirectToMDThink implements Condition {
             return true;
         }
 
-        if (!applicationInfoList.isEmpty() && !applicationInfoList.contains(ApplicantObjective.OTHER.getValue())) {
+        if (!applicationInfoList.isEmpty() && !applicationInfoList.contains(ApplicantObjective.OTHER.name())) {
             return true;
         }
 
