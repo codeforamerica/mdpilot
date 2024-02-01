@@ -802,6 +802,9 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("race-selection.title"));
         testPage.clickContinue();
 
+        assertThat(testPage.getTitle()).isEqualTo(message("legal-stuff.title"));
+        testPage.clickContinue();
+
         assertThat(testPage.getTitle()).isEqualTo(message("rights-and-responsibilities-title"));
         testPage.clickElementById("rightsAndResponsibilitiesAgree-true");
         testPage.clickElementById("noIncorrectInformationAgree-true");
