@@ -404,14 +404,14 @@ flow:
     nextScreens:
       - name: ethnicitySelection
         condition: ApplicantRaceEthnicityQuestionsAllowed
-      - name: legalStuff
+      - name: rightsAndResponsibilities
   ethnicitySelection:
     nextScreens:
       - name: raceSelection
   raceSelection:
     nextScreens:
-      - name: legalStuff
-  legalStuff:
+      - name: rightsAndResponsibilities
+  rightsAndResponsibilities:
     nextScreens:
       - name: docUploadIntro
   docUploadIntro:

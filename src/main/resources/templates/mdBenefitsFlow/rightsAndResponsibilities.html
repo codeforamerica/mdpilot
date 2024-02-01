@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html th:lang="${#locale.language}">
-<head th:replace="~{fragments/head :: head(title=#{legal-title})}"></head>
+<head th:replace="~{fragments/head :: head(title=#{rights-and-responsibilities-title})}"></head>
 <body>
 <div class="page-wrapper">
   <div th:replace="~{fragments/toolbar :: toolbar}"></div>
@@ -10,9 +10,9 @@
       <main id="content" role="main" class="form-card spacing-above-35">
         <th:block th:replace="~{fragments/icons :: uploadDocuments}"></th:block>
         <th:block
-            th:replace="~{fragments/cardHeader :: cardHeader(header=#{legal-header1})}"/>
-        <h3 class="spacing-above-0" th:utext="#{legal-subheader}"></h3>
-        <p th:utext="#{legal-main-body}"></p>
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{rights-and-responsibilities-header1})}"/>
+        <h3 class="spacing-above-0" th:utext="#{rights-and-responsibilities-subheader}"></h3>
+        <p th:utext="#{rights-and-responsibilities-main-body}"></p>
         <th:block th:replace="~{fragments/form :: form(action=${formAction}, content=~{::legalExpand1})}">
           <th:block th:ref="legalExpand1">
             <div class="form-card__content">
@@ -23,15 +23,15 @@
                 forceShowContent='true')}">
                 <th:block th:ref="revealLabel1">
                   <i class="icon-">&#xE862;</i>
-                  <span th:text="#{legal-expanded.header1}"></span>
+                  <span th:text="#{rights-and-responsibilities-expanded.header1}"></span>
                 </th:block>
                 <th:block th:ref="revealContent1">
-                  <th:block th:utext="#{legal-expanded.body1}"></th:block>
+                  <th:block th:utext="#{rights-and-responsibilities-expanded.body1}"></th:block>
                 </th:block>
               </th:block>
               <th:block th:replace="~{fragments/inputs/checkbox ::
                 checkbox(inputName='rightsAndResponsibilitiesAgree',
-                label=#{legal-agree},
+                label=#{rights-and-responsibilities-agree},
                 value=true
                )}"/>
             </div>
@@ -43,15 +43,15 @@
                 forceShowContent='true')}">
                 <th:block th:ref="revealLabel2">
                   <i class="icon-">&#xE862;</i>
-                  <span th:text="#{legal-expanded.header2}"></span>
+                  <span th:text="#{rights-and-responsibilities-expanded.header2}"></span>
                 </th:block>
                 <th:block th:ref="revealContent2">
-                  <th:block th:utext="#{legal-expanded.body2}"></th:block>
+                  <th:block th:utext="#{rights-and-responsibilities-expanded.body2}"></th:block>
                 </th:block>
               </th:block>
               <th:block th:replace="~{fragments/inputs/checkbox ::
                 checkbox(inputName='noIncorrectInformationAgree',
-                label=#{legal-agree},
+                label=#{rights-and-responsibilities-agree},
                 value=true
                )}"/>
             </div>
@@ -64,15 +64,15 @@
                 forceShowContent='true')}">
                 <th:block th:ref="revealLabel3">
                   <i class="icon-">&#xE862;</i>
-                  <span th:text="#{legal-expanded.header3}"></span>
+                  <span th:text="#{rights-and-responsibilities-expanded.header3}"></span>
                 </th:block>
                 <th:block th:ref="revealContent3">
-                  <th:block th:utext="#{legal-expanded.body3}"></th:block>
+                  <th:block th:utext="#{rights-and-responsibilities-expanded.body3}"></th:block>
                 </th:block>
               </th:block>
               <th:block th:replace="~{fragments/inputs/checkbox ::
                 checkbox(inputName='programsSharingDataAccessAgree',
-                label=#{legal-agree},
+                label=#{rights-and-responsibilities-agree},
                 value=true
                )}"/>
             </div>
@@ -85,15 +85,15 @@
                 forceShowContent='true')}">
                 <th:block th:ref="revealLabel4">
                   <i class="icon-">&#xE862;</i>
-                  <span th:text="#{legal-expanded.header4}"></span>
+                  <span th:text="#{rights-and-responsibilities-expanded.header4}"></span>
                 </th:block>
                 <th:block th:ref="revealContent4">
-                  <th:block th:utext="#{legal-expanded.body4}"></th:block>
+                  <th:block th:utext="#{rights-and-responsibilities-expanded.body4}"></th:block>
                 </th:block>
               </th:block>
               <th:block th:replace="~{fragments/inputs/checkbox ::
                 checkbox(inputName='nonDiscriminationStatementAgree',
-                label=#{legal-agree},
+                label=#{rights-and-responsibilities-agree},
                 value=true
                )}"/>
             </div>
