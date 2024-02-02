@@ -1,0 +1,35 @@
+<th:block
+    th:fragment="checkboxInSet"
+    th:with="
+      hasHelpText=${!#strings.isEmpty(checkboxHelpText)},
+      hasIcon=${!#strings.isEmpty(checkboxIcon)},
+      name=${inputName} + '[]',
+      checked=${T(formflow.library.utils.InputUtils).arrayOrStringContains(fieldData.getOrDefault(name, ''), value)},
+      id=${#bools.isTrue(noneOfTheAbove) ? 'none__checkbox' : inputName + '-' + value}"
+    th:assert="
+      ${!#strings.isEmpty(inputName)},
+      ${!#strings.isEmpty(value)},
+      ${!#strings.isEmpty(label)}">
+  <label th:for="${id}"
+         th:id="${id} + '-label'"
+         class="checkbox display-flex">
+    <input type="checkbox"
+           th:id="${id}"
+           th:value="${value}"
+           th:name="${name}"
+           th:checked="${checked}"
+           th:attr="
+            aria-invalid=${hasError},
+            data-follow-up=${followUpId}">
+    <div th:if="${hasIcon}">
+      <i th:class="${'icon-' + checkboxIcon}" style="margin-right: 0.5rem"></i>
+    </div>
+    <div>
+      <div th:text="${label}"></div>
+      <small th:if="${hasHelpText}"
+         th:id="${id} + '-help-text'"
+         th:utext="${checkboxHelpText}"
+         class="text--small with-no-padding font-weight--normal"></small>
+    </div>
+  </label>
+</th:block>
