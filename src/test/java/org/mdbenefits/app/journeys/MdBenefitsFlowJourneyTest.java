@@ -790,7 +790,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("race-ethnicity.title"));
         testPage.clickButton("No, skip this question");
 
-        assertThat(testPage.getTitle()).isEqualTo(message("rights-and-responsibilities-title"));
+        assertThat(testPage.getTitle()).isEqualTo(message("legal-stuff.title"));
         testPage.goBack();
 
         assertThat(testPage.getTitle()).isEqualTo(message("race-ethnicity.title"));
@@ -811,11 +811,8 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("sensitive-conviction-questions.title"));
         testPage.clickContinue();
 
-        assertThat(testPage.getTitle()).isEqualTo(message("rights-and-responsibilities-title"));
+        assertThat(testPage.getTitle()).isEqualTo(message("rights-and-responsibilities.title"));
         testPage.clickElementById("rightsAndResponsibilitiesAgree-true");
-        testPage.clickElementById("noIncorrectInformationAgree-true");
-        testPage.clickElementById("programsSharingDataAccessAgree-true");
-        testPage.clickElementById("nonDiscriminationStatementAgree-true");
         testPage.clickContinue();
 
         // Upload documents

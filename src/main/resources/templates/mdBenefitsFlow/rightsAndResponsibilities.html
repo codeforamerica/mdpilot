@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html th:lang="${#locale.language}">
-<head th:replace="~{fragments/head :: head(title=#{rights-and-responsibilities-title})}"></head>
+<head th:replace="~{fragments/head :: head(title=#{rights-and-responsibilities.title})}"></head>
 <body>
 <div class="page-wrapper">
   <div th:replace="~{fragments/toolbar :: toolbar}"></div>
@@ -8,96 +8,79 @@
     <div class="grid">
       <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
-        <th:block th:replace="~{fragments/icons :: uploadDocuments}"></th:block>
+        <th:block th:replace="~{fragments/icons :: docWithMagnifyingGlass}"></th:block>
         <th:block
-            th:replace="~{fragments/cardHeader :: cardHeader(header=#{rights-and-responsibilities-header1})}"/>
-        <h3 class="spacing-above-0" th:utext="#{rights-and-responsibilities-subheader}"></h3>
-        <p th:utext="#{rights-and-responsibilities-main-body}"></p>
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{rights-and-responsibilities.header1})}"/>
+        <p th:utext="#{rights-and-responsibilities.subheader}"></p>
         <th:block th:replace="~{fragments/form :: form(action=${formAction}, content=~{::legalExpand1})}">
           <th:block th:ref="legalExpand1">
             <div class="form-card__content">
-              <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
-                controlId='r1',
-                linkLabel=~{::revealLabel1},
-                content=~{::revealContent1},
-                forceShowContent='true')}">
-                <th:block th:ref="revealLabel1">
-                  <i class="icon-">&#xE862;</i>
-                  <span th:text="#{rights-and-responsibilities-expanded.header1}"></span>
+              <th:block th:replace="~{fragments/accordion :: accordion(
+                  buttonLabel=~{::contentLabel1},
+                  content=~{::content1})}">
+                <th:block th:ref="contentLabel1">
+                  <span th:text="#{rights-and-responsibilities.what-you-should-know-label}"></span>
                 </th:block>
-                <th:block th:ref="revealContent1">
-                  <th:block th:utext="#{rights-and-responsibilities-expanded.body1}"></th:block>
+                <th:block th:ref="content1">
+                  What you should know content
+                </th:block>
+              </th:block>
+              <th:block th:replace="~{fragments/accordion :: accordion(
+                  buttonLabel=~{::contentLabel2},
+                  content=~{::content2})}">
+                <th:block th:ref="contentLabel2">
+                  <span th:text="#{rights-and-responsibilities.your-rights-label}"></span>
+                </th:block>
+                <th:block th:ref="content2">
+                  Your Rights
+                </th:block>
+              </th:block>
+              <th:block th:replace="~{fragments/accordion :: accordion(
+                  buttonLabel=~{::contentLabel3},
+                  content=~{::content3})}">
+                <th:block th:ref="contentLabel3">
+                  <span th:text="#{rights-and-responsibilities.your-responsibilities-label}"></span>
+                </th:block>
+                <th:block th:ref="content3">
+                  Your Responsibilities
+                </th:block>
+              </th:block>
+              <th:block th:replace="~{fragments/accordion :: accordion(
+                  buttonLabel=~{::contentLabel4},
+                  content=~{::content4})}">
+                <th:block th:ref="contentLabel4">
+                  <span th:text="#{rights-and-responsibilities.work-requirements-for-snap-label}"></span>
+                </th:block>
+                <th:block th:ref="content4">
+                  Work Requirements for SNAP
+                </th:block>
+              </th:block>
+              <th:block th:replace="~{fragments/accordion :: accordion(
+                  buttonLabel=~{::contentLabel5},
+                  content=~{::content5})}">
+                <th:block th:ref="contentLabel5">
+                  <span th:text="#{rights-and-responsibilities.tca-and-snap-penalties-label}"></span>
+                </th:block>
+                <th:block th:ref="content5">
+                  TCA and SNAP Penalties
+                </th:block>
+              </th:block>
+              <th:block th:replace="~{fragments/accordion :: accordion(
+                  buttonLabel=~{::contentLabel6},
+                  content=~{::content6})}">
+                <th:block th:ref="contentLabel6">
+                  <span th:text="#{rights-and-responsibilities.read-before-signing-label}"></span>
+                </th:block>
+                <th:block th:ref="content6">
+                  Read before signing
                 </th:block>
               </th:block>
               <th:block th:replace="~{fragments/inputs/checkbox ::
                 checkbox(inputName='rightsAndResponsibilitiesAgree',
-                label=#{rights-and-responsibilities-agree},
+                label=#{rights-and-responsibilities.agree},
                 value=true
                )}"/>
             </div>
-            <div class="form-card__content">
-              <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
-                controlId='r2',
-                linkLabel=~{::revealLabel2},
-                content=~{::revealContent2},
-                forceShowContent='true')}">
-                <th:block th:ref="revealLabel2">
-                  <i class="icon-">&#xE862;</i>
-                  <span th:text="#{rights-and-responsibilities-expanded.header2}"></span>
-                </th:block>
-                <th:block th:ref="revealContent2">
-                  <th:block th:utext="#{rights-and-responsibilities-expanded.body2}"></th:block>
-                </th:block>
-              </th:block>
-              <th:block th:replace="~{fragments/inputs/checkbox ::
-                checkbox(inputName='noIncorrectInformationAgree',
-                label=#{rights-and-responsibilities-agree},
-                value=true
-               )}"/>
-            </div>
-
-            <div class="form-card__content">
-              <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
-                controlId='r3',
-                linkLabel=~{::revealLabel3},
-                content=~{::revealContent3},
-                forceShowContent='true')}">
-                <th:block th:ref="revealLabel3">
-                  <i class="icon-">&#xE862;</i>
-                  <span th:text="#{rights-and-responsibilities-expanded.header3}"></span>
-                </th:block>
-                <th:block th:ref="revealContent3">
-                  <th:block th:utext="#{rights-and-responsibilities-expanded.body3}"></th:block>
-                </th:block>
-              </th:block>
-              <th:block th:replace="~{fragments/inputs/checkbox ::
-                checkbox(inputName='programsSharingDataAccessAgree',
-                label=#{rights-and-responsibilities-agree},
-                value=true
-               )}"/>
-            </div>
-
-            <div class="form-card__content">
-              <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
-                controlId='r4',
-                linkLabel=~{::revealLabel4},
-                content=~{::revealContent4},
-                forceShowContent='true')}">
-                <th:block th:ref="revealLabel4">
-                  <i class="icon-">&#xE862;</i>
-                  <span th:text="#{rights-and-responsibilities-expanded.header4}"></span>
-                </th:block>
-                <th:block th:ref="revealContent4">
-                  <th:block th:utext="#{rights-and-responsibilities-expanded.body4}"></th:block>
-                </th:block>
-              </th:block>
-              <th:block th:replace="~{fragments/inputs/checkbox ::
-                checkbox(inputName='nonDiscriminationStatementAgree',
-                label=#{rights-and-responsibilities-agree},
-                value=true
-               )}"/>
-            </div>
-
             <div class="form-card__footer">
               <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
                   text=#{general.inputs.continue})}"/>

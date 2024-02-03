@@ -360,15 +360,6 @@ public class MdBenefitsFlow extends FlowInputs {
     @NotEmpty(message = "{error.missing-checkbox}")
     private List<String> rightsAndResponsibilitiesAgree;
 
-    @NotEmpty(message = "{error.missing-checkbox}")
-    private List<String> noIncorrectInformationAgree;
-
-    @NotEmpty(message = "{error.missing-checkbox}")
-    private List<String> programsSharingDataAccessAgree;
-
-    @NotEmpty(message = "{error.missing-checkbox}")
-    private List<String> nonDiscriminationStatementAgree;
-
     @NotBlank(message = "{error.missing-general}")
     private String signature;
 
