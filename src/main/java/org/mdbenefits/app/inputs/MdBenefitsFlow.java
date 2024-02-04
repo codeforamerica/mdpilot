@@ -405,4 +405,7 @@ public class MdBenefitsFlow extends FlowInputs {
     private String noOneConvictedForLyingAboutBenefits;
     private String noOneConvictedForTradingBenefits;
     private String noOneIsReceivingBenefitsWithFakeID;
+
+    private String tcaAcknowledgementAgree;
+    private String ohepAcknowledgementAgree;
 }

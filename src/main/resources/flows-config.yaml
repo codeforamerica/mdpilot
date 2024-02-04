@@ -423,6 +423,9 @@ flow:
       - name: rightsAndResponsibilities
   rightsAndResponsibilities:
     nextScreens:
+      - name: tcaOhepAgreement
+  tcaOhepAgreement:
+    nextScreens:
       - name: docUploadIntro
   docUploadIntro:
     nextScreens:
