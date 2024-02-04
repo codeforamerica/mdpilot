@@ -815,6 +815,11 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickElementById("rightsAndResponsibilitiesAgree-true");
         testPage.clickContinue();
 
+        assertThat(testPage.getTitle()).isEqualTo(message("tca-ohep-agreement.title"));
+        testPage.clickElementById("tcaAcknowledgementAgree-true");
+        testPage.clickElementById("ohepAcknowledgementAgree-true");
+        testPage.clickContinue();
+
         // Upload documents
         assertThat(testPage.getTitle()).isEqualTo(message("doc-upload-intro.title"));
         testPage.clickButton(message("doc-upload-intro.continue"));
