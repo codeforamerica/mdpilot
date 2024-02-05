@@ -1,4 +1,4 @@
-package org.mdbenefits.app.utils;
+package org.mdbenefits.app.testutils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;

@@ -1,4 +1,4 @@
-package org.mdbenefits.app.utils;
+package org.mdbenefits.app.testutils;
 
 import com.deque.html.axecore.results.Results;
 import com.deque.html.axecore.results.Rule;

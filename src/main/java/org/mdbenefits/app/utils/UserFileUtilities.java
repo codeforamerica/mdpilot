@@ -16,6 +16,22 @@ import org.springframework.util.unit.DataSize;
 
 public class UserFileUtilities {
 
+    /**
+     * Formats the application.yaml `accepted-file-type` string to be more human-readable.
+     *
+     * @param fileTypeStr a string containing the file types this system can support
+     */
+    public static String formatAcceptedFileTypeString(String fileTypeStr) {
+        List<String> types = List.of(fileTypeStr.split(","));
+
+        String fileTypes = types.stream()
+            .map(String::trim)
+            .collect(Collectors.joining(", "));
+
+        int lastComma = fileTypes.lastIndexOf(",");
+        return fileTypes.replace(fileTypes.substring(lastComma), ", and" + fileTypes.substring(lastComma+1));
+    }
+
 
     /**
      * Returns a list of file information drawn from the userFiles and supplemented by the session's file information.

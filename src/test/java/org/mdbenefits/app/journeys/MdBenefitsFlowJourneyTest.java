@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.enums.ApplicantObjective;
-import org.mdbenefits.app.utils.AbstractBasePageTest;
+import org.mdbenefits.app.testutils.AbstractBasePageTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -286,11 +286,11 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         List<WebElement> ethnicityInputs = driver.findElements(By.cssSelector("input[id*='householdMemberEthnicity_wildcard_']"));
 
         ethnicityInputs.stream()
-                .filter(ei -> ei.getAttribute("value").equals("Hispanic or Latino"))
-                .forEach(ei -> {
-                    ei.click();
-                    assertThat(ei.isSelected()).isTrue();
-                });
+            .filter(ei -> ei.getAttribute("value").equals("Hispanic or Latino"))
+            .forEach(ei -> {
+                ei.click();
+                assertThat(ei.isSelected()).isTrue();
+            });
 
         testPage.clickContinue();
         testPage.goBack();
@@ -315,15 +315,15 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         // choose a few for each
         raceInputs.stream()
-                .filter(ri -> {
-                    String value = ri.getAttribute("value");
-                    return value.equals("Alaskan Native") || value.equals("Black or African American");
-                })
-                .forEach(ri -> {
-                    ri.click();
-                    // make sure found them, even with the site language being in Vietnamese
-                    assertThat(ri.isSelected()).isTrue();
-                });
+            .filter(ri -> {
+                String value = ri.getAttribute("value");
+                return value.equals("Alaskan Native") || value.equals("Black or African American");
+            })
+            .forEach(ri -> {
+                ri.click();
+                // make sure found them, even with the site language being in Vietnamese
+                assertThat(ri.isSelected()).isTrue();
+            });
 
         testPage.clickContinue();
         testPage.goBack();
@@ -850,7 +850,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         uploadJpgFile();
         // give the system time to remove the "display-none" class.
         await().atMost(5, TimeUnit.SECONDS).until(
-                () -> !(testPage.findElementById("form-submit-button").getAttribute("class").contains("display-none"))
+            () -> !(testPage.findElementById("form-submit-button").getAttribute("class").contains("display-none"))
         );
 
         assertThat(driver.findElement(By.className("filename-text-name")).getText()).isEqualTo("test");

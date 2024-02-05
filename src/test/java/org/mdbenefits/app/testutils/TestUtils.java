@@ -1,4 +1,4 @@
-package org.mdbenefits.app.utils;
+package org.mdbenefits.app.testutils;
 
 import formflow.library.data.Submission;
 import java.io.File;

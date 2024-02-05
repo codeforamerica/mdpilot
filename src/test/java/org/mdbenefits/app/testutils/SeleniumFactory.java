@@ -1,4 +1,4 @@
-package org.mdbenefits.app.utils;
+package org.mdbenefits.app.testutils;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import java.nio.file.Path;

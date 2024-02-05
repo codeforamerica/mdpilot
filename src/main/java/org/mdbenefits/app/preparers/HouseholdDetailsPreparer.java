@@ -1,19 +1,14 @@
 package org.mdbenefits.app.preparers;
 
 import formflow.library.data.Submission;
-import formflow.library.inputs.FieldNameMarkers;
 import formflow.library.pdf.PdfMap;
 import formflow.library.pdf.SingleField;
 import formflow.library.pdf.SubmissionField;
 import formflow.library.pdf.SubmissionFieldPreparer;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.mdbenefits.app.data.enums.EthnicityType;
-import org.mdbenefits.app.data.enums.RaceType;
 import org.mdbenefits.app.utils.SubmissionUtilities;
 import org.springframework.stereotype.Component;
 
