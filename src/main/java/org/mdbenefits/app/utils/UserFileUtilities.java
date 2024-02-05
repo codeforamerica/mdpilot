@@ -20,6 +20,7 @@ public class UserFileUtilities {
      * Formats the application.yaml `accepted-file-type` string to be more human-readable.
      *
      * @param fileTypeStr a string containing the file types this system can support
+     * @return  A formatted string of the file types
      */
     public static String formatAcceptedFileTypeString(String fileTypeStr) {
         List<String> types = List.of(fileTypeStr.split(","));
