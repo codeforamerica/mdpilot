@@ -12,7 +12,9 @@
               th:with="
                   maxFiles=${@environment.getProperty('form-flow.uploads.max-files')},
                   maxFileSize=${@environment.getProperty('form-flow.uploads.max-file-size')},
-                  fileTypes=${@environment.getProperty('form-flow.uploads.accepted-file-types')}">
+                  fileTypes=${T(org.mdbenefits.app.utils.UserFileUtilities).formatAcceptedFileTypeString(
+                      @environment.getProperty('form-flow.uploads.accepted-file-types'))}
+              ">
         <b th:text="#{doc-upload-recommendations.income}"></b>
         <p th:text="#{doc-upload-recommendations.income-content}"></p>
         <b th:text="#{doc-upload-recommendations.residency}"></b>

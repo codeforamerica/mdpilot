@@ -1,4 +1,4 @@
-package org.mdbenefits.app.utils;
+package org.mdbenefits.app.testutils;
 
 public enum YesNoAnswer {
     YES("Yes"),

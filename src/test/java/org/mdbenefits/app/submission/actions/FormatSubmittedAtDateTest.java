@@ -6,7 +6,7 @@ import formflow.library.data.Submission;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
 import org.junit.jupiter.api.Test;
-import org.mdbenefits.app.utils.TestUtils;
+import org.mdbenefits.app.testutils.TestUtils;
 
 class FormatSubmittedAtDateTest {
 

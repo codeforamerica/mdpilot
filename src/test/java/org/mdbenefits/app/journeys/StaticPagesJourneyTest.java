@@ -6,8 +6,8 @@ import static org.awaitility.Awaitility.await;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.mdbenefits.app.utils.AbstractBasePageTest;
-import org.mdbenefits.app.utils.Page;
+import org.mdbenefits.app.testutils.AbstractBasePageTest;
+import org.mdbenefits.app.testutils.Page;
 
 @Tag("staticPagesJourney")
 public class StaticPagesJourneyTest extends AbstractBasePageTest {

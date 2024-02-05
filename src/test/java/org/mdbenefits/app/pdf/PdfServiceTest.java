@@ -1,7 +1,6 @@
 package org.mdbenefits.app.pdf;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.parser.PdfTextExtractor;
@@ -10,10 +9,8 @@ import formflow.library.pdf.PdfService;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.SubmissionTestBuilder;
-import org.mdbenefits.app.utils.TestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -28,19 +25,19 @@ class PDFServiceTest {
     @Test
     void generate() throws IOException {
         Submission submission = new SubmissionTestBuilder()
-                .withPersonalInfo("John", "Doe", "10", "12", "1999",
-                        "", "", "", "", "111111111")
-                .withHouseholdMember("Jane", "Doe", "1", "5", "2000",
-                        "wife", "F", "", "", "222222222", null, null)
-                .with("homeAddressStreetAddress1", "972 Mission St, 5th Floor")
-                .with("homeAddressCity", "San Francisco")
-                .with("homeAddressState", "CA")
-                .with("homeAddressZipCode", "94103")
-                .with("phoneNumber", "(510) 555-1212")
-                .with("signature", "John Hancock")
-                .with("noOneIsReceivingBenefitsWithFakeID[]", List.of("true"))
-                .with("noOneHasDrugKingpinFelony[]", List.of())
-                .build();
+            .withPersonalInfo("John", "Doe", "10", "12", "1999",
+                "", "", "", "", "111111111")
+            .withHouseholdMember("Jane", "Doe", "1", "5", "2000",
+                "wife", "F", "", "", "222222222", null, null)
+            .with("homeAddressStreetAddress1", "972 Mission St, 5th Floor")
+            .with("homeAddressCity", "San Francisco")
+            .with("homeAddressState", "CA")
+            .with("homeAddressZipCode", "94103")
+            .with("phoneNumber", "(510) 555-1212")
+            .with("signature", "John Hancock")
+            .with("noOneIsReceivingBenefitsWithFakeID[]", List.of("true"))
+            .with("noOneHasDrugKingpinFelony[]", List.of())
+            .build();
         submission.setFlow("mdBenefitsFlow");
 
         File pdfFile = pdfService.generate(submission);

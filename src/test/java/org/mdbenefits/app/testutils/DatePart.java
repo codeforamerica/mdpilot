@@ -1,4 +1,4 @@
-package org.mdbenefits.app.utils;
+package org.mdbenefits.app.testutils;
 
 public enum DatePart {
     YEAR(3), MONTH(1), DAY(2);
