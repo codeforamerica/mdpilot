@@ -70,6 +70,13 @@ $ createdb mdbenefits
 $ createdb mdbenefits_test
 ```
 
+Create new users for the mdbenefits and mdbenefits_test dbs:
+```
+$ createuser -s mdbenefits
+
+$ createuser -s mdbenefits_test
+```
+
 ## Setup IntelliJ and EnvFile
 Note that you'll need to provide some environment variables specified in [sample.env](sample.env) to
 your IDE/shell to run the application. We use IntelliJ and have provided setup instructions for
