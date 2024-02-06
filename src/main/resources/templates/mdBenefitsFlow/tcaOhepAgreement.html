@@ -16,19 +16,21 @@
             th:replace="~{fragments/form :: form(action=${formAction}, content=~{::legalExpand1})}">
           <th:block th:ref="legalExpand1">
             <div class="form-card__content">
-              <th:block th:replace="~{fragments/accordion :: accordion(
-                  buttonLabel=~{::contentLabel1},
-                  content=~{::content1})}">
-                <th:block th:ref="contentLabel1"
-                          th:text="#{tca-ohep-agreement.tca-acknowledgement-label}"/>
-                <th:block th:ref="content1"
-                          th:replace="~{fragments/tcaOhepAgreementFragments :: assignmentOfSupportRightsForTCA}"/>
+              <th:block th:if="${inputData.get('programs[]').contains('TCA')}">
+                <th:block th:replace="~{fragments/accordion :: accordion(
+                    buttonLabel=~{::contentLabel1},
+                    content=~{::content1})}">
+                  <th:block th:ref="contentLabel1"
+                            th:text="#{tca-ohep-agreement.tca-acknowledgement-label}"/>
+                  <th:block th:ref="content1"
+                            th:replace="~{fragments/tcaOhepAgreementFragments :: assignmentOfSupportRightsForTCA}"/>
+                </th:block>
+                <th:block th:replace="~{fragments/inputs/checkbox ::
+                  checkbox(inputName='tcaAcknowledgementAgree',
+                  label=#{tca-ohep-agreement.tca-acknowledgement-label-agree},
+                  value=true
+                 )}"/>
               </th:block>
-              <th:block th:replace="~{fragments/inputs/checkbox ::
-                checkbox(inputName='tcaAcknowledgementAgree',
-                label=#{tca-ohep-agreement.tca-acknowledgement-label-agree},
-                value=true
-               )}"/>
               <th:block th:replace="~{fragments/accordion :: accordion(
                   buttonLabel=~{::contentLabel2},
                   content=~{::content2})}">
