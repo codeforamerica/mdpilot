@@ -404,11 +404,27 @@ flow:
     nextScreens:
       - name: ethnicitySelection
         condition: ApplicantRaceEthnicityQuestionsAllowed
-      - name: legalStuff
+      - name: docUploadIntro
   ethnicitySelection:
     nextScreens:
       - name: raceSelection
   raceSelection:
+    nextScreens:
+      - name: docUploadIntro
+  docUploadIntro:
+    nextScreens:
+      - name: legalStuff
+        condition: DoesNotWantToAddDocs
+      - name: docUploadInstructions
+  docUploadInstructions:
+    nextScreens:
+      - name: signature
+        condition: DoesNotWantToAddDocs
+      - name: docUpload
+  docUpload:
+    nextScreens:
+      - name: docUploadFinish
+  docUploadFinish:
     nextScreens:
       - name: legalStuff
   legalStuff:
@@ -425,22 +441,6 @@ flow:
     nextScreens:
       - name: tcaOhepAgreement
   tcaOhepAgreement:
-    nextScreens:
-      - name: docUploadIntro
-  docUploadIntro:
-    nextScreens:
-      - name: signature
-        condition: DoesNotWantToAddDocs
-      - name: docUploadInstructions
-  docUploadInstructions:
-    nextScreens:
-      - name: signature
-        condition: DoesNotWantToAddDocs
-      - name: docUpload
-  docUpload:
-    nextScreens:
-      - name: docUploadFinish
-  docUploadFinish:
     nextScreens:
       - name: signature
   signature:

@@ -351,7 +351,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.navigateToFlowScreen("mdBenefitsFlow/docUploadIntro");
         assertThat(testPage.getTitle()).isEqualTo(message("doc-upload-intro.title"));
         testPage.clickButton(message("doc-upload-intro.skip"));
-        assertThat(testPage.getTitle()).isEqualTo(message("signature-title"));
+        assertThat(testPage.getTitle()).isEqualTo(message("legal-stuff.title"));
     }
 
     @Test
@@ -790,7 +790,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("race-ethnicity.title"));
         testPage.clickButton("No, skip this question");
 
-        assertThat(testPage.getTitle()).isEqualTo(message("legal-stuff.title"));
+        assertThat(testPage.getTitle()).isEqualTo(message("doc-upload-intro.title"));
         testPage.goBack();
 
         assertThat(testPage.getTitle()).isEqualTo(message("race-ethnicity.title"));
@@ -800,24 +800,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("race-selection.title"));
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("legal-stuff.title"));
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("sensitive-conviction-questions-intro.title"));
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("sensitive-conviction-questions.title"));
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("rights-and-responsibilities.title"));
-        testPage.clickElementById("rightsAndResponsibilitiesAgree-true");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("tca-ohep-agreement.title"));
-        testPage.clickElementById("tcaAcknowledgementAgree-true");
-        testPage.clickElementById("ohepAcknowledgementAgree-true");
         testPage.clickContinue();
 
         // Upload documents
@@ -843,6 +825,24 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         // Confirm doc upload submit
         assertThat(testPage.getTitle()).isEqualTo(message("doc-submit-confirmation.title"));
         testPage.clickButton("Next");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("legal-stuff.title"));
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("sensitive-conviction-questions-intro.title"));
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("sensitive-conviction-questions.title"));
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("rights-and-responsibilities.title"));
+        testPage.clickElementById("rightsAndResponsibilitiesAgree-true");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("tca-ohep-agreement.title"));
+        testPage.clickElementById("tcaAcknowledgementAgree-true");
+        testPage.clickElementById("ohepAcknowledgementAgree-true");
+        testPage.clickContinue();
 
         // signature
         assertThat(testPage.getTitle()).isEqualTo(message("signature-title"));
