@@ -1,5 +1,5 @@
 flow: mdBenefitsFlow
-pdf: /pdfs/9701.pdf
+pdf: /pdfs/Combined_9701_OHEP.pdf
 inputFields:
   # submission field name --> PDF field name
 
@@ -13,7 +13,6 @@ inputFields:
 
   # Vraj - Usable from here
   applicantFullName: applicantFullName
-  applicantFullName_1: applicantFullName_1
   phoneNumber: homePhone
   speaksEnglish: speaksEnglish
   applicantSSN: applicantSSN

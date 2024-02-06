@@ -28,7 +28,6 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
 
         String fullName = String.format("%s, %s", inputData.get("lastName"), inputData.get("firstName"));
         results.put("applicantFullName", new SingleField("applicantFullName", (String) fullName, null));
-        results.put("applicantFullName_1", new SingleField("applicantFullName", (String) fullName, 1));
 
         var dob = Stream.of("birthMonth", "birthDay", "birthYear")
                 .map(inputData::get)
