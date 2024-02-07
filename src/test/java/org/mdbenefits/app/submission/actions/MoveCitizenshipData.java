@@ -15,6 +15,7 @@ class MoveCitizenshipDataTest {
     private final MoveCitizenshipData action = new MoveCitizenshipData();
     private final String INPUT_FIELD_NAME = "citizenshipStatus";
     private final String HOUSEHOLD_FIELD_NAME = "householdMemberCitizenshipStatus";
+    private final String APPLICANT_FIELD_NAME = "applicantCitizenshipStatus";
 
     @Test
     public void moveDataIntoHouseholdMembersData() {
@@ -44,7 +45,6 @@ class MoveCitizenshipDataTest {
             "child3-person", CitizenStatusTypes.REFUGEE.name(),
             "child4-person", CitizenStatusTypes.PERM_RESIDENT_OR_GREEN_CARD.name()
         );
-        String applicantFieldName = INPUT_FIELD_NAME + DYNAMIC_FIELD_MARKER + "test-person";
 
         citizenshipStatusMap.forEach((key, value) -> {
             String fieldName = INPUT_FIELD_NAME + DYNAMIC_FIELD_MARKER + key;
@@ -52,7 +52,7 @@ class MoveCitizenshipDataTest {
         });
 
         // add applicant's data
-        submission.getInputData().put(applicantFieldName, CitizenStatusTypes.US_CITIZEN.name());
+        submission.getInputData().put(APPLICANT_FIELD_NAME, CitizenStatusTypes.US_CITIZEN.name());
 
         action.run(submission);
 
@@ -69,6 +69,6 @@ class MoveCitizenshipDataTest {
             assertThat(member.get(HOUSEHOLD_FIELD_NAME)).isEqualTo(citizenshipStatusMap.get(uuid));
         });
 
-        assertThat(submission.getInputData().get("applicantCitizenshipStatus")).isEqualTo(CitizenStatusTypes.US_CITIZEN.name());
+        assertThat(submission.getInputData().get(APPLICANT_FIELD_NAME)).isEqualTo(CitizenStatusTypes.US_CITIZEN.name());
     }
 }

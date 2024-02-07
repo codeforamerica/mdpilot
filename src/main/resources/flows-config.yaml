@@ -173,7 +173,7 @@ flow:
       - name: citizenshipQuestion
   citizenshipQuestion:
     nextScreens:
-      - name: incomeSignPost
+      - name: householdVeteran
         condition: AllUSCitizens
       - name: citizenshipSelectStatus
   citizenshipSelectStatus:

@@ -348,6 +348,19 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     }
 
     @Test
+    void allCitizensSkipSelectStatusPage() {
+        loadUserPersonalData();
+        loadHouseHoldData("First", "User", "12", "22", "1991");
+        loadHouseHoldData("Second", "User", "01", "23", "1997");
+
+        testPage.navigateToFlowScreen("mdBenefitsFlow/citizenshipIntro");
+        testPage.clickContinue();
+
+        testPage.clickButton(message("general.inputs.yes"));
+        assertThat(testPage.getTitle()).isEqualTo(message("veteran.title"));
+    }
+
+    @Test
     void docUploadSkipTest() {
         testPage.navigateToFlowScreen("mdBenefitsFlow/docUploadIntro");
         assertThat(testPage.getTitle()).isEqualTo(message("doc-upload-intro.title"));
