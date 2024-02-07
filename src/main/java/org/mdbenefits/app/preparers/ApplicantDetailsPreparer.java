@@ -6,6 +6,7 @@ import formflow.library.pdf.SingleField;
 import formflow.library.pdf.SubmissionField;
 import formflow.library.pdf.SubmissionFieldPreparer;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
@@ -26,12 +27,13 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
         results.put("applicantFullName", new SingleField("applicantFullName", (String) fullName, null));
 
         var dob = Stream.of("birthMonth", "birthDay", "birthYear")
-                .map(inputData::get)
-                .reduce((e, c) -> e + "/" + c)
-                .get();
+            .map(inputData::get)
+            .reduce((e, c) -> e + "/" + c)
+            .get();
         results.put("applicantDOB", new SingleField("applicantDOB", (String) dob, null));
 
-        results.put("applicantSSN", new SingleField("applicantSSN", SubmissionUtilities.formatSSN((String) inputData.get("encryptedSSN")), null));
+        results.put("applicantSSN",
+            new SingleField("applicantSSN", SubmissionUtilities.formatSSN((String) inputData.get("encryptedSSN")), null));
         results.put("speaksEnglish", new SingleField("speaksEnglish", (String) "Yes", null));
 
         prepareAnswersToSensitiveQuestions(inputData, results);
