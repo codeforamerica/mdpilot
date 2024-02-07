@@ -28,8 +28,8 @@
                       th:each="statusType : ${T(org.mdbenefits.app.data.enums.CitizenStatusTypes).values()}">
                     <th:block th:replace="~{fragments/inputs/selectOption :: selectOption(
                                 value=${statusType.name()},
-                                optionText=#{${statusType.getLabelSrc()}},
-                                selected=${selected})}"
+                                optionText=#{${statusType.getLabelSrc()}}
+                              )}"
                     />
                   </th:block>
                 </th:block>
@@ -38,7 +38,7 @@
                   th:each="householdMember, iter: ${fieldData.getOrDefault('household', T(java.util.List).of())}">
                 <th:block
                     th:with="inputName=${'citizenshipStatus' + T(formflow.library.inputs.FieldNameMarkers).DYNAMIC_FIELD_MARKER + householdMember.uuid},
-                             memberValue=${householdMember.getOrDefault('householdMemberCitizenshipStatus', '')}">
+                             memberValue=${T(org.mdbenefits.app.utils.HouseholdUtilities).householdCitizenshipStatus(householdMember)}">
                   <th:block
                       th:replace="~{fragments/inputs/select :: select(
                         label=${householdMember.householdMemberFirstName + ' ' + householdMember.householdMemberLastName},
@@ -53,8 +53,7 @@
                         <th:block th:replace="~{fragments/inputs/selectOption :: selectOption(
                             value=${statusType.name()},
                             selectValue=${memberValue},
-                            optionText=#{${statusType.getLabelSrc()}},
-                            selected=${selected})}"
+                            optionText=#{${statusType.getLabelSrc()}})}"
                         />
                       </th:block>
                     </th:block>

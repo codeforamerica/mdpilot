@@ -105,8 +105,8 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     @Test
     void hourlyIncomeFlow() {
         loadUserPersonalData();
-        loadHouseHoldData("First", "User", "12", "22", "1991");
-        loadHouseHoldData("Second", "User", "01", "23", "1997");
+        loadHouseHoldData("First", "User", "12", "22", "1991", true);
+        loadHouseHoldData("Second", "User", "01", "23", "1997", true);
         preloadIncomeScreen();
 
         assertThat(testPage.getTitle()).isEqualTo(message("income-by-job.title"));
@@ -165,8 +165,8 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     @Test
     void otherIncomeFlow() {
         loadUserPersonalData();
-        loadHouseHoldData("Third", "User", "12", "22", "1991");
-        loadHouseHoldData("Fourth", "User", "01", "23", "1997");
+        loadHouseHoldData("Third", "User", "12", "22", "1991", true);
+        loadHouseHoldData("Fourth", "User", "01", "23", "1997", true);
         preloadIncomeScreen();
 
         assertThat(testPage.getTitle()).isEqualTo(message("income-by-job.title"));
@@ -273,9 +273,9 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     @Test
     void raceEthnicityFlow() {
         loadUserPersonalData();
-        loadHouseHoldData("Person", "One", "12", "12", "1995");
-        loadHouseHoldData("Person", "Two", "12", "12", "2016");
-        loadHouseHoldData("Person", "Three", "12", "12", "2017");
+        loadHouseHoldData("Person", "One", "12", "12", "1995", true);
+        loadHouseHoldData("Person", "Two", "12", "12", "2016", true);
+        loadHouseHoldData("Person", "Three", "12", "12", "2017", true);
 
         testPage.navigateToFlowScreen("mdBenefitsFlow/ethnicitySelection");
         // the titles don't seem to render correctly in test
@@ -350,14 +350,40 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     @Test
     void allCitizensSkipSelectStatusPage() {
         loadUserPersonalData();
-        loadHouseHoldData("First", "User", "12", "22", "1991");
-        loadHouseHoldData("Second", "User", "01", "23", "1997");
+        loadHouseHoldData("First", "User", "12", "22", "1991", true);
+        loadHouseHoldData("Second", "User", "01", "23", "1997", true);
 
         testPage.navigateToFlowScreen("mdBenefitsFlow/citizenshipIntro");
         testPage.clickContinue();
 
         testPage.clickButton(message("general.inputs.yes"));
         assertThat(testPage.getTitle()).isEqualTo(message("veteran.title"));
+    }
+
+    @Test
+    void someHouseholdMembersNotApplyingPresetsCitizenshipStatus() {
+        loadUserPersonalData();
+        loadHouseHoldData("First", "User", "12", "22", "1991", true);
+        loadHouseHoldData("Second", "User", "01", "23", "1997", false);
+
+        testPage.navigateToFlowScreen("mdBenefitsFlow/citizenshipIntro");
+        testPage.clickContinue();
+
+        testPage.clickButton(message("general.inputs.no"));
+        assertThat(testPage.getTitle()).isEqualTo(message("citizenship-select-status.title"));
+
+        List<WebElement> selectGroups = driver.findElements(By.className("form-group"));
+        selectGroups.forEach(groupElement -> {
+            String memberName = groupElement.findElement(By.tagName("label")).getText();
+            WebElement select = groupElement.findElement(By.className("select__element"));
+            WebElement option = testPage.getSelectedOption(select.getAttribute("id"));
+
+            if (memberName.equalsIgnoreCase("Second User")) {
+                assertThat(option.getAttribute("value")).isEqualTo(CitizenStatusTypes.NOT_APPLYING.name());
+            } else {
+                assertThat(option.getText()).isEqualTo(message("general.select.placeholder"));
+            }
+        });
     }
 
     @Test
@@ -510,6 +536,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.enter("householdMemberBirthDay", "25");
         testPage.enter("householdMemberBirthYear", "1991");
         testPage.selectFromDropdown("householdMemberRelationship", message("household-info.relationship.step-child"));
+        testPage.selectRadio("householdMemberApplyingForBenefits", "yes");
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("household-list.title"));
@@ -591,7 +618,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("citizenship-select-status.title"));
         testPage.selectFromDropdown("applicantCitizenshipStatus", message("citizenship-select-status.types.us-citizen"));
 
-        //HERE
         List<WebElement> elementList = driver.findElements(By.className("select__element"));
         elementList.forEach(e -> {
             testPage.selectFromDropdown(e, message(CitizenStatusTypes.US_CITIZEN.getLabelSrc()));
@@ -918,7 +944,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
     }
 
-    void loadHouseHoldData(String firstName, String lastName, String month, String day, String year) {
+    void loadHouseHoldData(String firstName, String lastName, String month, String day, String year, boolean isApplying) {
         testPage.navigateToFlowScreen("mdBenefitsFlow/householdInfo");
         testPage.enter("householdMemberFirstName", firstName);
         testPage.enter("householdMemberLastName", lastName);
@@ -927,6 +953,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.enter("householdMemberBirthYear", year);
         testPage.selectFromDropdown("householdMemberRelationship", message("household-info.relationship.step-child"));
         testPage.selectRadio("householdMemberSex", "F");
+        testPage.selectRadio("householdMemberApplyingForBenefits", isApplying ? "yes" : "no");
         testPage.clickContinue();
     }
 
