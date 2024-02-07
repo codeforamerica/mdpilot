@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="~{fragments/head :: head(title=#{citizenship-question.title})}"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <th:block th:replace="~{fragments/icons :: medicalInOtherState}"></th:block>
+        <th:block
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{citizenship-question.header})}"/>
+        <th:block
+            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
+          <th:block th:ref="formContent">
+            <div class="form-card__content">
+              <th:block th:replace="~{fragments/honeycrisp/accordion :: accordion(
+                buttonLabel=#{citizenship-question.info1.title},
+                content=~{::info1})}">
+                <th:block th:ref="info1">
+                  <p th:text="#{citizenship-question.info1.l1}"></p>
+                  <p th:text="#{citizenship-question.info1.l2}"></p>
+                  <p th:text="#{citizenship-question.info1.l3}"></p>
+                  <p th:text="#{citizenship-question.info1.l4}"></p>
+                  <p th:text="#{citizenship-question.info1.l5}"></p>
+                </th:block>
+              </th:block>
+
+              <th:block th:replace="~{fragments/honeycrisp/accordion :: accordion(
+                buttonLabel=#{citizenship-question.info2.title},
+                content=~{::info2})}">
+                <th:block th:ref="info2">
+                  <p th:text="#{citizenship-question.info2.l1}"></p>
+                  <p th:text="#{citizenship-question.info2.l2}"></p>
+                </th:block>
+              </th:block>
+            </div>
+            <div class="form-card__footer">
+              <th:block th:replace="~{fragments/inputs/yesOrNo :: yesOrNo(
+                inputName='allAreCitizens',
+                ariaDescribe=#{citizenship-question.header}
+                )}"/>
+            </div>
+          </th:block>
+        </th:block>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>
