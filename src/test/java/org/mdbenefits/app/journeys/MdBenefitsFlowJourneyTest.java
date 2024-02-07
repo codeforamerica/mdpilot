@@ -355,6 +355,42 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     }
 
     @Test
+    void sensitiveConvictionQuestionsArePreCheckedTest() {
+        testPage.navigateToFlowScreen("mdBenefitsFlow/sensitiveConvictionQuestions");
+        List<WebElement> selectedElements = driver.findElements(By.cssSelector("input[type='checkbox']"));
+        selectedElements.forEach(element -> {
+            assertThat(element.getAttribute("checked")).isEqualTo("true");
+        });
+    }
+
+    @Test
+    void showTCAConditionsIfTCASelected() {
+        testPage.navigateToFlowScreen("mdBenefitsFlow/selectHelpNeeded");
+        testPage.clickElementById("helpNeeded-SNAP");
+        testPage.clickElementById("helpNeeded-TCA");
+        testPage.clickContinue();
+        testPage.clickElementById("programs-SNAP");
+        testPage.clickElementById("programs-TCA");
+        testPage.clickContinue();
+
+        testPage.navigateToFlowScreen("mdBenefitsFlow/tcaOhepAgreement");
+        assertThat(testPage.findElementById("tcaAcknowledgementAgree-true")).isNotNull();
+    }
+
+    @Test
+    void skipTCAConditionsIfTCANotSelected() {
+        testPage.navigateToFlowScreen("mdBenefitsFlow/selectHelpNeeded");
+        testPage.clickElementById("helpNeeded-SNAP");
+        testPage.clickElementById("helpNeeded-TCA");
+        testPage.clickContinue();
+        testPage.clickElementById("programs-SNAP");
+        testPage.clickContinue();
+
+        testPage.navigateToFlowScreen("mdBenefitsFlow/tcaOhepAgreement");
+        assertThat(testPage.elementDoesNotExistById("programs-TCA")).isTrue();
+    }
+
+    @Test
     void completeFlow() {
         assertThat(testPage.getTitle()).isEqualTo("Maryland Benefits Application");
 
