@@ -1,18 +1,15 @@
 package org.mdbenefits.app.preparers;
 
 import formflow.library.data.Submission;
-import formflow.library.pdf.CheckboxField;
 import formflow.library.pdf.PdfMap;
 import formflow.library.pdf.SingleField;
 import formflow.library.pdf.SubmissionField;
 import formflow.library.pdf.SubmissionFieldPreparer;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
-import org.mdbenefits.app.submission.actions.SetDefaultSensitiveConvictionAnswers;
 import org.mdbenefits.app.utils.SubmissionUtilities;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +40,7 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
     }
 
     private static void prepareAnswersToSensitiveQuestions(Map<String, Object> inputData, Map<String, SubmissionField> results) {
-        for (String question : SetDefaultSensitiveConvictionAnswers.SENSITIVE_CONVICTION_QUESTIONS) {
+        for (String question : SubmissionUtilities.SENSITIVE_CONVICTION_QUESTIONS) {
             String yesField = "noOne" + question;
             String noField = "someone" + question;
             List<String> response = (List<String>) inputData.get(yesField + "[]");
