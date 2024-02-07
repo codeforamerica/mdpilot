@@ -176,11 +176,19 @@ public class MdBenefitsFlow extends FlowInputs {
 
     private String migrantOrSeasonalFarmWorkerInd;
 
-    private String citizenshipInd;
+    @NotBlank
+    private String allAreCitizens;
 
-    private String nonCitizens;
+    @NotBlank
+    private String applicantCitizenshipStatus;
 
-    private String citizenshipNumber;
+    @DynamicField
+    private String citizenshipStatus;
+
+    // The previous field (citizenshipStatus) is used as a wildcard to help populate
+    // this field below, which is put in the "household[]" members data and not left as
+    // a top-level field in the json.
+    private String householdMemberCitizenshipStatus;
 
     private String veteranInd;
 

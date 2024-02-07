@@ -8,6 +8,6 @@ public class AllUsCitizens extends BasicCondition {
 
     @Override
     public Boolean run(Submission submission) {
-        return run(submission, "citizenshipInd", "true");
+        return run(submission, "allAreCitizens", "true");
     }
 }

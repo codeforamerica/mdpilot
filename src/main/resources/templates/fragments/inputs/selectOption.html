@@ -1,0 +1,10 @@
+<th:block
+    th:fragment="selectOption"
+    th:assert="
+      ${value != null},
+      ${!#strings.isEmpty(optionText)}">
+  <option
+      th:value="${value}"
+      th:selected="${selectValue != null ? selectValue.equals(value) : fieldData.getOrDefault(inputName, '').equals(value)}"
+      th:text="${optionText}"></option>
+</th:block>

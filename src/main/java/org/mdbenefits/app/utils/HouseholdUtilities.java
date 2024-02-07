@@ -37,20 +37,19 @@ public class HouseholdUtilities {
         List<Map<String, Object>> householdDataObject = new ArrayList<>();
 
         hasPersonalSituations.forEach((String id) -> {
-                    Map<String, Object> user = new LinkedHashMap<>();
-                    if (id.equals("you")) {
-                        user.put("uuid", id);
-                        user.put("firstName", inputData.get("firstName"));
+                Map<String, Object> user = new LinkedHashMap<>();
+                if (id.equals("you")) {
+                    user.put("uuid", id);
+                    user.put("firstName", inputData.get("firstName"));
 
-                        householdDataObject.add(user);
-                    } else {
-                        householdDataObject.add(householdData(householdMembers, id));
-                    }
+                    householdDataObject.add(user);
+                } else {
+                    householdDataObject.add(householdData(householdMembers, id));
                 }
+            }
         );
 
         return householdDataObject;
-
     }
 
     private static Map<String, Object> householdData(List<Map<String, Object>> household, String uuid) {
@@ -59,7 +58,7 @@ public class HouseholdUtilities {
             if (hhmember.get("uuid").equals(uuid)) {
                 user.put("uuid", uuid);
                 user.put("firstName", hhmember.get("householdMemberFirstName"));
-                continue;
+                break;
             }
         }
 
