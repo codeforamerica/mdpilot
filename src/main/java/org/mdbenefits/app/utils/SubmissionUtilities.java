@@ -15,6 +15,15 @@ import java.util.Map;
 public class SubmissionUtilities {
 
     public static final String ENCRYPTED_SSNS_INPUT_NAME = "householdMemberEncryptedSSN";
+    public static final String[] SENSITIVE_CONVICTION_QUESTIONS = {
+            "IsReceivingBenefitsWithFakeID",
+            "ConvictedForLyingAboutBenefits",
+            "IsViolatingParole",
+            "ConvictedForTradingBenefits",
+            "HasDrugKingpinFelony",
+            "HasVolumeDrugDealerFelony",
+            "HasSexualOffenceConviction"
+    };
 
     public static Long expiryHours = 2L;
 
