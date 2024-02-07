@@ -398,14 +398,17 @@ public class MdBenefitsFlow extends FlowInputs {
     @DynamicField
     private String docType;
 
-    private String noOneHasDrugKingpinFelony;
-    private String noOneHasVolumeDrugDealerFelony;
-    private String noOneHasSexualOffenceConviction;
-    private String noOneIsViolatingParole;
-    private String noOneConvictedForLyingAboutBenefits;
-    private String noOneConvictedForTradingBenefits;
-    private String noOneIsReceivingBenefitsWithFakeID;
+    private List<String> noOneHasDrugKingpinFelony;
+    private List<String> noOneHasVolumeDrugDealerFelony;
+    private List<String> noOneHasSexualOffenceConviction;
+    private List<String> noOneIsViolatingParole;
+    private List<String> noOneConvictedForLyingAboutBenefits;
+    private List<String> noOneConvictedForTradingBenefits;
+    private List<String> noOneIsReceivingBenefitsWithFakeID;
 
-    private String tcaAcknowledgementAgree;
-    private String ohepAcknowledgementAgree;
+    @NotEmpty(message = "{error.missing-checkbox}")
+    private List<String> tcaAcknowledgementAgree;
+
+    @NotEmpty(message = "{error.missing-checkbox}")
+    private List<String> ohepAcknowledgementAgree;
 }
