@@ -39,7 +39,7 @@ public abstract class MoveDataIntoSubflowData implements Action {
             String inputName = fromFieldName + DYNAMIC_FIELD_MARKER + uuid;
             String fieldValue = (String) inputData.get(inputName);
 
-            if (fieldValue != null || !fieldValue.isBlank()) {
+            if (fieldValue != null && !fieldValue.isBlank()) {
                 item.put(toFieldName, fieldValue);
                 inputData.remove(inputName);
             } else {

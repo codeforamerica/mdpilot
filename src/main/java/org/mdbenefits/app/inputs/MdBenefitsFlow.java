@@ -126,6 +126,12 @@ public class MdBenefitsFlow extends FlowInputs {
 
     private String householdMemberHighestEducation;
 
+    // bseeger - I added this to use in the logic on the
+    // citizenship pages. Please update the variable name there
+    // if you change this.
+    @NotBlank(message = "{error.missing-general}")
+    private String householdMemberApplyingForBenefits;
+
     @Size(min = 11, max = 11, message = "{error.invalid-ssn}")
     private String ssn;
 

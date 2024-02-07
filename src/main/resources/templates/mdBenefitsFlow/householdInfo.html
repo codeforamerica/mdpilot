@@ -150,6 +150,21 @@
                       th:replace="~{fragments/inputs/selectOption :: selectOption(value='notSure', optionText=#{personal-info.not-sure})}"/>
                 </th:block>
               </th:block>
+              <th:block>
+                <th:block th:replace="~{fragments/inputs/radioFieldset ::
+                              radioFieldset(inputName='householdMemberApplyingForBenefits',
+                              label=#{household-info.applying-for-benefits},
+                              fieldsetHelpText=#{household-info.applying-for-benefits.info},
+                              content=~{::applyingOptions})}">
+                  <th:block th:ref="applyingOptions">
+                    <th:block
+                        th:replace="~{fragments/inputs/radio :: radio(inputName='householdMemberApplyingForBenefits',value='yes', label=#{general.inputs.yes})}"/>
+
+                    <th:block
+                        th:replace="~{fragments/inputs/radio :: radio(inputName='householdMemberApplyingForBenefits',value='no', label=#{general.inputs.no})}"/>
+                  </th:block>
+                </th:block>
+              </th:block>
               <div class="form-card__footer">
                 <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
                   text=#{general.inputs.continue})}"/>
