@@ -38,6 +38,11 @@ form-flow:
       smarty_auth_id: ${SMARTY_AUTH_ID}
       smarty_auth_token: ${SMARTY_AUTH_TOKEN}
       smarty_url: "https://us-street.api.smartystreets.com/street-address"
+  email-client:
+    mailgun:
+      key: ${MAILGUN_KEY:'no-key-set'}
+      domain: 'mail.forms-starter.cfa-platforms.org'
+      sender-email: 'MD Pilot Staging <mdpilot@mail.forms-starter.cfa-platforms.org>'
 spring:
   flyway:
     placeholders:
