@@ -371,7 +371,7 @@ public class MdBenefitsFlow extends FlowInputs {
     @DynamicField
     private List<String> householdMemberRace;
 
-    @NotEmpty(message = "{error.missing-checkbox}")
+    @NotEmpty(message = "{error.must-accept-terms}")
     private List<String> rightsAndResponsibilitiesAgree;
 
     @NotBlank(message = "{error.missing-general}")
@@ -423,9 +423,9 @@ public class MdBenefitsFlow extends FlowInputs {
     private List<String> noOneConvictedForTradingBenefits;
     private List<String> noOneIsReceivingBenefitsWithFakeID;
 
-    @NotEmpty(message = "{error.missing-checkbox}")
+    @NotEmpty(message = "{error.must-accept-terms}")
     private List<String> tcaAcknowledgementAgree;
 
-    @NotEmpty(message = "{error.missing-checkbox}")
+    @NotEmpty(message = "{error.must-accept-terms}")
     private List<String> ohepAcknowledgementAgree;
 }
