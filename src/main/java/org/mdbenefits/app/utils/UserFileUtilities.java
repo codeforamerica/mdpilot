@@ -20,17 +20,27 @@ public class UserFileUtilities {
      * Formats the application.yaml `accepted-file-type` string to be more human-readable.
      *
      * @param fileTypeStr a string containing the file types this system can support
-     * @return  A formatted string of the file types
+     * @return A formatted string of the file types
      */
     public static String formatAcceptedFileTypeString(String fileTypeStr) {
+        if (fileTypeStr == null || fileTypeStr.isBlank()) {
+            return "";
+        }
+
         List<String> types = List.of(fileTypeStr.split(","));
 
         String fileTypes = types.stream()
-            .map(String::trim)
-            .collect(Collectors.joining(", "));
+                .map(String::trim)
+                .collect(Collectors.joining(", "));
 
         int lastComma = fileTypes.lastIndexOf(",");
-        return fileTypes.replace(fileTypes.substring(lastComma), ", and" + fileTypes.substring(lastComma+1));
+
+        if (lastComma != -1) {
+            String replacement = types.size() == 2 ? " and" : ", and";
+            return fileTypes.replace(fileTypes.substring(lastComma), replacement + fileTypes.substring(lastComma + 1));
+        }
+
+        return fileTypes;
     }
 
 
