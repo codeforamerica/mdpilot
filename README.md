@@ -77,6 +77,10 @@ $ createuser -s mdbenefits
 $ createuser -s mdbenefits_test
 ```
 
+IntelliJ should prompt you to add configurations for the two databases. If not, you can add them
+manually by going to the Database tab and adding a new data source. Select localhost as the host for
+both, and the default port for PostgreSQL is 5432. Choose no authentication for both.
+
 ## Setup IntelliJ and EnvFile
 Note that you'll need to provide some environment variables specified in [sample.env](sample.env) to
 your IDE/shell to run the application. We use IntelliJ and have provided setup instructions for
@@ -84,8 +88,10 @@ convenience.
 
 - `cp sample.env .env` (.env is marked as ignored by git)
 - Download the [EnvFile plugin](https://plugins.jetbrains.com/plugin/7861-envfile) and follow the
-  setup instructions [here](https://github.com/Ashald/EnvFile#usage) to setup Run Configurations with
+  setup instructions [here](https://github.com/Ashald/EnvFile#usage) to set up Run Configurations with
   EnvFile.
+
+You'll find the actual values you should use for the keys in the sample.env file in the shared LastPass.
 
 ### Setup Live Templates
 
