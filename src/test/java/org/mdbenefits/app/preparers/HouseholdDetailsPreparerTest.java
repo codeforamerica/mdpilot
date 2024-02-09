@@ -22,9 +22,9 @@ class HouseholdDetailsPreparerTest {
                         "123456789", null, null)
                 .build();
         Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);
-        assertThat(result.get("householdMemberFullName_0"))
+        assertThat(result.get("householdMemberFullName_1"))
                 .isEqualTo(new SingleField("householdMemberFullName", "White, Betty", 1));
-        assertThat(result.get("householdMemberDOB_0"))
+        assertThat(result.get("householdMemberDOB_1"))
                 .isEqualTo(new SingleField("householdMemberDOB", "2/10/1999", 1));
     }
 
