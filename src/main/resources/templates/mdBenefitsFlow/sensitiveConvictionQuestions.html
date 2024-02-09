@@ -16,8 +16,8 @@
             <div class="form-card__content"
                  th:each="question : ${T(org.mdbenefits.app.utils.SubmissionUtilities).SENSITIVE_CONVICTION_QUESTIONS}">
               <div th:with="inputName='noOne' + ${question}, label='sensitive-conviction-question-' + ${question}">
-                <th:block th:replace="~{fragments/inputs/checkboxFieldset ::
-                  checkboxFieldset(inputName=${inputName},
+                <th:block th:replace="~{fragments/inputs/checkboxFieldsetUnescaped ::
+                  checkboxFieldsetUnescaped(inputName=${inputName},
                   label=#{${label}},
                   content=~{::checkboxInSetContent})}">
                   <th:block th:ref="checkboxInSetContent">
