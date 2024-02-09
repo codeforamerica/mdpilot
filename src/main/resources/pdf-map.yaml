@@ -25,6 +25,9 @@ inputFields:
   mailingAddress: mailingAddress
   signature: signature
   sex: applicantSex
+
+  isApplicantApplying: isApplicantApplying
+  citizenshipStatus: isApplicantCitizen
   
   someoneHasDrugKingpinFelony: someoneHasDrugKingpinFelony
   noOneHasDrugKingpinFelony: noOneHasDrugKingpinFelony
@@ -150,9 +153,11 @@ subflowInfo:
       householdHighestEducationFormatted: householdHighestEducation
       householdMemberDOB: householdMemberDOB
       householdMemberSSN: householdMemberSSN
-      householdUSCitizenDerived: householdUSCitizen
       householdRaceEthnicityCode: householdRaceEthnicCode
       ssns: ssns
+      householdMemberCitizen: isHouseholdMemberCitizen
+      householdMemberApplyingForBenefits: isHouseholdMemberApplying
+
       # Vraj - Usable to here
 
   students:
@@ -180,17 +185,17 @@ subflowInfo:
       moneyOnHandAmount: moneyOnHandAmount
       moneyOnHandOwner: moneyOnHandOwner
 income:
-    totalIterations: 7
-    inputFields:
-      employeeName: employeeName
-      employerName: employerName
-      employmentPayFreq: employmentPayFreq
-      employeeHoursPerWeek: employeeHoursPerWeek
-      employeeHourlyWage: employeeHourlyWage
-      selfEmploymentName: selfEmploymentName
-      selfEmploymentDesc: selfEmploymentDesc
-      selfEmploymentMonthlyIncome: selfEmploymentMonthlyIncome
-      selfEmploymentHoursPerWeek: selfEmploymentHoursPerWeek
+  totalIterations: 7
+  inputFields:
+    employeeName: employeeName
+    employerName: employerName
+    employmentPayFreq: employmentPayFreq
+    employeeHoursPerWeek: employeeHoursPerWeek
+    employeeHourlyWage: employeeHourlyWage
+    selfEmploymentName: selfEmploymentName
+    selfEmploymentDesc: selfEmploymentDesc
+    selfEmploymentMonthlyIncome: selfEmploymentMonthlyIncome
+    selfEmploymentHoursPerWeek: selfEmploymentHoursPerWeek
 
 dbFields:
   submittedAt: dateSubmitted

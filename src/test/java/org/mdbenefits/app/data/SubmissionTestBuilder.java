@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.mdbenefits.app.data.enums.CitizenStatusTypes;
 
 public class SubmissionTestBuilder {
 
@@ -32,6 +33,11 @@ public class SubmissionTestBuilder {
         return this;
     }
 
+    public SubmissionTestBuilder allAreCitizens(String val) {
+        submission.getInputData().put("allAreCitizens", val);
+        return this;
+    }
+
     public SubmissionTestBuilder withHouseholdMember(
             String firstName, String lastName,
             String birthDay, String birthMonth, String birthYear,
@@ -55,6 +61,7 @@ public class SubmissionTestBuilder {
         member.put("householdMemberMaritalStatus", maritalStatus);
         member.put("householdMemberHighestEducation", education);
         member.put("householdMemberEncryptedSSN", ssn);
+        member.put("householdMemberCitizenshipStatus", CitizenStatusTypes.US_CITIZEN.name());
 
         household.add(member);
         if (raceInfo != null && !raceInfo.isEmpty()) {
