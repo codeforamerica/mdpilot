@@ -479,3 +479,7 @@ button.button.button--secondary{
 .font-weight--normal {
   font-weight: normal;
 }
+
+li li {
+  list-style-type: circle;
+}
