@@ -12,8 +12,8 @@
         <th:block
             th:replace="~{fragments/cardHeader :: cardHeader(header=#{mailing-address.header}, subtext=#{address.subtext})}"/>
         <th:block
-            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::homeAddress})}">
-          <th:block th:ref="homeAddress">
+            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::mailingAddress})}">
+          <th:block th:ref="mailingAddress">
             <div class="form-card__content">
               <th:block th:replace="~{fragments/inputs/checkbox ::
                   checkbox(inputName='sameAsHomeAddress',
@@ -23,7 +23,7 @@
               <span id="hidden-mailing-fields">
                 <th:block th:replace="~{fragments/inputs/address ::
                                   address(
-                                    validate=false,
+                                    validate=true,
                                     inputName='mailingAddress',
                                     streetAddress2HelpText=#{general.optional}
                                   )}"/>
@@ -41,5 +41,36 @@
   </section>
 </div>
 <th:block th:replace="~{fragments/footer :: footer}"/>
+<script th:inline="javascript">
+  var inputData = [[${inputData}]];
+
+  // Function to update address fields based on the checkbox
+  function updateAddressFields() {
+    var checkbox = document.getElementById("sameAsHomeAddress-true");
+    if (checkbox && checkbox.checked) {
+      // Copy values from home address to mailing address
+      document.getElementById("mailingAddressStreetAddress1").value = inputData['homeAddressStreetAddress1'] || '';
+      document.getElementById("mailingAddressStreetAddress2").value = inputData['homeAddressStreetAddress2'] || '';
+      document.getElementById("mailingAddressCity").value = inputData['homeAddressCity'] || '';
+      document.getElementById("mailingAddressState").value = inputData['homeAddressState'] || '';
+      document.getElementById("mailingAddressZipCode").value = inputData['homeAddressZipCode'] || '';
+    } else {
+      // Clear mailing address fields if checkbox is unchecked
+      document.getElementById("mailingAddressStreetAddress1").value = '';
+      document.getElementById("mailingAddressStreetAddress2").value = '';
+      document.getElementById("mailingAddressCity").value = '';
+      document.getElementById("mailingAddressState").value = '';
+      document.getElementById("mailingAddressZipCode").value = '';
+    }
+  }
+
+  // Event listener for changes to the checkbox
+  document.getElementById("sameAsHomeAddress-true").addEventListener("change", updateAddressFields);
+
+  // Call the function on page load to check the initial state of the checkbox
+  document.addEventListener('DOMContentLoaded', function() {
+    updateAddressFields();
+  });
+</script>
 </body>
 </html>

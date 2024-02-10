@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="~{fragments/head :: head(title=#{verify-address.title})}"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+      <main id="content" role="main" class="form-card spacing-above-35" 
+            th:with="mailingAddress=${inputData.containsKey('noHomeAddress') ? 'mailingAddressNoAddress' : 'mailingAddress'}">
+        <th:block th:replace="~{fragments/form :: form(action=${formAction}, content=~{:: verifyAddress})}">
+          <th:block th:ref="verifyAddress" th:with="editURL=${inputData.containsKey('sameAsHomeAddress[]') 
+                   && inputData.get('sameAsHomeAddress[]').get(0).equals('true') ? 'homeAddress' : mailingAddress}">
+          <th:block th:replace="~{fragments/screens/addressSuggestionNotFound ::
+                  addressSuggestionNotFound(
+                    addressInputToCheck='mailingAddress',
+                    inputName='verifyAddress',
+                    editAddressURL=${editURL},
+                    header=#{verify-address.title},
+                    notice=#{verify-address.notice}
+                    )}"/>
+          </th:block>
+        </th:block>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="~{fragments/footer :: footer}" />
+</body>
+</html>

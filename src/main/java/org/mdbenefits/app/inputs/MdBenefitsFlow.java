@@ -79,6 +79,9 @@ public class MdBenefitsFlow extends FlowInputs {
     private String mailingAddressState;
 
     private String mailingAddressZipCode;
+    
+    // Select Address
+    private String selectAddress;
 
     //Contact Info
     private String phoneNumber;

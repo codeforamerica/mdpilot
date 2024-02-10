@@ -29,6 +29,7 @@ flow:
       - name: homeAddress
   homeAddress:
     crossFieldValidationAction: ValidateHomeAddress
+    onPostAction: ClearNoHomeAddressIfNotSelected
     nextScreens:
       - name: noPermanentAddress
         condition: NoPermanentAddress
@@ -38,12 +39,24 @@ flow:
       - name: contactInfo
   mailingAddressNoAddress:
     crossFieldValidationAction: ValidateMailingAddress
-    beforeSaveAction: MailingAddressSetToHomeAddress
     nextScreens:
+      - name: selectAddress
+        condition: SmartySuggestionFound
+      - name: verifyAddress
+        condition: SmartySuggestionNotFound
       - name: contactInfo
   mailingAddress:
     crossFieldValidationAction: ValidateMailingAddress
-    beforeSaveAction: MailingAddressSetToHomeAddress
+    nextScreens:
+      - name: selectAddress
+        condition: SmartySuggestionFound
+      - name: verifyAddress
+        condition: SmartySuggestionNotFound
+      - name: contactInfo
+  verifyAddress:
+    nextScreens:
+      - name: contactInfo
+  selectAddress:
     nextScreens:
       - name: contactInfo
   contactInfo:

@@ -1,29 +1,37 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", setUpPage);
+window.addEventListener("pageshow", setUpPage);
+
+function setUpPage() {
   var sameAsAddressBox = document.getElementById("sameAsHomeAddress-true-label");
+  var noPermanentAddress = document.getElementById("noHomeAddress-true-label");
+  var mailFields = document.getElementById("hidden-mailing-fields");
+  var homeFields = document.getElementById("hidden-home-address-fields");
+
+  // Function to toggle mail fields display
+  function toggleMailFields() {
+    var selectedClass = document.getElementsByClassName('is-selected');
+    if (mailFields) {
+      mailFields.style.display = selectedClass.length > 0 ? "none" : "block";
+    }
+  }
+
+  // Function to toggle home fields display
+  function toggleHomeFields() {
+    var selectedClass = document.getElementsByClassName('is-selected');
+    if (homeFields) {
+      homeFields.style.display = selectedClass.length > 0 ? "none" : "block";
+    }
+  }
 
   if (sameAsAddressBox) {
-    sameAsAddressBox.addEventListener("click", function() {
-      var selectedClass = document.getElementsByClassName('is-selected')
-      var mailFields = document.getElementById("hidden-mailing-fields")
-      if(selectedClass.length > 0){
-        mailFields.style.display="none";
-      } else {
-        mailFields.style.display="block";
-      }
-    });
+    sameAsAddressBox.addEventListener("click", toggleMailFields);
   }
-
-  var noPermanentAddress = document.getElementById("noHomeAddress-true-label");
 
   if (noPermanentAddress) {
-    noPermanentAddress.addEventListener("click", function() {
-      var selectedClass = document.getElementsByClassName('is-selected')
-      var mailFields = document.getElementById("hidden-home-address-fields")
-      if(selectedClass.length > 0){
-        mailFields.style.display="none";
-      } else {
-        mailFields.style.display="block";
-      }
-    });
+    noPermanentAddress.addEventListener("click", toggleHomeFields);
   }
-});
+
+  // Check and apply on page load and on page show
+  toggleMailFields();
+  toggleHomeFields();
+}
