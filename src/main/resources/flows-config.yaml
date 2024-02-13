@@ -47,6 +47,7 @@ flow:
       - name: contactInfo
   mailingAddress:
     crossFieldValidationAction: ValidateMailingAddress
+    onPostAction: ClearSameAsHomeAddressIfNotSelected
     nextScreens:
       - name: selectAddress
         condition: SmartySuggestionFound

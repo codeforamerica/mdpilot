@@ -80,6 +80,9 @@ public class MdBenefitsFlow extends FlowInputs {
 
     private String mailingAddressZipCode;
     
+    // Verify Address
+    private String verifyAddress;
+    
     // Select Address
     private String selectAddress;
 

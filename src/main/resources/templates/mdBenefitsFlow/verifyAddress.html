@@ -10,8 +10,8 @@
       <main id="content" role="main" class="form-card spacing-above-35" 
             th:with="mailingAddress=${inputData.containsKey('noHomeAddress') ? 'mailingAddressNoAddress' : 'mailingAddress'}">
         <th:block th:replace="~{fragments/form :: form(action=${formAction}, content=~{:: verifyAddress})}">
-          <th:block th:ref="verifyAddress" th:with="editURL=${inputData.containsKey('sameAsHomeAddress[]') 
-                   && inputData.get('sameAsHomeAddress[]').get(0).equals('true') ? 'homeAddress' : mailingAddress}">
+          <th:block th:ref="verifyAddress" th:with="editURL=${inputData.containsKey('sameAsHomeAddress') 
+                   && inputData.get('sameAsHomeAddress').equals('true') ? 'homeAddress' : mailingAddress}">
           <th:block th:replace="~{fragments/screens/addressSuggestionNotFound ::
                   addressSuggestionNotFound(
                     addressInputToCheck='mailingAddress',

@@ -34,9 +34,8 @@ form-flow:
     cmk: ${AWS_CMK}
   address-validation:
     smarty:
-      smarty_auth_id: ${SMARTY_AUTH_ID}
-      smarty_auth_token: ${SMARTY_AUTH_TOKEN}
-      smarty_url: "https://us-street.api.smartystreets.com/street-address"
+      auth-id: ${SMARTY_AUTH_ID}
+      auth-token: ${SMARTY_AUTH_TOKEN}
   email-client:
     mailgun:
       key: ${MAILGUN_KEY:'no-key-set'}
