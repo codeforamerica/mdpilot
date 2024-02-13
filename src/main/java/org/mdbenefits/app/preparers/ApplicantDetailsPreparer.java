@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
-import org.mdbenefits.app.data.enums.CitizenStatusTypes;
+import org.mdbenefits.app.data.enums.CitizenshipStatus;
 import org.mdbenefits.app.utils.SubmissionUtilities;
 import org.springframework.stereotype.Component;
 
@@ -63,7 +63,7 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
 
         if (!allAreCitizens && applyingForSelf) {
             String citizenshipStatus = (String) inputData.get("applicantCitizenshipStatus");
-            if (!citizenshipStatus.equals(CitizenStatusTypes.US_CITIZEN.name())) {
+            if (!citizenshipStatus.equals(CitizenshipStatus.US_CITIZEN.name())) {
                 citizen = "N";
             }
         }

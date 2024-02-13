@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.mdbenefits.app.data.enums.CitizenStatusTypes;
+import org.mdbenefits.app.data.enums.CitizenshipStatus;
 
 public class SubmissionTestBuilder {
 
@@ -61,7 +61,7 @@ public class SubmissionTestBuilder {
         member.put("householdMemberMaritalStatus", maritalStatus);
         member.put("householdMemberHighestEducation", education);
         member.put("householdMemberEncryptedSSN", ssn);
-        member.put("householdMemberCitizenshipStatus", CitizenStatusTypes.US_CITIZEN.name());
+        member.put("householdMemberCitizenshipStatus", CitizenshipStatus.US_CITIZEN.name());
 
         household.add(member);
         if (raceInfo != null && !raceInfo.isEmpty()) {

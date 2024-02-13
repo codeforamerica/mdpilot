@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.enums.ApplicantObjective;
 import org.mdbenefits.app.testutils.AbstractBasePageTest;
-import org.mdbenefits.app.data.enums.CitizenStatusTypes;
+import org.mdbenefits.app.data.enums.CitizenshipStatus;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -322,7 +322,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
                 })
                 .forEach(ri -> {
                     ri.click();
-                    // make sure found them, even with the site language being in Vietnamese
                     assertThat(ri.isSelected()).isTrue();
                 });
 
@@ -379,7 +378,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
             WebElement option = testPage.getSelectedOption(select.getAttribute("id"));
 
             if (memberName.equalsIgnoreCase("Second User")) {
-                assertThat(option.getAttribute("value")).isEqualTo(CitizenStatusTypes.NOT_APPLYING.name());
+                assertThat(option.getAttribute("value")).isEqualTo(CitizenshipStatus.NOT_APPLYING.name());
             } else {
                 assertThat(option.getText()).isEqualTo(message("general.select.placeholder"));
             }
@@ -620,7 +619,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         List<WebElement> elementList = driver.findElements(By.className("select__element"));
         elementList.forEach(e -> {
-            testPage.selectFromDropdown(e, message(CitizenStatusTypes.US_CITIZEN.getLabelSrc()));
+            testPage.selectFromDropdown(e, message(CitizenshipStatus.US_CITIZEN.getLabelSrc()));
         });
         testPage.clickContinue();
 

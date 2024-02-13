@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.SubmissionTestBuilder;
-import org.mdbenefits.app.data.enums.CitizenStatusTypes;
+import org.mdbenefits.app.data.enums.CitizenshipStatus;
 
 class MoveCitizenshipDataTest {
 
@@ -21,29 +21,29 @@ class MoveCitizenshipDataTest {
     public void moveDataIntoHouseholdMembersData() {
 
         Submission submission = new SubmissionTestBuilder()
-            .withPersonalInfo("Test", "Person",
-                "10", "10", "2010",
-                "", "", "", "", "")
-            .withHouseholdMember("Child1", "Person",
-                "10", "10", "2019",
-                "", "", "", "", "", null, "")
-            .withHouseholdMember("Child2", "Person",
-                "10", "10", "2019",
-                "", "", "", "", "", null, "")
-            .withHouseholdMember("Child3", "Person",
-                "10", "10", "2019",
-                "", "", "", "", "", null, "")
-            .withHouseholdMember("Child4", "Person",
-                "10", "10", "2019",
-                "", "", "", "", "", null, "")
-            .build();
+                .withPersonalInfo("Test", "Person",
+                        "10", "10", "2010",
+                        "", "", "", "", "")
+                .withHouseholdMember("Child1", "Person",
+                        "10", "10", "2019",
+                        "", "", "", "", "", null, "")
+                .withHouseholdMember("Child2", "Person",
+                        "10", "10", "2019",
+                        "", "", "", "", "", null, "")
+                .withHouseholdMember("Child3", "Person",
+                        "10", "10", "2019",
+                        "", "", "", "", "", null, "")
+                .withHouseholdMember("Child4", "Person",
+                        "10", "10", "2019",
+                        "", "", "", "", "", null, "")
+                .build();
 
         // first part of map is uuid as String
         Map<String, String> citizenshipStatusMap = Map.of(
-            "child1-person", CitizenStatusTypes.ASYLEE.name(),
-            "child2-person", CitizenStatusTypes.NOT_APPLYING.name(),
-            "child3-person", CitizenStatusTypes.REFUGEE.name(),
-            "child4-person", CitizenStatusTypes.PERM_RESIDENT_OR_GREEN_CARD.name()
+                "child1-person", CitizenshipStatus.ASYLEE.name(),
+                "child2-person", CitizenshipStatus.NOT_APPLYING.name(),
+                "child3-person", CitizenshipStatus.REFUGEE.name(),
+                "child4-person", CitizenshipStatus.PERM_RESIDENT_OR_GREEN_CARD.name()
         );
 
         citizenshipStatusMap.forEach((key, value) -> {
@@ -52,7 +52,7 @@ class MoveCitizenshipDataTest {
         });
 
         // add applicant's data
-        submission.getInputData().put(APPLICANT_FIELD_NAME, CitizenStatusTypes.US_CITIZEN.name());
+        submission.getInputData().put(APPLICANT_FIELD_NAME, CitizenshipStatus.US_CITIZEN.name());
 
         action.run(submission);
 
@@ -69,6 +69,6 @@ class MoveCitizenshipDataTest {
             assertThat(member.get(HOUSEHOLD_FIELD_NAME)).isEqualTo(citizenshipStatusMap.get(uuid));
         });
 
-        assertThat(submission.getInputData().get(APPLICANT_FIELD_NAME)).isEqualTo(CitizenStatusTypes.US_CITIZEN.name());
+        assertThat(submission.getInputData().get(APPLICANT_FIELD_NAME)).isEqualTo(CitizenshipStatus.US_CITIZEN.name());
     }
 }

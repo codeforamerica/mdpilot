@@ -25,7 +25,7 @@
                   <th:block
                       th:replace="~{fragments/inputs/selectOptionPlaceholder :: selectOptionPlaceholder(optionText=#{general.select.placeholder})}"/>
                   <th:block
-                      th:each="statusType : ${T(org.mdbenefits.app.data.enums.CitizenStatusTypes).values()}">
+                      th:each="statusType : ${T(org.mdbenefits.app.data.enums.CitizenshipStatus).values()}">
                     <th:block th:replace="~{fragments/inputs/selectOption :: selectOption(
                                 value=${statusType.name()},
                                 optionText=#{${statusType.getLabelSrc()}}
@@ -48,7 +48,7 @@
                       <th:block
                           th:replace="~{fragments/inputs/selectOptionPlaceholder :: selectOptionPlaceholder(optionText=#{general.select.placeholder})}"/>
                       <th:block
-                          th:each="statusType : ${T(org.mdbenefits.app.data.enums.CitizenStatusTypes).values()}">
+                          th:each="statusType : ${T(org.mdbenefits.app.data.enums.CitizenshipStatus).values()}">
 
                         <th:block th:replace="~{fragments/inputs/selectOption :: selectOption(
                             value=${statusType.name()},
