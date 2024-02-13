@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.mdbenefits.app.data.enums.CitizenStatusTypes;
+import org.mdbenefits.app.data.enums.CitizenshipStatus;
 
 public class HouseholdUtilities {
 
@@ -38,16 +38,16 @@ public class HouseholdUtilities {
         List<Map<String, Object>> householdDataObject = new ArrayList<>();
 
         hasPersonalSituations.forEach((String id) -> {
-                Map<String, Object> user = new LinkedHashMap<>();
-                if (id.equals("you")) {
-                    user.put("uuid", id);
-                    user.put("firstName", inputData.get("firstName"));
+                    Map<String, Object> user = new LinkedHashMap<>();
+                    if (id.equals("you")) {
+                        user.put("uuid", id);
+                        user.put("firstName", inputData.get("firstName"));
 
-                    householdDataObject.add(user);
-                } else {
-                    householdDataObject.add(householdData(householdMembers, id));
+                        householdDataObject.add(user);
+                    } else {
+                        householdDataObject.add(householdData(householdMembers, id));
+                    }
                 }
-            }
         );
 
         return householdDataObject;
@@ -66,7 +66,7 @@ public class HouseholdUtilities {
         String applying = (String) memberData.getOrDefault("householdMemberApplyingForBenefits", "no");
 
         if (status.isBlank() && applying.equalsIgnoreCase("no")) {
-            return CitizenStatusTypes.NOT_APPLYING.name();
+            return CitizenshipStatus.NOT_APPLYING.name();
         }
         return status;
     }

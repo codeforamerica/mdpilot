@@ -3,7 +3,7 @@ package org.mdbenefits.app.data.enums;
 import lombok.Getter;
 
 @Getter
-public enum CitizenStatusTypes {
+public enum CitizenshipStatus {
 
     US_CITIZEN("citizenship-select-status.types.us-citizen"),
     PERM_RESIDENT_OR_GREEN_CARD("citizenship-select-status.types.perm-resident-or-green-card"),
@@ -13,7 +13,7 @@ public enum CitizenStatusTypes {
 
     private final String labelSrc;
 
-    CitizenStatusTypes(String labelSrc) {
+    CitizenshipStatus(String labelSrc) {
         this.labelSrc = labelSrc;
     }
 }

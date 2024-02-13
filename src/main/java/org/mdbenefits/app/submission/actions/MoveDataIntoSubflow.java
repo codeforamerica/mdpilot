@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * it belongs with.
  */
 @Slf4j
-public abstract class MoveDataIntoSubflowData implements Action {
+public abstract class MoveDataIntoSubflow implements Action {
 
     /**
      * A protected class that will aid in moving data from wildcard fields into their actual subflow's data. This will then REMOVE
@@ -25,10 +25,10 @@ public abstract class MoveDataIntoSubflowData implements Action {
      * @param fromFieldName The input field to pull the data from
      * @param toFieldName   The household input field to store the data in
      */
-    protected void moveDataToSubflowData(Submission submission,
-        String subflow,
-        String fromFieldName,
-        String toFieldName) {
+    protected void moveDataToSubflow(Submission submission,
+            String subflow,
+            String fromFieldName,
+            String toFieldName) {
 
         List<Map<String, Object>> subflowData = (List) submission.getInputData().getOrDefault(subflow, new ArrayList<>());
         Map<String, Object> inputData = submission.getInputData();

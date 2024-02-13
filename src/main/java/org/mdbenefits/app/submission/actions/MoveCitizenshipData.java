@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
  * the Map/JSON.
  */
 @Component
-public class MoveCitizenshipData extends MoveDataIntoSubflowData {
+public class MoveCitizenshipData extends MoveDataIntoSubflow {
 
     @Override
     public void run(Submission submission) {
-        moveDataToSubflowData(submission, "household", "citizenshipStatus", "householdMemberCitizenshipStatus");
+        moveDataToSubflow(submission, "household", "citizenshipStatus", "householdMemberCitizenshipStatus");
     }
 }

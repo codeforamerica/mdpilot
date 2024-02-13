@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
-import org.mdbenefits.app.data.enums.CitizenStatusTypes;
+import org.mdbenefits.app.data.enums.CitizenshipStatus;
 import org.mdbenefits.app.utils.SubmissionUtilities;
 import org.springframework.stereotype.Component;
 
@@ -54,7 +54,7 @@ public class HouseholdDetailsPreparer implements SubmissionFieldPreparer {
 
                     if (!allAreCitizens) {
                         String citizenshipStatus = (String) householdMember.get("householdMemberCitizenshipStatus");
-                        if (!citizenshipStatus.equals(CitizenStatusTypes.US_CITIZEN.name())) {
+                        if (!citizenshipStatus.equals(CitizenshipStatus.US_CITIZEN.name())) {
                             citizen = "N";
                         }
                     }
