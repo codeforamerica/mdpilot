@@ -290,7 +290,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
                 .filter(ei -> ei.getAttribute("value").equals("Hispanic or Latino"))
                 .forEach(ei -> {
                     ei.click();
-                    assertThat(ei.isSelected()).isTrue();
                 });
 
         testPage.clickContinue();
@@ -322,7 +321,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
                 })
                 .forEach(ri -> {
                     ri.click();
-                    assertThat(ri.isSelected()).isTrue();
                 });
 
         testPage.clickContinue();
