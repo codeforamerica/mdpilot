@@ -415,13 +415,13 @@ public class MdBenefitsFlow extends FlowInputs {
     @DynamicField
     private String docType;
 
-    private List<String> noOneHasDrugKingpinFelony;
-    private List<String> noOneHasVolumeDrugDealerFelony;
-    private List<String> noOneHasSexualOffenceConviction;
-    private List<String> noOneIsViolatingParole;
-    private List<String> noOneConvictedForLyingAboutBenefits;
-    private List<String> noOneConvictedForTradingBenefits;
-    private List<String> noOneIsReceivingBenefitsWithFakeID;
+    private String someoneHasDrugKingpinFelony;
+    private String someoneHasVolumeDrugDealerFelony;
+    private String someoneHasSexualOffenceConviction;
+    private String someoneIsViolatingParole;
+    private String someoneConvictedForLyingAboutBenefits;
+    private String someoneConvictedForTradingBenefits;
+    private String someoneIsReceivingBenefitsWithFakeID;
 
     @NotEmpty(message = "{error.must-accept-terms}")
     private List<String> tcaAcknowledgementAgree;

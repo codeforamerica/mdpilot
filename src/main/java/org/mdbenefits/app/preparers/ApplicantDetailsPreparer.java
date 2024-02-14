@@ -37,23 +37,9 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
                 new SingleField("applicantSSN", SubmissionUtilities.formatSSN((String) inputData.get("encryptedSSN")), null));
         results.put("speaksEnglish", new SingleField("speaksEnglish", (String) "Yes", null));
 
-        prepareAnswersToSensitiveQuestions(inputData, results);
         // TODO - this will get finished when design says it's ready
         //prepareCitizenshipStatus(inputData, results);
         return results;
-    }
-
-    private void prepareAnswersToSensitiveQuestions(Map<String, Object> inputData, Map<String, SubmissionField> results) {
-        for (String question : SubmissionUtilities.SENSITIVE_CONVICTION_QUESTIONS) {
-            String yesField = "noOne" + question;
-            String noField = "someone" + question;
-            List<String> response = (List<String>) inputData.get(yesField + "[]");
-            if (response != null && response.contains("true")) {
-                results.put(yesField, new SingleField(yesField, "Yes", null));
-            } else {
-                results.put(noField, new SingleField(noField, "Yes", null));
-            }
-        }
     }
 
     private void prepareCitizenshipStatus(Map<String, Object> inputData, Map<String, SubmissionField> results) {

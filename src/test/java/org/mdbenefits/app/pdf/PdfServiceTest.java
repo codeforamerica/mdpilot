@@ -35,8 +35,8 @@ class PDFServiceTest {
             .with("homeAddressZipCode", "94103")
             .with("phoneNumber", "(510) 555-1212")
             .with("signature", "John Hancock")
-            .with("noOneIsReceivingBenefitsWithFakeID[]", List.of("true"))
-            .with("noOneHasDrugKingpinFelony[]", List.of())
+            .with("someoneInHHIsPregnant", "true")
+            .with("someoneHasDrugKingpinFelony", "false")
             .build();
         submission.setFlow("mdBenefitsFlow");
 
