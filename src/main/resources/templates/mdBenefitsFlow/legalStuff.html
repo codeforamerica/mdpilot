@@ -11,10 +11,8 @@
         <div class="grid__item spacing-above-35 text--centered">
           <th:block th:replace="~{fragments/icons :: docWithMagnifyingGlass}"></th:block>
           <th:block
-              th:replace="~{fragments/cardHeader :: cardHeader(header=#{legal-stuff.header})}"/>
-          <p class="text--help"
-             th:text="#{legal-stuff.help}"></p>
-        </div>
+              th:replace="~{fragments/cardHeader :: cardHeader(header=#{legal-stuff.header}, subtext=#{legal-stuff.help})}"/>
+       </div>
         <div class="form-card__content">
           <div class="grid__item intro-section boxed-content spacing-below-60">
             <h3 class="h3 text--centered intro-box__title" th:text="#{legal-stuff.next-well-ask-you-to}"></h3>
