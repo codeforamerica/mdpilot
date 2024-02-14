@@ -719,56 +719,12 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("veteran.title"));
         testPage.clickButton("No");
 
-        assertThat(testPage.getTitle()).isEqualTo(message("foster.title"));
+        assertThat(testPage.getTitle()).isEqualTo(message("household-meals.title"));
         testPage.goBack();
         testPage.clickButton("Yes");
 
         assertThat(testPage.getTitle()).isEqualTo(message("veteran-who.title"));
         testPage.clickElementById("veterans-you");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("foster.title"));
-        testPage.clickButton("No");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("foster-aged-out.title"));
-        testPage.goBack();
-        testPage.clickButton("Yes");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("foster-who.title"));
-        testPage.clickElementById("fosters-you");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("foster-aged-out.title"));
-        testPage.clickButton("No");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("homeless.title"));
-        testPage.goBack();
-        testPage.clickButton("Yes");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("foster-aged-out-who.title"));
-        testPage.clickElementById("fostersAgedOut-you");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("homeless.title"));
-        testPage.clickButton("No");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("household-room-rental.title"));
-        testPage.goBack();
-        testPage.clickButton("Yes");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("homeless-who.title"));
-        testPage.clickElementById("homeless-you");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("household-room-rental.title"));
-        testPage.clickButton("No");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("household-meals.title"));
-        testPage.goBack();
-        testPage.clickButton("Yes");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("household-room-rental-who.title"));
-        testPage.clickElementById("roomRentals-you");
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("household-meals.title"));
@@ -790,7 +746,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("personal-situations.title"));
         testPage.clickButton("No");
 
-        assertThat(testPage.getTitle()).isEqualTo(message("domestic-violence.title"));
+        assertThat(testPage.getTitle()).isEqualTo(message("criminal-justice-warning.title"));
         testPage.goBack();
 
         assertThat(testPage.getTitle()).isEqualTo(message("personal-situations.title"));
@@ -800,9 +756,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("personal-situations-which.title"));
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("domestic-violence.title"));
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("criminal-justice-warning.title"));

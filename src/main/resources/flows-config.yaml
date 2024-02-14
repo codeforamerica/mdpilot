@@ -240,40 +240,8 @@ flow:
     nextScreens:
       - name: householdVeteranWho
         condition: IsVeteran
-      - name: householdFoster
-  householdVeteranWho:
-    nextScreens:
-      - name: householdFoster
-  householdFoster:
-    nextScreens:
-      - name: householdFosterWho
-        condition: IsFosterPerson
-      - name: householdFosterAgedOut
-  householdFosterWho:
-    nextScreens:
-      - name: householdFosterAgedOut
-  householdFosterAgedOut:
-    nextScreens:
-      - name: householdFosterAgedOutWho
-        condition: FostersAgedOut
-      - name: householdHomeless
-  householdFosterAgedOutWho:
-    nextScreens:
-      - name: householdHomeless
-  householdHomeless:
-    nextScreens:
-      - name: householdHomelessnessWho
-        condition: IsHomeless
-      - name: householdRoomRental
-  householdHomelessnessWho:
-    nextScreens:
-      - name: householdRoomRental
-  householdRoomRental:
-    nextScreens:
-      - name: householdRoomRentalWho
-        condition: HasRoomRental
       - name: householdMeals
-  householdRoomRentalWho:
+  householdVeteranWho:
     nextScreens:
       - name: householdMeals
   householdMeals:
@@ -291,15 +259,12 @@ flow:
     nextScreens:
       - name: householdPersonalSituationsWho
         condition: HouseholdHasPersonalSituations
-      - name: householdVictimOfDomesticViolence
+      - name: householdSensitiveQuestionsCriminalJustice
   householdPersonalSituationsWho:
     beforeSaveAction: ReformatPersonalSituationUserData
     nextScreens:
       - name: householdWhichPersonalSituations
   householdWhichPersonalSituations:
-    nextScreens:
-      - name: householdVictimOfDomesticViolence
-  householdVictimOfDomesticViolence:
     nextScreens:
       - name: householdSensitiveQuestionsCriminalJustice
   householdSensitiveQuestionsCriminalJustice:
