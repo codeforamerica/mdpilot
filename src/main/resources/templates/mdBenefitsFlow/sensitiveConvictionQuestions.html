@@ -15,10 +15,11 @@
           <th:block th:ref="sensitiveQuestionsContent">
             <div class="form-card__content"
                  th:each="question : ${T(org.mdbenefits.app.utils.SubmissionUtilities).SENSITIVE_CONVICTION_QUESTIONS}">
-              <div th:with="inputName='someone' + ${question}, label='sensitive-conviction-question-' + ${question}">
+              <div th:with="inputName='someone' + ${question}, label='sensitive-conviction-question-' + ${question}, helpText='sensitive-conviction-question-' + ${question} + '-helpText'">
                 <th:block th:replace="~{fragments/inputs/radioFieldsetUnescaped ::
                               radioFieldsetUnescaped(inputName=${inputName},
                               label=#{${label}},
+                              fieldsetHelpText=${#messages.msgOrNull(helpText)},
                               content=~{::trueFalseOptions})}">
                   <th:block th:ref="trueFalseOptions">
                     <th:block

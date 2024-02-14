@@ -23,7 +23,7 @@
         <p class="text--help spacing-below-0 text--normal"
            th:if="${hasHelpText}"
            th:id="${inputName + '-help-text'}"
-           th:text="${fieldsetHelpText}"></p>
+           th:utext="${fieldsetHelpText}"></p>
       </legend>
       <input type="hidden" th:id="${inputName} + 'Hidden'" th:name="${inputName}" value="">
       <th:block th:replace="${content}"/>
