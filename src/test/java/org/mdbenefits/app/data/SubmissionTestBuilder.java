@@ -33,11 +33,6 @@ public class SubmissionTestBuilder {
         return this;
     }
 
-    public SubmissionTestBuilder allAreCitizens(String val) {
-        submission.getInputData().put("allAreCitizens", val);
-        return this;
-    }
-
     public SubmissionTestBuilder withHouseholdMember(
             String firstName, String lastName,
             String birthDay, String birthMonth, String birthYear,
