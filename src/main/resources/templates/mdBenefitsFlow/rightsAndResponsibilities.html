@@ -48,8 +48,14 @@
               <th:block th:replace="~{fragments/accordion :: accordion(
                   buttonLabel=~{::contentLabel6},
                   content=~{::content6})}">
-                <th:block th:ref="contentLabel6" th:text="#{rights-and-responsibilities.read-before-signing-label}"/>
-                <th:block th:ref="content6" th:replace="~{fragments/rightsAndResponsibilitiesFragments :: readBeforeSigning}"/>
+                <th:block th:ref="contentLabel6" th:text="#{rights-and-responsibilities.medicaid-warning-and-penalties-label}"/>
+                <th:block th:ref="content6" th:replace="~{fragments/rightsAndResponsibilitiesFragments :: medicaidWarningAndPenalties}"/>
+              </th:block>
+              <th:block th:replace="~{fragments/accordion :: accordion(
+                  buttonLabel=~{::contentLabel7},
+                  content=~{::content7})}">
+                <th:block th:ref="contentLabel7" th:text="#{rights-and-responsibilities.read-before-signing-label}"/>
+                <th:block th:ref="content7" th:replace="~{fragments/rightsAndResponsibilitiesFragments :: readBeforeSigning}"/>
               </th:block>
               <th:block th:replace="~{fragments/inputs/checkbox ::
                 checkbox(inputName='rightsAndResponsibilitiesAgree',
