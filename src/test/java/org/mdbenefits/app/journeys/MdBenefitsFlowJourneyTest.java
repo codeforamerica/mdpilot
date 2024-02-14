@@ -405,10 +405,17 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     @Test
     void sensitiveConvictionQuestionsArePreCheckedTest() {
         testPage.navigateToFlowScreen("mdBenefitsFlow/sensitiveConvictionQuestions");
-        List<WebElement> selectedElements = driver.findElements(By.cssSelector("input[type='checkbox']"));
-        selectedElements.forEach(element -> {
-            assertThat(element.getAttribute("checked")).isEqualTo("true");
-        });
+        List<WebElement> selectedElements = driver.findElements(By.cssSelector("input[type='radio']"));
+        selectedElements.stream()
+                .filter(element -> element.getAttribute("value").equals("false"))
+                .forEach(element -> {
+                    assertThat(element.getAttribute("checked")).isEqualTo("true");
+                });
+        selectedElements.stream()
+                .filter(element -> element.getAttribute("value").equals("true"))
+                .forEach(element -> {
+                    assertThat(element.getAttribute("checked")).isNull();
+                });
     }
 
     @Test

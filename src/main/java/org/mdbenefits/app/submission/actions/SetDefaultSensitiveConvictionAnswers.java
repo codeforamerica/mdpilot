@@ -16,6 +16,6 @@ public class SetDefaultSensitiveConvictionAnswers implements Action {
 
     @Override
     public void run(Submission submission) {
-        Arrays.stream(SubmissionUtilities.SENSITIVE_CONVICTION_QUESTIONS).forEach(s -> submission.getInputData().putIfAbsent("noOne" + s + "[]", "true"));
+        Arrays.stream(SubmissionUtilities.SENSITIVE_CONVICTION_QUESTIONS).forEach(s -> submission.getInputData().putIfAbsent("someone" + s, "false"));
     }
 }
