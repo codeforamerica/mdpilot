@@ -13,26 +13,26 @@ import java.util.Map;
 
 @Component
 public class ApplicantNeedsPreparer implements SubmissionFieldPreparer {
+    @Override
+    public Map<String, SubmissionField> prepareSubmissionFields(Submission submission, PdfMap pdfMap) {
+        Map<String, SubmissionField> results = new HashMap<>();
 
-        @Override
-        public Map<String, SubmissionField> prepareSubmissionFields(Submission submission, PdfMap pdfMap) {
-                Map<String, SubmissionField> results = new HashMap<>();
+        Map<String, Object> inputData = submission.getInputData();
 
-                Map<String, Object> inputData = submission.getInputData();
+        List<String> programs = (List) inputData.get("programs[]");
 
-                List<String> programs = (List) inputData.get("programs[]");
-
-                if (programs.isEmpty()) {
-                        return results;
-                }
-
-                if (programs.contains("SNAP")) {
-                        results.put("needsSNAP", new SingleField("needsSNAP", "Yes", null));
-                }
-
-                if (programs.contains("TDAP") || programs.contains("TCA") || programs.contains("RCA")) {
-                        results.put("needsCashAssistance", new SingleField("needsCashAssistance", "Yes", null));
-                }
-                return results;
+        if (programs.isEmpty()) {
+            return results;
         }
+
+        results.put("needsSNAP",
+            new SingleField("needsSNAP", String.valueOf(programs.contains("SNAP")), null));
+
+        boolean needsCash = programs.contains("TDAP") || programs.contains("TCA") || programs.contains("RCA");
+
+        results.put("needsCashAssistance",
+            new SingleField("needsCashAssistance", String.valueOf(needsCash), null));
+
+        return results;
+    }
 }
