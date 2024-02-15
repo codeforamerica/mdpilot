@@ -27,11 +27,11 @@ public class ApplicantNeedsPreparer implements SubmissionFieldPreparer {
                 }
 
                 if (programs.contains("SNAP")) {
-                        results.put("needsSNAP", new SingleField("needsSNAP", "On", null));
+                        results.put("needsSNAP", new SingleField("needsSNAP", "Yes", null));
                 }
 
                 if (programs.contains("TDAP") || programs.contains("TCA") || programs.contains("RCA")) {
-                        results.put("needsCashAssistance", new SingleField("needsCashAssistance", "On", null));
+                        results.put("needsCashAssistance", new SingleField("needsCashAssistance", "Yes", null));
                 }
                 return results;
         }
