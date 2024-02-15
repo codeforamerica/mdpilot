@@ -72,6 +72,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assert(testPage.hasErrorText(message("error.missing-general")));
 
         testPage.clickElementById("helpNeeded-CHILDREN");
+        // this line unchecks helpNeeded-Children because none__checkbox is a noneOfTheAbove=true
         testPage.clickElementById("none__checkbox");
 
         testPage.clickContinue();
