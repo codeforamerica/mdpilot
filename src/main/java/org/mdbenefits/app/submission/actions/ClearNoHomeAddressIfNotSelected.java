@@ -14,6 +14,14 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class ClearNoHomeAddressIfNotSelected implements Action {
 
+
+    /**
+     * @param formSubmission the form data that was submitted when posting the screen this action corresponds to.
+     * @param submission the submission object that contains the input data submitted so far for the application.
+     * 
+     * This action is used to clear the noHomeAddress field from the submission's input data if the screen is submitted with the
+     * checkbox unchecked.
+     */
     @Override
     public void run(FormSubmission formSubmission, Submission submission) {
         if (!formSubmission.getFormData().containsKey("noHomeAddress")) {
