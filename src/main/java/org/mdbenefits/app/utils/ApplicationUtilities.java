@@ -12,7 +12,7 @@ public class ApplicationUtilities {
         List<List<String>> relevantPrograms = new ArrayList<>();
 
         needTypes.forEach((String programType) -> {
-                relevantPrograms.add(HelpNeededType.getRelevantProgramsFromName(programType));
+            relevantPrograms.add(HelpNeededType.getRelevantProgramsFromName(programType));
         });
 
         return relevantPrograms.stream()
