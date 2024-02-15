@@ -83,8 +83,6 @@ flow:
       - name: householdIncomeLast30Days
         condition: IsApplyingForExpeditedSnap
       - name: householdSignPost
-        condition: IsMultiplePersonHousehold
-      - name: ssnForm
   householdIncomeLast30Days:
     nextScreens:
       - name: expeditedMoneyOnHandAmount
@@ -98,20 +96,63 @@ flow:
       - name: householdUtilities
   householdRentAmount:
     nextScreens:
-      - name: householdUtilities
+      - name: householdSignPost
+  # The Flow before this is wrong and has not
+  # been worked on yet.
+  # Applicant pages start here
   householdSignPost:
     nextScreens:
-      - name: householdInfo
-  householdInfo:
-    crossFieldValidationAction: ValidateHouseholdBirthdate
-    subflow: household
+      - name: applicantApplying
+  applicantApplying:
+    nextScreens:
+      - name: applicantSex
+        condition: IsApplicantApplyingForSelf
+      - name: applicantRace
+  # dangling page here - link in the householdTellUsMoreApplying page
+  # Not sure we need this listed here?
+  whyWeAsForSSN:
+    nextScreens:
+      - name: applicantSex
+  applicantSex:
+    nextScreens:
+      - name: applicantPregnancy
+        condition: IsApplicantPregnant
+      - name: applicantSchoolInfo
+  applicantPregnancy:
+    nextScreens:
+      - name: applicantSchoolInfo
+  applicantSchoolInfo:
+    nextScreens:
+      - name: applicantSchoolMoreInfo
+        condition: IsApplicantInSchool
+      - name: applicantDisability
+  applicantSchoolMoreInfo:
+    nextScreens:
+      - name: applicantDisability
+  applicantDisability:
+    nextScreens:
+      - name: applicantRace
+  applicantRace:
+    nextScreens:
+      - name: householdHasHousehold
+  householdHasHousehold:
     nextScreens:
       - name: householdList
+        condition: HasHousehold
+      - name: householdSeasonalFarmWorker
+
+  ## END applicant information
+
   householdList:
     nextScreens:
       - name: ssnForm
         condition: ProgramsIncludeSnap
       - name: householdSpecialSituations
+  householdInfo:
+    crossFieldValidationAction: ValidateHouseholdBirthdate
+    subflow: household
+    nextScreens:
+      - name: householdList
   householdMemberDeleteConfirmation:
     nextScreens: null
   ssnForm:

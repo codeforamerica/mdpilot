@@ -10,17 +10,16 @@
       <main id="content" role="main" class="form-card spacing-above-35">
         <div class="grid__item spacing-above-35 text--centered">
           <th:block th:replace="~{fragments/icons :: householdOrange}"></th:block>
-          <p class="text--help spacing-below-10"
-             th:text="#{household-signpost.step}"></p>
           <th:block
               th:replace="~{fragments/cardHeader :: cardHeader(header=#{household-signpost.header})}"/>
         </div>
         <div class="form-card__content">
           <div class="grid__item intro-section boxed-content spacing-below-60">
-            <h2 class="h3 text--centered intro-box__title" th:text="#{signpost.well-ask-about}"></h2>
+            <h2 class="h3 text--centered intro-box__title"
+                th:text="#{signpost.well-ask-about}"></h2>
             <ol class="list--numbered spacing-above-10">
-              <li th:text="#{household-signpost.everyone-you-live-with}"></li>
-              <li th:text="#{household-signpost.special-situations}"></li>
+              <li th:text="#{household-signpost.your-personal-details}"></li>
+              <li th:text="#{household-signpost.your-household}"></li>
             </ol>
           </div>
         </div>
