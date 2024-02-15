@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
+import org.mdbenefits.app.data.enums.CitizenshipStatus;
 import org.mdbenefits.app.utils.SubmissionUtilities;
 import org.springframework.stereotype.Component;
 
@@ -27,20 +28,22 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
         results.put("applicantFullName", new SingleField("applicantFullName", (String) fullName, null));
 
         var dob = Stream.of("birthMonth", "birthDay", "birthYear")
-            .map(inputData::get)
-            .reduce((e, c) -> e + "/" + c)
-            .get();
+                .map(inputData::get)
+                .reduce((e, c) -> e + "/" + c)
+                .get();
         results.put("applicantDOB", new SingleField("applicantDOB", (String) dob, null));
 
         results.put("applicantSSN",
-            new SingleField("applicantSSN", SubmissionUtilities.formatSSN((String) inputData.get("encryptedSSN")), null));
+                new SingleField("applicantSSN", SubmissionUtilities.formatSSN((String) inputData.get("encryptedSSN")), null));
         results.put("speaksEnglish", new SingleField("speaksEnglish", (String) "Yes", null));
 
         prepareAnswersToSensitiveQuestions(inputData, results);
+        // TODO - this will get finished when design says it's ready
+        //prepareCitizenshipStatus(inputData, results);
         return results;
     }
 
-    private static void prepareAnswersToSensitiveQuestions(Map<String, Object> inputData, Map<String, SubmissionField> results) {
+    private void prepareAnswersToSensitiveQuestions(Map<String, Object> inputData, Map<String, SubmissionField> results) {
         for (String question : SubmissionUtilities.SENSITIVE_CONVICTION_QUESTIONS) {
             String yesField = "noOne" + question;
             String noField = "someone" + question;
@@ -51,5 +54,20 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
                 results.put(noField, new SingleField(noField, "Yes", null));
             }
         }
+    }
+
+    private void prepareCitizenshipStatus(Map<String, Object> inputData, Map<String, SubmissionField> results) {
+        boolean allAreCitizens = ((String) inputData.get("allAreCitizens")).equalsIgnoreCase("yes");
+        boolean applyingForSelf = ((String) inputData.get("isApplicantApplying")).equalsIgnoreCase("yes");
+        String citizen = "Y";
+
+        if (!allAreCitizens && applyingForSelf) {
+            String citizenshipStatus = (String) inputData.get("applicantCitizenshipStatus");
+            if (!citizenshipStatus.equals(CitizenshipStatus.US_CITIZEN.name())) {
+                citizen = "N";
+            }
+        }
+
+        results.put("citizenshipStatus", new SingleField("citizenshipStatus", citizen, null));
     }
 }

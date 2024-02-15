@@ -171,7 +171,7 @@ flow:
   householdSeasonalFarmWorker:
     beforeSaveAction: CheckExpeditedSnapEligibility
     nextScreens:
-      - name: householdCitizenship
+      - name: citizenshipIntro
         condition: IsNotApplyingForExpeditedSnap
       - name: expeditedSnapQualificationNotice
         condition: IsEligibleForExpeditedSnap
@@ -182,15 +182,16 @@ flow:
   expeditedSnapDeferredNotice:
     nextScreens:
       - name: finalSignPost
-  householdCitizenship:
+  citizenshipIntro:
+    nextScreens:
+      - name: citizenshipQuestion
+  citizenshipQuestion:
     nextScreens:
       - name: householdVeteran
-        condition: AllUsCitizens
-      - name: householdNonCitizenWho
-  householdNonCitizenWho:
-    nextScreens:
-      - name: householdCitizenshipNumber
-  householdCitizenshipNumber:
+        condition: AllUSCitizens
+      - name: citizenshipSelectStatus
+  citizenshipSelectStatus:
+    beforeSaveAction: MoveCitizenshipData
     nextScreens:
       - name: householdVeteran
   householdVeteran:
@@ -288,7 +289,7 @@ flow:
   householdIncomeWho:
     subflow: income
     nextScreens:
-     - name: householdEmployerName
+      - name: householdEmployerName
   householdIncomeDeleteConfirmation:
     nextScreens: null
   householdEmployerName:
@@ -316,7 +317,7 @@ flow:
   jobPayPeriod:
     subflow: income
     nextScreens:
-     - name: jobPayAmount
+      - name: jobPayAmount
   jobPayAmount:
     subflow: income
     nextScreens:

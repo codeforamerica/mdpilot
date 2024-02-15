@@ -19,6 +19,7 @@ public class ApplicantDetailsPreparerTest {
         Submission submission = new SubmissionTestBuilder()
                 .withPersonalInfo("John", "Doe", "10", "12", "1999",
                         "", "", "", "", "")
+                .with("allAreCitizens", "true")
                 .build();
 
         Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);

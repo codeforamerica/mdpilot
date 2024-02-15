@@ -132,6 +132,12 @@ public class MdBenefitsFlow extends FlowInputs {
 
     private String householdMemberHighestEducation;
 
+    // bseeger - I added this to use in the logic on the
+    // citizenship pages. Please update the variable name there
+    // if you change this.
+    @NotBlank(message = "{error.missing-general}")
+    private String householdMemberApplyingForBenefits;
+
     @Size(min = 11, max = 11, message = "{error.invalid-ssn}")
     private String ssn;
 
@@ -182,11 +188,19 @@ public class MdBenefitsFlow extends FlowInputs {
 
     private String migrantOrSeasonalFarmWorkerInd;
 
-    private String citizenshipInd;
+    @NotBlank
+    private String allAreCitizens;
 
-    private String nonCitizens;
+    @NotBlank
+    private String applicantCitizenshipStatus;
 
-    private String citizenshipNumber;
+    @DynamicField
+    private String citizenshipStatus;
+
+    // The previous field (citizenshipStatus) is used as a wildcard to help populate
+    // this field below, which is put in the "household[]" members data and not left as
+    // a top-level field in the json.
+    private String householdMemberCitizenshipStatus;
 
     private String veteranInd;
 
@@ -373,6 +387,9 @@ public class MdBenefitsFlow extends FlowInputs {
     private String digitalAssisterFeedback;
 
     private String digitalAssisterFeedbackDetail;
+
+    @NotBlank(message = "{error.missing-general}")
+    private String isApplicantApplying;
 
     // Expedited Snap Start
     private String isApplyingForExpeditedSnap;
