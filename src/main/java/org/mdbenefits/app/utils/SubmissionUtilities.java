@@ -18,8 +18,8 @@ public class SubmissionUtilities {
     public static final String[] SENSITIVE_CONVICTION_QUESTIONS = {
             "IsReceivingBenefitsWithFakeID",
             "ConvictedForLyingAboutBenefits",
-            "IsViolatingParole",
             "ConvictedForTradingBenefits",
+            "IsViolatingParole",
             "HasDrugKingpinFelony",
             "HasVolumeDrugDealerFelony",
             "HasSexualOffenceConviction"
