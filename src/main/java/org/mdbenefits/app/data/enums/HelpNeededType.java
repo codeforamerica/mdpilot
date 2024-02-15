@@ -5,6 +5,7 @@ import static org.mdbenefits.app.data.enums.ProgramType.TCA;
 import static org.mdbenefits.app.data.enums.ProgramType.TDAP;
 import static org.mdbenefits.app.data.enums.ProgramType.RCA;
 
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
@@ -31,12 +32,8 @@ public enum HelpNeededType {
     static {
         for (HelpNeededType type : HelpNeededType.values()) {
             MAP_BY_ENUM_NAME.put(type.name(), type.relevantPrograms);
-        }
-    }
-    static {
-        for (HelpNeededType type : HelpNeededType.values()) {
             MAP_PROGRAM_BY_ENUM_NAME.put(type.name(), type.programType);
-        }
+        };
     }
 
     HelpNeededType(String labelSrc, ProgramType programType, ArrayList<ProgramType> relevantPrograms) {
@@ -45,7 +42,7 @@ public enum HelpNeededType {
         this.relevantPrograms = relevantPrograms;
     }
 
-    public static ArrayList getRelevantProgramsFromName(String name) {
+    public static List getRelevantProgramsFromName(String name) {
         ArrayList<ProgramType> relevantPrograms = MAP_BY_ENUM_NAME.get(name);
         return relevantPrograms;
     }
