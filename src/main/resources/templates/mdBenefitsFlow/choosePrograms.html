@@ -14,22 +14,29 @@
             th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
           <th:block th:ref="formContent">
             <div class="form-card__content">
+              <h2 th:text="#{choose-programs.check-all-that-apply}"></h2>
               <th:block th:replace="~{fragments/inputs/checkboxFieldset ::
                   checkboxFieldset(inputName='programs',
-                  label=#{choose-programs.check-all-that-apply},
+                  ariaLabel=#{choose-programs.header},
                   content=~{::content})}">
                 <th:block th:ref="content">
-                  <th:block th:each="programType : ${T(org.mdbenefits.app.data.enums.ProgramType).values()}">
-                    <th:block th:if="${fieldData.get('helpNeeded[]').contains(programType.name())}">
-                      <span th:with="shortDesc=${programType.getShortDescSrc().isBlank()} ? '' : #{${programType.getShortDescSrc()}}"
-                            th:utext="${'<b>' + shortDesc + '</b>'}">
-                      </span>
+                  <th:block
+                      th:with="relevantPrograms = ${T(org.mdbenefits.app.utils.ApplicationUtilities).flattenHouseholdNeedsPrograms(fieldData.get('helpNeeded[]'))}">
+                    <th:block
+                        th:each="programType : ${T(org.mdbenefits.app.data.enums.ProgramType).values()}">
                       <th:block
-                          th:replace="~{fragments/inputs/checkboxInSet:: checkboxInSet(
+                          th:if="${relevantPrograms.contains(programType)}">
+                      <h2
+                          th:with="shortDesc=${programType.getShortDescSrc().isBlank()} ? '' : #{${programType.getShortDescSrc()}}"
+                          th:utext="${shortDesc}">
+                      </h2>
+                        <th:block
+                                  th:replace="~{fragments/inputs/checkboxInSet:: checkboxInSet(
                               inputName='programs',
                               value=${programType.name()},
                               label=#{${programType.getNameSrc()}},
                               checkboxHelpText=#{${programType.getDescSrc()}})}">
+                        </th:block>
                       </th:block>
                     </th:block>
                   </th:block>
