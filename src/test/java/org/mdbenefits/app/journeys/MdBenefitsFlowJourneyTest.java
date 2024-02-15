@@ -392,7 +392,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     }
 
     @Test
-    void sensitiveConvictionQuestionsArePreCheckedTest() {
+    void sensitiveConvictionQuestionsArePreCheckedToFalseTest() {
         testPage.navigateToFlowScreen("mdBenefitsFlow/sensitiveConvictionQuestions");
         List<WebElement> selectedElements = driver.findElements(By.cssSelector("input[type='radio']"));
         selectedElements.stream()
