@@ -1,7 +1,15 @@
-#brew install yq
-flowName="${1:-laDigitalAssister}"
-flowIndex="${2:-1}"
-templates=`ls -1 src/main/resources/templates/laDigitalAssister/*.html | cut -d'/' -f6-`
+#!/bin/bash
+#
+# Precursor:  brew install yq
+#
+# Run this in the project root directory, or adjust the paths below
+# To run this on
+# /scripts/create_templates.sh mdBenefitsFlow 0
+
+flowName="${1:-mdBenefitsFlow}"
+# index of the flow in the file, 0 based (generally you just want 0, anyways)
+flowIndex="${2:0}"
+templates=`ls -1 src/main/resources/templates/mdBenefitsFlow/*.html | cut -d'/' -f6-`
 screens=( $(yq '[select(document_index == '"$flowIndex"') | .flow.*.nextScreens[0].name] | flatten' src/main/resources/flows-config.yaml) )
 screenNames=( $( printf '%s\n' ${screens[@]} | egrep -v '^(---|-|null|\[*\])' ) )
 for i in "${!screenNames[@]}"; do

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.enums.ApplicantObjective;
 import org.mdbenefits.app.testutils.AbstractBasePageTest;
@@ -241,7 +242,9 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("special-situations.title"));
     }
 
+    // TODO: re-enable once we implement the expedited SNAP flow
     @Test
+    @Disabled
     void expeditedSnapFlow() {
         loadUserPersonalData();
         loadAddressData();
@@ -545,6 +548,17 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("household-signpost.title"));
         testPage.clickContinue();
 
+        assertThat(testPage.getTitle()).isEqualTo(message("applicant-applying.title"));
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("race-ethnicity.title"));
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("household-question.title"));
+        testPage.clickContinue();
+
+       /*
+        // Saving for when we work on household pages
         assertThat(testPage.getTitle()).isEqualTo(message("household-info.title"));
         testPage.enter("householdMemberFirstName", "roomy");
         testPage.enter("householdMemberLastName", "smith");
@@ -622,7 +636,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("household-prepare-food-who.title"));
         testPage.clickElementById("preparesFood-you");
         testPage.clickContinue();
-
+*/
         assertThat(testPage.getTitle()).isEqualTo(message("seasonal-farmworker.title"));
         testPage.clickButton("Yes");
 
