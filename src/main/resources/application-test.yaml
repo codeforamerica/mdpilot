@@ -9,6 +9,9 @@ form-flow:
     max-file-size: '1' # 1 MB file size limit
   address-validation:
     disabled: true
+    smarty:
+      auth-id: 'test-id'
+      auth-token: 'test-token'
 spring:
   messages:
     basename: messages, messages-form-flow

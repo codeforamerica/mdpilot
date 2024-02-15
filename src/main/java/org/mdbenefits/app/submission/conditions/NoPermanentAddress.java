@@ -10,11 +10,6 @@ public class NoPermanentAddress implements Condition {
 
     @Override
     public Boolean run(Submission submission) {
-        var inputData = submission.getInputData();
-        if (inputData.containsKey("noHomeAddress[]")) {
-            List<String> selections = (List<String>) submission.getInputData().get("noHomeAddress[]");
-            return !selections.isEmpty() && selections.get(0).equals("true");
-        }
-        return false;
+        return submission.getInputData().containsKey("noHomeAddress") && submission.getInputData().get("noHomeAddress").equals("true");
     }
 }

@@ -60,11 +60,6 @@ public class ValidateHomeAddress extends AssisterAction {
     }
 
     protected boolean homeAddressExpected(Map<String, Object> inputData) {
-        if (inputData.containsKey(NO_HOME_ADDRESS_INPUT_NAME + "[]")) {
-            ArrayList<String> noHomeAddress = (ArrayList) inputData.get(NO_HOME_ADDRESS_INPUT_NAME + "[]");
-            return noHomeAddress.isEmpty();
-        }
-        return true;
+        return !inputData.containsKey("noHomeAddress");
     }
-
 }

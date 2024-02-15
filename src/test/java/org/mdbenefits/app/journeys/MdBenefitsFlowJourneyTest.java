@@ -2,8 +2,15 @@ package org.mdbenefits.app.journeys;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
+import com.smartystreets.api.exceptions.SmartyException;
+import formflow.library.address_validation.AddressValidationService;
+import formflow.library.address_validation.ValidatedAddress;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -12,11 +19,15 @@ import org.mdbenefits.app.testutils.AbstractBasePageTest;
 import org.mdbenefits.app.data.enums.CitizenshipStatus;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 @Slf4j
 public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
     protected static final String RANGE_ERROR_MESSAGE = "Make sure to provide a value between 1 and 100.";
+    
+    @MockBean
+    private AddressValidationService addressValidationService;
 
     @Test
     void redirectToMyMDTHINKOnUnsupportedApplicationType() {
@@ -496,9 +507,11 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.enter("mailingAddressZipCode", "12455");
 
         testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("contact-info.title"));
-
+        
+        assertThat(testPage.getTitle()).isEqualTo(message("verify-address.title"));
+        
+        testPage.clickButton("Use this address");
+        
         assertThat(testPage.getTitle()).isEqualTo(message("contact-info.title"));
         testPage.clickElementById("remindersMethod-By email-label");
         testPage.enter("emailAddress", "mail@mail.com");
@@ -927,7 +940,77 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         // Confirmation page
         assertThat(testPage.getTitle()).isEqualTo(message("confirmation.title"));
     }
+    
+    @Test
+    void testValidMailingAddress() throws SmartyException, IOException, InterruptedException {
+        ValidatedAddress validatedAddress = new ValidatedAddress("mailingAddressStreetAddress1_validated", "mailingAddressStreetAddress2_validated", "mailingAddressCity_validated", "mailingAddressState_validated", "mailingAddressZipCode_validated");
+        when(addressValidationService.validate(any())).thenReturn(Map.of("mailingAddress", validatedAddress));
+        testPage.navigateToFlowScreen("mdBenefitsFlow/mailingAddress");
+        testPage.enter("mailingAddressStreetAddress1", "1445 34th Ave");
+        testPage.enter("mailingAddressStreetAddress2", "Apt A");
+        testPage.enter("mailingAddressCity", "Oakland");
+        testPage.enter("mailingAddressZipCode", "94601");
+        testPage.selectFromDropdown("mailingAddressState", "CA - California");
+        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo(message("verify-address.title"));
+        assertThat(driver.findElements(By.className("notice--warning")).get(0).getText()).isEqualTo(message("select-address.notice"));
+    }
 
+    @Test
+    void testInvalidMailingAddress() throws SmartyException, IOException, InterruptedException {
+        when(addressValidationService.validate(any())).thenReturn(Map.of());
+        testPage.navigateToFlowScreen("mdBenefitsFlow/mailingAddress");
+        testPage.enter("mailingAddressStreetAddress1", "1445 34th Ave");
+        testPage.enter("mailingAddressStreetAddress2", "Apt A");
+        testPage.enter("mailingAddressCity", "Oakland");
+        testPage.enter("mailingAddressZipCode", "94601");
+        testPage.selectFromDropdown("mailingAddressState", "CA - California");
+        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo(message("verify-address.title"));
+        assertThat(driver.findElements(By.className("notice--warning")).get(0).getText()).isEqualTo(message("verify-address.notice"));
+    }
+    
+    @Test
+    void testMailingAddressIsSameAsHomeAddress() throws SmartyException, IOException, InterruptedException {
+        ValidatedAddress validatedAddress = new ValidatedAddress("mailingAddressStreetAddress1_validated", "mailingAddressStreetAddress2", "mailingAddressCity", "mailingAddressState", "mailingAddressZipCode");
+        when(addressValidationService.validate(any())).thenReturn(Map.of("mailingAddress", validatedAddress));
+        testPage.navigateToFlowScreen("mdBenefitsFlow/homeAddress");
+        testPage.enter("homeAddressStreetAddress1", "1445 34th Ave");
+        testPage.enter("homeAddressStreetAddress2", "Apt A");
+        testPage.enter("homeAddressCity", "Oakland");
+        testPage.enter("homeAddressZipCode", "94601");
+        testPage.selectFromDropdown("homeAddressState", "CA - California");
+        testPage.clickContinue();
+        testPage.clickElementById("sameAsHomeAddress-true");
+        await().atMost(4, TimeUnit.SECONDS).until(() -> testPage.findElementById("mailingAddressStreetAddress1").getAttribute("value").equals("1445 34th Ave"));
+        assertThat(testPage.findElementById("mailingAddressStreetAddress1").getAttribute("value")).isEqualTo("1445 34th Ave");
+        assertThat(testPage.findElementById("mailingAddressStreetAddress2").getAttribute("value")).isEqualTo("Apt A");
+        assertThat(testPage.findElementById("mailingAddressCity").getAttribute("value")).isEqualTo("Oakland");
+        assertThat(testPage.findElementById("mailingAddressZipCode").getAttribute("value")).isEqualTo("94601");
+        assertThat(testPage.findElementById("mailingAddressState").getAttribute("value")).isEqualTo("CA");
+        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo(message("verify-address.title"));
+        assertThat(driver.findElements(By.className("notice--warning")).get(0).getText()).isEqualTo(message("select-address.notice"));
+    }
+    
+    @Test
+    void shouldValidateMailingAddressWhenNoHomeAddress() throws SmartyException, IOException, InterruptedException {
+        ValidatedAddress validatedAddress = new ValidatedAddress("mailingAddressStreetAddress1_validated", "mailingAddressStreetAddress2", "mailingAddressCity", "mailingAddressState", "mailingAddressZipCode");
+        when(addressValidationService.validate(any())).thenReturn(Map.of("mailingAddress", validatedAddress));
+        testPage.navigateToFlowScreen("mdBenefitsFlow/homeAddress");
+        testPage.clickElementById("noHomeAddress-true");
+        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo(message("where-to-send-mail.title"));
+        testPage.clickButton("Add a mailing address");
+        testPage.enter("mailingAddressStreetAddress1", "1445 34th Ave");
+        testPage.enter("mailingAddressStreetAddress2", "Apt A");
+        testPage.enter("mailingAddressCity", "Oakland");
+        testPage.enter("mailingAddressZipCode", "94601");
+        testPage.selectFromDropdown("mailingAddressState", "CA - California");
+        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo(message("verify-address.title"));
+        assertThat(driver.findElements(By.className("notice--warning")).get(0).getText()).isEqualTo(message("select-address.notice"));
+    }
 
     void loadUserPersonalData() {
         testPage.navigateToFlowScreen("mdBenefitsFlow/personalInfo");

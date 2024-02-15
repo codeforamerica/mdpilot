@@ -67,7 +67,7 @@ class ValidateHomeAddressTest {
     @Test
     public void testAddressBlankDoesNotRaiseErrorWhenUnhoused() {
         FormSubmission form = new FormSubmission(Map.of(
-                "noHomeAddress[]", new ArrayList<>(List.of("true")),
+                "noHomeAddress", "true",
                 ADDRESS_1_INPUT_NAME, BLANK_VALUE,
                 CITY_INPUT_NAME, BLANK_VALUE,
                 STATE_INPUT_NAME, BLANK_VALUE,
