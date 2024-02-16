@@ -106,7 +106,7 @@ flow:
     nextScreens:
       - name: applicantSex
         condition: IsApplicantApplyingForSelf
-      - name: householdHasHousehold
+      - name: householdHasAdditionalMembers
   # dangling page here - link in the householdTellUsMoreApplying page
   # Not sure we need this listed here?
   whyWeAsForSSN:
@@ -133,8 +133,8 @@ flow:
       - name: applicantRace
   applicantRace:
     nextScreens:
-      - name: householdHasHousehold
-  householdHasHousehold:
+      - name: householdHasAdditionalMembers
+  householdHasAdditionalMembers:
     nextScreens:
       - name: householdList
         condition: HasHousehold
