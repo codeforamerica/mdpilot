@@ -44,7 +44,7 @@ public class HandleApplicationSigned implements Action {
                 messageBody
         );
         if (mailgunResponse != null) {
-            log.info("Sent email. Mailgun response: {}", mailgunResponse.getMessage());
+            log.info("Sent email for application with ID: {}. Mailgun response: {}", submission.getId(), mailgunResponse.getMessage());
             submission.getInputData().put("sentEmailToApplicant", true);
         } else {
             log.error("Failed to send email. See logs for error");
