@@ -12,24 +12,27 @@ inputFields:
   # Green lines = in YAML but not PDF
 
   # Vraj - Usable from here
-  applicantFullName: applicantFullName
-  phoneNumber: homePhone
-  speaksEnglish: speaksEnglish
-  applicantSSN: applicantSSN
-  applicantDOB: applicantDOB
-  homeAddressStreetAddress1: homeAddressNumberAndStreet
-  homeAddressStreetAddress2: homeAddressStreetAddress2
-  homeAddressZipCode: homeAddressZipCode
-  homeAddressState: homeAddressState
-  homeAddressCity: homeAddressCity
-  mailingAddress: mailingAddress
-  signature: signature
-  sex: applicantSex
-  isApplicantApplying: isApplicantApplying
-  citizenshipStatus: isApplicantCitizen
-  someoneInHHIsPregnant: someoneInHHIsPregnant
+  #Page1
+  applicantFullName: applicant_full_name
+  phoneNumber: applicant_home_phone_number
+  homeAddressStreetAddress1: applicant_home_address_line1
+  homeAddressStreetAddress2: applicant_home_address_line2
+  homeAddressCity: applicant_home_address_city
+  homeAddressState: applicant_home_address_state
+  homeAddressZipCode: applicant_home_address_zip_code
+  speaksEnglish: applicant_speaks_english
   needsCashAssistance: applicant_needs_cash_assistance
   needsSNAP: applicant_needs_snap
+  signature: applicant_signature
+
+  #Section A
+  isApplicantApplying: isApplicantApplying
+  applicantDOB: applicantDOB
+  sex: applicantSex
+  applicantSSN: applicantSSN
+  citizenshipStatus: isApplicantCitizen
+
+  #Section M
   someoneHasDrugKingpinFelony: someoneHasDrugKingpinFelony
   someoneHasVolumeDrugDealerFelony: someoneHasVolumeDrugDealerFelony
   someoneHasSexualOffenceConviction: someoneHasSexualOffenceConviction
@@ -38,6 +41,8 @@ inputFields:
   someoneConvictedForTradingBenefits: someoneConvictedForTradingBenefits
   someoneIsReceivingBenefitsWithFakeID: someoneIsReceivingBenefitsWithFakeID
 
+dbFields:
+  submittedAt: application_date_submitted
   # Vraj - Usable to here
 
 
@@ -191,5 +196,4 @@ income:
     selfEmploymentMonthlyIncome: selfEmploymentMonthlyIncome
     selfEmploymentHoursPerWeek: selfEmploymentHoursPerWeek
 
-dbFields:
-  submittedAt: dateSubmitted
+
