@@ -28,7 +28,8 @@ inputFields:
   isApplicantApplying: isApplicantApplying
   citizenshipStatus: isApplicantCitizen
   someoneInHHIsPregnant: someoneInHHIsPregnant
-
+  needsCashAssistance: applicant_needs_cash_assistance
+  needsSNAP: applicant_needs_snap
   someoneHasDrugKingpinFelony: someoneHasDrugKingpinFelony
   someoneHasVolumeDrugDealerFelony: someoneHasVolumeDrugDealerFelony
   someoneHasSexualOffenceConviction: someoneHasSexualOffenceConviction

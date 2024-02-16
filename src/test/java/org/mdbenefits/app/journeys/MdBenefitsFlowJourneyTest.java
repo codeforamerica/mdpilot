@@ -64,28 +64,97 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     }
 
     @Test
-    void selectHelpNeededAndChooseProgramFlow() {
+    void selectNotSureHelpNeededAndChooseProgramFlow() {
         // select help needed
         testPage.navigateToFlowScreen("mdBenefitsFlow/selectHelpNeeded");
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("Select help");
-        assertThat(testPage.hasErrorText(message("error.missing-general")));
+        assert(testPage.hasErrorText(message("error.missing-general")));
 
-        testPage.clickElementById("helpNeeded-SNAP");
-        testPage.clickElementById("helpNeeded-OTHER");
+        testPage.clickElementById("helpNeeded-CHILDREN");
+        // this line unchecks helpNeeded-Children because none__checkbox is a noneOfTheAbove=true
+        testPage.clickElementById("none__checkbox");
+
         testPage.clickContinue();
 
         // choose program flow
         assertThat(testPage.getTitle()).isEqualTo("Choose programs");
         assertThat(testPage.findElementById("programs-SNAP")).isNotNull();
-        assertThat(testPage.findElementById("programs-OTHER")).isNotNull();
-        assertThat(testPage.elementDoesNotExistById("programs-OHEP")).isTrue();
-        assertThat(testPage.elementDoesNotExistById("programs-TCA")).isTrue();
+        assertThat(testPage.findElementById("programs-SNAP").getAttribute("Checked")).isNull();
+        assertThat(testPage.findElementById("programs-TDAP")).isNotNull();
+        assertThat(testPage.findElementById("programs-TDAP").getAttribute("Checked")).isNull();
+        assertThat(testPage.findElementById("programs-TCA")).isNotNull();
+        assertThat(testPage.findElementById("programs-TCA").getAttribute("Checked")).isNull();
+        assertThat(testPage.findElementById("programs-RCA")).isNotNull();
+        assertThat(testPage.findElementById("programs-RCA").getAttribute("Checked")).isNull();
 
         testPage.clickContinue();
-        assert (testPage.hasErrorText(message("error.missing-general")));
+        assert(testPage.hasErrorText(message("error.missing-general")));
 
         testPage.clickElementById("programs-SNAP");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("signpost.title"));
+    }
+
+    @Test
+    void selectSnapOrTcaHelpAndChooseProgramFlow() {
+        // select help needed
+        testPage.navigateToFlowScreen("mdBenefitsFlow/selectHelpNeeded");
+        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo("Select help");
+        assert(testPage.hasErrorText(message("error.missing-general")));
+
+        testPage.clickElementById("helpNeeded-FOOD");
+
+        testPage.clickContinue();
+
+        // choose program flow
+        assertThat(testPage.getTitle()).isEqualTo("Choose programs");
+        assertThat(testPage.findElementById("programs-SNAP")).isNotNull();
+        assertThat(testPage.findElementById("programs-SNAP").getAttribute("Checked")).isNotNull();
+        assertThat(testPage.findElementById("programs-TCA")).isNotNull();
+        assertThat(testPage.findElementById("programs-TCA").getAttribute("Checked")).isNull();
+        assertThat(testPage.elementDoesNotExistById("programs-TDAP")).isTrue();
+        assertThat(testPage.elementDoesNotExistById("programs-RCA")).isTrue();
+
+        testPage.clickElementById("programs-SNAP");
+
+        testPage.clickContinue();
+        assert(testPage.hasErrorText(message("error.missing-general")));
+
+        testPage.clickElementById("programs-SNAP");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("signpost.title"));
+    }
+
+    @Test
+    void selectNonSnapOrTcaAndChooseProgramFlow() {
+        // select help needed
+        testPage.navigateToFlowScreen("mdBenefitsFlow/selectHelpNeeded");
+        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo("Select help");
+        assert(testPage.hasErrorText(message("error.missing-general")));
+
+        testPage.clickElementById("helpNeeded-REFUGEE");
+
+        testPage.clickContinue();
+
+        // choose program flow
+        assertThat(testPage.getTitle()).isEqualTo("Choose programs");
+        assertThat(testPage.elementDoesNotExistById("programs-SNAP")).isTrue();
+        assertThat(testPage.elementDoesNotExistById("programs-TCA")).isTrue();
+        assertThat(testPage.elementDoesNotExistById("programs-TDAP")).isTrue();
+        assertThat(testPage.findElementById("programs-RCA")).isNotNull();
+        assertThat(testPage.findElementById("programs-RCA").getAttribute("Checked")).isNotNull();
+
+        testPage.clickElementById("programs-RCA");
+
+        testPage.clickContinue();
+        assert(testPage.hasErrorText(message("error.missing-general")));
+
+        testPage.clickElementById("programs-RCA");
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("signpost.title"));
@@ -421,11 +490,9 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     @Test
     void showTCAConditionsIfTCASelected() {
         testPage.navigateToFlowScreen("mdBenefitsFlow/selectHelpNeeded");
-        testPage.clickElementById("helpNeeded-SNAP");
-        testPage.clickElementById("helpNeeded-TCA");
+        testPage.clickElementById("helpNeeded-FOOD");
+        testPage.clickElementById("helpNeeded-CHILDREN");
         testPage.clickContinue();
-        testPage.clickElementById("programs-SNAP");
-        testPage.clickElementById("programs-TCA");
         testPage.clickContinue();
 
         testPage.navigateToFlowScreen("mdBenefitsFlow/tcaOhepAgreement");
@@ -435,8 +502,8 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     @Test
     void skipTCAConditionsIfTCANotSelected() {
         testPage.navigateToFlowScreen("mdBenefitsFlow/selectHelpNeeded");
-        testPage.clickElementById("helpNeeded-SNAP");
-        testPage.clickElementById("helpNeeded-TCA");
+        testPage.clickElementById("helpNeeded-FOOD");
+        testPage.clickElementById("helpNeeded-CHILDREN");
         testPage.clickContinue();
         testPage.clickElementById("programs-SNAP");
         testPage.clickContinue();
@@ -460,15 +527,12 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("Select help");
 
-        testPage.clickElementById("helpNeeded-SNAP");
-        testPage.clickElementById("helpNeeded-TCA");
+        testPage.clickElementById("helpNeeded-FOOD");
+        testPage.clickElementById("helpNeeded-CHILDREN");
         testPage.clickContinue();
 
         // choose program
         assertThat(testPage.getTitle()).isEqualTo(message("choose-programs.title"));
-
-        testPage.clickElementById("programs-SNAP");
-        testPage.clickElementById("programs-TCA");
 
         testPage.clickContinue();
 
