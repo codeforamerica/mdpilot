@@ -26,26 +26,24 @@ inputFields:
   signature: applicant_signature
 
   #Section A
-  isApplicantApplying: isApplicantApplying
-  applicantDOB: applicantDOB
-  sex: applicantSex
-  applicantSSN: applicantSSN
-  citizenshipStatus: isApplicantCitizen
+  applicantDOB: applicant_dob
+  sex: applicant_sex
+  applicantSSN: applicant_ssn
 
   #Section M
-  someoneHasDrugKingpinFelony: someoneHasDrugKingpinFelony
-  someoneHasVolumeDrugDealerFelony: someoneHasVolumeDrugDealerFelony
-  someoneHasSexualOffenceConviction: someoneHasSexualOffenceConviction
-  someoneIsViolatingParole: someoneIsViolatingParole
-  someoneConvictedForLyingAboutBenefits: someoneConvictedForLyingAboutBenefits
-  someoneConvictedForTradingBenefits: someoneConvictedForTradingBenefits
-  someoneIsReceivingBenefitsWithFakeID: someoneIsReceivingBenefitsWithFakeID
+  someoneHasDrugKingpinFelony: household_drugpin_felony_bool
+  someoneHasVolumeDrugDealerFelony: household_volume_drug_dealer_felony_bool
+  someoneHasSexualOffenceConviction: household_sexual_offense_conviction_bool
+  someoneIsViolatingParole: household_violating_parole_bool
+  someoneConvictedForLyingAboutBenefits: household_benefits_lie_conviction_bool
+  someoneConvictedForTradingBenefits: household_trading_benefits_conviction_bool
+  someoneIsReceivingBenefitsWithFakeID: household_receiving_benefits_with_fake_id_bool
 
 dbFields:
   submittedAt: application_date_submitted
   # Vraj - Usable to here
-
-
+  citizenshipStatus: applicant_is_citizen
+  isApplicantApplying: applicant_is_applying
   emailAddress: emailAddress
   highestEducationFormatted: highestEducation
   ethnicitySelected: ethnicitySelected
