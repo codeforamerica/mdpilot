@@ -1,0 +1,9 @@
+spring:
+  thymeleaf:
+    cache: true
+  session:
+    jdbc:
+      initialize-schema: always
+management:
+  endpoints:
+    enabled-by-default: false
