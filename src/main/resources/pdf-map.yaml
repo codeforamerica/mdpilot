@@ -12,35 +12,38 @@ inputFields:
   # Green lines = in YAML but not PDF
 
   # Vraj - Usable from here
-  applicantFullName: applicantFullName
-  phoneNumber: homePhone
-  speaksEnglish: speaksEnglish
-  applicantSSN: applicantSSN
-  applicantDOB: applicantDOB
-  homeAddressStreetAddress1: homeAddressNumberAndStreet
-  homeAddressStreetAddress2: homeAddressStreetAddress2
-  homeAddressZipCode: homeAddressZipCode
-  homeAddressState: homeAddressState
-  homeAddressCity: homeAddressCity
-  mailingAddress: mailingAddress
-  signature: signature
-  sex: applicantSex
-  isApplicantApplying: isApplicantApplying
-  citizenshipStatus: isApplicantCitizen
-  someoneInHHIsPregnant: someoneInHHIsPregnant
+  #Page1
+  applicantFullName: applicant_full_name
+  phoneNumber: applicant_home_phone_number
+  homeAddressStreetAddress1: applicant_home_address_line1
+  homeAddressStreetAddress2: applicant_home_address_line2
+  homeAddressCity: applicant_home_address_city
+  homeAddressState: applicant_home_address_state
+  homeAddressZipCode: applicant_home_address_zip_code
+  speaksEnglish: applicant_speaks_english
   needsCashAssistance: applicant_needs_cash_assistance
   needsSNAP: applicant_needs_snap
-  someoneHasDrugKingpinFelony: someoneHasDrugKingpinFelony
-  someoneHasVolumeDrugDealerFelony: someoneHasVolumeDrugDealerFelony
-  someoneHasSexualOffenceConviction: someoneHasSexualOffenceConviction
-  someoneIsViolatingParole: someoneIsViolatingParole
-  someoneConvictedForLyingAboutBenefits: someoneConvictedForLyingAboutBenefits
-  someoneConvictedForTradingBenefits: someoneConvictedForTradingBenefits
-  someoneIsReceivingBenefitsWithFakeID: someoneIsReceivingBenefitsWithFakeID
+  signature: applicant_signature
 
+  #Section A
+  applicantDOB: applicant_dob
+  sex: applicant_sex
+  applicantSSN: applicant_ssn
+
+  #Section M
+  someoneHasDrugKingpinFelony: household_drugpin_felony_bool
+  someoneHasVolumeDrugDealerFelony: household_volume_drug_dealer_felony_bool
+  someoneHasSexualOffenceConviction: household_sexual_offense_conviction_bool
+  someoneIsViolatingParole: household_violating_parole_bool
+  someoneConvictedForLyingAboutBenefits: household_benefits_lie_conviction_bool
+  someoneConvictedForTradingBenefits: household_trading_benefits_conviction_bool
+  someoneIsReceivingBenefitsWithFakeID: household_receiving_benefits_with_fake_id_bool
+
+dbFields:
+  submittedAt: application_date_submitted
   # Vraj - Usable to here
-
-
+  citizenshipStatus: applicant_is_citizen
+  isApplicantApplying: applicant_is_applying
   emailAddress: emailAddress
   highestEducationFormatted: highestEducation
   ethnicitySelected: ethnicitySelected
@@ -191,5 +194,4 @@ income:
     selfEmploymentMonthlyIncome: selfEmploymentMonthlyIncome
     selfEmploymentHoursPerWeek: selfEmploymentHoursPerWeek
 
-dbFields:
-  submittedAt: dateSubmitted
+

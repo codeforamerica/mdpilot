@@ -35,7 +35,7 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
 
         results.put("applicantSSN",
                 new SingleField("applicantSSN", SubmissionUtilities.formatSSN((String) inputData.get("encryptedSSN")), null));
-        results.put("speaksEnglish", new SingleField("speaksEnglish", (String) "Yes", null));
+        results.put("speaksEnglish", new SingleField("speaksEnglish", (String) "true", null));
 
         // TODO - this will get finished when design says it's ready
         //prepareCitizenshipStatus(inputData, results);
