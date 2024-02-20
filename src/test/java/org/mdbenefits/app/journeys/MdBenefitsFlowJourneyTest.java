@@ -606,9 +606,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickButton("This looks correct");
 
         // Household
-        assertThat(testPage.getTitle()).isEqualTo(message("multiple-person-household.title"));
-        testPage.clickButton("Yes");
-
         assertThat(testPage.getTitle()).isEqualTo(message("household-signpost.title"));
         testPage.clickContinue();
 
