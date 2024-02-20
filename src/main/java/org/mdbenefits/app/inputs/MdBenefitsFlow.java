@@ -387,9 +387,12 @@ public class MdBenefitsFlow extends FlowInputs {
     private String digitalAssisterFeedback;
 
     private String digitalAssisterFeedbackDetail;
-
+    
+    // Applicant Tell Us More About Yourself
     @NotBlank(message = "{error.missing-general}")
     private String isApplicantApplying;
+    
+    private String applicantSSN;
 
     // Expedited Snap Start
     private String isApplyingForExpeditedSnap;
