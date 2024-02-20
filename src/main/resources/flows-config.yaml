@@ -72,7 +72,7 @@ flow:
       - name: reviewContactInfo
   reviewContactInfo:
     nextScreens:
-      - name: multiplePersonHousehold
+      - name: householdSignPost
   expeditedSnapStart:
     nextScreens:
       - name: finalSignPost
