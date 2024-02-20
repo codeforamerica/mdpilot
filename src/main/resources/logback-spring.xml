@@ -22,7 +22,7 @@
     </root>
   </springProfile>
 
-  <springProfile name="staging | demo | production">
+  <springProfile name="staging | demo | prod">
     <root level="INFO | WARN | ERROR">
       <appender-ref ref="JsonConsole"/>
     </root>
