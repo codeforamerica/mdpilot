@@ -182,22 +182,12 @@ flow:
     nextScreens:
       - name: householdPregnancyWho
         condition: IsPregnant
-      - name: householdBenefits
+      - name: householdPrepareFood
   householdPregnancyWho:
     nextScreens:
       - name: householdPregnancyDueDate
   householdPregnancyDueDate:
     beforeDisplayAction: ReformatPregnancyUserData
-    nextScreens:
-      - name: householdBenefits
-  householdBenefits:
-    nextScreens:
-      - name: householdBenefitsWho
-        condition: OutOfStateBenefits
-      - name: householdPrepareFood
-        condition: ProgramsIncludeSnap
-      - name: sensitiveQuestions
-  householdBenefitsWho:
     nextScreens:
       - name: householdPrepareFood
         condition: ProgramsIncludeSnap

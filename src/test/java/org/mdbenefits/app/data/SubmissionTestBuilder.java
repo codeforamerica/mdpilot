@@ -82,11 +82,6 @@ public class SubmissionTestBuilder {
         return this;
     }
 
-    public SubmissionTestBuilder withHomelessness(List<String> uuids) {
-        submission.getInputData().put("homeless[]", uuids);
-        return this;
-    }
-
     public SubmissionTestBuilder withPersonalSituations(List<String> uuids) {
         submission.getInputData().put("personalSituationDisability[]", uuids);
         return this;

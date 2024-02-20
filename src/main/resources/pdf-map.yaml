@@ -57,7 +57,6 @@ dbFields:
   maritalStatus: maritalStatus
   applicantStudentInd: applicantStudentInd
   applicantNonCitizenInd: applicantNonCitizenInd
-  applicantHomelessInd: applicantHomelessInd
 
   hasDependentCareExpenses: hasDependentCareExpenses
   expensesDependentCare: expensesDependentCare
@@ -70,15 +69,11 @@ dbFields:
   schoolInd: schoolInd
   buyPrepareMealsSeparateIndicator: buyPrepareMealsSeparateIndicator
   veteranInd: veteranInd
-  fosterAgedOutInd: fosterAgedOutInd
-  outOfStateBenefitsRecipientsNames: outOfStateBenefitsRecipientsNames
   veteransNames: veteransNames
-  fostersAgedOutNames: fostersAgedOutNames
   preparesFoodNames: preparesFoodNames
 
   jobSearch: jobSearch
   migrantOrSeasonalFarmWorkerInd: migrantOrSeasonalFarmWorkerInd
-  roomRentalInd: roomRentalInd
 
   additionalIncome:
     SSI: SSI
