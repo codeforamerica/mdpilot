@@ -483,3 +483,11 @@ button.button.button--secondary{
 li li {
   list-style-type: circle;
 }
+
+.ssn-input {
+  max-width: none;
+}
+
+.form-group-spacing-half .form-group {
+  margin-bottom: 4rem;
+}

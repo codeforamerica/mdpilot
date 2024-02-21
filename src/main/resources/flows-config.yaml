@@ -108,9 +108,8 @@ flow:
       - name: applicantSex
         condition: IsApplicantApplyingForSelf
       - name: householdHasAdditionalMembers
-  # dangling page here - link in the householdTellUsMoreApplying page
-  # Not sure we need this listed here?
-  whyWeAsForSSN:
+  # Not a next screen of any screen but directly linked to from applicantApplying
+  whyWeAskForSSN:
     nextScreens:
       - name: applicantSex
   applicantSex:
