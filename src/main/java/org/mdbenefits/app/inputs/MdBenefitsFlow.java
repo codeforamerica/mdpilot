@@ -145,8 +145,6 @@ public class MdBenefitsFlow extends FlowInputs {
     @DynamicField
     private String householdMemberSsn;
 
-    private String schoolInd;
-
     @NotEmpty(message = "{error.missing-general}")
     private List<String> students;
 
@@ -373,6 +371,8 @@ public class MdBenefitsFlow extends FlowInputs {
     private String isApplicantApplying;
     
     private String applicantSSN;
+
+    private String applicantIsEnrolledInSchool;
 
     // Expedited Snap Start
     private String isApplyingForExpeditedSnap;
