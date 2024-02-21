@@ -19,9 +19,7 @@ import org.springframework.stereotype.Component;
 public class SpecialSituationsPreparer implements SubmissionFieldPreparer {
 
     private static final List<String> INPUTS = List.of(
-            "outOfStateBenefitsRecipients",
             "veterans",
-            "fostersAgedOut",
             "preparesFood");
 
     @Override

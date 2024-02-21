@@ -606,9 +606,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickButton("This looks correct");
 
         // Household
-        assertThat(testPage.getTitle()).isEqualTo(message("multiple-person-household.title"));
-        testPage.clickButton("Yes");
-
         assertThat(testPage.getTitle()).isEqualTo(message("household-signpost.title"));
         testPage.clickContinue();
         
@@ -666,7 +663,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("pregnancy.title"));
         testPage.clickButton("No");
 
-        assertThat(testPage.getTitle()).isEqualTo(message("out-of-state-benefits.title"));
+        assertThat(testPage.getTitle()).isEqualTo(message("household-prepare-food.title"));
         testPage.goBack();
         testPage.clickButton("Yes");
 
@@ -679,17 +676,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.enter("dayPregnancyDueDate_wildcard_you", "12");
         testPage.enter("yearPregnancyDueDate_wildcard_you", "2025");
 
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("out-of-state-benefits.title"));
-        testPage.clickButton("No");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("household-prepare-food.title"));
-        testPage.goBack();
-        testPage.clickButton("Yes");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("out-of-state-benefits-who.title"));
-        testPage.clickElementById("outOfStateBenefitsRecipients-you");
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("household-prepare-food.title"));

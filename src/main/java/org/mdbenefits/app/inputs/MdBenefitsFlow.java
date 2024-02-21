@@ -177,10 +177,6 @@ public class MdBenefitsFlow extends FlowInputs {
     @DynamicField
     private String yearPregnancyDueDate;
 
-    private String outOfStateBenefitsInd;
-
-    private String outOfStateBenefitsRecipients;
-
     // SNAP
     private String buyPrepareMealsSeparateIndicator;
 
@@ -205,22 +201,6 @@ public class MdBenefitsFlow extends FlowInputs {
     private String veteranInd;
 
     private String veterans;
-
-    private String fosterInd;
-
-    private String fosters;
-
-    private String fosterAgedOutInd;
-
-    private String fostersAgedOut;
-
-    private String homelessInd;
-
-    private String homeless;
-
-    private String roomRentalInd;
-
-    private String roomRentals;
 
     private String mealInd;
 
