@@ -611,8 +611,9 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         assertThat(testPage.getTitle()).isEqualTo(message("household-signpost.title"));
         testPage.clickContinue();
-
+        
         assertThat(testPage.getTitle()).isEqualTo(message("applicant-applying.title"));
+        testPage.selectRadio("isApplicantApplying", "false");
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("household-question.title"));

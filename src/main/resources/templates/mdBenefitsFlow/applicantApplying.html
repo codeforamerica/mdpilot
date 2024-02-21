@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head(title=#{applicant-applying-tell-us-more.title})}"></head>
+<head th:replace="~{fragments/head :: head(title=#{applicant-applying.title})}"></head>
 <body>
 <div class="page-wrapper">
   <div th:replace="~{fragments/toolbar :: toolbar}"></div>
@@ -10,34 +10,34 @@
       <main id="content" role="main" class="form-card spacing-above-35">
         <th:block th:replace="~{fragments/icons :: passport}"></th:block>
         <th:block
-            th:replace="~{fragments/cardHeader :: cardHeader(header=#{applicant-applying-tell-us-more.title})}"/>
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{applicant-applying.title})}"/>
         <th:block
             th:replace="~{fragments/form :: form(action=${formAction}, content=~{::content})}">
           <th:block th:ref="content">
             <div class="form-card__content form-group-spacing-half">
               <th:block th:replace="~{fragments/inputs/radioFieldset ::
                               radioFieldset(inputName='isApplicantApplying',
-                              label=#{applicant-applying-tell-us-more.do-you-want},
-                              fieldsetHelpText=#{applicant-applying-tell-us-more.do-you-want-help-text},
+                              label=#{applicant-applying.do-you-want},
+                              fieldsetHelpText=#{applicant-applying.do-you-want-help-text},
                               content=~{::inputContent})}">
                 <th:block th:ref="inputContent">
                   <th:block
-                      th:replace="~{fragments/inputs/radio :: radio(inputName='isApplicantApplying',value='true', label=#{applicant-applying-tell-us-more.yes})}"/>
+                      th:replace="~{fragments/inputs/radio :: radio(inputName='isApplicantApplying',value='true', label=#{applicant-applying.yes})}"/>
                   <th:block
-                      th:replace="~{fragments/inputs/radio :: radio(inputName='isApplicantApplying',value='false', label=#{applicant-applying-tell-us-more.no})}"/>
+                      th:replace="~{fragments/inputs/radio :: radio(inputName='isApplicantApplying',value='false', label=#{applicant-applying.no})}"/>
                 </th:block>
               </th:block>
               <th:block
                 th:replace="~{fragments/inputs/ssn :: ssn(
                 inputName='applicantSSN',
-                label=#{applicant-applying-tell-us-more.ssn},
-                helpText=#{applicant-applying-tell-us-more.ssn-help})}"/>
+                label=#{applicant-applying.ssn},
+                helpText=#{applicant-applying.ssn-help})}"/>
             </div>
             <div class="form-card__footer">
               <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
                   text=#{general.inputs.continue})}"/>
               <div class="spacing-above-10">
-                <a th:text="#{applicant-applying-tell-us-more.ssn-why}" href="/"></a>
+                <a th:text="#{applicant-applying.ssn-why}" href="/"></a>
               </div>
             </div>
           </th:block>
