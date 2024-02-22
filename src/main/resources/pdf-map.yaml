@@ -23,7 +23,7 @@ inputFields:
   speaksEnglish: applicant_speaks_english
   needsCashAssistance: applicant_needs_cash_assistance
   needsSNAP: applicant_needs_snap
-  applicantIsPregnant: household_pregnancy_bool
+  isApplicantPregnant: household_pregnancy_bool
   applicantIsPregnantName: household_pregnancy_who_name
   signature: applicant_signature
 

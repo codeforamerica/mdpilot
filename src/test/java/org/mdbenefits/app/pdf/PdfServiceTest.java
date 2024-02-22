@@ -35,7 +35,7 @@ class PDFServiceTest {
             .with("homeAddressZipCode", "94103")
             .with("phoneNumber", "(510) 555-1212")
             .with("programs[]", List.of("SNAP", "RCA"))
-            .with("applicantIsPregnant", "false")
+            .with("isApplicantPregnant", "false")
             .with("signature", "John Hancock")
             .with("someoneInHHIsPregnant", "true")
             .with("someoneHasDrugKingpinFelony", "false")

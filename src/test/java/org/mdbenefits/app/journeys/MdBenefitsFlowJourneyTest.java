@@ -623,7 +623,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("personal-info.pregnancy.title"));
-        testPage.selectRadio("applicantIsPregnant", "true");
+        testPage.selectRadio("isApplicantPregnant", "true");
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("applicant-school-enrollment.title"));

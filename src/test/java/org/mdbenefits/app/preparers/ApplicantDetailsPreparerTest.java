@@ -20,7 +20,7 @@ public class ApplicantDetailsPreparerTest {
             .withPersonalInfo("John", "Doe", "10", "12", "1999",
                 "", "", "", "", "")
             .with("allAreCitizens", "true")
-            .with("applicantIsPregnant", "false")
+            .with("isApplicantPregnant", "false")
             .build();
 
         Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);

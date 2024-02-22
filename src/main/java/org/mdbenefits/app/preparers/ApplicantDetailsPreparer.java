@@ -41,7 +41,7 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
             results.put("applicantSex", new SingleField("applicantSex", "", null));
         }
 
-        if (inputData.get("applicantIsPregnant").toString().equalsIgnoreCase("true")) {
+        if (inputData.get("isApplicantPregnant").toString().equalsIgnoreCase("true")) {
             results.put("applicantIsPregnantName", new SingleField("applicantIsPregnantName", (String) fullName, null));
         };
 
