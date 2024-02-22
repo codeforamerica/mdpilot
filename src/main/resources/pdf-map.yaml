@@ -29,6 +29,7 @@ inputFields:
   applicantDOB: applicant_dob
   sex: applicant_sex
   applicantSSN: applicant_ssn
+  applicantIsEnrolledInSchool: applicant_is_in_school
 
   #Section M
   someoneHasDrugKingpinFelony: household_drugpin_felony_bool

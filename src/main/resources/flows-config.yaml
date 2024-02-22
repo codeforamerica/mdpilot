@@ -122,11 +122,6 @@ flow:
       - name: applicantSchoolInfo
   applicantSchoolInfo:
     nextScreens:
-      - name: applicantSchoolMoreInfo
-        condition: IsApplicantInSchool
-      - name: applicantDisability
-  applicantSchoolMoreInfo:
-    nextScreens:
       - name: applicantDisability
   applicantDisability:
     nextScreens:
@@ -163,18 +158,6 @@ flow:
     nextScreens:
       - name: householdSpecialSituations
   householdSpecialSituations:
-    nextScreens:
-      - name: householdSchool
-  householdSchool:
-    nextScreens:
-      - name: householdSchoolWho
-        condition: GoingToSchool
-      - name: householdPregnancy
-  householdSchoolWho:
-    nextScreens:
-      - name: householdSchoolDetails
-  householdSchoolDetails:
-    beforeDisplayAction: ReformatStudentsUserData
     nextScreens:
       - name: householdPregnancy
   householdPregnancy:

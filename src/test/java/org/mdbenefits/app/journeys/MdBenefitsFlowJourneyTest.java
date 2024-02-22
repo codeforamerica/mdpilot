@@ -605,16 +605,21 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         testPage.clickButton("This looks correct");
 
-        // Household
+        // Individual Only Household
         assertThat(testPage.getTitle()).isEqualTo(message("household-signpost.title"));
         testPage.clickContinue();
         
         assertThat(testPage.getTitle()).isEqualTo(message("applicant-applying.title"));
-        testPage.selectRadio("isApplicantApplying", "false");
+        testPage.selectRadio("isApplicantApplying", "true");
         testPage.clickContinue();
 
-        assertThat(testPage.getTitle()).isEqualTo(message("household-question.title"));
-        testPage.clickButton(message("household-question.no-text"));
+        //sex placeholder
+        assertThat(testPage.getTitle()).isEqualTo("Scaffold");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("applicant-school-enrollment.title"));
+        testPage.selectRadio("applicantIsEnrolledInSchool", "Yes");
+
 
        /*
         // Saving for when we work on household pages
@@ -644,21 +649,8 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("special-situations.title"));
         testPage.clickContinue();
 
-        assertThat(testPage.getTitle()).isEqualTo(message("school.title"));
-        testPage.clickButton("No");
-
         assertThat(testPage.getTitle()).isEqualTo(message("pregnancy.title"));
         testPage.goBack();
-        testPage.clickButton("Yes");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("school-who.title"));
-        testPage.clickElementById("students-you");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("schooldetails.title"));
-        testPage.enter("schoolName_wildcard_you", "School Name");
-        testPage.clickElementById("schoolEnrollmentLevel_wildcard_you-Half-time");
-        testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("pregnancy.title"));
         testPage.clickButton("No");
@@ -685,6 +677,15 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickElementById("preparesFood-you");
         testPage.clickContinue();
 */
+        testPage.navigateToFlowScreen("mdBenefitsFlow/applicantApplying");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("applicant-applying.title"));
+        testPage.selectRadio("isApplicantApplying", "false");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("household-question.title"));
+        testPage.clickButton(message("household-question.no-text"));
+
         assertThat(testPage.getTitle()).isEqualTo(message("seasonal-farmworker.title"));
         testPage.clickButton("Yes");
 
