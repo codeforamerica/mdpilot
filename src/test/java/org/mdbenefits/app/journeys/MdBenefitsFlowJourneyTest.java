@@ -26,7 +26,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
     protected static final String RANGE_ERROR_MESSAGE = "Make sure to provide a value between 1 and 100.";
-    
+
     @MockBean
     private AddressValidationService addressValidationService;
 
@@ -172,11 +172,9 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         assert (testPage.hasErrorText(message("error.missing-firstname")));
         assert (testPage.hasErrorText(message("error.missing-lastname")));
-        assert (testPage.hasErrorText(message("error.missing-general")));
 
         testPage.enter("firstName", "test");
         testPage.enter("lastName", "test2");
-        testPage.selectRadio("sex", "F");
 
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("home-address.title"));
@@ -441,6 +439,44 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     }
 
     @Test
+    void maleApplicantsSkipPregnancyQuestion() {
+        loadUserPersonalData();
+        testPage.navigateToFlowScreen("mdBenefitsFlow/applicantSex");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("personal-info.sex.title"));
+        testPage.selectRadio("applicantSex", "M");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("applicant-school-enrollment.title"));
+        testPage.selectRadio("applicantIsEnrolledInSchool", "Yes");
+
+    }
+
+    @Test
+    void femaleApplicantSeesPregnancyQuestion() {
+        loadUserPersonalData();
+        testPage.navigateToFlowScreen("mdBenefitsFlow/applicantSex");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("personal-info.sex.title"));
+        testPage.selectRadio("applicantSex", "F");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("personal-info.pregnancy.title"));
+    }
+
+    @Test
+    void preferNotToAnswerApplicantSeesPregnancyQuestion() {
+        loadUserPersonalData();
+        testPage.navigateToFlowScreen("mdBenefitsFlow/applicantSex");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("personal-info.sex.title"));
+        testPage.selectRadio("applicantSex", "Other");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("personal-info.pregnancy.title"));
+    }
+
+    @Test
     void someHouseholdMembersNotApplyingPresetsCitizenshipStatus() {
         loadUserPersonalData();
         loadHouseHoldData("First", "User", "12", "22", "1991", true);
@@ -550,7 +586,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.enter("birthMonth", "12");
         testPage.enter("birthDay", "25");
         testPage.enter("birthYear", "1985");
-        testPage.selectRadio("sex", "F");
         testPage.clickContinue();
 
         // Home Address
@@ -581,11 +616,11 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.enter("mailingAddressZipCode", "12455");
 
         testPage.clickContinue();
-        
+
         assertThat(testPage.getTitle()).isEqualTo(message("verify-address.title"));
-        
+
         testPage.clickButton("Use this address");
-        
+
         assertThat(testPage.getTitle()).isEqualTo(message("contact-info.title"));
         testPage.clickElementById("remindersMethod-By email-label");
         testPage.enter("emailAddress", "mail@mail.com");
@@ -608,18 +643,20 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         // Individual Only Household
         assertThat(testPage.getTitle()).isEqualTo(message("household-signpost.title"));
         testPage.clickContinue();
-        
+
         assertThat(testPage.getTitle()).isEqualTo(message("applicant-applying.title"));
         testPage.selectRadio("isApplicantApplying", "true");
         testPage.clickContinue();
 
-        //sex placeholder
-        assertThat(testPage.getTitle()).isEqualTo("Scaffold");
+        assertThat(testPage.getTitle()).isEqualTo(message("personal-info.sex.title"));
+        testPage.selectRadio("applicantSex", "F");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("personal-info.pregnancy.title"));
+        testPage.selectRadio("isApplicantPregnant", "true");
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("applicant-school-enrollment.title"));
-        testPage.selectRadio("applicantIsEnrolledInSchool", "Yes");
-
 
        /*
         // Saving for when we work on household pages
@@ -649,11 +686,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("special-situations.title"));
         testPage.clickContinue();
 
-        assertThat(testPage.getTitle()).isEqualTo(message("pregnancy.title"));
-        testPage.goBack();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("pregnancy.title"));
-        testPage.clickButton("No");
 
         assertThat(testPage.getTitle()).isEqualTo(message("household-prepare-food.title"));
         testPage.goBack();
@@ -963,7 +995,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         // Confirmation page
         assertThat(testPage.getTitle()).isEqualTo(message("confirmation.title"));
     }
-    
+
     @Test
     void testValidMailingAddress() throws SmartyException, IOException, InterruptedException {
         ValidatedAddress validatedAddress = new ValidatedAddress("mailingAddressStreetAddress1_validated", "mailingAddressStreetAddress2_validated", "mailingAddressCity_validated", "mailingAddressState_validated", "mailingAddressZipCode_validated");
@@ -992,7 +1024,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("verify-address.title"));
         assertThat(driver.findElements(By.className("notice--warning")).get(0).getText()).isEqualTo(message("verify-address.notice"));
     }
-    
+
     @Test
     void testMailingAddressIsSameAsHomeAddress() throws SmartyException, IOException, InterruptedException {
         ValidatedAddress validatedAddress = new ValidatedAddress("mailingAddressStreetAddress1_validated", "mailingAddressStreetAddress2", "mailingAddressCity", "mailingAddressState", "mailingAddressZipCode");
@@ -1015,7 +1047,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("verify-address.title"));
         assertThat(driver.findElements(By.className("notice--warning")).get(0).getText()).isEqualTo(message("select-address.notice"));
     }
-    
+
     @Test
     void shouldValidateMailingAddressWhenNoHomeAddress() throws SmartyException, IOException, InterruptedException {
         ValidatedAddress validatedAddress = new ValidatedAddress("mailingAddressStreetAddress1_validated", "mailingAddressStreetAddress2", "mailingAddressCity", "mailingAddressState", "mailingAddressZipCode");
@@ -1043,7 +1075,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.enter("birthMonth", "12");
         testPage.enter("birthDay", "25");
         testPage.enter("birthYear", "1985");
-        testPage.selectRadio("sex", "F");
         testPage.clickContinue();
     }
 

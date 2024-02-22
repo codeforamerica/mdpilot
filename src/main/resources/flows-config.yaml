@@ -97,9 +97,6 @@ flow:
   householdRentAmount:
     nextScreens:
       - name: householdSignPost
-  # The Flow before this is wrong and has not
-  # been worked on yet.
-  # Applicant pages start here
   householdSignPost:
     nextScreens:
       - name: applicantApplying
@@ -115,7 +112,7 @@ flow:
   applicantSex:
     nextScreens:
       - name: applicantPregnancy
-        condition: IsApplicantPregnant
+        condition: DisplayPregnancyQuestion
       - name: applicantSchoolInfo
   applicantPregnancy:
     nextScreens:
@@ -159,21 +156,7 @@ flow:
       - name: householdSpecialSituations
   householdSpecialSituations:
     nextScreens:
-      - name: householdPregnancy
-  householdPregnancy:
-    nextScreens:
-      - name: householdPregnancyWho
-        condition: IsPregnant
       - name: householdPrepareFood
-  householdPregnancyWho:
-    nextScreens:
-      - name: householdPregnancyDueDate
-  householdPregnancyDueDate:
-    beforeDisplayAction: ReformatPregnancyUserData
-    nextScreens:
-      - name: householdPrepareFood
-        condition: ProgramsIncludeSnap
-      - name: sensitiveQuestions
   householdPrepareFood:
     nextScreens:
       - name: householdSeasonalFarmWorker

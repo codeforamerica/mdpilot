@@ -23,12 +23,15 @@ inputFields:
   speaksEnglish: applicant_speaks_english
   needsCashAssistance: applicant_needs_cash_assistance
   needsSNAP: applicant_needs_snap
+  isApplicantPregnant: household_pregnancy_bool
+  applicantIsPregnantName: household_pregnancy_who_name
   signature: applicant_signature
 
   #Section A
   applicantDOB: applicant_dob
   sex: applicant_sex
   applicantSSN: applicant_ssn
+  applicantSex: applicant_sex
   applicantIsEnrolledInSchool: applicant_is_in_school
 
   #Section M

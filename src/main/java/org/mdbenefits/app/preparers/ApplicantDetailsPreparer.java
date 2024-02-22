@@ -28,14 +28,22 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
         results.put("applicantFullName", new SingleField("applicantFullName", (String) fullName, null));
 
         var dob = Stream.of("birthMonth", "birthDay", "birthYear")
-                .map(inputData::get)
-                .reduce((e, c) -> e + "/" + c)
-                .get();
+            .map(inputData::get)
+            .reduce((e, c) -> e + "/" + c)
+            .get();
         results.put("applicantDOB", new SingleField("applicantDOB", (String) dob, null));
 
         results.put("applicantSSN",
-                new SingleField("applicantSSN", SubmissionUtilities.formatSSN((String) inputData.get("encryptedSSN")), null));
+            new SingleField("applicantSSN", SubmissionUtilities.formatSSN((String) inputData.get("encryptedSSN")), null));
         results.put("speaksEnglish", new SingleField("speaksEnglish", (String) "true", null));
+
+        if(inputData.get("applicantSex").toString().equalsIgnoreCase("other")){
+            results.put("applicantSex", new SingleField("applicantSex", "", null));
+        }
+
+        if (inputData.get("isApplicantPregnant").toString().equalsIgnoreCase("true")) {
+            results.put("applicantIsPregnantName", new SingleField("applicantIsPregnantName", (String) fullName, null));
+        };
 
         // TODO - this will get finished when design says it's ready
         //prepareCitizenshipStatus(inputData, results);
