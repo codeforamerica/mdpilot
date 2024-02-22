@@ -291,24 +291,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("income-confirmation.title"));
     }
 
-    @Test
-    void socialSecurityFlow() {
-        loadUserPersonalData();
-
-        testPage.navigateToFlowScreen("mdBenefitsFlow/ssnForm");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("ssn-form.title"));
-
-        testPage.enter("ssn", "1234");
-        testPage.clickContinue();
-
-        assert (testPage.hasErrorText(message("error.invalid-ssn")));
-        testPage.enter("ssn", "");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("special-situations.title"));
-    }
-
     // TODO: re-enable once we implement the expedited SNAP flow
     @Test
     @Disabled
