@@ -47,9 +47,6 @@ public class MdBenefitsFlow extends FlowInputs {
     private String birthMonth;
     private String birthYear;
 
-    @NotBlank(message = "{error.missing-general}")
-    private String sex;
-
     private String maritalStatus;
 
     private String highestEducation;
@@ -108,6 +105,20 @@ public class MdBenefitsFlow extends FlowInputs {
     // Household
     private String multiplePersonHousehold;
 
+    // Applicant Tell Us More About Yourself
+    @NotBlank(message = "{error.missing-general}")
+    private String isApplicantApplying;
+
+    private String applicantSSN;
+
+    @NotBlank(message = "{error.missing-general}")
+    private String applicantSex;
+
+    private String applicantIsPregnant;
+
+    private String applicantIsEnrolledInSchool;
+
+
     @NotBlank(message = "{error.missing-firstname}")
     private String householdMemberFirstName;
 
@@ -145,35 +156,6 @@ public class MdBenefitsFlow extends FlowInputs {
     @DynamicField
     private String householdMemberSsn;
 
-    @NotEmpty(message = "{error.missing-general}")
-    private List<String> students;
-
-    @NotBlank(message = "{error.missing-general}")
-    @DynamicField
-    private String schoolName;
-
-    @NotBlank(message = "{error.missing-general}")
-    @DynamicField
-    private String schoolEnrollmentLevel;
-
-    private String pregnancyInd;
-
-    @NotEmpty(message = "{error.missing-general}")
-    private List<String> pregnancies;
-
-    //  With dynamic fields and the date template, the data is stored as pregnancyDueDate<wildcard><uuid>Day so changed the ordering to start with the date piece
-    @NotBlank(message = "{error.missing-general}")
-    @DynamicField
-    private String dayPregnancyDueDate;
-
-    @NotBlank(message = "{error.missing-general}")
-    @DynamicField
-    private String monthPregnancyDueDate;
-
-    @NotBlank(message = "{error.missing-general}")
-    @Pattern(regexp = "^(2024|2025)$", message = "{error.invalid-dob}")
-    @DynamicField
-    private String yearPregnancyDueDate;
 
     // SNAP
     private String buyPrepareMealsSeparateIndicator;
@@ -366,13 +348,8 @@ public class MdBenefitsFlow extends FlowInputs {
 
     private String digitalAssisterFeedbackDetail;
     
-    // Applicant Tell Us More About Yourself
-    @NotBlank(message = "{error.missing-general}")
-    private String isApplicantApplying;
-    
-    private String applicantSSN;
 
-    private String applicantIsEnrolledInSchool;
+
 
     // Expedited Snap Start
     private String isApplyingForExpeditedSnap;

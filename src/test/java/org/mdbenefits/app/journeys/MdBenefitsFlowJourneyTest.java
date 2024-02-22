@@ -550,7 +550,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.enter("birthMonth", "12");
         testPage.enter("birthDay", "25");
         testPage.enter("birthYear", "1985");
-        testPage.selectRadio("sex", "F");
         testPage.clickContinue();
 
         // Home Address
@@ -613,13 +612,23 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.selectRadio("isApplicantApplying", "true");
         testPage.clickContinue();
 
-        //sex placeholder
-        assertThat(testPage.getTitle()).isEqualTo("Scaffold");
+        assertThat(testPage.getTitle()).isEqualTo(message("personal-info.sex.title"));
+        testPage.selectRadio("applicantSex", "M");
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("applicant-school-enrollment.title"));
         testPage.selectRadio("applicantIsEnrolledInSchool", "Yes");
 
+        testPage.goBack();
+        assertThat(testPage.getTitle()).isEqualTo(message("personal-info.sex.title"));
+        testPage.selectRadio("applicantSex", "F");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("personal-info.pregnancy.title"));
+        testPage.selectRadio("applicantIsPregnant", "true");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("applicant-school-enrollment.title"));
 
        /*
         // Saving for when we work on household pages
@@ -649,11 +658,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("special-situations.title"));
         testPage.clickContinue();
 
-        assertThat(testPage.getTitle()).isEqualTo(message("pregnancy.title"));
-        testPage.goBack();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("pregnancy.title"));
-        testPage.clickButton("No");
 
         assertThat(testPage.getTitle()).isEqualTo(message("household-prepare-food.title"));
         testPage.goBack();
