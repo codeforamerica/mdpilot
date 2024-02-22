@@ -103,7 +103,7 @@ flow:
   # Not a next screen of any screen but directly linked to from applicantApplying
   whyWeAskForSSN:
     nextScreens:
-      - name: applicantSex
+      - name: null
   applicantSex:
     nextScreens:
       - name: applicantPregnancy
@@ -125,8 +125,6 @@ flow:
     nextScreens:
       - name: householdList
         condition: HasHousehold
-      - name: householdIncomeLast30Days
-        condition: IsApplyingForExpeditedSnap
       - name: householdSeasonalFarmWorker
 
   ## END applicant information
@@ -140,14 +138,6 @@ flow:
       - name: householdList
   householdMemberDeleteConfirmation:
     nextScreens: null
-  ssnForm:
-    beforeSaveAction: EncryptSSNBeforeSaving
-    beforeDisplayAction: DecryptSSNBeforeDisplaying
-    nextScreens:
-      - name: householdSpecialSituations
-  ssnFaq:
-    nextScreens:
-      - name: householdSpecialSituations
   householdSpecialSituations:
     nextScreens:
       - name: householdPrepareFood
