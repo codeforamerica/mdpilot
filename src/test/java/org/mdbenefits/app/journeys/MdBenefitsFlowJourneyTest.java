@@ -627,7 +627,12 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("applicant-applying.title"));
-        testPage.selectRadio("isApplicantApplying", "true");
+        testPage.clickLink("Why do we ask for SSNs?");
+        assertThat(testPage.getTitle()).isEqualTo(message("ssn-why.title"));
+        testPage.clickLink("Go Back");
+        assertThat(testPage.getTitle()).isEqualTo(message("applicant-applying.title"));
+
+        testPage.selectRadio("isApplicantApplying", "Yes");
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("personal-info.sex.title"));
@@ -1035,6 +1040,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.enter("birthMonth", "12");
         testPage.enter("birthDay", "25");
         testPage.enter("birthYear", "1985");
+        testPage.selectRadio("sex", "F");
         testPage.clickContinue();
     }
 
@@ -1045,10 +1051,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.selectFromDropdown("householdMemberRelationship", message("household-info.relationship.child"));
         testPage.selectRadio("householdMemberApplyingForBenefits", isApplying ? "yes" : "no");
         testPage.clickContinue();
-//        testPage.enter("householdMemberBirthMonth", month);
-//        testPage.enter("householdMemberBirthDay", day);
-//        testPage.enter("householdMemberBirthYear", year);
-//        testPage.selectRadio("householdMemberSex", "F");
     }
 
     void loadAddressData() {
