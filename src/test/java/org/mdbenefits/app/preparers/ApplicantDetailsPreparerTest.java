@@ -17,15 +17,16 @@ public class ApplicantDetailsPreparerTest {
     @Test
     public void testApplicantFullName() {
         Submission submission = new SubmissionTestBuilder()
-                .withPersonalInfo("John", "Doe", "10", "12", "1999",
-                        "", "", "", "", "")
-                .with("allAreCitizens", "true")
-                .build();
+            .withPersonalInfo("John", "Doe", "10", "12", "1999",
+                "", "", "", "", "")
+            .with("allAreCitizens", "true")
+            .with("applicantIsPregnant", "false")
+            .build();
 
         Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);
 
         assertThat(result.get("applicantFullName"))
-                .isEqualTo(new SingleField("applicantFullName", "Doe, John", null));
+            .isEqualTo(new SingleField("applicantFullName", "Doe, John", null));
     }
 
 

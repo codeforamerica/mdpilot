@@ -172,11 +172,9 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         assert (testPage.hasErrorText(message("error.missing-firstname")));
         assert (testPage.hasErrorText(message("error.missing-lastname")));
-        assert (testPage.hasErrorText(message("error.missing-general")));
 
         testPage.enter("firstName", "test");
         testPage.enter("lastName", "test2");
-        testPage.selectRadio("sex", "F");
 
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("home-address.title"));
@@ -1047,7 +1045,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.enter("birthMonth", "12");
         testPage.enter("birthDay", "25");
         testPage.enter("birthYear", "1985");
-        testPage.selectRadio("sex", "F");
         testPage.clickContinue();
     }
 

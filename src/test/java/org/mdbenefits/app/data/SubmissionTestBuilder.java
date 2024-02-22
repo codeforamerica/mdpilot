@@ -26,7 +26,7 @@ public class SubmissionTestBuilder {
         submission.getInputData().put("birthMonth", birthMonth);
         submission.getInputData().put("birthYear", birthYear);
         submission.getInputData().put("relationship", relationship);
-        submission.getInputData().put("sex", sex);
+        submission.getInputData().put("applicantSex", sex);
         submission.getInputData().put("maritalStatus", maritalStatus);
         submission.getInputData().put("highestEducation", education);
         submission.getInputData().put("encryptedSSN", ssn);
