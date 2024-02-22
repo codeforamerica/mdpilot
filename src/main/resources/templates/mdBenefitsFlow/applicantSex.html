@@ -17,8 +17,8 @@
             <div class="form-card__content">
               <th:block th:replace="~{fragments/inputs/radioFieldset ::
                               radioFieldset(inputName='applicantSex',
-                              label=#{personal-info.sex},
-                              fieldsetHelpText=#{personal-info.sex-help},
+                              label=#{personal-info.sex.header},
+                              fieldsetHelpText=#{personal-info.sex.help},
                               content=~{::sexOptions})}">
                 <th:block th:ref="sexOptions">
                   <th:block

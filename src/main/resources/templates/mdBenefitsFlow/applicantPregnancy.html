@@ -17,8 +17,8 @@
             <div class="form-card__content form-group-spacing-half">
               <th:block th:replace="~{fragments/inputs/radioFieldset ::
                               radioFieldset(inputName='isApplicantPregnant',
-                              label=#{personal-info.pregnancy},
-                              helpText=#{personal-info.pregnancy-help},
+                              label=#{personal-info.pregnancy.header},
+                              helpText=#{personal-info.pregnancy.help},
                               content=~{::inputContent})}">
                 <th:block th:ref="inputContent">
                   <th:block
