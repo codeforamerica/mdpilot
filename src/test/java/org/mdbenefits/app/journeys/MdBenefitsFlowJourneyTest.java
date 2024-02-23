@@ -552,7 +552,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     }
 
     @Test
-    void completeFlow() {
+    void completeFlowApplicantOnly() {
         assertThat(testPage.getTitle()).isEqualTo("Maryland Benefits Application");
 
         testPage.clickButton("Apply Now");
@@ -658,57 +658,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         assertThat(testPage.getTitle()).isEqualTo(message("applicant-school-enrollment.title"));
 
-       /*
-        // Saving for when we work on household pages
-        assertThat(testPage.getTitle()).isEqualTo(message("household-info.title"));
-        testPage.enter("householdMemberFirstName", "roomy");
-        testPage.enter("householdMemberLastName", "smith");
-        testPage.selectRadio("householdMemberSex", "F");
-        testPage.enter("householdMemberBirthMonth", "1");
-        testPage.enter("householdMemberBirthDay", "25");
-        testPage.enter("householdMemberBirthYear", "1991");
-        testPage.selectFromDropdown("householdMemberRelationship", message("household-info.relationship.step-child"));
-        testPage.selectRadio("householdMemberApplyingForBenefits", "yes");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("household-list.title"));
-        testPage.clickButton("Yes, this is everyone");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("ssn-form.title"));
-        testPage.clickLink("Learn why we ask for SSNs");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("ssn-faqs.title"));
-        testPage.goBack();
-
-        testPage.clickContinue();
-
-        // Special situations
-        assertThat(testPage.getTitle()).isEqualTo(message("special-situations.title"));
-        testPage.clickContinue();
-
-
-        assertThat(testPage.getTitle()).isEqualTo(message("household-prepare-food.title"));
-        testPage.goBack();
-        testPage.clickButton("Yes");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("pregnancy-who.title"));
-        testPage.clickElementById("pregnancies-you");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("pregnantduedate.title"));
-        testPage.enter("monthPregnancyDueDate_wildcard_you", "12");
-        testPage.enter("dayPregnancyDueDate_wildcard_you", "12");
-        testPage.enter("yearPregnancyDueDate_wildcard_you", "2025");
-
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("household-prepare-food.title"));
-        testPage.clickButton("No");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("household-prepare-food-who.title"));
-        testPage.clickElementById("preparesFood-you");
-        testPage.clickContinue();
-*/
+       // TODO: remove this navigation in future work
         testPage.navigateToFlowScreen("mdBenefitsFlow/applicantApplying");
 
         assertThat(testPage.getTitle()).isEqualTo(message("applicant-applying.title"));
@@ -994,6 +944,30 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         // Confirmation page
         assertThat(testPage.getTitle()).isEqualTo(message("confirmation.title"));
+    }
+
+    @Test
+    void completeFlowWithHousehold() {
+        loadUserPersonalData();
+
+        testPage.navigateToFlowScreen("mdBenefitsFlow/householdHasAdditionalMembers");
+        assertThat(testPage.getTitle()).isEqualTo(message("household-question.title"));
+        testPage.clickButton(message("general.inputs.yes"));
+
+        assertThat(testPage.getTitle()).isEqualTo(message("household-list.title"));
+        testPage.clickButton("Add someone");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("household-info.title"));
+        testPage.enter("householdMemberFirstName", "roomy");
+        testPage.enter("householdMemberLastName", "smith");
+        testPage.selectFromDropdown("householdMemberRelationship", message("household-info.relationship.child"));
+        testPage.selectRadio("householdMemberApplyingForBenefits", "yes");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("household-list.title"));
+        testPage.clickButton("I'm done");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("seasonal-farmworker.title"));
     }
 
     @Test
