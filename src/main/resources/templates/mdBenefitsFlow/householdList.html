@@ -2,7 +2,7 @@
 <html th:lang="${#locale.language}">
 <head th:replace="~{fragments/head :: head(title=#{household-list.title})}"></head>
 <body>
-<div class="page-wrapper">
+<div class="page-wrapper" th:with="hasHouseholdSubflow=${inputData.containsKey('household')}">
   <div th:replace="~{fragments/toolbar :: toolbar}"></div>
   <section class="slab">
     <div class="grid">
@@ -12,39 +12,18 @@
         <th:block
             th:replace="~{fragments/cardHeader :: cardHeader(header=#{household-list.header},
             subtext=#{household-list.subheader})}"/>
-        <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
-                controlId='r1',
-                linkLabel=~{::revealLabel1},
-                content=~{::revealContent1})}">
-          <th:block th:ref="revealLabel1">
-            <span class="clipboard-icon">
-              <i class="icon-">&#xE862;</i>
-            </span>
-            <span th:text="#{household-list.learn-more}"></span>
-          </th:block>
-          <th:block th:ref="revealContent1">
-            <ul class="list--bulleted">
-              <li th:utext="#{household-list.learn-more-l1}"></li>
-              <li th:utext="#{household-list.learn-more-l2}"></li>
-              <li th:utext="#{household-list.learn-more-l3}"></li>
-              <li th:utext="#{household-list.learn-more-l4}"></li>
-              <li th:utext="#{household-list.learn-more-l5}"></li>
-              <li th:utext="#{household-list.learn-more-l6}"></li>
-            </ul>
-          </th:block>
-        </th:block>
         <div class="form-card__content">
           <div class="boxed-content text--centered">
             <strong th:text="#{household-list.your-household}"></strong>
             <ul class="subflow-list list--bulleted">
-              <th:block th:if="${inputData.containsKey('household')}">
-                <li class="spacing-below-15">
+              <li class="spacing-below-15">
                   <span>
                       <span th:text="${inputData.firstName}"></span>
                       <span th:text="${inputData.lastName}"></span>
                     <span th:text="#{household-list.thats-you}"></span>
                   </span>
-                </li>
+              </li>
+              <th:block th:if="${hasHouseholdSubflow}">
                 <li th:each="householdMember, iter: ${inputData.household}"
                     class="spacing-below-15">
                   <span class="space-between">
@@ -67,12 +46,21 @@
               </th:block>
             </ul>
           </div>
+          <th:block th:replace="~{fragments/honeycrisp/accordion :: accordion(
+            buttonLabel=#{household-list.who},
+            content=~{::content})}">
+            <th:block th:ref="content">
+              <p th:text="#{household-list.who-p1}"></p>
+              <p th:text="#{household-list.who-p2}"></p>
+            </th:block>
+          </th:block>
         </div>
         <div class="form-card__footer">
           <a th:href="'/flow/' + ${flow} + '/householdInfo'"
              class="button button--primary spacing-above-15"
              th:text="#{household-list.add}"></a>
-          <a th:href="'/flow/' + ${flow} + '/' + ${screen} + '/navigation'"
+          <a th:if="${hasHouseholdSubflow}"
+             th:href="'/flow/' + ${flow} + '/' + ${screen} + '/navigation'"
              th:text="#{household-list.continue}"
              class="button spacing-left-0"
              id="continue-link"></a>

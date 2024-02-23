@@ -77,12 +77,7 @@ flow:
     nextScreens:
       - name: finalSignPost
         condition: IsMinimumApplication
-      - name: multiplePersonHousehold
-  multiplePersonHousehold:
-    nextScreens:
-      - name: householdIncomeLast30Days
-        condition: IsApplyingForExpeditedSnap
-      - name: householdSignPost
+      - name: householdHasAdditionalMembers
   householdIncomeLast30Days:
     nextScreens:
       - name: expeditedMoneyOnHandAmount
@@ -130,6 +125,8 @@ flow:
     nextScreens:
       - name: householdList
         condition: HasHousehold
+      - name: householdIncomeLast30Days
+        condition: IsApplyingForExpeditedSnap
       - name: householdSeasonalFarmWorker
 
   ## END applicant information
@@ -140,6 +137,12 @@ flow:
         condition: ProgramsIncludeSnap
       - name: householdSpecialSituations
   householdInfo:
+    subflow: household
+    nextScreens:
+      - name: householdAdditionalInfo
+#        condition: IsHouseholdMemberApplying
+#      - name: householdList
+  householdAdditionalInfo:
     crossFieldValidationAction: ValidateHouseholdBirthdate
     subflow: household
     nextScreens:
@@ -434,7 +437,7 @@ landmarks:
     - confirmation
 subflows:
   household:
-    entryScreen: multiplePersonHousehold
+    entryScreen: householdHasAdditionalMembers
     iterationStartScreen: householdInfo
     reviewScreen: householdList
     deleteConfirmationScreen: householdMemberDeleteConfirmation
