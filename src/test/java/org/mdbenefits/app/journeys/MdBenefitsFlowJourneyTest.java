@@ -1082,13 +1082,13 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.navigateToFlowScreen("mdBenefitsFlow/householdInfo");
         testPage.enter("householdMemberFirstName", firstName);
         testPage.enter("householdMemberLastName", lastName);
-        testPage.enter("householdMemberBirthMonth", month);
-        testPage.enter("householdMemberBirthDay", day);
-        testPage.enter("householdMemberBirthYear", year);
-        testPage.selectFromDropdown("householdMemberRelationship", message("household-info.relationship.step-child"));
-        testPage.selectRadio("householdMemberSex", "F");
+        testPage.selectFromDropdown("householdMemberRelationship", message("household-info.relationship.child"));
         testPage.selectRadio("householdMemberApplyingForBenefits", isApplying ? "yes" : "no");
         testPage.clickContinue();
+//        testPage.enter("householdMemberBirthMonth", month);
+//        testPage.enter("householdMemberBirthDay", day);
+//        testPage.enter("householdMemberBirthYear", year);
+//        testPage.selectRadio("householdMemberSex", "F");
     }
 
     void loadAddressData() {
