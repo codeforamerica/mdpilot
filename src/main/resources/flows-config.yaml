@@ -133,13 +133,19 @@ flow:
       - name: householdSeasonalFarmWorker
 
   ## END applicant information
-
+  
   householdList:
     nextScreens:
       - name: ssnForm
         condition: ProgramsIncludeSnap
       - name: householdSpecialSituations
   householdInfo:
+    subflow: household
+    nextScreens:
+      - name: householdAdditionalInfo
+        condition: IsHouseholdMemberApplying
+      - name: householdList
+  householdAdditionalInfo:
     crossFieldValidationAction: ValidateHouseholdBirthdate
     subflow: household
     nextScreens:
