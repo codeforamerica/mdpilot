@@ -4,7 +4,7 @@ import formflow.library.data.Submission;
 import org.springframework.stereotype.Component;
 
 @Component
-public class HasHousehold extends BasicCondition {
+public class IsMultiplePersonHousehold extends BasicCondition {
 
     @Override
     public Boolean run(Submission submission) {

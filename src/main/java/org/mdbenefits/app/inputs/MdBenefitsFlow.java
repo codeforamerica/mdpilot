@@ -121,17 +121,11 @@ public class MdBenefitsFlow extends FlowInputs {
 
     @NotBlank(message = "{error.missing-firstname}")
     private String householdMemberFirstName;
-    
-    private String householdMemberMiddleName;
 
     @NotBlank(message = "{error.missing-lastname}")
     private String householdMemberLastName;
 
-    @NotBlank(message = "{error.missing-general}")
-    private String householdMemberRelationship;
-    
-    @NotBlank(message = "{error.missing-general}")
-    private String householdMemberApplyingForBenefits;
+    private String householdMemberOtherNames;
 
     private String householdMemberBirthDay;
 
@@ -140,13 +134,21 @@ public class MdBenefitsFlow extends FlowInputs {
     private String householdMemberBirthYear;
 
     @NotBlank(message = "{error.missing-general}")
+    private String householdMemberRelationship;
+
+    @NotBlank(message = "{error.missing-general}")
     private String householdMemberSex;
 
     private String householdMemberMaritalStatus;
 
     private String householdMemberHighestEducation;
-    
-    // TODO this field needs to be updated where used as we are actually using applicantSSN
+
+    // bseeger - I added this to use in the logic on the
+    // citizenship pages. Please update the variable name there
+    // if you change this.
+    @NotBlank(message = "{error.missing-general}")
+    private String householdMemberApplyingForBenefits;
+
     @Size(min = 11, max = 11, message = "{error.invalid-ssn}")
     private String ssn;
 
