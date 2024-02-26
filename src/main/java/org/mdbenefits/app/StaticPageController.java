@@ -38,9 +38,4 @@ public class StaticPageController {
     String getPrivacy() {
         return "privacy";
     }
-
-    @GetMapping("/ssnFAQs")
-    String getSSNFaqs() {
-        return "ssnFAQs";
-    }
 }

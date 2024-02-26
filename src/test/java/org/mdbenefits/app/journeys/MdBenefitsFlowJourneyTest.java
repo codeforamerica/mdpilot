@@ -291,24 +291,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("income-confirmation.title"));
     }
 
-    @Test
-    void socialSecurityFlow() {
-        loadUserPersonalData();
-
-        testPage.navigateToFlowScreen("mdBenefitsFlow/ssnForm");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("ssn-form.title"));
-
-        testPage.enter("ssn", "1234");
-        testPage.clickContinue();
-
-        assert (testPage.hasErrorText(message("error.invalid-ssn")));
-        testPage.enter("ssn", "");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("special-situations.title"));
-    }
-
     // TODO: re-enable once we implement the expedited SNAP flow
     @Test
     @Disabled
@@ -645,7 +627,12 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("applicant-applying.title"));
-        testPage.selectRadio("isApplicantApplying", "true");
+        testPage.clickLink("Why do we ask for SSNs?");
+        assertThat(testPage.getTitle()).isEqualTo(message("ssn-why.title"));
+        testPage.clickLink("Go Back");
+        assertThat(testPage.getTitle()).isEqualTo(message("applicant-applying.title"));
+
+        testPage.selectRadio("isApplicantApplying", "Yes");
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("personal-info.sex.title"));
@@ -662,7 +649,11 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.navigateToFlowScreen("mdBenefitsFlow/applicantApplying");
 
         assertThat(testPage.getTitle()).isEqualTo(message("applicant-applying.title"));
-        testPage.selectRadio("isApplicantApplying", "false");
+        testPage.clickLink("Why do we ask for SSNs?");
+        assertThat(testPage.getTitle()).isEqualTo(message("ssn-why.title"));
+        testPage.clickLink("Go Back");
+        assertThat(testPage.getTitle()).isEqualTo(message("applicant-applying.title"));
+        testPage.selectRadio("isApplicantApplying", "No");
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("household-question.title"));
@@ -1059,10 +1050,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.selectFromDropdown("householdMemberRelationship", message("household-info.relationship.child"));
         testPage.selectRadio("householdMemberApplyingForBenefits", isApplying ? "yes" : "no");
         testPage.clickContinue();
-//        testPage.enter("householdMemberBirthMonth", month);
-//        testPage.enter("householdMemberBirthDay", day);
-//        testPage.enter("householdMemberBirthYear", year);
-//        testPage.selectRadio("householdMemberSex", "F");
     }
 
     void loadAddressData() {

@@ -22,9 +22,9 @@
                               content=~{::inputContent})}">
                 <th:block th:ref="inputContent">
                   <th:block
-                      th:replace="~{fragments/inputs/radio :: radio(inputName='isApplicantApplying',value='true', label=#{applicant-applying.yes})}"/>
+                      th:replace="~{fragments/inputs/radio :: radio(inputName='isApplicantApplying',value='Yes', label=#{applicant-applying.yes})}"/>
                   <th:block
-                      th:replace="~{fragments/inputs/radio :: radio(inputName='isApplicantApplying',value='false', label=#{applicant-applying.no})}"/>
+                      th:replace="~{fragments/inputs/radio :: radio(inputName='isApplicantApplying',value='No', label=#{applicant-applying.no})}"/>
                 </th:block>
               </th:block>
               <th:block
@@ -37,7 +37,7 @@
               <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
                   text=#{general.inputs.continue})}"/>
               <div class="spacing-above-10">
-                <a th:text="#{applicant-applying.ssn-why}" href="/"></a>
+                <a th:text="#{applicant-applying.ssn-why}" th:href="${'/flow/' + flow + '/whyWeAskForSSN'}"></a>
               </div>
             </div>
           </th:block>

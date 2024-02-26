@@ -21,9 +21,9 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
     @Override
     public Map<String, SubmissionField> prepareSubmissionFields(Submission submission, PdfMap pdfMap) {
         Map<String, SubmissionField> results = new HashMap<>();
-
+        
         Map<String, Object> inputData = submission.getInputData();
-
+        
         String fullName = String.format("%s, %s", inputData.get("lastName"), inputData.get("firstName"));
         results.put("applicantFullName", new SingleField("applicantFullName", (String) fullName, null));
 
@@ -34,7 +34,7 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
         results.put("applicantDOB", new SingleField("applicantDOB", (String) dob, null));
 
         results.put("applicantSSN",
-            new SingleField("applicantSSN", SubmissionUtilities.formatSSN((String) inputData.get("encryptedSSN")), null));
+                new SingleField("applicantSSN", SubmissionUtilities.formatSSN((String) inputData.get("applicantSSN")), null));
         results.put("speaksEnglish", new SingleField("speaksEnglish", (String) "true", null));
 
         if(inputData.get("applicantSex").toString().equalsIgnoreCase("other")){

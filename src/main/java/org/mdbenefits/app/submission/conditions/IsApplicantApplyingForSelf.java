@@ -8,6 +8,6 @@ public class IsApplicantApplyingForSelf extends BasicCondition {
 
     @Override
     public Boolean run(Submission submission) {
-        return run(submission, "isApplicantApplying", "true");
+        return run(submission, "isApplicantApplying", "Yes");
     }
 }

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(title=#{ssn-why.title})}"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <th:block th:replace="~{fragments/icons :: passport}"></th:block>
+        <th:block
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{ssn-why.title})}"/>
+        <div class="form-card__content">
+          <th:block th:replace="~{fragments/honeycrisp/accordion :: accordion(
+            buttonLabel=#{ssn-why.who},
+            content=~{::content-who})}">
+            <th:block th:ref="content-who">
+              <p th:text="#{ssn-why.who-1}"></p>
+              <p th:text="#{ssn-why.who-2}"></p>
+            </th:block>
+          </th:block>
+          <th:block th:replace="~{fragments/honeycrisp/accordion :: accordion(
+            buttonLabel=#{ssn-why.why},
+            content=~{::content-why})}">
+            <th:block th:ref="content-why">
+              <p th:text="#{ssn-why.why-1}"></p>
+              <p th:text="#{ssn-why.why-2}"></p>
+              <p th:text="#{ssn-why.why-3}"></p>
+            </th:block>
+          </th:block>
+        </div>
+        <div class="form-card__footer">
+          <a class="button button--primary" th:href="${'/flow/' + flow + '/applicantApplying'}" th:text="#{general.go-back}"></a>
+        </div>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>
