@@ -1040,7 +1040,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.enter("birthMonth", "12");
         testPage.enter("birthDay", "25");
         testPage.enter("birthYear", "1985");
-        testPage.selectRadio("sex", "F");
         testPage.clickContinue();
     }
 
