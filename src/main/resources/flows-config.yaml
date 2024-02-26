@@ -140,14 +140,6 @@ flow:
     nextScreens: null
   householdSpecialSituations:
     nextScreens:
-      - name: householdPrepareFood
-  householdPrepareFood:
-    nextScreens:
-      - name: householdSeasonalFarmWorker
-        condition: PreparesFoodTogether
-      - name: householdPrepareFoodWho
-  householdPrepareFoodWho:
-    nextScreens:
       - name: householdSeasonalFarmWorker
   householdSeasonalFarmWorker:
     beforeSaveAction: CheckExpeditedSnapEligibility

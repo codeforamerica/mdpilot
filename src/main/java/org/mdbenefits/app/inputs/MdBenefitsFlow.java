@@ -156,10 +156,6 @@ public class MdBenefitsFlow extends FlowInputs {
 
 
     // SNAP
-    private String buyPrepareMealsSeparateIndicator;
-
-    private String preparesFood;
-
     private String migrantOrSeasonalFarmWorkerInd;
 
     @NotBlank
