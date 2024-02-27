@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html th:lang="${#locale.language}">
-<head th:replace="~{fragments/head :: head(title=#{race-ethnicity.title})}"></head>
+<head th:replace="~{fragments/head :: head(title=#{race-ethnicity-selection.title})}"></head>
 <body>
 <div class="page-wrapper">
   <div th:replace="~{fragments/toolbar :: toolbar}"></div>
@@ -8,17 +8,63 @@
     <div class="grid">
       <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
-        <!--                <th:block-->
-        <!--                    th:replace="~{fragments/cardHeader :: cardHeader(header=#{}, subtext=#{})}"/>-->
+        <th:block th:replace="~{fragments/icons :: face}"></th:block>
+
         <th:block
-            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
-          <th:block th:ref="formContent">
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{race-ethnicity-selection.header}, subtext=#{race-ethnicity-selection.subheader})}"/>
+
+        <th:block
+            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::raceSelection})}">
+          <th:block th:ref="raceSelection">
             <div class="form-card__content">
+              <h2 class="with-padding-small" th:text="#{race-selection.header}"></h2>
+              <p class="text--help" th:utext="#{race-selection.subheader}"></p>
+
+              <th:block th:replace="~{fragments/inputs/checkboxFieldset :: checkboxFieldset(
+                  inputName='applicantRace',
+                  ariaLabel=#{race-selection.header},
+                  content=~{::raceSelectionOptions})}">
+                <th:block th:ref="raceSelectionOptions">
+                  <th:block
+                      th:each="raceType : ${T(org.mdbenefits.app.data.enums.RaceType).values()}">
+                    <th:block
+                        th:with="isOther=${raceType.name().equals(T(org.mdbenefits.app.data.enums.RaceType).PREFER_NO_ANSWER.name())}">
+                      <th:block
+                          th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(
+                          inputName='applicantRace',
+                          value=${raceType.name()},
+                          noneOfTheAbove=${isOther},
+                          label=#{${raceType.getLabelSrc()}})}"/>
+                    </th:block>
+                  </th:block>
+                </th:block>
+              </th:block>
+
+              <h2 class="with-padding-small" th:text="#{ethnicity-selection.header}"></h2>
+              <p class="text--help with-no-padding" th:text="#{ethnicity-selection.subheader}"></p>
+              <th:block th:replace="~{fragments/inputs/radioFieldset ::
+                        radioFieldset(inputName='applicantEthnicity',
+                        ariaLabel=#{ethnicity-selection.header},
+                        content=~{::ethnicitySelectionFieldSet})}">
+                <th:block th:ref="ethnicitySelectionFieldSet">
+                  <th:block
+                      th:each="ethnicityType : ${T(org.mdbenefits.app.data.enums.EthnicityType).values()}">
+                    <th:block
+                        th:replace="~{fragments/inputs/radio ::
+                            radio(
+                                inputName='applicantEthnicity',
+                                value=${ethnicityType.name()},
+                                label=#{${ethnicityType.getLabelSrc()}}
+                            )
+                        }"/>
+                  </th:block>
+                </th:block>
+              </th:block>
 
             </div>
             <div class="form-card__footer">
-              <th:block th:replace="~{fragments/continueButton :: continue}"/>
-
+              <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
+                text=#{general.inputs.continue})}"/>
             </div>
           </th:block>
         </th:block>

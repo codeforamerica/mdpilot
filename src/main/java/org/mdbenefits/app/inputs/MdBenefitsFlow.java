@@ -76,10 +76,10 @@ public class MdBenefitsFlow extends FlowInputs {
     private String mailingAddressState;
 
     private String mailingAddressZipCode;
-    
+
     // Verify Address
     private String verifyAddress;
-    
+
     // Select Address
     private String selectAddress;
 
@@ -123,9 +123,13 @@ public class MdBenefitsFlow extends FlowInputs {
     @NotBlank(message = "{error.missing-general}")
     private String applicantHasDisability;
 
+    private String applicantEthnicity;
+
+    private String applicantRace;
+
     @NotBlank(message = "{error.missing-firstname}")
     private String householdMemberFirstName;
-    
+
     private String householdMemberMiddleName;
 
     @NotBlank(message = "{error.missing-lastname}")
@@ -133,7 +137,7 @@ public class MdBenefitsFlow extends FlowInputs {
 
     @NotBlank(message = "{error.missing-general}")
     private String householdMemberRelationship;
-    
+
     @NotBlank(message = "{error.missing-general}")
     private String householdMemberApplyingForBenefits;
 
@@ -145,7 +149,7 @@ public class MdBenefitsFlow extends FlowInputs {
 
     @NotBlank(message = "{error.missing-general}")
     private String householdMemberSex;
-    
+
     @NotBlank(message = "{error.missing-general}")
     private String householdMemberCitizenshipStatus;
 
@@ -315,17 +319,10 @@ public class MdBenefitsFlow extends FlowInputs {
     @NotBlank(message = "{error.missing-general}")
     private String votingRegistrationRequested;
 
-    private String permissionToAskAboutRace;
 
-    private String ethnicitySelected;
-
-    @DynamicField
     private String householdMemberEthnicity;
 
-    private List<String> raceSelected;
-
-    @DynamicField
-    private List<String> householdMemberRace;
+    private String householdMemberRace;
 
     @NotEmpty(message = "{error.must-accept-terms}")
     private List<String> rightsAndResponsibilitiesAgree;
@@ -337,8 +334,6 @@ public class MdBenefitsFlow extends FlowInputs {
     private String digitalAssisterFeedback;
 
     private String digitalAssisterFeedbackDetail;
-    
-
 
 
     // Expedited Snap Start

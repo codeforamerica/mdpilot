@@ -345,17 +345,6 @@ flow:
       - name: registerToVote
   registerToVote:
     nextScreens:
-      - name: raceEthnicityAsk
-  raceEthnicityAsk:
-    nextScreens:
-      - name: ethnicitySelection
-        condition: ApplicantRaceEthnicityQuestionsAllowed
-      - name: docUploadIntro
-  ethnicitySelection:
-    nextScreens:
-      - name: raceSelection
-  raceSelection:
-    nextScreens:
       - name: docUploadIntro
   docUploadIntro:
     nextScreens:
