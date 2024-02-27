@@ -7,6 +7,7 @@ import formflow.library.data.SubmissionRepositoryService;
 import formflow.library.email.MailgunEmailClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -19,15 +20,21 @@ public class HandleApplicationSigned implements Action {
 
     private final SubmissionRepositoryService submissionRepositoryService;
 
+    private final JdbcTemplate jdbcTemplate;
+
     public HandleApplicationSigned(MessageSource messageSource, MailgunEmailClient mailgunEmailClient,
-            SubmissionRepositoryService submissionRepositoryService) {
+            SubmissionRepositoryService submissionRepositoryService, JdbcTemplate jdbcTemplate) {
         this.messageSource = messageSource;
         this.mailgunEmailClient = mailgunEmailClient;
         this.submissionRepositoryService = submissionRepositoryService;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public void run(Submission submission) {
+        String confirmationNumber = jdbcTemplate.queryForObject("select 'M-' || nextval('confirmation_sequence')", String.class);
+        submission.getInputData().put("confirmationNumber", confirmationNumber);
+        log.info("Using confirmationNumber: {}", confirmationNumber);
         sendEmailToApplicant(submission);
     }
 
