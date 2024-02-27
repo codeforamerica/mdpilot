@@ -6,35 +6,31 @@ import lombok.Getter;
 
 @Getter
 public enum RaceType {
-    // Note: it is intentional that both American Indian and Alaskan Native map to "AN".  There
-    // is only one choice on the form that encompasses both of them.
-    AMERICAN_INDIAN("American Indian", "AN", "race-selection.option1"),
-    ALASKAN_NATIVE("Alaskan Native", "AN", "race-selection.option2"),
-    ASIAN("Asian", "AS", "race-selection.option3"),
-    BLACK_OR_AFRICAN_AMERICA("Black or African American", "BL", "race-selection.option4"),
-    NATIVE_HAWAIIAN_OR_OTHER_PACIFIC_ISLANDER("Native Hawaiian or Other Pacific Islander", "PI", "race-selection.option5"),
-    WHITE("White", "WH", "race-selection.option6");
+    AMERICAN_INDIAN("1", "race-selection.option1"),
+    ASIAN("2", "race-selection.option2"),
+    BLACK_OR_AFRICAN_AMERICA("3", "race-selection.option3"),
+    NATIVE_HAWAIIAN_OR_PACIFIC_ISLANDER("4", "race-selection.option4"),
+    WHITE("5", "race-selection.option5"),
+    PREFER_NO_ANSWER("", "race-selection.other");
 
-    private final String value;
-    private final String abbreviation;
+    private final String pdfValue;
     private final String labelSrc;
 
     static private final Map<String, RaceType> MAP_BY_VALUE = new HashMap<>();
 
     static {
         for (RaceType type : RaceType.values()) {
-            MAP_BY_VALUE.put(type.value, type);
+            MAP_BY_VALUE.put(type.name(), type);
         }
     }
 
-    RaceType(String value, String abbreviation, String labelSrc) {
-        this.value = value;
-        this.abbreviation = abbreviation;
+    RaceType(String pdfValue, String labelSrc) {
+        this.pdfValue = pdfValue;
         this.labelSrc = labelSrc;
     }
 
-    public static String getAbbreviationFromValue(String value) {
+    public static String getPdfValueFromValue(String value) {
         RaceType raceType = (RaceType) MAP_BY_VALUE.get(value);
-        return raceType != null ? raceType.abbreviation : null;
+        return raceType != null ? raceType.pdfValue : null;
     }
 }

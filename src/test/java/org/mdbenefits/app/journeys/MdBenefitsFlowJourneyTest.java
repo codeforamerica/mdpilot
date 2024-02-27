@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.enums.ApplicantObjective;
+import org.mdbenefits.app.data.enums.EthnicityType;
 import org.mdbenefits.app.testutils.AbstractBasePageTest;
 import org.mdbenefits.app.data.enums.CitizenshipStatus;
 import org.openqa.selenium.By;
@@ -70,7 +71,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.navigateToFlowScreen("mdBenefitsFlow/selectHelpNeeded");
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("Select help");
-        assert(testPage.hasErrorText(message("error.missing-general")));
+        assert (testPage.hasErrorText(message("error.missing-general")));
 
         testPage.clickElementById("helpNeeded-CHILDREN");
         // this line unchecks helpNeeded-Children because none__checkbox is a noneOfTheAbove=true
@@ -90,7 +91,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.findElementById("programs-RCA").getAttribute("Checked")).isNull();
 
         testPage.clickContinue();
-        assert(testPage.hasErrorText(message("error.missing-general")));
+        assert (testPage.hasErrorText(message("error.missing-general")));
 
         testPage.clickElementById("programs-SNAP");
         testPage.clickContinue();
@@ -104,7 +105,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.navigateToFlowScreen("mdBenefitsFlow/selectHelpNeeded");
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("Select help");
-        assert(testPage.hasErrorText(message("error.missing-general")));
+        assert (testPage.hasErrorText(message("error.missing-general")));
 
         testPage.clickElementById("helpNeeded-FOOD");
 
@@ -122,7 +123,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickElementById("programs-SNAP");
 
         testPage.clickContinue();
-        assert(testPage.hasErrorText(message("error.missing-general")));
+        assert (testPage.hasErrorText(message("error.missing-general")));
 
         testPage.clickElementById("programs-SNAP");
         testPage.clickContinue();
@@ -136,7 +137,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.navigateToFlowScreen("mdBenefitsFlow/selectHelpNeeded");
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("Select help");
-        assert(testPage.hasErrorText(message("error.missing-general")));
+        assert (testPage.hasErrorText(message("error.missing-general")));
 
         testPage.clickElementById("helpNeeded-REFUGEE");
 
@@ -153,7 +154,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickElementById("programs-RCA");
 
         testPage.clickContinue();
-        assert(testPage.hasErrorText(message("error.missing-general")));
+        assert (testPage.hasErrorText(message("error.missing-general")));
 
         testPage.clickElementById("programs-RCA");
         testPage.clickContinue();
@@ -331,80 +332,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickButton("No");
         // Expedited Snap Qualification Notice
         assertThat(testPage.getTitle()).isEqualTo(message("expedited-qualification-notice.title"));
-    }
-
-    @Test
-    void raceEthnicityFlow() {
-        loadUserPersonalData();
-        loadHouseHoldData("Person", "One", "12", "12", "1995", true);
-        loadHouseHoldData("Person", "Two", "12", "12", "2016", true);
-        loadHouseHoldData("Person", "Three", "12", "12", "2017", true);
-
-        testPage.navigateToFlowScreen("mdBenefitsFlow/ethnicitySelection");
-        // the titles don't seem to render correctly in test
-        // assertThat(testPage.getTitle()).isEqualTo("L\u1ef1a ch\u1ecdn dân t\u1ed9c");
-
-        // set for the applicant
-        testPage.clickElementById("ethnicitySelected-Hispanic or Latino");
-
-        List<WebElement> ethnicityInputs = driver.findElements(By.cssSelector("input[id*='householdMemberEthnicity_wildcard_']"));
-
-        ethnicityInputs.stream()
-                .filter(ei -> ei.getAttribute("value").equals("Hispanic or Latino"))
-                .forEach(ei -> {
-                    ei.click();
-                });
-
-        testPage.clickContinue();
-        testPage.goBack();
-
-        //assertThat(testPage.getTitle()).isEqualTo("L\u1ef1a ch\u1ecdn dân t\u1ed9c");
-        assertThat(testPage.findElementById("ethnicitySelected-Hispanic or Latino").isSelected()).isTrue();
-
-        List<WebElement> selectedElements = driver.findElements(By.cssSelector("input[checked='checked']"));
-        selectedElements.forEach(element -> {
-            assertThat(element.getAttribute("value")).isEqualTo("Hispanic or Latino");
-        });
-
-        testPage.clickContinue();
-        //assertThat(testPage.getTitle()).isEqualTo("L\u1ef1a ch\u1ecdn ch\u1ee7ng t\u1ed9c");
-
-        // set for the applicant
-        testPage.clickElementById("raceSelected-Alaskan Native");
-        testPage.clickElementById("raceSelected-Black or African American");
-
-        // now set for household members
-        List<WebElement> raceInputs = driver.findElements(By.cssSelector("input[id*='householdMemberRace_wildcard_'"));
-
-        // choose a few for each
-        raceInputs.stream()
-                .filter(ri -> {
-                    String value = ri.getAttribute("value");
-                    return value.equals("Alaskan Native") || value.equals("Black or African American");
-                })
-                .forEach(ri -> {
-                    ri.click();
-                });
-
-        testPage.clickContinue();
-        testPage.goBack();
-
-        //assertThat(testPage.getTitle()).isEqualTo("L\u1ef1a ch\u1ecdn ch\u1ee7ng t\u1ed9c");
-        assertThat(testPage.findElementById("raceSelected-Alaskan Native").isSelected()).isTrue();
-        assertThat(testPage.findElementById("raceSelected-Black or African American").isSelected()).isTrue();
-        assertThat(testPage.findElementById("raceSelected-Asian").isSelected()).isFalse();
-
-        List<WebElement> selectedRaceElements = driver.findElements(By.cssSelector("input[checked='checked']"));
-        selectedRaceElements.forEach(element -> {
-            String value = element.getAttribute("value");
-            assertThat(value.equals("Alaskan Native") || value.equals("Black or African American")).isTrue();
-            assertThat(value).isNotEqualTo("White");
-            assertThat(value).isNotEqualTo("Asian");
-            assertThat(value).isNotEqualTo("Native Hawaiian or Other Pacific Islander");
-            assertThat(value).isNotEqualTo("American Indian");
-        });
-
-        assertThat(testPage.getTitle()).isEqualTo("Race Selection");
     }
 
     @Test
@@ -612,27 +539,19 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.selectRadio("applicantHasDisability", "false");
         testPage.clickContinue();
 
-       // TODO: remove this navigation in future work
-        testPage.navigateToFlowScreen("mdBenefitsFlow/applicantApplying");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("applicant-applying.title"));
-        testPage.clickLink("Why do we ask for SSNs?");
-        assertThat(testPage.getTitle()).isEqualTo(message("ssn-why.title"));
-        testPage.clickLink("Go Back");
-        assertThat(testPage.getTitle()).isEqualTo(message("applicant-applying.title"));
-        testPage.selectRadio("isApplicantApplying", "No");
+        assertThat(testPage.getTitle()).isEqualTo((message("race-ethnicity-selection.title")));
+        testPage.clickElementById("applicantRace-ASIAN");
+        testPage.clickElementById("applicantRace-WHITE");
+        testPage.selectRadio("applicantEthnicity", EthnicityType.HISPANIC_OR_LATINO.name());
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("household-question.title"));
         testPage.clickButton(message("household-question.no-text"));
 
         assertThat(testPage.getTitle()).isEqualTo(message("seasonal-farmworker.title"));
-        
-        
-        // PLACEHOLDER FOR ADDITIONAL TESTS
-        
 
-        testPage.navigateToFlowScreen("mdBenefitsFlow/docUploadIntro");
+        // PLACEHOLDER FOR ADDITIONAL TESTS
+
         // Upload documents
         assertThat(testPage.getTitle()).isEqualTo(message("doc-upload-intro.title"));
         testPage.clickButton(message("doc-upload-intro.continue"));
@@ -701,20 +620,19 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.selectFromDropdown("householdMemberRelationship", message("household-info.relationship.child"));
         testPage.selectRadio("householdMemberApplyingForBenefits", "Yes");
         testPage.clickContinue();
-        
+
         assertThat(testPage.getTitle()).isEqualTo(message("household-additional-info.title"));
         testPage.selectFromDropdown("householdMemberCitizenshipStatus", message("citizenship.types.us-citizen"));
-        
+
         testPage.enter("householdMemberBirthMonth", "12");
         testPage.enter("householdMemberBirthDay", "25");
         testPage.enter("householdMemberBirthYear", "1985");
-        
+
         testPage.enter("householdMemberSsn", "123456789");
         testPage.selectRadio("householdMemberSex", "F");
         testPage.selectRadio("householdMemberIsPregnant", "Yes");
         testPage.selectRadio("householdMemberEnrolledInSchool", "Yes");
         testPage.selectRadio("householdMemberHasDisability", "Yes");
-        
 
         testPage.clickContinue();
 
@@ -726,7 +644,9 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
     @Test
     void testValidMailingAddress() throws SmartyException, IOException, InterruptedException {
-        ValidatedAddress validatedAddress = new ValidatedAddress("mailingAddressStreetAddress1_validated", "mailingAddressStreetAddress2_validated", "mailingAddressCity_validated", "mailingAddressState_validated", "mailingAddressZipCode_validated");
+        ValidatedAddress validatedAddress = new ValidatedAddress("mailingAddressStreetAddress1_validated",
+                "mailingAddressStreetAddress2_validated", "mailingAddressCity_validated", "mailingAddressState_validated",
+                "mailingAddressZipCode_validated");
         when(addressValidationService.validate(any())).thenReturn(Map.of("mailingAddress", validatedAddress));
         testPage.navigateToFlowScreen("mdBenefitsFlow/mailingAddress");
         testPage.enter("mailingAddressStreetAddress1", "1445 34th Ave");
@@ -736,7 +656,8 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.selectFromDropdown("mailingAddressState", "CA - California");
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("verify-address.title"));
-        assertThat(driver.findElements(By.className("notice--warning")).get(0).getText()).isEqualTo(message("select-address.notice"));
+        assertThat(driver.findElements(By.className("notice--warning")).get(0).getText()).isEqualTo(
+                message("select-address.notice"));
     }
 
     @Test
@@ -750,12 +671,14 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.selectFromDropdown("mailingAddressState", "CA - California");
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("verify-address.title"));
-        assertThat(driver.findElements(By.className("notice--warning")).get(0).getText()).isEqualTo(message("verify-address.notice"));
+        assertThat(driver.findElements(By.className("notice--warning")).get(0).getText()).isEqualTo(
+                message("verify-address.notice"));
     }
 
     @Test
     void testMailingAddressIsSameAsHomeAddress() throws SmartyException, IOException, InterruptedException {
-        ValidatedAddress validatedAddress = new ValidatedAddress("mailingAddressStreetAddress1_validated", "mailingAddressStreetAddress2", "mailingAddressCity", "mailingAddressState", "mailingAddressZipCode");
+        ValidatedAddress validatedAddress = new ValidatedAddress("mailingAddressStreetAddress1_validated",
+                "mailingAddressStreetAddress2", "mailingAddressCity", "mailingAddressState", "mailingAddressZipCode");
         when(addressValidationService.validate(any())).thenReturn(Map.of("mailingAddress", validatedAddress));
         testPage.navigateToFlowScreen("mdBenefitsFlow/homeAddress");
         testPage.enter("homeAddressStreetAddress1", "1445 34th Ave");
@@ -765,7 +688,9 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.selectFromDropdown("homeAddressState", "CA - California");
         testPage.clickContinue();
         testPage.clickElementById("sameAsHomeAddress-true");
-        await().atMost(4, TimeUnit.SECONDS).until(() -> testPage.findElementById("mailingAddressStreetAddress1").getAttribute("value").equals("1445 34th Ave"));
+        await().atMost(4, TimeUnit.SECONDS)
+                .until(() -> testPage.findElementById("mailingAddressStreetAddress1").getAttribute("value")
+                        .equals("1445 34th Ave"));
         assertThat(testPage.findElementById("mailingAddressStreetAddress1").getAttribute("value")).isEqualTo("1445 34th Ave");
         assertThat(testPage.findElementById("mailingAddressStreetAddress2").getAttribute("value")).isEqualTo("Apt A");
         assertThat(testPage.findElementById("mailingAddressCity").getAttribute("value")).isEqualTo("Oakland");
@@ -773,12 +698,14 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.findElementById("mailingAddressState").getAttribute("value")).isEqualTo("CA");
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("verify-address.title"));
-        assertThat(driver.findElements(By.className("notice--warning")).get(0).getText()).isEqualTo(message("select-address.notice"));
+        assertThat(driver.findElements(By.className("notice--warning")).get(0).getText()).isEqualTo(
+                message("select-address.notice"));
     }
 
     @Test
     void shouldValidateMailingAddressWhenNoHomeAddress() throws SmartyException, IOException, InterruptedException {
-        ValidatedAddress validatedAddress = new ValidatedAddress("mailingAddressStreetAddress1_validated", "mailingAddressStreetAddress2", "mailingAddressCity", "mailingAddressState", "mailingAddressZipCode");
+        ValidatedAddress validatedAddress = new ValidatedAddress("mailingAddressStreetAddress1_validated",
+                "mailingAddressStreetAddress2", "mailingAddressCity", "mailingAddressState", "mailingAddressZipCode");
         when(addressValidationService.validate(any())).thenReturn(Map.of("mailingAddress", validatedAddress));
         testPage.navigateToFlowScreen("mdBenefitsFlow/homeAddress");
         testPage.clickElementById("noHomeAddress-true");
@@ -792,7 +719,8 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.selectFromDropdown("mailingAddressState", "CA - California");
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("verify-address.title"));
-        assertThat(driver.findElements(By.className("notice--warning")).get(0).getText()).isEqualTo(message("select-address.notice"));
+        assertThat(driver.findElements(By.className("notice--warning")).get(0).getText()).isEqualTo(
+                message("select-address.notice"));
     }
 
     void loadUserPersonalData() {
