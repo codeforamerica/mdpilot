@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.MessageSource;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("test")
@@ -27,12 +28,15 @@ class HandleApplicationSignedTest {
     MessageSource messageSource;
     @MockBean
     SubmissionRepositoryService submissionRepositoryService;
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     private HandleApplicationSigned handleApplicationSigned;
 
     @BeforeEach
     void setup() {
-        handleApplicationSigned = new HandleApplicationSigned(messageSource, mailgunEmailClient, submissionRepositoryService);
+        handleApplicationSigned = new HandleApplicationSigned(messageSource, mailgunEmailClient, submissionRepositoryService,
+                jdbcTemplate);
     }
 
     @Test
@@ -56,6 +60,7 @@ class HandleApplicationSignedTest {
         handleApplicationSigned.run(submission);
 
         assertThat(submission.getInputData().get("sentEmailToApplicant")).isEqualTo(true);
+        assertThat((String) submission.getInputData().get("confirmationNumber")).matches("M-\\d{5,}");
     }
 
     @Test
