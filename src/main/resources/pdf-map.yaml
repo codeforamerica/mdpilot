@@ -1,5 +1,5 @@
 flow: mdBenefitsFlow
-pdf: /pdfs/Combined_9701_OHEP.pdf
+pdf: /pdfs/9701.pdf
 inputFields:
   # submission field name --> PDF field name
 
