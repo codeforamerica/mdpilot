@@ -32,10 +32,15 @@ public class HandleApplicationSigned implements Action {
 
     @Override
     public void run(Submission submission) {
-        String confirmationNumber = jdbcTemplate.queryForObject("select 'M-' || nextval('confirmation_sequence')", String.class);
+        assignConfirmationNumber(submission);
+        sendEmailToApplicant(submission);
+    }
+
+    private void assignConfirmationNumber(Submission submission) {
+        String confirmationNumber = jdbcTemplate.queryForObject("select 'M' || nextval('confirmation_sequence')", String.class);
         submission.getInputData().put("confirmationNumber", confirmationNumber);
         log.info("Using confirmationNumber: {}", confirmationNumber);
-        sendEmailToApplicant(submission);
+        submissionRepositoryService.save(submission);
     }
 
     private void sendEmailToApplicant(Submission submission) {
