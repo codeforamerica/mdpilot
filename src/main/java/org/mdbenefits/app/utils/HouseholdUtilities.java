@@ -53,24 +53,6 @@ public class HouseholdUtilities {
         return householdDataObject;
     }
 
-    /**
-     * Returns a household member's CitizenStatusType enum name as a string. This will check to see if the applicant indicated
-     * whether the person is actually applying. If they are not applying for benefits, then the value will default to
-     * NOT_APPLYING, unless the client overrides it.
-     *
-     * @param memberData A hash map of data about the household member.
-     * @return String value of CitizenStatusType enum associated with their citizenship status
-     */
-    public static String householdCitizenshipStatus(Map<String, Object> memberData) {
-        String status = (String) memberData.getOrDefault("householdMemberCitizenshipStatus", "");
-        String applying = (String) memberData.getOrDefault("householdMemberApplyingForBenefits", "no");
-
-        if (status.isBlank() && applying.equalsIgnoreCase("no")) {
-            return CitizenshipStatus.NOT_APPLYING.name();
-        }
-        return status;
-    }
-
     private static Map<String, Object> householdData(List<Map<String, Object>> household, String uuid) {
         Map<String, Object> user = new LinkedHashMap<>();
         for (Map<String, Object> hhmember : household) {
