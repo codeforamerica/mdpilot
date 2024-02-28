@@ -141,40 +141,28 @@ public class MdBenefitsFlow extends FlowInputs {
 
     @NotBlank(message = "{error.missing-general}")
     private String householdMemberSex;
-
-    private String householdMemberMaritalStatus;
-
-    private String householdMemberHighestEducation;
     
-    // TODO this field needs to be updated where used as we are actually using applicantSSN
-    @Size(min = 11, max = 11, message = "{error.invalid-ssn}")
-    private String ssn;
+    @NotBlank(message = "{error.missing-general}")
+    private String householdMemberCitizenshipStatus;
 
+    @NotBlank(message = "{error.missing-general}")
     @Size(min = 11, max = 11, message = "{error.invalid-ssn}")
-    @DynamicField
     private String householdMemberSsn;
 
+    @NotBlank(message = "{error.missing-general}")
+    private String householdMemberEnrolledInSchool;
+
+    @NotBlank(message = "{error.missing-general}")
+    private String householdMemberIsPregnant;
+
+    @NotBlank(message = "{error.missing-general}")
+    private String householdMemberHasDisability;
 
     // SNAP
-    private String buyPrepareMealsSeparateIndicator;
-
-    private String preparesFood;
-
     private String migrantOrSeasonalFarmWorkerInd;
 
     @NotBlank
-    private String allAreCitizens;
-
-    @NotBlank
     private String applicantCitizenshipStatus;
-
-    @DynamicField
-    private String citizenshipStatus;
-
-    // The previous field (citizenshipStatus) is used as a wildcard to help populate
-    // this field below, which is put in the "household[]" members data and not left as
-    // a top-level field in the json.
-    private String householdMemberCitizenshipStatus;
 
     private String veteranInd;
 

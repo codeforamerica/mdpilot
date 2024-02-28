@@ -135,25 +135,22 @@ flow:
   householdInfo:
     subflow: household
     nextScreens:
+      - name: householdAdditionalInfo
+        condition: IsHouseholdMemberApplying
+      - name: householdList
+  householdAdditionalInfo:
+    crossFieldValidationAction: ValidateHouseholdBirthdate
+    subflow: household
+    nextScreens:
       - name: householdList
   householdMemberDeleteConfirmation:
     nextScreens: null
   householdSpecialSituations:
     nextScreens:
-      - name: householdPrepareFood
-  householdPrepareFood:
-    nextScreens:
-      - name: householdSeasonalFarmWorker
-        condition: PreparesFoodTogether
-      - name: householdPrepareFoodWho
-  householdPrepareFoodWho:
-    nextScreens:
       - name: householdSeasonalFarmWorker
   householdSeasonalFarmWorker:
     beforeSaveAction: CheckExpeditedSnapEligibility
     nextScreens:
-      - name: citizenshipIntro
-        condition: IsNotApplyingForExpeditedSnap
       - name: expeditedSnapQualificationNotice
         condition: IsEligibleForExpeditedSnap
       - name: expeditedSnapDeferredNotice
@@ -163,18 +160,6 @@ flow:
   expeditedSnapDeferredNotice:
     nextScreens:
       - name: finalSignPost
-  citizenshipIntro:
-    nextScreens:
-      - name: citizenshipQuestion
-  citizenshipQuestion:
-    nextScreens:
-      - name: householdVeteran
-        condition: AllUSCitizens
-      - name: citizenshipSelectStatus
-  citizenshipSelectStatus:
-    beforeSaveAction: MoveCitizenshipData
-    nextScreens:
-      - name: householdVeteran
   householdVeteran:
     nextScreens:
       - name: householdVeteranWho

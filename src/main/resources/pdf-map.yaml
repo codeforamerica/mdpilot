@@ -1,5 +1,5 @@
 flow: mdBenefitsFlow
-pdf: /pdfs/Combined_9701_OHEP.pdf
+pdf: /pdfs/9701.pdf
 inputFields:
   # submission field name --> PDF field name
 
@@ -28,6 +28,7 @@ inputFields:
   signature: applicant_signature
 
   #Section A
+  isApplicantApplying: applicant_is_applying
   applicantDOB: applicant_dob
   sex: applicant_sex
   applicantSSN: applicant_ssn
@@ -45,152 +46,154 @@ inputFields:
 
 dbFields:
   submittedAt: application_date_submitted
-  # Vraj - Usable to here
-  citizenshipStatus: applicant_is_citizen
-  isApplicantApplying: applicant_is_applying
-  emailAddress: emailAddress
-  highestEducationFormatted: highestEducation
-  ethnicitySelected: ethnicitySelected
-  raceSelected:
-    American Indian: RACE_American Indian or Alaskan Native
-    Alaskan Native: RACE_American Indian or Alaskan Native
-    Asian: RACE_Asian
-    Black or African American: RACE_Black or African American
-    Native Hawaiian or Other Pacific Islander: RACE_Native Hawaiian or Other Pacific Islander
-    White: RACE_White
-  maritalStatus: maritalStatus
-  applicantStudentInd: applicantStudentInd
-  applicantNonCitizenInd: applicantNonCitizenInd
-
-  hasDependentCareExpenses: hasDependentCareExpenses
-  expensesDependentCare: expensesDependentCare
-  hasChildSupportExpenses: hasChildSupportExpenses
-  expensesChildSupport: expensesChildSupport
-  personalSituationDisablityInd: disablityInd
-  pregnancyInd: pregnancyInd
-  pregnantMemberNames: pregnantMemberNames
-  pregnantMemberDueDates: pregnantMemberDueDates
-  schoolInd: schoolInd
-  buyPrepareMealsSeparateIndicator: buyPrepareMealsSeparateIndicator
-  veteranInd: veteranInd
-  veteransNames: veteransNames
-  preparesFoodNames: preparesFoodNames
-
-  jobSearch: jobSearch
-  migrantOrSeasonalFarmWorkerInd: migrantOrSeasonalFarmWorkerInd
-
-  additionalIncome:
-    SSI: SSI
-    SocialSecurity: SocialSecurity
-    Unemployment: Unemployment
-    WorkersCompensation: WorkersCompensation
-    ChildSupport: ChildSupport
-    VeteransBenefits: VeteransBenefits
-    Contributions: Contributions
-
-  heatingOrCoolingInd: heatingOrCoolingInd
-  householdUtilitiesExpenses:
-    electricity: Electricity
-    water: Water
-    phone: Phone/Cell Phone
-    garbage: Garbage
-    sewer: Sewer
-    cookingFuel: Cooking Fuel
-    otherUtilitiesExpenses: Other
-  householdHomeExpenses:
-    rent: Rent
-    mortgage: Mortgage
-    homeownerInsurance: Homeowner's Insurance
-    propertyTax: Property Tax
-    condominiumFees: Condominium Fees
-    lotRent: Lot Rent
-    floodInsurance: Flood Insurance
-    otherHomeExpenses: Other
-  receivesEnergyAssistance: receivesEnergyAssistance
-  assistanceThroughLiheap: assistanceThroughLiheap
-
-  householdMedicalExpenses:
-    dentalBills: Dental Bills
-    hospitalBills: Hospital Bills
-    prescriptionMedicine: Prescribed medicine
-    prescriptionPremium: Prescription drug plan premium
-    medicalAppliances: Medical appliances
-    insurancePremiums: Health insurance or Medicare premiums
-    nursingHome: Nursing home
-    otherMedicalExpenses: Other medical expenses
-
-  moneyOnHandTypes:
-    Checking account: Checking account
-    Savings account: Savings account
-    Joint account: Joint account
-    Bonds: Bonds
-    Cash on hand: Cash on hand
-    Certificate of Deposit (CD): Certificate of Deposit (CD)
-    Money Market Account: Money Market Account
-    Mutual funds: Mutual funds
-    Savings bond: Savings bond
-    Stocks: Stocks
-
-  needsNewEbtCard: needsNewEbtCard
-
-  votingRegistrationRequested: votingRegistrationRequested
-  votingRegistrationHelpRequested: votingRegistrationHelpRequested
-
-  # Vraj - Usable from here
-
 subflowInfo:
   household:
     totalIterations: 7
     inputFields:
-      householdMemberFullName: householdMemberFullName
-      householdMemberSex: householdMemberSex
-      householdRelationshipFormatted: householdRelationship
-      householdMaritalStatusFormatted: householdMaritalStatus
-      householdHighestEducationFormatted: householdHighestEducation
-      householdMemberDOB: householdMemberDOB
-      householdMemberSSN: householdMemberSSN
-      householdRaceEthnicityCode: householdRaceEthnicCode
-      ssns: ssns
-      householdMemberCitizen: isHouseholdMemberCitizen
-      householdMemberApplyingForBenefits: isHouseholdMemberApplying
+      householdMemberFullName: hhmember_full_name
+      householdMemberSex: hhmember_sex
+      householdMemberRelationship: hhmember_relationship
+      householdMemberEnrolledInSchool: hhmember_is_in_school
+      householdMemberDOB: hhmember_dob
+      householdMemberSsn: hhmember_ssn
+      householdRaceEthnicityCode: hhmember_ethnicity
+      householdMemberCitizen: hhmember_is_citizen
+      householdMemberApplyingForBenefits: hhmember_is_applying
+  
+  
+  
+  # Vraj - Usable to here
+#  citizenshipStatus: applicant_is_citizen
 
-      # Vraj - Usable to here
+#  emailAddress: emailAddress
+#  highestEducationFormatted: highestEducation
+#  ethnicitySelected: ethnicitySelected
+#  raceSelected:
+#    American Indian: RACE_American Indian or Alaskan Native
+#    Alaskan Native: RACE_American Indian or Alaskan Native
+#    Asian: RACE_Asian
+#    Black or African American: RACE_Black or African American
+#    Native Hawaiian or Other Pacific Islander: RACE_Native Hawaiian or Other Pacific Islander
+#    White: RACE_White
+#  maritalStatus: maritalStatus
+#  applicantStudentInd: applicantStudentInd
+#  applicantNonCitizenInd: applicantNonCitizenInd
+#
+#  hasDependentCareExpenses: hasDependentCareExpenses
+#  expensesDependentCare: expensesDependentCare
+#  hasChildSupportExpenses: hasChildSupportExpenses
+#  expensesChildSupport: expensesChildSupport
+#  personalSituationDisablityInd: disablityInd
+#  pregnancyInd: pregnancyInd
+#  pregnantMemberNames: pregnantMemberNames
+#  pregnantMemberDueDates: pregnantMemberDueDates
+#  schoolInd: schoolInd
+#  buyPrepareMealsSeparateIndicator: buyPrepareMealsSeparateIndicator
+#  veteranInd: veteranInd
+#  veteransNames: veteransNames
+#  preparesFoodNames: preparesFoodNames
+#
+#  jobSearch: jobSearch
+#  migrantOrSeasonalFarmWorkerInd: migrantOrSeasonalFarmWorkerInd
+#
+#  additionalIncome:
+#    SSI: SSI
+#    SocialSecurity: SocialSecurity
+#    Unemployment: Unemployment
+#    WorkersCompensation: WorkersCompensation
+#    ChildSupport: ChildSupport
+#    VeteransBenefits: VeteransBenefits
+#    Contributions: Contributions
+#
+#  heatingOrCoolingInd: heatingOrCoolingInd
+#  householdUtilitiesExpenses:
+#    electricity: Electricity
+#    water: Water
+#    phone: Phone/Cell Phone
+#    garbage: Garbage
+#    sewer: Sewer
+#    cookingFuel: Cooking Fuel
+#    otherUtilitiesExpenses: Other
+#  householdHomeExpenses:
+#    rent: Rent
+#    mortgage: Mortgage
+#    homeownerInsurance: Homeowner's Insurance
+#    propertyTax: Property Tax
+#    condominiumFees: Condominium Fees
+#    lotRent: Lot Rent
+#    floodInsurance: Flood Insurance
+#    otherHomeExpenses: Other
+#  receivesEnergyAssistance: receivesEnergyAssistance
+#  assistanceThroughLiheap: assistanceThroughLiheap
+#
+#  householdMedicalExpenses:
+#    dentalBills: Dental Bills
+#    hospitalBills: Hospital Bills
+#    prescriptionMedicine: Prescribed medicine
+#    prescriptionPremium: Prescription drug plan premium
+#    medicalAppliances: Medical appliances
+#    insurancePremiums: Health insurance or Medicare premiums
+#    nursingHome: Nursing home
+#    otherMedicalExpenses: Other medical expenses
+#
+#  moneyOnHandTypes:
+#    Checking account: Checking account
+#    Savings account: Savings account
+#    Joint account: Joint account
+#    Bonds: Bonds
+#    Cash on hand: Cash on hand
+#    Certificate of Deposit (CD): Certificate of Deposit (CD)
+#    Money Market Account: Money Market Account
+#    Mutual funds: Mutual funds
+#    Savings bond: Savings bond
+#    Stocks: Stocks
+#
+#  needsNewEbtCard: needsNewEbtCard
+#
+#  votingRegistrationRequested: votingRegistrationRequested
+#  votingRegistrationHelpRequested: votingRegistrationHelpRequested
 
-  students:
-    totalIterations: 7
-    inputFields:
-      studentName: studentName
-      schoolName: schoolName
-      attendance: attendance
-  householdExpenses:
-    totalIterations: 7
-    inputFields:
-      householdExpensesType: householdExpensesType
-      householdExpensesAmount: householdExpensesAmount
-      householdExpensesFreq: householdExpensesFreq
-  medicalExpenses:
-    totalIterations: 7
-    inputFields:
-      medicalExpensesType: medicalExpensesType
-      medicalExpensesAmount: medicalExpensesAmount
-      medicalExpensesFreq: medicalExpensesFreq
-  householdResources:
-    totalIterations: 7
-    inputFields:
-      moneyOnHandType: moneyOnHandType
-      moneyOnHandAmount: moneyOnHandAmount
-      moneyOnHandOwner: moneyOnHandOwner
-income:
-  totalIterations: 7
-  inputFields:
-    employeeName: employeeName
-    employerName: employerName
-    employmentPayFreq: employmentPayFreq
-    employeeHoursPerWeek: employeeHoursPerWeek
-    employeeHourlyWage: employeeHourlyWage
-    selfEmploymentName: selfEmploymentName
-    selfEmploymentDesc: selfEmploymentDesc
-    selfEmploymentMonthlyIncome: selfEmploymentMonthlyIncome
-    selfEmploymentHoursPerWeek: selfEmploymentHoursPerWeek
+  # Vraj - Usable from here
+
+#subflowInfo:
+#  
+#  # Vraj - Usable to here
+#
+#  students:
+#    totalIterations: 7
+#    inputFields:
+#      studentName: studentName
+#      schoolName: schoolName
+#      attendance: attendance
+#  householdExpenses:
+#    totalIterations: 7
+#    inputFields:
+#      householdExpensesType: householdExpensesType
+#      householdExpensesAmount: householdExpensesAmount
+#      householdExpensesFreq: householdExpensesFreq
+#  medicalExpenses:
+#    totalIterations: 7
+#    inputFields:
+#      medicalExpensesType: medicalExpensesType
+#      medicalExpensesAmount: medicalExpensesAmount
+#      medicalExpensesFreq: medicalExpensesFreq
+#  householdResources:
+#    totalIterations: 7
+#    inputFields:
+#      moneyOnHandType: moneyOnHandType
+#      moneyOnHandAmount: moneyOnHandAmount
+#      moneyOnHandOwner: moneyOnHandOwner
+#income:
+#  totalIterations: 7
+#  inputFields:
+#    employeeName: employeeName
+#    employerName: employerName
+#    employmentPayFreq: employmentPayFreq
+#    employeeHoursPerWeek: employeeHoursPerWeek
+#    employeeHourlyWage: employeeHourlyWage
+#    selfEmploymentName: selfEmploymentName
+#    selfEmploymentDesc: selfEmploymentDesc
+#    selfEmploymentMonthlyIncome: selfEmploymentMonthlyIncome
+#    selfEmploymentHoursPerWeek: selfEmploymentHoursPerWeek
 
 
