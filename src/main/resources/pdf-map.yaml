@@ -68,91 +68,87 @@ subflowInfo:
   # Vraj - Usable to here
   #  citizenshipStatus: applicant_is_citizen
 
-  #  emailAddress: emailAddress
-  #  highestEducationFormatted: highestEducation
-  #  ethnicitySelected: ethnicitySelected
-  #  raceSelected:
-  #    American Indian: RACE_American Indian or Alaskan Native
-  #    Alaskan Native: RACE_American Indian or Alaskan Native
-  #    Asian: RACE_Asian
-  #    Black or African American: RACE_Black or African American
-  #    Native Hawaiian or Other Pacific Islander: RACE_Native Hawaiian or Other Pacific Islander
-  #    White: RACE_White
-  #  maritalStatus: maritalStatus
-  #  applicantStudentInd: applicantStudentInd
-  #  applicantNonCitizenInd: applicantNonCitizenInd
-  #
-  #  hasDependentCareExpenses: hasDependentCareExpenses
-  #  expensesDependentCare: expensesDependentCare
-  #  hasChildSupportExpenses: hasChildSupportExpenses
-  #  expensesChildSupport: expensesChildSupport
-  #  personalSituationDisablityInd: disablityInd
-  #  pregnancyInd: pregnancyInd
-  #  pregnantMemberNames: pregnantMemberNames
-  #  pregnantMemberDueDates: pregnantMemberDueDates
-  #  schoolInd: schoolInd
-  #  buyPrepareMealsSeparateIndicator: buyPrepareMealsSeparateIndicator
-  #  preparesFoodNames: preparesFoodNames
-  #
-  #  jobSearch: jobSearch
-  #  migrantOrSeasonalFarmWorkerInd: migrantOrSeasonalFarmWorkerInd
-  #
-  #  additionalIncome:
-  #    SSI: SSI
-  #    SocialSecurity: SocialSecurity
-  #    Unemployment: Unemployment
-  #    WorkersCompensation: WorkersCompensation
-  #    ChildSupport: ChildSupport
-  #    VeteransBenefits: VeteransBenefits
-  #    Contributions: Contributions
-  #
-  #  heatingOrCoolingInd: heatingOrCoolingInd
-  #  householdUtilitiesExpenses:
-  #    electricity: Electricity
-  #    water: Water
-  #    phone: Phone/Cell Phone
-  #    garbage: Garbage
-  #    sewer: Sewer
-  #    cookingFuel: Cooking Fuel
-  #    otherUtilitiesExpenses: Other
-  #  householdHomeExpenses:
-  #    rent: Rent
-  #    mortgage: Mortgage
-  #    homeownerInsurance: Homeowner's Insurance
-  #    propertyTax: Property Tax
-  #    condominiumFees: Condominium Fees
-  #    lotRent: Lot Rent
-  #    floodInsurance: Flood Insurance
-  #    otherHomeExpenses: Other
-  #  receivesEnergyAssistance: receivesEnergyAssistance
-  #  assistanceThroughLiheap: assistanceThroughLiheap
-  #
-  #  householdMedicalExpenses:
-  #    dentalBills: Dental Bills
-  #    hospitalBills: Hospital Bills
-  #    prescriptionMedicine: Prescribed medicine
-  #    prescriptionPremium: Prescription drug plan premium
-  #    medicalAppliances: Medical appliances
-  #    insurancePremiums: Health insurance or Medicare premiums
-  #    nursingHome: Nursing home
-  #    otherMedicalExpenses: Other medical expenses
-  #
-  #  moneyOnHandTypes:
-  #    Checking account: Checking account
-  #    Savings account: Savings account
-  #    Joint account: Joint account
-  #    Bonds: Bonds
-  #    Cash on hand: Cash on hand
-  #    Certificate of Deposit (CD): Certificate of Deposit (CD)
-  #    Money Market Account: Money Market Account
-  #    Mutual funds: Mutual funds
-  #    Savings bond: Savings bond
-  #    Stocks: Stocks
-  #
-  #  needsNewEbtCard: needsNewEbtCard
-  #
-  #  votingRegistrationRequested: votingRegistrationRequested
-  #  votingRegistrationHelpRequested: votingRegistrationHelpRequested
+#  emailAddress: emailAddress
+#  highestEducationFormatted: highestEducation
+#  ethnicitySelected: ethnicitySelected
+#  raceSelected:
+#    American Indian: RACE_American Indian or Alaskan Native
+#    Alaskan Native: RACE_American Indian or Alaskan Native
+#    Asian: RACE_Asian
+#    Black or African American: RACE_Black or African American
+#    Native Hawaiian or Other Pacific Islander: RACE_Native Hawaiian or Other Pacific Islander
+#    White: RACE_White
+#  maritalStatus: maritalStatus
+#  applicantStudentInd: applicantStudentInd
+#  applicantNonCitizenInd: applicantNonCitizenInd
+#
+#  hasDependentCareExpenses: hasDependentCareExpenses
+#  expensesDependentCare: expensesDependentCare
+#  hasChildSupportExpenses: hasChildSupportExpenses
+#  expensesChildSupport: expensesChildSupport
+#  personalSituationDisablityInd: disablityInd
+#  pregnancyInd: pregnancyInd
+#  pregnantMemberNames: pregnantMemberNames
+#  pregnantMemberDueDates: pregnantMemberDueDates
+#  schoolInd: schoolInd
+#  buyPrepareMealsSeparateIndicator: buyPrepareMealsSeparateIndicator
+#  preparesFoodNames: preparesFoodNames
+#
+#  jobSearch: jobSearch
+#  migrantOrSeasonalFarmWorkerInd: migrantOrSeasonalFarmWorkerInd
+#
+#  additionalIncome:
+#    SSI: SSI
+#    SocialSecurity: SocialSecurity
+#    Unemployment: Unemployment
+#    WorkersCompensation: WorkersCompensation
+#    ChildSupport: ChildSupport
+#    VeteransBenefits: VeteransBenefits
+#    Contributions: Contributions
+#
+#  heatingOrCoolingInd: heatingOrCoolingInd
+#  householdUtilitiesExpenses:
+#    electricity: Electricity
+#    water: Water
+#    phone: Phone/Cell Phone
+#    garbage: Garbage
+#    sewer: Sewer
+#    cookingFuel: Cooking Fuel
+#    otherUtilitiesExpenses: Other
+#  householdHomeExpenses:
+#    rent: Rent
+#    mortgage: Mortgage
+#    homeownerInsurance: Homeowner's Insurance
+#    propertyTax: Property Tax
+#    condominiumFees: Condominium Fees
+#    lotRent: Lot Rent
+#    floodInsurance: Flood Insurance
+#    otherHomeExpenses: Other
+#
+#  householdMedicalExpenses:
+#    dentalBills: Dental Bills
+#    hospitalBills: Hospital Bills
+#    prescriptionMedicine: Prescribed medicine
+#    prescriptionPremium: Prescription drug plan premium
+#    medicalAppliances: Medical appliances
+#    insurancePremiums: Health insurance or Medicare premiums
+#    nursingHome: Nursing home
+#    otherMedicalExpenses: Other medical expenses
+#
+#  moneyOnHandTypes:
+#    Checking account: Checking account
+#    Savings account: Savings account
+#    Joint account: Joint account
+#    Bonds: Bonds
+#    Cash on hand: Cash on hand
+#    Certificate of Deposit (CD): Certificate of Deposit (CD)
+#    Money Market Account: Money Market Account
+#    Mutual funds: Mutual funds
+#    Savings bond: Savings bond
+#    Stocks: Stocks
+#
+#  votingRegistrationRequested: votingRegistrationRequested
+#  votingRegistrationHelpRequested: votingRegistrationHelpRequested
 
   # Vraj - Usable from here
 

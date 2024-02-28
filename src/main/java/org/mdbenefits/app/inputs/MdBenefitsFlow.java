@@ -237,10 +237,6 @@ public class MdBenefitsFlow extends FlowInputs {
     @DynamicField
     private String householdUtilitiesExpenseAmount;
 
-    private String receivesEnergyAssistance;
-
-    private String assistanceThroughLiheap;
-
     private String hasDependentCareExpenses;
 
     @Money(message = "{error.invalid-money}")
@@ -261,12 +257,6 @@ public class MdBenefitsFlow extends FlowInputs {
     @DynamicField
     private String householdMedicalExpenseAmount;
 
-    private String hasElderlyCareExpenses;
-
-    @Money(message = "{error.invalid-money}")
-    @NotBlank(message = "{error.missing-dollar-amount}")
-    private String expensesElderlyCare;
-
     // WIC / ECE
     private String interestedInEceInd;
     private String interestedInWicInd;
@@ -274,19 +264,6 @@ public class MdBenefitsFlow extends FlowInputs {
     private String guardiansHaveDisabilityInd;
 
     // Final Screen
-    private String needsNewEbtCard;
-
-    private String authorizedRepresentative;
-
-    private String authorizedRepCommsAuthorization;
-
-    private String authorizedRepMailAuthorization;
-
-    private String authorizedRepSpendingAuthorization;
-
-    @NotBlank(message = "{error.missing-firstname}")
-    private String authorizedRepFirstName;
-
     @NotBlank(message = "{error.missing-general}")
     private String votingRegistrationRequested;
 

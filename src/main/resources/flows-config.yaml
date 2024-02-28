@@ -259,11 +259,6 @@ flow:
       - name: energyAssistance
   energyAssistance:
     nextScreens:
-      - name: liheap
-        condition: ReceivesEnergyAssistance
-      - name: householdMedicalExpenses
-  liheap:
-    nextScreens:
       - name: householdMedicalExpenses
   householdMedicalExpenses:
     nextScreens:
@@ -288,19 +283,8 @@ flow:
       - name: expensesElderlyCare
   expensesChildSupportAmount:
     nextScreens:
-      - name: expensesElderlyCare
-  expensesElderlyCare:
-    nextScreens:
-      - name: expensesElderlyCareAmount
-        condition: HasElderlyCareExpenses
-      - name: finalSignPost
-  expensesElderlyCareAmount:
-    nextScreens:
       - name: finalSignPost
   finalSignPost:
-    nextScreens:
-      - name: ebtCard
-  ebtCard:
     nextScreens:
       - name: registerToVote
   registerToVote:
