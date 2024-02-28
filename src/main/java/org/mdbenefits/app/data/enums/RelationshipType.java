@@ -41,6 +41,6 @@ public enum RelationshipType {
 
     public static String getPDFValueFromValue(String value) {
         RelationshipType relationshipType = MAP_BY_VALUE.get(value);
-        return relationshipType != null ? relationshipType.pdfValue : null;
+        return relationshipType != null ? relationshipType.pdfValue : "";
     }
 }

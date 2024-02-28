@@ -29,7 +29,8 @@ public class SubmissionTestBuilder {
         submission.getInputData().put("applicantSex", sex);
         submission.getInputData().put("maritalStatus", maritalStatus);
         submission.getInputData().put("highestEducation", education);
-        submission.getInputData().put("encryptedSSN", ssn);
+        submission.getInputData().put("isApplicantApplying", "Yes");
+        submission.getInputData().put("applicantSSN", ssn);
         return this;
     }
 
@@ -66,6 +67,46 @@ public class SubmissionTestBuilder {
         if (ethnicity != null && !ethnicity.isBlank()) {
             submission.getInputData().put(
                     "householdMemberEthnicity" + FieldNameMarkers.DYNAMIC_FIELD_MARKER + uuid, ethnicity);
+        }
+
+        submission.getInputData().put("household", household);
+        return this;
+    }
+
+    public SubmissionTestBuilder withHouseholdMemberApplying(
+        String firstName, String lastName,
+        String birthDay, String birthMonth, String birthYear,
+        String relationship, String sex, String maritalStatus,
+        String education, String ssn, List<String> raceInfo, String ethnicity) {
+        List<Map<String, Object>> household = (List<Map<String, Object>>) submission.getInputData().get("household");
+        if (household == null) {
+            household = new ArrayList<>();
+        }
+
+        Map<String, Object> member = new HashMap<>();
+        String uuid = "%s-%s".formatted(firstName, lastName).toLowerCase();
+        member.put("uuid", uuid);
+        member.put("householdMemberFirstName", firstName);
+        member.put("householdMemberLastName", lastName);
+        member.put("householdMemberBirthDay", birthDay);
+        member.put("householdMemberBirthMonth", birthMonth);
+        member.put("householdMemberBirthYear", birthYear);
+        member.put("householdMemberRelationship", relationship);
+        member.put("householdMemberSex", sex);
+        member.put("householdMemberMaritalStatus", maritalStatus);
+        member.put("householdMemberHighestEducation", education);
+        member.put("householdMemberSsn", ssn);
+        member.put("householdMemberCitizenshipStatus", CitizenshipStatus.US_CITIZEN.name());
+        member.put("householdMemberApplyingForBenefits", "Yes");
+
+        household.add(member);
+        if (raceInfo != null && !raceInfo.isEmpty()) {
+            submission.getInputData().put(
+                "householdMemberRace" + FieldNameMarkers.DYNAMIC_FIELD_MARKER + uuid + "[]", raceInfo);
+        }
+        if (ethnicity != null && !ethnicity.isBlank()) {
+            submission.getInputData().put(
+                "householdMemberEthnicity" + FieldNameMarkers.DYNAMIC_FIELD_MARKER + uuid, ethnicity);
         }
 
         submission.getInputData().put("household", household);

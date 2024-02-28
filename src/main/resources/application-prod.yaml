@@ -1,3 +1,9 @@
+form-flow:
+  email-client:
+    mailgun:
+      key: ${MAILGUN_KEY:'no-key-set'}
+      domain: 'mg.marylandbenefits.org'
+      sender-email: 'Maryland Benefits <help@marylandbenefits.org>'
 spring:
   thymeleaf:
     cache: true

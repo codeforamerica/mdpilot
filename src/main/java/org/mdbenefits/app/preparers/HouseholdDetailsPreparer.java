@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.mdbenefits.app.data.enums.CitizenshipStatus;
-import org.mdbenefits.app.utils.SubmissionUtilities;
+import org.mdbenefits.app.data.enums.RelationshipType;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,49 +21,60 @@ public class HouseholdDetailsPreparer implements SubmissionFieldPreparer {
         Map<String, SubmissionField> results = new HashMap<>();
 
         var household = (List<Map<String, Object>>) submission.getInputData().get("household");
-        boolean allAreCitizens = ((String) submission.getInputData().getOrDefault("allAreCitizens", "false")).equalsIgnoreCase(
-                "true");
 
         if (household != null) {
             int iteration = 1;  // start at one!
             for (Map<String, Object> householdMember : household) {
-                String fullName = String.format("%s, %s", householdMember.get("householdMemberLastName"),
-                        householdMember.get("householdMemberFirstName"));
+                String fullName = removeTrailingCommaAndSpace(String.format("%s, %s, %s", 
+                    householdMember.get("householdMemberLastName"),
+                    householdMember.get("householdMemberFirstName"), 
+                    householdMember.getOrDefault("householdMemberMiddleName", "")));
                 results.put("householdMemberFullName_" + iteration, new SingleField("householdMemberFullName",
                         fullName, iteration));
 
-                var dob = Stream.of("householdMemberBirthMonth", "householdMemberBirthDay", "householdMemberBirthYear")
+                String applyingStatus = (String) householdMember.get("householdMemberApplyingForBenefits");
+                
+                String householdMemberRelationship = RelationshipType.getPDFValueFromValue(householdMember.get("householdMemberRelationship").toString());
+                results.put("householdMemberRelationship_" + iteration,
+                        new SingleField("householdMemberRelationship", householdMemberRelationship, iteration));
+
+                if (applyingStatus.equalsIgnoreCase("yes")) {
+                    String citizen = "Yes";
+
+                    String citizenshipStatus = (String) householdMember.get("householdMemberCitizenshipStatus");
+                    if (!citizenshipStatus.equals(CitizenshipStatus.US_CITIZEN.name())) {
+                        citizen = "No";
+                    }
+
+                    results.put("householdMemberCitizen_" + iteration,
+                            new SingleField("householdMemberCitizen", citizen, iteration));
+
+                    var dob = Stream.of("householdMemberBirthMonth", "householdMemberBirthDay", "householdMemberBirthYear")
                         .map(householdMember::get)
                         .reduce((e, c) -> e + "/" + c)
                         .get();
 
-                results.put("householdMemberDOB_" + iteration,
+                    results.put("householdMemberDOB_" + iteration,
                         new SingleField("householdMemberDOB", (String) dob, iteration));
 
-                results.put("householdMemberSSN_" + iteration, new SingleField("householdMemberSSN",
-                        SubmissionUtilities.formatSSN((String) householdMember.get("householdMemberEncryptedSSN")), iteration));
+                    String householdMemberSex = householdMember.get("householdMemberSex").toString();
 
-                String applyingStatus = (String) householdMember.getOrDefault("householdMemberApplyingForBenefits", "");
-                results.put("householdMemberApplyingForBenefits_" + iteration,
-                        new SingleField(
-                                "householdMemberApplyingForBenefits",
-                                applyingStatus.equalsIgnoreCase("yes") ? "Y" : "N",
-                                iteration));
-                if (applyingStatus.equalsIgnoreCase("yes")) {
-                    String citizen = "Y";
-
-                    if (!allAreCitizens) {
-                        String citizenshipStatus = (String) householdMember.get("householdMemberCitizenshipStatus");
-                        if (!citizenshipStatus.equals(CitizenshipStatus.US_CITIZEN.name())) {
-                            citizen = "N";
-                        }
+                    if (!householdMemberSex.equalsIgnoreCase("other")) {
+                        results.put("householdMemberSex_" + iteration,
+                            new SingleField("householdMemberSex", householdMemberSex, iteration));
                     }
-                    results.put("householdMemberCitizen_" + iteration,
-                            new SingleField("householdMemberCitizen", citizen, iteration));
                 }
                 iteration++;
             }
         }
         return results;
+    }
+
+    /**
+     * @param fullName the string to remove the trailing comma and space from. Such as "First, Last, "
+     * @return the string with the trailing comma and space removed.
+     */
+    protected String removeTrailingCommaAndSpace(String fullName) {
+        return fullName.replaceAll(", $", "");
     }
 }

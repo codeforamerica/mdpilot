@@ -31,7 +31,9 @@
           </th:block>
         </div>
         <div class="form-card__footer">
-          <a class="button button--primary" th:href="${'/flow/' + flow + '/applicantApplying'}" th:text="#{general.go-back}"></a>
+          <a class="button button--primary" href="#"
+             th:text="#{general.go-back}"
+             onclick="window.history.back(); return false;"></a>
         </div>
       </main>
     </div>

@@ -23,7 +23,6 @@ public class ValidateHouseholdBirthdate extends VerifyDate {
         String month = (String) inputData.get("householdMemberBirthMonth");
         String year = (String) inputData.get("householdMemberBirthYear");
 
-//    valid range does not enforce year so added an additional validation here
         if (!Pattern.matches("\\d{4}", year)) {
             errorMessages.put(INPUT_NAME, List.of(translateMessage("error.format-dob")));
         } else if (!this.validRange(month + "/" + day + "/" + year)) {
