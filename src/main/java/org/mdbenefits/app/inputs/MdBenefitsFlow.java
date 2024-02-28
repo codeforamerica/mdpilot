@@ -125,7 +125,7 @@ public class MdBenefitsFlow extends FlowInputs {
 
     private String applicantEthnicity;
 
-    private String applicantRace;
+    private List<String> applicantRace;
 
     @NotBlank(message = "{error.missing-firstname}")
     private String householdMemberFirstName;

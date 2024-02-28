@@ -8,9 +8,12 @@ import formflow.library.pdf.SubmissionFieldPreparer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.mdbenefits.app.data.enums.CitizenshipStatus;
+import org.mdbenefits.app.data.enums.EthnicityType;
+import org.mdbenefits.app.data.enums.RaceType;
 import org.mdbenefits.app.utils.SubmissionUtilities;
 import org.springframework.stereotype.Component;
 
@@ -28,9 +31,9 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
         results.put("applicantFullName", new SingleField("applicantFullName", (String) fullName, null));
 
         var dob = Stream.of("birthMonth", "birthDay", "birthYear")
-            .map(inputData::get)
-            .reduce((e, c) -> e + "/" + c)
-            .get();
+                .map(inputData::get)
+                .reduce((e, c) -> e + "/" + c)
+                .get();
 
         String applyingStatus = (String) inputData.get("isApplicantApplying");
         if (applyingStatus.equalsIgnoreCase("yes")) {
@@ -38,7 +41,7 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
             results.put("applicantDOB", new SingleField("applicantDOB", (String) dob, null));
 
             results.put("applicantSSN",
-                new SingleField("applicantSSN", SubmissionUtilities.formatSSN((String) inputData.get("applicantSSN")), null));
+                    new SingleField("applicantSSN", SubmissionUtilities.formatSSN((String) inputData.get("applicantSSN")), null));
             results.put("speaksEnglish", new SingleField("speaksEnglish", (String) "true", null));
 
             if (inputData.get("applicantSex").toString().equalsIgnoreCase("other")) {
@@ -52,10 +55,13 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
             if (inputData.getOrDefault("applicantHasDisability", "").toString().equalsIgnoreCase("Yes")) {
                 results.put("applicantHasDisabilityName", new SingleField("applicantHasDisabilityName", (String) fullName, null));
             }
-            ;
+
+            // TODO - this will get finished when design says it's ready
+            //prepareCitizenshipStatus(inputData, results);
+
+            prepareRaceEthnicityInfo(inputData, results);
         }
-        // TODO - this will get finished when design says it's ready
-        //prepareCitizenshipStatus(inputData, results);
+
         return results;
     }
 
@@ -72,5 +78,21 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
         }
 
         results.put("citizenshipStatus", new SingleField("citizenshipStatus", citizen, null));
+    }
+
+    private void prepareRaceEthnicityInfo(Map<String, Object> inputData, Map<String, SubmissionField> results) {
+        List<String> race = (List) inputData.getOrDefault("applicantRace[]", List.of());
+        String ethnicity = (String) inputData.getOrDefault("applicantEthnicity", "");
+
+        String raceCode = race.stream()
+                .map(RaceType::getPdfValueFromValue)
+                .filter(s -> !s.isBlank())
+                .sorted()
+                .collect(Collectors.joining(","));
+
+        String ethnicityCode = EthnicityType.getPdfValueFromValue(ethnicity);
+
+        results.put("applicantRace", new SingleField("applicantRace", raceCode, null));
+        results.put("applicantEthnicity", new SingleField("applicantEthnicity", ethnicityCode, null));
     }
 }
