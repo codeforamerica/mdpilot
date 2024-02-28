@@ -151,6 +151,8 @@ flow:
   householdSeasonalFarmWorker:
     beforeSaveAction: CheckExpeditedSnapEligibility
     nextScreens:
+      - name: incomeSignPost
+        condition: IsNotApplyingForExpeditedSnap
       - name: expeditedSnapQualificationNotice
         condition: IsEligibleForExpeditedSnap
       - name: expeditedSnapDeferredNotice
@@ -160,14 +162,7 @@ flow:
   expeditedSnapDeferredNotice:
     nextScreens:
       - name: finalSignPost
-  householdVeteran:
-    nextScreens:
-      - name: householdVeteranWho
-        condition: IsVeteran
-      - name: householdMeals
-  householdVeteranWho:
-    nextScreens:
-      - name: householdMeals
+#        Stopped here
   householdMeals:
     nextScreens:
       - name: householdMealsWho

@@ -26,14 +26,12 @@ class SpecialSituationsPreparerTest {
                 .withHouseholdMember("Batter", "Ball", "", "", "", "", "", "", "", "", null, null)
                 .withHouseholdMember("Bitter", "Bill", "", "", "", "", "", "", "", "", null, null)
                 .withHouseholdMember("Better", "Bell", "", "", "", "", "", "", "", "", null, null)
-                .with("veterans[]", List.of("bitter-bill", "batter-ball"))
                 .with("preparesFood[]", List.of("butter-bull", "you"))
                 .build();
 
         var results = preparer.prepareSubmissionFields(submission, null);
 
-        assertThat(results.size()).isEqualTo(2);
-        assertThat(results.get("veteransNames")).isEqualTo(new SingleField("veteransNames", "Batter Ball,Bitter Bill", null));
+        assertThat(results.size()).isEqualTo(1);
         assertThat(results.get("preparesFoodNames")).isEqualTo(
                 new SingleField("preparesFoodNames", "Butter Bull,Btter Bll", null));
     }
