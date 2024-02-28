@@ -552,6 +552,8 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         // PLACEHOLDER FOR ADDITIONAL TESTS
 
+        testPage.navigateToFlowScreen("mdBenefitsFlow/docUploadIntro");
+
         // Upload documents
         assertThat(testPage.getTitle()).isEqualTo(message("doc-upload-intro.title"));
         testPage.clickButton(message("doc-upload-intro.continue"));
