@@ -146,9 +146,8 @@ public class MdBenefitsFlow extends FlowInputs {
 
     private String householdMemberHighestEducation;
     
-    // TODO this field needs to be updated where used as we are actually using applicantSSN
-    @Size(min = 11, max = 11, message = "{error.invalid-ssn}")
-    private String ssn;
+    @NotBlank(message = "{error.missing-general}")
+    private String householdMemberCitizenshipStatus;
 
     @Size(min = 11, max = 11, message = "{error.invalid-ssn}")
     @DynamicField
@@ -159,18 +158,7 @@ public class MdBenefitsFlow extends FlowInputs {
     private String migrantOrSeasonalFarmWorkerInd;
 
     @NotBlank
-    private String allAreCitizens;
-
-    @NotBlank
     private String applicantCitizenshipStatus;
-
-    @DynamicField
-    private String citizenshipStatus;
-
-    // The previous field (citizenshipStatus) is used as a wildcard to help populate
-    // this field below, which is put in the "household[]" members data and not left as
-    // a top-level field in the json.
-    private String householdMemberCitizenshipStatus;
 
     private String veteranInd;
 
