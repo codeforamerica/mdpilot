@@ -19,7 +19,7 @@ public class ApplicantDetailsPreparerTest {
         Submission submission = new SubmissionTestBuilder()
             .withPersonalInfo("John", "Doe", "10", "12", "1999",
                 "", "", "", "", "")
-            .with("allAreCitizens", "true")
+            .with("isApplicantApplying", "Yes")
             .with("isApplicantPregnant", "false")
             .build();
 

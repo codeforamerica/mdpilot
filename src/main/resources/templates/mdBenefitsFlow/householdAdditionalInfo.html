@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="~{fragments/head :: head(title=#{household-additional-info.title})}"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <th:block th:replace="~{fragments/icons :: personMilestone}"></th:block>
+        <th:block
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{household-info.header})}"/>
+        <th:block
+            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
+          <th:block th:ref="formContent">
+            <div class="form-card__content">
+              <th:block
+                th:replace="~{fragments/inputs/select :: select(label=#{household-additional-info.citizenship}, 
+                inputName='householdMemberCitizenshipStatus', helpText=#{household-additional-info.citizenship-help}, content=~{::selectContent})}">
+                <th:block th:ref="selectContent">
+                  <th:block
+                      th:replace="~{fragments/inputs/selectOptionPlaceholder :: selectOptionPlaceholder(optionText=#{general.select.placeholder})}"/>
+                  <th:block th:each="citizenship : ${T(org.mdbenefits.app.data.enums.CitizenshipStatus).values()}">
+                    <th:block
+                        th:replace="~{fragments/inputs/selectOption :: selectOption(value=${citizenship.name()}, optionText=#{${citizenship.getLabelSrc()}})}"/>
+                  </th:block>
+                </th:block>
+              </th:block>
+
+              <th:block
+                  th:with="
+                  inputName='householdMemberSsn',
+                  hasError=${
+                    errorMessages != null &&
+                    errorMessages.get(inputName) != null &&
+                    (#arrays.length(errorMessages.get(inputName)) > 0) }">
+                <div th:class="'form-group' + ${(hasError ? ' form-group--error' : '')}">
+                  <label th:text="#{household-additional-info.ssn}" class="form-question"></label>
+                  <p class="text--help"
+                     th:id="${inputName + '-help-text'}"
+                     th:utext="#{household-additional-info.ssn-help}"></p>
+                  <input type="text" class="text-input form-width--med ssn-input"
+                         th:id="${inputName}"
+                         th:name="${inputName}"
+                         th:placeholder="${placeholder}"
+                         th:attr="
+            aria-describedby=${inputName + '-help-text'},
+            aria-invalid=${hasError}"
+                         th:value="${fieldData.getOrDefault(inputName, '')}"
+                         inputmode="numeric">
+                  <th:block
+                      th:replace="~{fragments/inputError :: validationError(inputName=${inputName})}"></th:block>
+                </div>
+              </th:block>
+              
+              <th:block th:replace="~{fragments/inputs/date ::
+                  date(inputName='householdMemberBirth',
+                  label=#{household-additional-info.birthday-question},
+                  helpText='personal-info.date-of-birth.help',
+                   groupName='birthDate')}"/>
+              <th:block th:replace="~{fragments/inputs/radioFieldset ::
+                              radioFieldset(inputName='householdMemberSex',
+                              label=#{household-additional-info.sex},
+                              fieldsetHelpText=#{household-additional-info.sex-helper},
+                              content=~{::sexOptions})}">
+                <th:block th:ref="sexOptions">
+                  <th:block
+                      th:replace="~{fragments/inputs/radio :: radio(inputName='householdMemberSex',value='F', label=#{personal-info.sex-female})}"/>
+
+                  <th:block
+                      th:replace="~{fragments/inputs/radio :: radio(inputName='householdMemberSex',value='M', label=#{personal-info.sex-male})}"/>
+                  <th:block
+                      th:replace="~{fragments/inputs/radio :: radio(inputName='householdMemberSex',value='Other', label=#{personal-info.sex-other})}"/>
+                </th:block>
+              </th:block>
+              <th:block th:replace="~{fragments/inputs/radioFieldset ::
+                            radioFieldset(inputName='householdMemberIsPregnant',
+                            label=#{household-additional-info.pregnancy},
+                            content=~{::householdPregnancy})}">
+                            <th:block th:ref="householdPregnancy">
+                              <th:block
+                                  th:replace="~{fragments/inputs/radio :: radio(inputName='householdMemberIsPregnant',value='Yes', label=#{general.inputs.yes})}"/>
+                              <th:block
+                                  th:replace="~{fragments/inputs/radio :: radio(inputName='householdMemberIsPregnant',value='No', label=#{general.inputs.no})}"/>
+                            </th:block>
+                          </th:block>
+              <th:block th:replace="~{fragments/inputs/radioFieldset ::
+                            radioFieldset(inputName='householdMemberEnrolledInSchool',
+                            label=#{household-additional-info.school},
+                            content=~{::householdSchoolEnrollment})}">
+                <th:block th:ref="householdSchoolEnrollment">
+                  <th:block
+                      th:replace="~{fragments/inputs/radio :: radio(inputName='householdMemberEnrolledInSchool',value='Yes', label=#{general.inputs.yes})}"/>
+                  <th:block
+                      th:replace="~{fragments/inputs/radio :: radio(inputName='householdMemberEnrolledInSchool',value='No', label=#{general.inputs.no})}"/>
+                </th:block>
+              </th:block>
+              <th:block th:replace="~{fragments/inputs/radioFieldset ::
+                            radioFieldset(inputName='householdMemberHasDisability',
+                            label=#{household-additional-info.disability},
+                            content=~{::householdSchoolDisability})}">
+                <th:block th:ref="householdSchoolDisability">
+                  <th:block
+                      th:replace="~{fragments/inputs/radio :: radio(inputName='householdMemberHasDisability',value='Yes', label=#{general.inputs.yes})}"/>
+                  <th:block
+                      th:replace="~{fragments/inputs/radio :: radio(inputName='householdMemberHasDisability',value='No', label=#{general.inputs.no})}"/>
+                </th:block>
+              </th:block>
+              <div class="form-card__footer">
+                <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
+                  text=#{general.inputs.continue})}"/>
+              </div>
+            </div>
+          </th:block>
+        </th:block>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>

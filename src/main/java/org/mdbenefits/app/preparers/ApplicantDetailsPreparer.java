@@ -21,9 +21,9 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
     @Override
     public Map<String, SubmissionField> prepareSubmissionFields(Submission submission, PdfMap pdfMap) {
         Map<String, SubmissionField> results = new HashMap<>();
-        
+
         Map<String, Object> inputData = submission.getInputData();
-        
+
         String fullName = String.format("%s, %s", inputData.get("lastName"), inputData.get("firstName"));
         results.put("applicantFullName", new SingleField("applicantFullName", (String) fullName, null));
 
@@ -31,20 +31,25 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
             .map(inputData::get)
             .reduce((e, c) -> e + "/" + c)
             .get();
-        results.put("applicantDOB", new SingleField("applicantDOB", (String) dob, null));
 
-        results.put("applicantSSN",
+        String applyingStatus = (String) inputData.get("isApplicantApplying");
+        if (applyingStatus.equalsIgnoreCase("yes")) {
+
+            results.put("applicantDOB", new SingleField("applicantDOB", (String) dob, null));
+
+            results.put("applicantSSN",
                 new SingleField("applicantSSN", SubmissionUtilities.formatSSN((String) inputData.get("applicantSSN")), null));
-        results.put("speaksEnglish", new SingleField("speaksEnglish", (String) "true", null));
+            results.put("speaksEnglish", new SingleField("speaksEnglish", (String) "true", null));
 
-        if(inputData.get("applicantSex").toString().equalsIgnoreCase("other")){
-            results.put("applicantSex", new SingleField("applicantSex", "", null));
+            if (inputData.get("applicantSex").toString().equalsIgnoreCase("other")) {
+                results.put("applicantSex", new SingleField("applicantSex", "", null));
+            }
+
+            if (inputData.get("isApplicantPregnant").toString().equalsIgnoreCase("true")) {
+                results.put("applicantIsPregnantName", new SingleField("applicantIsPregnantName", (String) fullName, null));
+            }
+            ;
         }
-
-        if (inputData.get("isApplicantPregnant").toString().equalsIgnoreCase("true")) {
-            results.put("applicantIsPregnantName", new SingleField("applicantIsPregnantName", (String) fullName, null));
-        };
-
         // TODO - this will get finished when design says it's ready
         //prepareCitizenshipStatus(inputData, results);
         return results;

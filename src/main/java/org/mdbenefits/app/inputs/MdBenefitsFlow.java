@@ -141,18 +141,22 @@ public class MdBenefitsFlow extends FlowInputs {
 
     @NotBlank(message = "{error.missing-general}")
     private String householdMemberSex;
-
-    private String householdMemberMaritalStatus;
-
-    private String householdMemberHighestEducation;
     
     @NotBlank(message = "{error.missing-general}")
     private String householdMemberCitizenshipStatus;
 
+    @NotBlank(message = "{error.missing-general}")
     @Size(min = 11, max = 11, message = "{error.invalid-ssn}")
-    @DynamicField
     private String householdMemberSsn;
 
+    @NotBlank(message = "{error.missing-general}")
+    private String householdMemberEnrolledInSchool;
+
+    @NotBlank(message = "{error.missing-general}")
+    private String householdMemberIsPregnant;
+
+    @NotBlank(message = "{error.missing-general}")
+    private String householdMemberHasDisability;
 
     // SNAP
     private String migrantOrSeasonalFarmWorkerInd;
