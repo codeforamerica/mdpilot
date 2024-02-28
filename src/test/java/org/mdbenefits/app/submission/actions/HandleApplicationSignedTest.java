@@ -60,7 +60,7 @@ class HandleApplicationSignedTest {
         handleApplicationSigned.run(submission);
 
         assertThat(submission.getInputData().get("sentEmailToApplicant")).isEqualTo(true);
-        assertThat((String) submission.getInputData().get("confirmationNumber")).matches("M-\\d{5,}");
+        assertThat((String) submission.getInputData().get("confirmationNumber")).matches("M\\d{5,}");
     }
 
     @Test
