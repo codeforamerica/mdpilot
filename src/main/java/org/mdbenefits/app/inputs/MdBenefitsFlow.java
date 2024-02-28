@@ -176,12 +176,6 @@ public class MdBenefitsFlow extends FlowInputs {
 
     private String meals;
 
-
-    //  Sensitive Questions
-    private String householdHasDomesticViolenceSituation;
-
-    private String householdHasCriminalJusticeSituation;
-
     // Income
     private String householdSearchingForJob;
 

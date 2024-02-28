@@ -170,12 +170,6 @@ flow:
       - name: sensitiveQuestions
   householdMealsWho:
     nextScreens:
-      - name: householdSensitiveQuestionsCriminalJustice
-  householdSensitiveQuestionsCriminalJustice:
-    nextScreens:
-      - name: householdCriminalJusticeSituations
-  householdCriminalJusticeSituations:
-    nextScreens:
       - name: incomeSignPost
   incomeSignPost:
     nextScreens:
