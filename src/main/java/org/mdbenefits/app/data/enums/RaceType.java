@@ -31,6 +31,6 @@ public enum RaceType {
 
     public static String getPdfValueFromValue(String value) {
         RaceType raceType = (RaceType) MAP_BY_VALUE.get(value);
-        return raceType != null ? raceType.pdfValue : null;
+        return raceType != null ? raceType.pdfValue : "";
     }
 }

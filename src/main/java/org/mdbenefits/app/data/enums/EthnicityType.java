@@ -29,6 +29,6 @@ public enum EthnicityType {
     public static String getPdfValueFromValue(String value) {
         EthnicityType ethnicityType = (EthnicityType) MAP_BY_VALUE.get(value);
 
-        return ethnicityType != null ? ethnicityType.pdfValue : null;
+        return ethnicityType != null ? ethnicityType.pdfValue : "";
     }
 }
