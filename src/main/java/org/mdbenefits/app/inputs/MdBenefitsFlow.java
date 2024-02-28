@@ -178,19 +178,9 @@ public class MdBenefitsFlow extends FlowInputs {
 
 
     //  Sensitive Questions
-    private String householdHasPersonalSituations;
-
-    private String personalSituationsHouseholdUUID;
-
-    private List<String> personalSituationsListed;
-
     private String householdHasDomesticViolenceSituation;
 
     private String householdHasCriminalJusticeSituation;
-
-    @NotEmpty(message = "{error.missing-general}")
-    @DynamicField
-    private List<String> personalSituations;
 
     // Income
     private String householdSearchingForJob;

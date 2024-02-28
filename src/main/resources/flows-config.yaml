@@ -170,18 +170,6 @@ flow:
       - name: sensitiveQuestions
   householdMealsWho:
     nextScreens:
-      - name: householdPersonalSituations
-  householdPersonalSituations:
-    nextScreens:
-      - name: householdPersonalSituationsWho
-        condition: HouseholdHasPersonalSituations
-      - name: householdSensitiveQuestionsCriminalJustice
-  householdPersonalSituationsWho:
-    beforeSaveAction: ReformatPersonalSituationUserData
-    nextScreens:
-      - name: householdWhichPersonalSituations
-  householdWhichPersonalSituations:
-    nextScreens:
       - name: householdSensitiveQuestionsCriminalJustice
   householdSensitiveQuestionsCriminalJustice:
     nextScreens:
