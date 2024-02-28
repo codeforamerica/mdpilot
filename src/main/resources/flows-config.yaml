@@ -162,15 +162,6 @@ flow:
   expeditedSnapDeferredNotice:
     nextScreens:
       - name: finalSignPost
-#Skipped this section for now
-  householdMeals:
-    nextScreens:
-      - name: householdMealsWho
-        condition: PayForMeals
-      - name: sensitiveQuestions
-  householdMealsWho:
-    nextScreens:
-      - name: incomeSignPost
   incomeSignPost:
     nextScreens:
       - name: householdIncomeByJob
