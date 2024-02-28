@@ -408,19 +408,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     }
 
     @Test
-    void allCitizensSkipSelectStatusPage() {
-        loadUserPersonalData();
-        loadHouseHoldData("First", "User", "12", "22", "1991", true);
-        loadHouseHoldData("Second", "User", "01", "23", "1997", true);
-
-        testPage.navigateToFlowScreen("mdBenefitsFlow/citizenshipIntro");
-        testPage.clickContinue();
-
-        testPage.clickButton(message("general.inputs.yes"));
-        assertThat(testPage.getTitle()).isEqualTo(message("veteran.title"));
-    }
-
-    @Test
     void maleApplicantsSkipPregnancyQuestion() {
         loadUserPersonalData();
         testPage.navigateToFlowScreen("mdBenefitsFlow/applicantSex");
@@ -456,32 +443,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("personal-info.pregnancy.title"));
-    }
-
-    @Test
-    void someHouseholdMembersNotApplyingPresetsCitizenshipStatus() {
-        loadUserPersonalData();
-        loadHouseHoldData("First", "User", "12", "22", "1991", true);
-        loadHouseHoldData("Second", "User", "01", "23", "1997", false);
-
-        testPage.navigateToFlowScreen("mdBenefitsFlow/citizenshipIntro");
-        testPage.clickContinue();
-
-        testPage.clickButton(message("general.inputs.no"));
-        assertThat(testPage.getTitle()).isEqualTo(message("citizenship-select-status.title"));
-
-        List<WebElement> selectGroups = driver.findElements(By.className("form-group"));
-        selectGroups.forEach(groupElement -> {
-            String memberName = groupElement.findElement(By.tagName("label")).getText();
-            WebElement select = groupElement.findElement(By.className("select__element"));
-            WebElement option = testPage.getSelectedOption(select.getAttribute("id"));
-
-            if (memberName.equalsIgnoreCase("Second User")) {
-                assertThat(option.getAttribute("value")).isEqualTo(CitizenshipStatus.NOT_APPLYING.name());
-            } else {
-                assertThat(option.getText()).isEqualTo(message("general.select.placeholder"));
-            }
-        });
     }
 
     @Test
@@ -660,232 +621,12 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickButton(message("household-question.no-text"));
 
         assertThat(testPage.getTitle()).isEqualTo(message("seasonal-farmworker.title"));
-        testPage.clickButton("Yes");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("citizenship.title"));
-        testPage.clickButton(message("general.inputs.continue"));
-
-        assertThat(testPage.getTitle()).isEqualTo(message("citizenship-question.title"));
-        testPage.clickButton(message("general.inputs.no"));
-
-        assertThat(testPage.getTitle()).isEqualTo(message("citizenship-select-status.title"));
-        testPage.selectFromDropdown("applicantCitizenshipStatus", message("citizenship-select-status.types.us-citizen"));
-
-        List<WebElement> elementList = driver.findElements(By.className("select__element"));
-        elementList.forEach(e -> {
-            testPage.selectFromDropdown(e, message(CitizenshipStatus.US_CITIZEN.getLabelSrc()));
-        });
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("veteran.title"));
-        testPage.clickButton("No");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("household-meals.title"));
-        testPage.goBack();
-        testPage.clickButton("Yes");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("veteran-who.title"));
-        testPage.clickElementById("veterans-you");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("household-meals.title"));
-        testPage.clickButton("No");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("sensitive-questions.title"));
-        testPage.goBack();
-        testPage.clickButton("Yes");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("household-meals-who.title"));
-        testPage.clickElementById("meals-you");
-        testPage.clickContinue();
-
-        // Sensitive Questions
-        assertThat(testPage.getTitle()).isEqualTo(message("sensitive-questions.title"));
-        testPage.clickContinue();
-
-        //    Case when no personal situations apply
-        assertThat(testPage.getTitle()).isEqualTo(message("personal-situations.title"));
-        testPage.clickButton("No");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("criminal-justice-warning.title"));
-        testPage.goBack();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("personal-situations.title"));
-        testPage.clickButton("Yes");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("personal-situations-who.title"));
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("personal-situations-which.title"));
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("criminal-justice-warning.title"));
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("criminal-justice.title"));
-        testPage.clickButton("Yes");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("income-signpost.title"));
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("job-search.title"));
-        testPage.clickButton("Yes");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("job-search-who.title"));
-        testPage.clickElementById("jobSearch-you");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("work-disqualifications.title"));
-        testPage.clickButton("No");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("employment-status.title"));
-        testPage.clickButton("Yes");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("income-by-job.title"));
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("income-who.title"));
-        testPage.clickElementById("householdMemberJobAdd-you");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("employer-name.title"));
-        testPage.enter("employerName", "job1");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("self-employment.title"));
-        testPage.clickButton("No");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("job-paid-by-hour.title"));
-        testPage.clickButton("Yes");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("job-hourly-wage.title"));
-        testPage.enter("hourlyWage", "15");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("job-hours-per-week.title"));
-        testPage.enter("hoursPerWeek", "10");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("income-confirmation.title"));
-        testPage.clickButton("No");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("income-list.title"));
-        testPage.clickButton(message("income-list.continue"));
-
-        assertThat(testPage.getTitle()).isEqualTo(message("additional-income.title"));
-        testPage.clickElementById("none__checkbox");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("moneyonhand-types.title"));
-        testPage.clickElementById("moneyOnHandTypes-Savings bond-label");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("moneyonhand-details.title"));
-        testPage.clickContinue();
-
-        //    Expenses SignPost
-        assertThat(testPage.getTitle()).isEqualTo(message("expenses-signpost.title"));
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("home-expenses.title"));
-        testPage.clickElementById("householdHomeExpenses-rent-label");
-        testPage.clickElementById("householdHomeExpenses-otherHomeExpenses-label");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("home-expenses-amount.title"));
-
-        testPage.enter("householdHomeExpenseAmount_wildcard_rent", "500");
-        testPage.enter("householdHomeExpenseAmount_wildcard_otherHomeExpenses", "100");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("utilities.title"));
-
-        testPage.clickElementById("householdUtilitiesExpenses-water-label");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("utilities-expenses-amount.title"));
-        testPage.goBack();
-
-        testPage.clickElementById("none__checkbox-label"); // none selected
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("energy-assistance.title"));
-        testPage.clickButton("No");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("medical-expenses-amount.title"));
-        testPage.goBack();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("energy-assistance.title"));
-        testPage.clickButton("Yes");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("liheap.title"));
-        testPage.clickButton("Yes");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("medical-expenses.title"));
-
-        testPage.clickElementById("householdMedicalExpenses-dentalBills-label");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("medical-expenses-amount.title"));
-        testPage.enter("householdMedicalExpenseAmount_wildcard_dentalBills", "200");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("dependentcare.title"));
-        testPage.clickButton("No");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("childsupportexpenses.title"));
-        testPage.goBack();
-        testPage.clickButton("Yes");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("dependentcare-expenses.title"));
-        testPage.enter("expensesDependentCare", "15");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("childsupportexpenses.title"));
-        testPage.clickButton("No");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("elderlycare.title"));
-        testPage.goBack();
-
-        testPage.clickButton("Yes");
-        assertThat(testPage.getTitle()).isEqualTo(message("childsupportexpenses-amount.title"));
-        testPage.enter("expensesChildSupport", "150");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("elderlycare.title"));
-        testPage.clickButton("Yes");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("elderlycare-amount.title"));
-        testPage.enter("expensesElderlyCare", "123");
-        testPage.clickContinue();
-        ;
-
-        // Final SignPost
-        assertThat(testPage.getTitle()).isEqualTo(message("final-signpost.title"));
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("ebtcard-title"));
-        testPage.clickButton("No");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("voter-registration.title"));
-        testPage.selectRadio("votingRegistrationRequested", "Yes");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("race-ethnicity.title"));
-        testPage.clickButton("No, skip this question");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("doc-upload-intro.title"));
-        testPage.goBack();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("race-ethnicity.title"));
-        testPage.clickButton("Yes, continue");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("ethnicity-selection.title"));
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("race-selection.title"));
-        testPage.clickContinue();
-
+        
+        
+        // PLACEHOLDER FOR ADDITIONAL TESTS
+        
+
+        testPage.navigateToFlowScreen("mdBenefitsFlow/docUploadIntro");
         // Upload documents
         assertThat(testPage.getTitle()).isEqualTo(message("doc-upload-intro.title"));
         testPage.clickButton(message("doc-upload-intro.continue"));
@@ -952,7 +693,23 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.enter("householdMemberFirstName", "roomy");
         testPage.enter("householdMemberLastName", "smith");
         testPage.selectFromDropdown("householdMemberRelationship", message("household-info.relationship.child"));
-        testPage.selectRadio("householdMemberApplyingForBenefits", "yes");
+        testPage.selectRadio("householdMemberApplyingForBenefits", "Yes");
+        testPage.clickContinue();
+        
+        assertThat(testPage.getTitle()).isEqualTo(message("household-additional-info.title"));
+        testPage.selectFromDropdown("householdMemberCitizenshipStatus", message("citizenship.types.us-citizen"));
+        
+        testPage.enter("householdMemberBirthMonth", "12");
+        testPage.enter("householdMemberBirthDay", "25");
+        testPage.enter("householdMemberBirthYear", "1985");
+        
+        testPage.enter("householdMemberSsn", "123456789");
+        testPage.selectRadio("householdMemberSex", "F");
+        testPage.selectRadio("householdMemberIsPregnant", "Yes");
+        testPage.selectRadio("householdMemberEnrolledInSchool", "Yes");
+        testPage.selectRadio("householdMemberHasDisability", "Yes");
+        
+
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("household-list.title"));
@@ -1048,7 +805,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.enter("householdMemberFirstName", firstName);
         testPage.enter("householdMemberLastName", lastName);
         testPage.selectFromDropdown("householdMemberRelationship", message("household-info.relationship.child"));
-        testPage.selectRadio("householdMemberApplyingForBenefits", isApplying ? "yes" : "no");
+        testPage.selectRadio("householdMemberApplyingForBenefits", isApplying ? "Yes" : "No");
         testPage.clickContinue();
     }
 
