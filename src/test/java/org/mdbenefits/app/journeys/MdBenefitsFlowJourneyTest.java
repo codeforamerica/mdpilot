@@ -631,6 +631,9 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.selectRadio("householdMemberHasDisability", "Yes");
 
         testPage.clickContinue();
+        
+        assertThat(testPage.getTitle()).isEqualTo(message("household-race-and-ethnicity.title"));
+        
 
         assertThat(testPage.getTitle()).isEqualTo(message("household-list.title"));
         testPage.clickButton("I'm done");

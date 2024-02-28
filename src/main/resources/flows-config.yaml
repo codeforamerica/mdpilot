@@ -142,6 +142,9 @@ flow:
     crossFieldValidationAction: ValidateHouseholdBirthdate
     subflow: household
     nextScreens:
+      - name: householdRaceAndEthnicity
+  householdRaceAndEthnicity:
+    nextScreens:
       - name: householdList
   householdMemberDeleteConfirmation:
     nextScreens: null
