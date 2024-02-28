@@ -242,14 +242,11 @@ flow:
         condition: IsApplyingForExpeditedSnapAndHasNoUtilityExpenses
       - name: householdUtilitiesAmount
         condition: HasUtilitiesExpenses
-      - name: energyAssistance
+      - name: householdMedicalExpenses
   householdUtilitiesAmount:
     nextScreens:
       - name: householdSeasonalFarmWorker
         condition: IsApplyingForExpeditedSnap
-      - name: energyAssistance
-  energyAssistance:
-    nextScreens:
       - name: householdMedicalExpenses
   householdMedicalExpenses:
     nextScreens:
