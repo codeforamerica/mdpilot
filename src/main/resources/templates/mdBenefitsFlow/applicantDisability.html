@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html th:lang="${#locale.language}">
-<head th:replace="~{fragments/head :: head(title='Scaffold')}"></head>
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(title=#{applicant-disability.title})}"></head>
 <body>
 <div class="page-wrapper">
   <div th:replace="~{fragments/toolbar :: toolbar}"></div>
@@ -8,16 +8,28 @@
     <div class="grid">
       <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
-<!--                <th:block-->
-        <!--                    th:replace="~{fragments/cardHeader :: cardHeader(header=#{}, subtext=#{})}"/>-->
-        <th:block th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
-          <th:block th:ref="formContent">
-            <div class="form-card__content">
-
+        <th:block th:replace="~{fragments/icons :: personMilestone}"></th:block>
+        <th:block
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{applicant-applying.title})}"/>
+        <th:block
+            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::content})}">
+          <th:block th:ref="content">
+            <div class="form-card__content form-group-spacing-half">
+              <th:block th:replace="~{fragments/inputs/radioFieldset ::
+                              radioFieldset(inputName='applicantHasDisability',
+                              label=#{applicant-disability.question},
+                              content=~{::inputContent})}">
+                <th:block th:ref="inputContent">
+                  <th:block
+                      th:replace="~{fragments/inputs/radio :: radio(inputName='applicantHasDisability',value='true', label=#{general.inputs.yes})}"/>
+                  <th:block
+                      th:replace="~{fragments/inputs/radio :: radio(inputName='applicantHasDisability',value='false', label=#{general.inputs.no})}"/>
+                </th:block>
+              </th:block>
             </div>
             <div class="form-card__footer">
-              <th:block th:replace="~{fragments/continueButton :: continue}" />
-
+              <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
+                  text=#{general.inputs.continue})}"/>
             </div>
           </th:block>
         </th:block>
@@ -25,6 +37,6 @@
     </div>
   </section>
 </div>
-<th:block th:replace="~{fragments/footer :: footer}" />
+<th:block th:replace="~{fragments/footer :: footer}"/>
 </body>
 </html>

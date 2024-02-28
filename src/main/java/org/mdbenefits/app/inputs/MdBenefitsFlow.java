@@ -114,10 +114,14 @@ public class MdBenefitsFlow extends FlowInputs {
     @NotBlank(message = "{error.missing-general}")
     private String applicantSex;
 
+    @NotBlank(message = "{error.missing-general}")
     private String isApplicantPregnant;
 
+    @NotBlank(message = "{error.missing-general}")
     private String applicantIsEnrolledInSchool;
 
+    @NotBlank(message = "{error.missing-general}")
+    private String applicantHasDisability;
 
     @NotBlank(message = "{error.missing-firstname}")
     private String householdMemberFirstName;

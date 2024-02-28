@@ -21,6 +21,7 @@ public class ApplicantDetailsPreparerTest {
                 "", "", "", "", "")
             .with("isApplicantApplying", "Yes")
             .with("isApplicantPregnant", "false")
+            .with("applicantHasDisability", "false")
             .build();
 
         Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);

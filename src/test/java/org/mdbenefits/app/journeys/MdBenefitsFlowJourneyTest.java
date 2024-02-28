@@ -605,6 +605,12 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("applicant-school-enrollment.title"));
+        testPage.selectRadio("applicantIsEnrolledInSchool", "Yes");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("applicant-disability.title"));
+        testPage.selectRadio("applicantHasDisability", "false");
+        testPage.clickContinue();
 
        // TODO: remove this navigation in future work
         testPage.navigateToFlowScreen("mdBenefitsFlow/applicantApplying");
