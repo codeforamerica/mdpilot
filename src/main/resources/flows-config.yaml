@@ -173,20 +173,6 @@ flow:
       - name: incomeSignPost
   incomeSignPost:
     nextScreens:
-      - name: householdJobSearch
-  householdJobSearch:
-    nextScreens:
-      - name: householdJobSearchWho
-        condition: HouseholdJobSearch
-      - name: householdWorkDisqualifications
-  householdJobSearchWho:
-    nextScreens:
-      - name: householdWorkDisqualifications
-  householdWorkDisqualifications:
-    nextScreens:
-      - name: householdEmploymentStatus
-  householdEmploymentStatus:
-    nextScreens:
       - name: householdIncomeByJob
   householdIncomeByJob:
     nextScreens:

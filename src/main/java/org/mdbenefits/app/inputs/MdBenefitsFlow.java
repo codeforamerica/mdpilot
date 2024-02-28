@@ -177,15 +177,6 @@ public class MdBenefitsFlow extends FlowInputs {
     private String meals;
 
     // Income
-    private String householdSearchingForJob;
-
-    @NotEmpty(message = "{error.missing-general}")
-    private List<String> jobSearch;
-
-    private String workDisqualificationInd;
-
-    private String selfEmploymentIncome;
-
     @NotBlank(message = "{error.missing-general}")
     private String householdMemberJobAdd;
 

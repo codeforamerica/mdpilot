@@ -768,19 +768,5 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.navigateToFlowScreen("mdBenefitsFlow/incomeSignPost");
         testPage.clickContinue();
 
-        testPage.clickButton("Yes");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("job-search-who.title"));
-        testPage.clickContinue();
-
-        assert (testPage.hasErrorText(message("error.missing-general")));
-
-        testPage.clickElementById("jobSearch-you");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("work-disqualifications.title"));
-        testPage.clickButton("No");
-
-        testPage.clickButton("No");
     }
 }
