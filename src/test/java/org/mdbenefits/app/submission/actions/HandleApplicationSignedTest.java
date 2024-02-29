@@ -11,6 +11,8 @@ import formflow.library.email.MailgunEmailClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.SubmissionTestBuilder;
+import org.mdbenefits.app.data.Transmission;
+import org.mdbenefits.app.data.TransmissionRepository;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,8 +28,10 @@ class HandleApplicationSignedTest {
     MailgunEmailClient mailgunEmailClient;
     @Autowired
     MessageSource messageSource;
-    @MockBean
+    @Autowired
     SubmissionRepositoryService submissionRepositoryService;
+    @Autowired
+    TransmissionRepository transmissionRepository;
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -36,13 +40,14 @@ class HandleApplicationSignedTest {
     @BeforeEach
     void setup() {
         handleApplicationSigned = new HandleApplicationSigned(messageSource, mailgunEmailClient, submissionRepositoryService,
-                jdbcTemplate);
+                transmissionRepository, jdbcTemplate);
     }
 
     @Test
     public void shouldSkipSendingIfNoEmailAddress() {
         Submission submission = new SubmissionTestBuilder()
                 .build();
+        submission.setFlow("mdBenefitsFlow");
 
         handleApplicationSigned.run(submission);
 
@@ -53,6 +58,7 @@ class HandleApplicationSignedTest {
         Submission submission = new SubmissionTestBuilder()
                 .with("emailAddress", "foo@example.com")
                 .build();
+        submission.setFlow("mdBenefitsFlow");
         MessageResponse mockResponse = mock(MessageResponse.class);
         Mockito.when(mailgunEmailClient.sendEmail(any(), any(), any()))
                 .thenReturn(mockResponse);
@@ -61,6 +67,8 @@ class HandleApplicationSignedTest {
 
         assertThat(submission.getInputData().get("sentEmailToApplicant")).isEqualTo(true);
         assertThat((String) submission.getInputData().get("confirmationNumber")).matches("M\\d{5,}");
+        Transmission transmission = transmissionRepository.findTransmissionBySubmission(submission);
+        assertThat(transmission.getStatus()).isEqualTo("QUEUED");
     }
 
     @Test
@@ -68,6 +76,7 @@ class HandleApplicationSignedTest {
         Submission submission = new SubmissionTestBuilder()
                 .with("emailAddress", "foo@example.com")
                 .build();
+        submission.setFlow("mdBenefitsFlow");
         Mockito.when(mailgunEmailClient.sendEmail(any(), any(), any()))
                 .thenReturn(null);
 

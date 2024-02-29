@@ -6,6 +6,8 @@ import formflow.library.data.Submission;
 import formflow.library.data.SubmissionRepositoryService;
 import formflow.library.email.MailgunEmailClient;
 import lombok.extern.slf4j.Slf4j;
+import org.mdbenefits.app.data.Transmission;
+import org.mdbenefits.app.data.TransmissionRepository;
 import org.springframework.context.MessageSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -20,13 +22,16 @@ public class HandleApplicationSigned implements Action {
 
     private final SubmissionRepositoryService submissionRepositoryService;
 
+    private final TransmissionRepository transmissionRepository;
+
     private final JdbcTemplate jdbcTemplate;
 
     public HandleApplicationSigned(MessageSource messageSource, MailgunEmailClient mailgunEmailClient,
-            SubmissionRepositoryService submissionRepositoryService, JdbcTemplate jdbcTemplate) {
+            SubmissionRepositoryService submissionRepositoryService, TransmissionRepository transmissionRepository, JdbcTemplate jdbcTemplate) {
         this.messageSource = messageSource;
         this.mailgunEmailClient = mailgunEmailClient;
         this.submissionRepositoryService = submissionRepositoryService;
+        this.transmissionRepository = transmissionRepository;
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -34,7 +39,14 @@ public class HandleApplicationSigned implements Action {
     public void run(Submission submission) {
         assignConfirmationNumber(submission);
         sendEmailToApplicant(submission);
+        enqueueTransmission(submission);
     }
+
+    private void enqueueTransmission(Submission submission) {
+        Transmission transmission = Transmission.fromSubmission(submission);
+        transmissionRepository.save(transmission);
+        log.info("Created transmission");
+   }
 
     private void assignConfirmationNumber(Submission submission) {
         String confirmationNumber = jdbcTemplate.queryForObject("select 'M' || nextval('confirmation_sequence')", String.class);
