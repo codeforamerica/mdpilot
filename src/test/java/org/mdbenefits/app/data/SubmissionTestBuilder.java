@@ -142,8 +142,7 @@ public class SubmissionTestBuilder {
         return this;
     }
 
-    public SubmissionTestBuilder withJob(String employeeName, String employerName, String freq, String amount,
-            String isSelfEmployed, String jobPaidByHour) {
+    public SubmissionTestBuilder withJob(String employeeName, String employerName, String freq, String amount, String jobPaidByHour) {
         List<Map<String, Object>> income = (List<Map<String, Object>>) submission.getInputData().get("income");
         if (income == null) {
             income = new ArrayList<>();
@@ -154,7 +153,6 @@ public class SubmissionTestBuilder {
         job.put("uuid", uuid);
         job.put("householdMemberJobAdd", employeeName);
         job.put("employerName", employerName);
-        job.put("selfEmployed", isSelfEmployed);
         job.put("jobPaidByHour", jobPaidByHour);
         if (jobPaidByHour.equals("true")) {
             job.put("hourlyWage", amount);

@@ -207,9 +207,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         testPage.clickContinue();
 
-        assertThat(testPage.getTitle()).isEqualTo(message("self-employment.title"));
-        testPage.clickButton("No");
-
         assertThat(testPage.getTitle()).isEqualTo(message("job-paid-by-hour.title"));
         testPage.clickButton("Yes");
 
@@ -266,9 +263,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.enter("employerName", "job1");
 
         testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("self-employment.title"));
-        testPage.clickButton("No");
 
         assertThat(testPage.getTitle()).isEqualTo(message("job-paid-by-hour.title"));
         testPage.clickButton("No");
