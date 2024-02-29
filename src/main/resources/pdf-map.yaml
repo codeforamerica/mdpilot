@@ -25,6 +25,8 @@ inputFields:
   needsSNAP: applicant_needs_snap
   isApplicantPregnant: household_pregnancy_bool
   applicantIsPregnantName: household_pregnancy_who_name
+  applicantHasDisability: household_disability_bool
+  applicantHasDisabilityName: household_disability_who_name
   signature: applicant_signature
 
   #Section A

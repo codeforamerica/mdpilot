@@ -48,6 +48,10 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
             if (inputData.get("isApplicantPregnant").toString().equalsIgnoreCase("true")) {
                 results.put("applicantIsPregnantName", new SingleField("applicantIsPregnantName", (String) fullName, null));
             }
+
+            if (inputData.getOrDefault("applicantHasDisability", "").toString().equalsIgnoreCase("Yes")) {
+                results.put("applicantHasDisabilityName", new SingleField("applicantHasDisabilityName", (String) fullName, null));
+            }
             ;
         }
         // TODO - this will get finished when design says it's ready
