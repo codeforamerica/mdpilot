@@ -168,6 +168,8 @@ flow:
   householdIncome:
     nextScreens:
       - name: householdIncomeByJob
+        condition: HasIncome
+      - name: expensesSignPost
   householdIncomeByJob:
     nextScreens:
       - name: householdIncomeWho
