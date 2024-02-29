@@ -31,9 +31,9 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
         results.put("applicantFullName", new SingleField("applicantFullName", (String) fullName, null));
 
         var dob = Stream.of("birthMonth", "birthDay", "birthYear")
-                .map(inputData::get)
-                .reduce((e, c) -> e + "/" + c)
-                .get();
+            .map(inputData::get)
+            .reduce((e, c) -> e + "/" + c)
+            .get();
 
         String applyingStatus = (String) inputData.get("isApplicantApplying");
         if (applyingStatus.equalsIgnoreCase("yes")) {
@@ -41,7 +41,7 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
             results.put("applicantDOB", new SingleField("applicantDOB", (String) dob, null));
 
             results.put("applicantSSN",
-                    new SingleField("applicantSSN", SubmissionUtilities.formatSSN((String) inputData.get("applicantSSN")), null));
+                new SingleField("applicantSSN", SubmissionUtilities.formatSSN((String) inputData.get("applicantSSN")), null));
             results.put("speaksEnglish", new SingleField("speaksEnglish", (String) "true", null));
 
             if (inputData.get("applicantSex").toString().equalsIgnoreCase("other")) {

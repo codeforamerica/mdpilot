@@ -98,6 +98,8 @@ public class SubmissionTestBuilder {
         member.put("householdMemberSsn", ssn);
         member.put("householdMemberCitizenshipStatus", CitizenshipStatus.US_CITIZEN.name());
         member.put("householdMemberApplyingForBenefits", "Yes");
+        member.put("householdMemberIsPregnant", "Yes");
+        member.put("householdMemberHasDisability", "Yes");
 
         household.add(member);
         if (raceInfo != null && !raceInfo.isEmpty()) {

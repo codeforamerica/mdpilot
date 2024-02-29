@@ -28,6 +28,10 @@ inputFields:
   applicantHasDisability: household_disability_bool
   applicantHasDisabilityName: household_disability_who_name
   signature: applicant_signature
+  householdMemberHasDisability: household_disability_bool
+  householdMemberHasDisabilitySeeCover: household_disability_see_cover
+  householdMemberIsPregnant: household_pregnancy_bool
+  householdMemberIsPregnantSeeCover: hhmember_pregnancy_see_cover
 
   #Section A
   isApplicantApplying: applicant_is_applying
