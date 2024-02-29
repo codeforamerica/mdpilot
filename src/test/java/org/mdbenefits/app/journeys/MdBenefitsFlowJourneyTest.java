@@ -522,7 +522,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("personal-info.pregnancy.title"));
-        testPage.selectRadio("isApplicantPregnant", "true");
+        testPage.selectRadio("isApplicantPregnant", "Yes");
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("applicant-school-enrollment.title"));
@@ -530,7 +530,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("applicant-disability.title"));
-        testPage.selectRadio("applicantHasDisability", "false");
+        testPage.selectRadio("applicantHasDisability", "No");
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo((message("race-ethnicity-selection.title")));
