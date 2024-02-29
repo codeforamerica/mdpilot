@@ -24,10 +24,10 @@ public class HouseholdPregnancyAndDisabilityPreparer implements SubmissionFieldP
             AtomicBoolean householdMemberIsPregnant = new AtomicBoolean(false);
             AtomicBoolean householdMemberHasDisability = new AtomicBoolean(false);
             household.forEach(householdMember -> {
-                if (householdMember.get("householdMemberIsPregnant").equals("Yes")) {
+                if (householdMember.containsKey("householdMemberIsPregnant") && householdMember.get("householdMemberIsPregnant").equals("Yes")) {
                     householdMemberIsPregnant.set(true);
                 }
-                if (householdMember.get("householdMemberHasDisability").equals("Yes")) {
+                if (householdMember.containsKey("householdMemberHasDisability") && householdMember.get("householdMemberHasDisability").equals("Yes")) {
                     householdMemberHasDisability.set(true);
                 }
             });
