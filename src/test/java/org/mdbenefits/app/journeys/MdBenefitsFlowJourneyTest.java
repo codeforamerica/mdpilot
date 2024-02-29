@@ -768,5 +768,8 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.navigateToFlowScreen("mdBenefitsFlow/incomeSignPost");
         testPage.clickContinue();
 
+        assertThat(testPage.getTitle()).isEqualTo(message("household-income.title"));
+        testPage.clickButton("Yes");
+
     }
 }

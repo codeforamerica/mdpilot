@@ -164,6 +164,9 @@ flow:
       - name: finalSignPost
   incomeSignPost:
     nextScreens:
+      - name: householdIncome
+  householdIncome:
+    nextScreens:
       - name: householdIncomeByJob
   householdIncomeByJob:
     nextScreens:
