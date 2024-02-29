@@ -151,6 +151,8 @@ flow:
   householdSeasonalFarmWorker:
     beforeSaveAction: CheckExpeditedSnapEligibility
     nextScreens:
+      - name: incomeSignPost
+        condition: IsNotApplyingForExpeditedSnap
       - name: expeditedSnapQualificationNotice
         condition: IsEligibleForExpeditedSnap
       - name: expeditedSnapDeferredNotice
@@ -160,58 +162,7 @@ flow:
   expeditedSnapDeferredNotice:
     nextScreens:
       - name: finalSignPost
-  householdVeteran:
-    nextScreens:
-      - name: householdVeteranWho
-        condition: IsVeteran
-      - name: householdMeals
-  householdVeteranWho:
-    nextScreens:
-      - name: householdMeals
-  householdMeals:
-    nextScreens:
-      - name: householdMealsWho
-        condition: PayForMeals
-      - name: sensitiveQuestions
-  householdMealsWho:
-    nextScreens:
-      - name: sensitiveQuestions
-  sensitiveQuestions:
-    nextScreens:
-      - name: householdPersonalSituations
-  householdPersonalSituations:
-    nextScreens:
-      - name: householdPersonalSituationsWho
-        condition: HouseholdHasPersonalSituations
-      - name: householdSensitiveQuestionsCriminalJustice
-  householdPersonalSituationsWho:
-    beforeSaveAction: ReformatPersonalSituationUserData
-    nextScreens:
-      - name: householdWhichPersonalSituations
-  householdWhichPersonalSituations:
-    nextScreens:
-      - name: householdSensitiveQuestionsCriminalJustice
-  householdSensitiveQuestionsCriminalJustice:
-    nextScreens:
-      - name: householdCriminalJusticeSituations
-  householdCriminalJusticeSituations:
-    nextScreens:
-      - name: incomeSignPost
   incomeSignPost:
-    nextScreens:
-      - name: householdJobSearch
-  householdJobSearch:
-    nextScreens:
-      - name: householdJobSearchWho
-        condition: HouseholdJobSearch
-      - name: householdWorkDisqualifications
-  householdJobSearchWho:
-    nextScreens:
-      - name: householdWorkDisqualifications
-  householdWorkDisqualifications:
-    nextScreens:
-      - name: householdEmploymentStatus
-  householdEmploymentStatus:
     nextScreens:
       - name: householdIncomeByJob
   householdIncomeByJob:
@@ -291,19 +242,11 @@ flow:
         condition: IsApplyingForExpeditedSnapAndHasNoUtilityExpenses
       - name: householdUtilitiesAmount
         condition: HasUtilitiesExpenses
-      - name: energyAssistance
+      - name: householdMedicalExpenses
   householdUtilitiesAmount:
     nextScreens:
       - name: householdSeasonalFarmWorker
         condition: IsApplyingForExpeditedSnap
-      - name: energyAssistance
-  energyAssistance:
-    nextScreens:
-      - name: liheap
-        condition: ReceivesEnergyAssistance
-      - name: householdMedicalExpenses
-  liheap:
-    nextScreens:
       - name: householdMedicalExpenses
   householdMedicalExpenses:
     nextScreens:
@@ -328,19 +271,8 @@ flow:
       - name: expensesElderlyCare
   expensesChildSupportAmount:
     nextScreens:
-      - name: expensesElderlyCare
-  expensesElderlyCare:
-    nextScreens:
-      - name: expensesElderlyCareAmount
-        condition: HasElderlyCareExpenses
-      - name: finalSignPost
-  expensesElderlyCareAmount:
-    nextScreens:
       - name: finalSignPost
   finalSignPost:
-    nextScreens:
-      - name: ebtCard
-  ebtCard:
     nextScreens:
       - name: registerToVote
   registerToVote:

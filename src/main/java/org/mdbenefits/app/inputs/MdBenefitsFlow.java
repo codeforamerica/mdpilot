@@ -172,40 +172,7 @@ public class MdBenefitsFlow extends FlowInputs {
     @NotBlank
     private String applicantCitizenshipStatus;
 
-    private String veteranInd;
-
-    private String veterans;
-
-    private String mealInd;
-
-    private String meals;
-
-
-    //  Sensitive Questions
-    private String householdHasPersonalSituations;
-
-    private String personalSituationsHouseholdUUID;
-
-    private List<String> personalSituationsListed;
-
-    private String householdHasDomesticViolenceSituation;
-
-    private String householdHasCriminalJusticeSituation;
-
-    @NotEmpty(message = "{error.missing-general}")
-    @DynamicField
-    private List<String> personalSituations;
-
     // Income
-    private String householdSearchingForJob;
-
-    @NotEmpty(message = "{error.missing-general}")
-    private List<String> jobSearch;
-
-    private String workDisqualificationInd;
-
-    private String selfEmploymentIncome;
-
     @NotBlank(message = "{error.missing-general}")
     private String householdMemberJobAdd;
 
@@ -266,10 +233,6 @@ public class MdBenefitsFlow extends FlowInputs {
     @DynamicField
     private String householdUtilitiesExpenseAmount;
 
-    private String receivesEnergyAssistance;
-
-    private String assistanceThroughLiheap;
-
     private String hasDependentCareExpenses;
 
     @Money(message = "{error.invalid-money}")
@@ -290,12 +253,6 @@ public class MdBenefitsFlow extends FlowInputs {
     @DynamicField
     private String householdMedicalExpenseAmount;
 
-    private String hasElderlyCareExpenses;
-
-    @Money(message = "{error.invalid-money}")
-    @NotBlank(message = "{error.missing-dollar-amount}")
-    private String expensesElderlyCare;
-
     // WIC / ECE
     private String interestedInEceInd;
     private String interestedInWicInd;
@@ -303,19 +260,6 @@ public class MdBenefitsFlow extends FlowInputs {
     private String guardiansHaveDisabilityInd;
 
     // Final Screen
-    private String needsNewEbtCard;
-
-    private String authorizedRepresentative;
-
-    private String authorizedRepCommsAuthorization;
-
-    private String authorizedRepMailAuthorization;
-
-    private String authorizedRepSpendingAuthorization;
-
-    @NotBlank(message = "{error.missing-firstname}")
-    private String authorizedRepFirstName;
-
     @NotBlank(message = "{error.missing-general}")
     private String votingRegistrationRequested;
 
