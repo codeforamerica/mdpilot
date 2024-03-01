@@ -177,10 +177,6 @@ flow:
   householdEmployerName:
     subflow: income
     nextScreens:
-      - name: householdSelfEmployment
-  householdSelfEmployment:
-    subflow: income
-    nextScreens:
       - name: jobPaidByHour
   jobPaidByHour:
     subflow: income

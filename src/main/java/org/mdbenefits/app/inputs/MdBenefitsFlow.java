@@ -179,8 +179,6 @@ public class MdBenefitsFlow extends FlowInputs {
     @NotBlank(message = "{error.missing-general}")
     private String employerName;
 
-    private String selfEmployed;
-
     private String jobPaidByHour;
 
     @Money(message = "{error.invalid-money}")

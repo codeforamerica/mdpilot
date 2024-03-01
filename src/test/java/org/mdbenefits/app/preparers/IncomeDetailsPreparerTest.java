@@ -19,14 +19,14 @@ class IncomeDetailsPreparerTest {
     @Test
     public void testMultipleJobs() {
         Submission submission = new SubmissionTestBuilder()
-                .withJob("Joka Aksj", "CfA", "10", "11", "false", "true")
-                .withJob("Bsod Aksj", "CgA", "90", "10", "true", "true")
-                .withJob("Olas Aksj", "ChA", "Every 2 weeks", "50", "false", "false")
-                .withJob("Ydopa Aksj", "CiA", "It varies", "1000", "true", "false")
+                .withJob("Joka Aksj", "CfA", "10", "11", "true")
+                .withJob("Bsod Aksj", "CgA", "90", "10", "true")
+                .withJob("Olas Aksj", "ChA", "Every 2 weeks", "50", "false")
+                .withJob("Ydopa Aksj", "CiA", "It varies", "1000", "false")
                 .build();
 
         var results = preparer.prepareSubmissionFields(submission, null);
-        assertThat(results.size()).isEqualTo(18);
+        assertThat(results.size()).isEqualTo(20);
     }
 
 
