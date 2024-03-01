@@ -239,7 +239,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.enter("hoursPerWeek", "10");
         testPage.clickContinue();
 
-        assertThat(testPage.getTitle()).isEqualTo(message("income-confirmation.title"));
+        assertThat(testPage.getTitle()).isEqualTo(message("income-list.title"));
     }
 
     @Test
@@ -289,7 +289,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         testPage.clickContinue();
 
-        assertThat(testPage.getTitle()).isEqualTo(message("income-confirmation.title"));
+        assertThat(testPage.getTitle()).isEqualTo(message("income-list.title"));
     }
 
     // TODO: re-enable once we implement the expedited SNAP flow

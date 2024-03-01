@@ -195,16 +195,13 @@ flow:
   jobHoursPerWeek:
     subflow: income
     nextScreens:
-      - name: householdIncomeConfirmation
+      - name: householdIncomeList
   jobPayPeriod:
     subflow: income
     nextScreens:
       - name: jobPayAmount
   jobPayAmount:
     subflow: income
-    nextScreens:
-      - name: householdIncomeConfirmation
-  householdIncomeConfirmation:
     nextScreens:
       - name: householdIncomeList
   householdIncomeList:
