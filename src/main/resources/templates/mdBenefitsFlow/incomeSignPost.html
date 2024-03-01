@@ -10,14 +10,12 @@
       <main id="content" role="main" class="form-card spacing-above-35">
         <div class="grid__item spacing-above-35 text--centered">
           <th:block th:replace="~{fragments/icons :: moneyTips}"></th:block>
-          <p class="text--help spacing-below-10"
-             th:text="#{income-signpost.step}"></p>
           <th:block
-              th:replace="~{fragments/cardHeader :: cardHeader(header=#{income-signpost.header})}"/>
+              th:replace="~{fragments/cardHeader :: cardHeader(header=#{income-signpost.header}, subtext=#{income-signpost.subheader})}"/>
         </div>
         <div class="form-card__content">
           <div class="grid__item intro-section boxed-content spacing-below-60">
-            <h2 class="h3 text--centered intro-box__title" th:text="#{signpost.well-ask-about}"></h2>
+            <h2 class="h3 text--centered intro-box__title" th:text="#{income-signpost.well-ask-about}"></h2>
             <ol class="list--numbered spacing-above-10">
               <li th:text="#{income-signpost.current-jobs}"></li>
               <li th:text="#{income-signpost.additional-income}"></li>
