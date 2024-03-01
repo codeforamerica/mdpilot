@@ -20,8 +20,7 @@ public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
 
         var income = (List<Map<String, Object>>) submission.getInputData().get("income");
         if (income != null) {
-            int nonSelfEmploymentIdx = 1;
-            int selfEmploymentIdx = 1;
+            int iterator = 1;
             for (int i = 0; i < income.size(); i++) {
                 Map<String, Object> incomeDetails = income.get(i);
 
@@ -31,15 +30,15 @@ public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
 
                 var payPeriod = incomeDetails.get("payPeriod");
                 var hourlyWage = incomeDetails.get("hourlyWage");
-                results.put("employeeName" + i, new SingleField("employeeName", (String) employeeName, nonSelfEmploymentIdx));
-                results.put("employerName" + i, new SingleField("employerName", (String) employerName, nonSelfEmploymentIdx));
+                results.put("employeeName" + i, new SingleField("employeeName", (String) employeeName, iterator));
+                results.put("employerName" + i, new SingleField("employerName", (String) employerName, iterator));
                 results.put("employmentPayFreq" + i,
-                    new SingleField("employmentPayFreq", (String) payPeriod, nonSelfEmploymentIdx));
+                    new SingleField("employmentPayFreq", (String) payPeriod, iterator));
                 results.put("employeeHoursPerWeek" + i,
-                    new SingleField("employeeHoursPerWeek", (String) hoursPerWeek, nonSelfEmploymentIdx));
+                    new SingleField("employeeHoursPerWeek", (String) hoursPerWeek, iterator));
                 results.put("employeeHourlyWage" + i,
-                    new SingleField("employeeHourlyWage", (String) hourlyWage, nonSelfEmploymentIdx));
-                nonSelfEmploymentIdx++;
+                    new SingleField("employeeHourlyWage", (String) hourlyWage, iterator));
+                iterator++;
 
             }
         }
