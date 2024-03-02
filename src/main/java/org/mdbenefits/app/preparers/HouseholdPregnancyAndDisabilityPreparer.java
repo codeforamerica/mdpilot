@@ -21,30 +21,25 @@ public class HouseholdPregnancyAndDisabilityPreparer implements SubmissionFieldP
         var household = (List<Map<String, Object>>) submission.getInputData().get("household");
 
         if (household != null) {
-            AtomicBoolean householdMemberIsPregnant = new AtomicBoolean(false);
-            AtomicBoolean householdMemberHasDisability = new AtomicBoolean(false);
-            household.forEach(householdMember -> {
-                if (householdMember.containsKey("householdMemberIsPregnant") && householdMember.get("householdMemberIsPregnant").equals("Yes")) {
-                    householdMemberIsPregnant.set(true);
-                }
-                if (householdMember.containsKey("householdMemberHasDisability") && householdMember.get("householdMemberHasDisability").equals("Yes")) {
-                    householdMemberHasDisability.set(true);
-                }
-            });
+            boolean hasPregnantMember = household.stream().anyMatch(member -> 
+                    member.getOrDefault("householdMemberIsPregnant","").toString().equalsIgnoreCase("Yes"));
             
-            results.put("householdMemberIsPregnant", new SingleField("householdMemberIsPregnant", 
-                householdMemberIsPregnant.get() ? "Yes" : "No", null));
-            if (householdMemberIsPregnant.get()) {
+            boolean hasDisabledMember = household.stream().anyMatch(member ->
+                    member.getOrDefault("householdMemberIsPregnant","").toString().equalsIgnoreCase("Yes"));
+            
+            results.put("householdMemberIsPregnant", new SingleField("householdMemberIsPregnant",
+                    hasPregnantMember ? "Yes" : "No", null));
+            if (hasPregnantMember) {
                 results.put("householdMemberIsPregnantSeeCover", 
                     new SingleField("householdMemberIsPregnantSeeCover", "See cover page", null));
             }
-            results.put("householdMemberHasDisability", new SingleField("householdMemberHasDisability", 
-                householdMemberHasDisability.get() ? "Yes" : "No", null));
-            if (householdMemberHasDisability.get()) {
+            
+            results.put("householdMemberHasDisability", new SingleField("householdMemberHasDisability",
+                    hasDisabledMember ? "Yes" : "No", null));
+            if (hasDisabledMember) {
                 results.put("householdMemberHasDisabilitySeeCover",
                     new SingleField("householdMemberHasDisabilitySeeCover", "See cover page",null));
             }
-            
         }
         
         return results;

@@ -77,7 +77,7 @@ public class SubmissionTestBuilder {
         String firstName, String lastName,
         String birthDay, String birthMonth, String birthYear,
         String relationship, String sex, String maritalStatus,
-        String education, String ssn, List<String> raceInfo, String ethnicity) {
+        String education, String ssn, String isPregnant, String isDisabled, List<String> raceInfo, String ethnicity) {
         List<Map<String, Object>> household = (List<Map<String, Object>>) submission.getInputData().get("household");
         if (household == null) {
             household = new ArrayList<>();
@@ -98,8 +98,8 @@ public class SubmissionTestBuilder {
         member.put("householdMemberSsn", ssn);
         member.put("householdMemberCitizenshipStatus", CitizenshipStatus.US_CITIZEN.name());
         member.put("householdMemberApplyingForBenefits", "Yes");
-        member.put("householdMemberIsPregnant", "Yes");
-        member.put("householdMemberHasDisability", "Yes");
+        member.put("householdMemberIsPregnant", isPregnant);
+        member.put("householdMemberHasDisability", isDisabled);
 
         household.add(member);
         if (raceInfo != null && !raceInfo.isEmpty()) {
