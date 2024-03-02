@@ -22,9 +22,9 @@
                               content=~{::inputContent})}">
                 <th:block th:ref="inputContent">
                   <th:block
-                      th:replace="~{fragments/inputs/radio :: radio(inputName='isApplicantPregnant',value='true', label=#{general.inputs.yes})}"/>
+                      th:replace="~{fragments/inputs/radio :: radio(inputName='isApplicantPregnant',value='Yes', label=#{general.inputs.yes})}"/>
                   <th:block
-                      th:replace="~{fragments/inputs/radio :: radio(inputName='isApplicantPregnant',value='false', label=#{general.inputs.no})}"/>
+                      th:replace="~{fragments/inputs/radio :: radio(inputName='isApplicantPregnant',value='No', label=#{general.inputs.no})}"/>
                 </th:block>
               </th:block>
             </div>

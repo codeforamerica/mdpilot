@@ -17,7 +17,7 @@ class HouseholdDetailsPreparerTest {
     public void testWithHouseholdMember() {
         Submission submission = new SubmissionTestBuilder()
             .withHouseholdMemberApplying("Betty", "White", "10", "2", "1999", "Child", "F", "NeverMarried", "firstGrade",
-                "123456789", null, null)
+                "123456789", "Yes", "Yes", null, null)
             .build();
         Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);
         assertThat(result.get("householdMemberFullName_1")).isEqualTo(

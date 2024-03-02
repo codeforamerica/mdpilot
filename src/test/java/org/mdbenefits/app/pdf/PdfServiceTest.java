@@ -30,15 +30,15 @@ class PDFServiceTest {
                 .withPersonalInfo("John", "Doe", "10", "12", "1999",
                         "", "F", "", "", "111111111")
                 .withHouseholdMemberApplying("Jane", "Doe", "1", "5", "2000",
-                        "Child", "F", "", "", "222222222", null, null)
+                        "Child", "F", "", "", "222222222", "Yes", "Yes", null, null)
                 .with("homeAddressStreetAddress1", "972 Mission St, 5th Floor")
                 .with("homeAddressCity", "San Francisco")
                 .with("homeAddressState", "CA")
                 .with("homeAddressZipCode", "94103")
                 .with("phoneNumber", "(510) 555-1212")
                 .with("programs[]", List.of("SNAP", "RCA"))
-                .with("isApplicantPregnant", "false")
-                .with("applicantHasDisability", "false")
+                .with("isApplicantPregnant", "No")
+                .with("applicantHasDisability", "No")
                 .with("signature", "John Hancock")
                 .with("someoneInHHIsPregnant", "true")
                 .with("someoneHasDrugKingpinFelony", "false")

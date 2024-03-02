@@ -25,7 +25,7 @@ public class ApplicantDetailsPreparerTest {
                 .withPersonalInfo("John", "Doe", "10", "12", "1999",
                         "", "", "", "", "")
                 .with("isApplicantApplying", "Yes")
-                .with("isApplicantPregnant", "false")
+                .with("isApplicantPregnant", "No")
                 .with("applicantRace[]", List.of(RaceType.ASIAN.name(), RaceType.AMERICAN_INDIAN.name()))
                 .with("applicantEthnicity", EthnicityType.HISPANIC_OR_LATINO.name())
                 .build();
