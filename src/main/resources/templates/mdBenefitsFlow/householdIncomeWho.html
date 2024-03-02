@@ -14,7 +14,10 @@
             th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
           <th:block th:ref="formContent">
             <div class="form-card__content">
-
+              <ul class="list--bulleted">
+                <li th:text="#{income-who.li1}"></li>
+                <li th:text="#{income-who.li2}"></li>
+              </ul>
               <th:block th:replace="~{fragments/inputs/radioFieldset ::
                             radioFieldset(
                             ariaLabel='header',
