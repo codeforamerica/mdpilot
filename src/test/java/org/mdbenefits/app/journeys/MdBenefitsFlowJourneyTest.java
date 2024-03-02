@@ -629,12 +629,13 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.selectRadio("householdMemberIsPregnant", "Yes");
         testPage.selectRadio("householdMemberEnrolledInSchool", "Yes");
         testPage.selectRadio("householdMemberHasDisability", "Yes");
-
         testPage.clickContinue();
         
         assertThat(testPage.getTitle()).isEqualTo(message("household-race-and-ethnicity.title"));
+        testPage.clickElementById("householdMemberRace-WHITE");
+        testPage.selectRadio("householdMemberEthnicity", EthnicityType.HISPANIC_OR_LATINO.name());
+        testPage.clickContinue();
         
-
         assertThat(testPage.getTitle()).isEqualTo(message("household-list.title"));
         testPage.clickButton("I'm done");
 

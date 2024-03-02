@@ -266,7 +266,7 @@ public class MdBenefitsFlow extends FlowInputs {
 
     private String householdMemberEthnicity;
 
-    private String householdMemberRace;
+    private List<String> householdMemberRace;
 
     @NotEmpty(message = "{error.must-accept-terms}")
     private List<String> rightsAndResponsibilitiesAgree;

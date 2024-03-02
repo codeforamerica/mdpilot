@@ -144,6 +144,7 @@ flow:
     nextScreens:
       - name: householdRaceAndEthnicity
   householdRaceAndEthnicity:
+    subflow: household
     nextScreens:
       - name: householdList
   householdMemberDeleteConfirmation:

@@ -84,11 +84,7 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
         List<String> race = (List) inputData.getOrDefault("applicantRace[]", List.of());
         String ethnicity = (String) inputData.getOrDefault("applicantEthnicity", "");
 
-        String raceCode = race.stream()
-                .map(RaceType::getPdfValueFromValue)
-                .filter(s -> !s.isBlank())
-                .sorted()
-                .collect(Collectors.joining(","));
+        String raceCode = RaceType.getRaceCodeStringFromValue(race);
 
         String ethnicityCode = EthnicityType.getPdfValueFromValue(ethnicity);
 

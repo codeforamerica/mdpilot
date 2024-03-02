@@ -17,12 +17,10 @@
             th:replace="~{fragments/form :: form(action=${formAction}, content=~{::householdRaceSelection})}">
           <th:block th:ref="householdRaceSelection">
             <div class="form-card__content">
-              <h2 class="with-padding-small" th:text="#{race-selection.header}"></h2>
-              <p class="text--help" th:utext="#{race-selection.subheader}"></p>
-
-              <th:block th:replace="~{fragments/inputs/checkboxFieldset :: checkboxFieldset(
-                  inputName='applicantRace',
-                  ariaLabel=#{race-selection.header},
+              <th:block th:replace="~{fragments/inputs/checkboxFieldsetWithHelpUtext :: checkboxFieldset(
+                  inputName='householdMemberRace',
+                  label=#{household-race-and-ethnicity.do-they-identify},
+                  fieldsetHelpText=#{household-race-and-ethnicity.optional},
                   content=~{::raceSelectionOptions})}">
                 <th:block th:ref="raceSelectionOptions">
                   <th:block
@@ -31,7 +29,7 @@
                         th:with="isOther=${raceType.name().equals(T(org.mdbenefits.app.data.enums.RaceType).PREFER_NO_ANSWER.name())}">
                       <th:block
                           th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(
-                          inputName='applicantRace',
+                          inputName='householdMemberRace',
                           value=${raceType.name()},
                           noneOfTheAbove=${isOther},
                           label=#{${raceType.getLabelSrc()}})}"/>
@@ -39,12 +37,10 @@
                   </th:block>
                 </th:block>
               </th:block>
-
-              <h2 class="with-padding-small" th:text="#{ethnicity-selection.header}"></h2>
-              <p class="text--help with-no-padding" th:text="#{ethnicity-selection.subheader}"></p>
               <th:block th:replace="~{fragments/inputs/radioFieldset ::
-                        radioFieldset(inputName='applicantEthnicity',
-                        ariaLabel=#{ethnicity-selection.header},
+                        radioFieldset(inputName='householdMemberEthnicity',
+                        label=#{household-race-and-ethnicity.hispanic},
+                        fieldsetHelpText=#{ethnicity-selection.subheader},
                         content=~{::ethnicitySelectionFieldSet})}">
                 <th:block th:ref="ethnicitySelectionFieldSet">
                   <th:block
@@ -52,7 +48,7 @@
                     <th:block
                         th:replace="~{fragments/inputs/radio ::
                             radio(
-                                inputName='applicantEthnicity',
+                                inputName='householdMemberEthnicity',
                                 value=${ethnicityType.name()},
                                 label=#{${ethnicityType.getLabelSrc()}}
                             )

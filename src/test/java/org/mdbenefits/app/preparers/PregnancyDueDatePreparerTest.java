@@ -21,8 +21,8 @@ class PregnancyDueDatePreparerTest {
     @Test
     public void testMultipleHouseholdPregnancies() {
         Submission submission = new SubmissionTestBuilder()
-                .withHouseholdMember("Butter", "Ball", "", "", "", "", "", "", "", "", null, null)
-                .withHouseholdMember("Batter", "Ball", "", "", "", "", "", "", "", "", null, null)
+                .withHouseholdMemberApplying("Butter", "Ball", "", "", "", "", "", "", "", "", List.of(), "")
+                .withHouseholdMemberApplying("Batter", "Ball", "", "", "", "", "", "", "", "", List.of(), "")
                 .withPregnancies(List.of("butter-ball", "batter-ball"), List.of("12/12/1212", "2/2/2222"))
                 .build();
 

@@ -8,8 +8,11 @@ import formflow.library.pdf.SubmissionFieldPreparer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.mdbenefits.app.data.enums.CitizenshipStatus;
+import org.mdbenefits.app.data.enums.EthnicityType;
+import org.mdbenefits.app.data.enums.RaceType;
 import org.mdbenefits.app.data.enums.RelationshipType;
 import org.springframework.stereotype.Component;
 
@@ -63,6 +66,8 @@ public class HouseholdDetailsPreparer implements SubmissionFieldPreparer {
                         results.put("householdMemberSex_" + iteration,
                             new SingleField("householdMemberSex", householdMemberSex, iteration));
                     }
+
+                    prepareRaceEthnicityInfo(householdMember, results, iteration);
                 }
                 iteration++;
             }
@@ -76,5 +81,17 @@ public class HouseholdDetailsPreparer implements SubmissionFieldPreparer {
      */
     protected String removeTrailingCommaAndSpace(String fullName) {
         return fullName.replaceAll(", $", "");
+    }
+
+    private void prepareRaceEthnicityInfo(Map<String, Object> householdMember, Map<String, SubmissionField> results, int iteration) {
+        List<String> householdMemberRace = (List) householdMember.getOrDefault("householdMemberRace[]", List.of());
+        String householdMemberEthnicity = (String) householdMember.getOrDefault("householdMemberEthnicity", "");
+
+        String raceCode = RaceType.getRaceCodeStringFromValue(householdMemberRace);
+
+        String ethnicityCode = EthnicityType.getPdfValueFromValue(householdMemberEthnicity);
+
+        results.put("householdMemberRace_" + iteration, new SingleField("householdMemberRace", raceCode, iteration));
+        results.put("householdMemberEthnicity_" + iteration, new SingleField("householdMemberEthnicity", ethnicityCode, iteration));
     }
 }
