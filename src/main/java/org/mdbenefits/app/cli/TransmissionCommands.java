@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.mdbenefits.app.data.Transmission;
 import org.mdbenefits.app.data.TransmissionRepository;
 import org.mdbenefits.app.data.enums.Counties;
+import org.mdbenefits.app.data.enums.TransmissionStatus;
 import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.shell.standard.ShellComponent;
@@ -96,10 +97,13 @@ public class TransmissionCommands {
     private void transmitBatch(List<Transmission> transmissions)
             throws IOException, JSchException, SftpException {
 
+        List<String> errors = new ArrayList<>();
         log.info("Preparing to send {} submissions", transmissions.size());
 
         transmissions.forEach(transmission -> {
             // TODO change status to "TRANSMITTING"
+            transmission.setStatus(TransmissionStatus.TRANSMITTING.name());
+            transmissionRepository.save(transmission);
             Submission submission = transmission.getSubmission();
             try {
                 byte[] pdfFileBytes = pdfService.getFilledOutPDF(submission);
@@ -109,6 +113,8 @@ public class TransmissionCommands {
                 String confirmationNumber = (String) submission.getInputData().get("confirmationNumber");
 
                 String pdfFileName = getPdfFilename(confirmationNumber);
+                
+                
 
                 // TODO - check if folder with that name exists already.
                 //   Clear out contents from folder.
@@ -121,7 +127,25 @@ public class TransmissionCommands {
                 // As long as we have the proper link in the email, they state will get the
                 // correct record to look at (via the email).
                 //
-                String entryFolderId = googleDriveClient.createFolder(folderId, confirmationNumber);
+                String entryFolderId = null;
+                List<String> existingDirectories = googleDriveClient.findDirectory(confirmationNumber, folderId);
+                if (existingDirectories.size() > 0) {
+                    // remove folder
+                    
+                    // TODO - clear out contents of folder
+                    // TODO - log that we are clearing out contents of folder
+                    // TODO - log that we are re-uploading files
+                } else {
+                    entryFolderId = googleDriveClient.createFolder(folderId, confirmationNumber, errors);
+                }
+                
+                if (entryFolderId == null) {
+                    // something is really wrong here
+                    log.error("Failed to create folder for submission {}", submission.getId());
+                    // TODO update Transmission table with errors
+                    // set status to FAILED
+                    return;
+                }
 
                 List<UserFile> userFilesForSubmission = userFileRepositoryService.findAllBySubmission(submission);
 
@@ -133,11 +157,11 @@ public class TransmissionCommands {
 
                     // send to google
                     googleDriveClient.uploadFile(entryFolderId, file.getOriginalName(), file.getMimeType(),
-                            cloudFile.getFileBytes());
+                            cloudFile.getFileBytes(), errors);
                 }
 
                 // upload pdf file
-                googleDriveClient.uploadFile(entryFolderId, pdfFileName, "application/pdf", pdfFileBytes);
+                googleDriveClient.uploadFile(entryFolderId, pdfFileName, "application/pdf", pdfFileBytes, errors);
             } catch (IOException e) {
                 log.error("Failed to generate PDF for submission {}: {}", submission.getId(), e.getMessage());
             }
