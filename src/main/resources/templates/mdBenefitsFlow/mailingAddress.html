@@ -10,7 +10,7 @@
       <main id="content" role="main" class="form-card spacing-above-35">
         <th:block th:replace="~{fragments/icons :: mail}"></th:block>
         <th:block
-            th:replace="~{fragments/cardHeader :: cardHeader(header=#{mailing-address.header}, subtext=#{address.subtext})}"/>
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{mailing-address.header}, subtext=#{mailing-address.subtext})}"/>
         <th:block
             th:replace="~{fragments/form :: form(action=${formAction}, content=~{::mailingAddress})}">
           <th:block th:ref="mailingAddress">
