@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -22,6 +23,9 @@ import com.google.api.services.drive.model.FileList;
 import java.util.Collections;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+// TODO - the MDC does not have the transmission id in it. Maybe we should include that
+// in messages here.
 
 @Slf4j
 @Component
@@ -58,7 +62,7 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
      * @param name
      * @return
      */
-    public String createFolder(String parentFolderId, String name, List<String> errors) {
+    public String createFolder(String parentFolderId, String name, Map<String, String> errors) {
         File fileMetadata = new File();
         fileMetadata.setName(name);
         fileMetadata.setParents(Collections.singletonList(parentFolderId));
@@ -69,12 +73,13 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
                     .execute();
             System.out.println("Folder ID: " + file.getId());
             return file.getId();
-        } catch (GoogleJsonResponseException e) {
-            // TODO(developer) - handle error appropriately
-            errors.add("Unable to create folder: " + e.getDetails());
-            log.error("Unable to create folder: " + e.getDetails());
-        } catch (IOException e) {
-            log.error("Unable to create folder: " + e);
+        } catch (Exception e) {
+            String error = String.format("Unable to create folder %s in %s", name, parentFolderId);
+            if (e instanceof GoogleJsonResponseException) {
+                error += ": " + ((GoogleJsonResponseException) e).getDetails();
+            }
+            errors.put("createFolder", error);
+            log.error(error);
         }
         return null;
     }
@@ -88,7 +93,8 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
      * @param fileBytes
      * @return
      */
-    public String uploadFile(String parentFolderId, String fileName, String mimeType, byte[] fileBytes, List<String> errors) {
+    public String uploadFile(String parentFolderId, String fileName, String mimeType, byte[] fileBytes,
+            Map<String, String> errors) {
 
         File fileMetadata = new File();
         fileMetadata.setName(fileName);
@@ -97,43 +103,58 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
         ByteArrayContent mediaContent = new ByteArrayContent(mimeType, fileBytes);
 
         try {
-            // TODO:  either change to resumeable upload OR craft retries with
+            // TODO:  either change to resume-able upload OR craft retries with
             // exponential back off
             File file = service.files().create(fileMetadata, mediaContent)
                     .setFields("id")
                     .execute();
             log.info("New file has ID: " + file.getId());
             return file.getId();
-        } catch (GoogleJsonResponseException e) {
-            // TODO(developer) - handle error appropriately
-            log.error("Unable to upload file: " + e.getDetails());
-            return "";
-        } catch (IOException e) {
-            log.error("Unable to upload file: " + e);
-            return "";
+        } catch (Exception e) {
+            String error = String.format("Unable to upload file %s: %s", fileName, e.getMessage());
+            if (e instanceof GoogleJsonResponseException) {
+                error += ": " + ((GoogleJsonResponseException) e).getDetails();
+            }
+            errors.put("uploadFile", error);
+            log.error(error);
         }
+        return "";
     }
-    
-    public List<String> findDirectory(String name, String parentId) {
-        List<String> directories = new ArrayList<>();
+
+    public List<File> findDirectory(String name, String parentId) {
         try {
             FileList result = service.files().list()
-                    .setQ(String.format("name = '%s' and '%s' in parents and mimeType='application/vnd.google-apps.folder' and trashed = false", name, parentId))
+                    .setQ(String.format(
+                            "name = '%s' and '%s' in parents and mimeType='application/vnd.google-apps.folder' and trashed = false",
+                            name, parentId))
                     .setSpaces("drive")
-                    .setFields("nextPageToken, files(id)")
+                    .setFields("nextPageToken, files(id, name)")
                     .execute();
-            List<File> files = result.getFiles();
-            if (files == null || files.isEmpty()) {
+
+            List<File> dirs = result.getFiles();
+            if (dirs == null || dirs.isEmpty()) {
                 log.info("No directories found with name {}.", name);
-            } else {
-                for (File file : files) {
-                    directories.add(file.getId());
-                }
             }
+            return dirs;
         } catch (IOException e) {
-            log.error("Unable to find directory: " + e);
+            log.error("Unable to find directory: {}", e.getMessage());
         }
-        return directories;
+        return List.of();
+    }
+
+    public boolean deleteDirectory(String name, String directoryId, Map<String, String> errors) {
+        try {
+            service.files()
+                    .delete(directoryId)
+                    .execute();
+            log.info("Deleted directory {} ({})", name, directoryId);
+        } catch (IOException e) {
+            String error = String.format("Unable to delete directory %s: %s", directoryId, e.getMessage());
+            log.error(error);
+            errors.put("delete", error);
+            return false;
+        }
+        return true;
     }
 
     private void listFiles(String folderId, int numberOfFiles) throws IOException {

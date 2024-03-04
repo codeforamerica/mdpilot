@@ -2,45 +2,35 @@ package org.mdbenefits.app.cli;
 
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import formflow.library.data.Submission;
 import formflow.library.data.UserFile;
 import formflow.library.data.UserFileRepositoryService;
 import formflow.library.file.CloudFile;
 import formflow.library.file.CloudFileRepository;
-import formflow.library.file.S3CloudFileRepository;
 import formflow.library.pdf.PdfService;
-import io.opencensus.stats.Aggregation.Count;
-import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.time.OffsetDateTime;
+import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.UUID;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.mdbenefits.app.data.Transmission;
 import org.mdbenefits.app.data.TransmissionRepository;
 import org.mdbenefits.app.data.enums.Counties;
 import org.mdbenefits.app.data.enums.TransmissionStatus;
-import org.springframework.data.domain.Sort;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
+import com.google.api.services.drive.model.File;
 
 @Slf4j
 @Service
 @ShellComponent
 public class TransmissionCommands {
 
-    // TODO: make these config variables.  These are staging folders
+    // TODO: make these config variables in .env and application yaml files.
+    // These, below, are for the staging folders
     private final String BALTIMORE_COUNTY_GOOGLE_DIR_ID = "1YOYOyWQk4FwWKzcm7LawsgdJcYDar3vF";
     private final String QUEENANNES_COUNTY_GOOGLE_DIR_ID = "17IV3UXlIY6JVtFuDXYbiwMibcUGZx-Ga";
 
@@ -49,13 +39,6 @@ public class TransmissionCommands {
     private final PdfService pdfService;
     private final GoogleDriveClient googleDriveClient;
     private final UserFileRepositoryService userFileRepositoryService;
-
-    private final String failedSubmissionKey = "failed";
-
-    private final String failedDocumentationKey = "failed_documentation";
-
-    private final String successfulSubmissionKey = "success";
-
 
     public TransmissionCommands(
             TransmissionRepository transmissionRepository,
@@ -72,6 +55,8 @@ public class TransmissionCommands {
     }
 
     // TODO:  ensure only one running at a time via @Scheduled config
+    // I think there is a configuration where we can specify that that the next one cannot start
+    // until the first one is done.
     //
     //@Scheduled(fixedRateString = "${transmissions.wic-ece-transmission-rate}")
     @ShellMethod(key = "send-files")
@@ -97,14 +82,12 @@ public class TransmissionCommands {
     private void transmitBatch(List<Transmission> transmissions)
             throws IOException, JSchException, SftpException {
 
-        List<String> errors = new ArrayList<>();
+        Map<String, String> errors = new HashMap<>();
         log.info("Preparing to send {} submissions", transmissions.size());
 
         transmissions.forEach(transmission -> {
-            // TODO change status to "TRANSMITTING"
-            transmission.setStatus(TransmissionStatus.TRANSMITTING.name());
-            transmissionRepository.save(transmission);
             Submission submission = transmission.getSubmission();
+            updateTransmissionStatus(transmission, TransmissionStatus.TRANSMITTING, errors, false);
             try {
                 byte[] pdfFileBytes = pdfService.getFilledOutPDF(submission);
 
@@ -113,13 +96,7 @@ public class TransmissionCommands {
                 String confirmationNumber = (String) submission.getInputData().get("confirmationNumber");
 
                 String pdfFileName = getPdfFilename(confirmationNumber);
-                
-                
 
-                // TODO - check if folder with that name exists already.
-                //   Clear out contents from folder.
-                //   Re-add items.
-                //
                 // directory duplication can happen when:
                 //   1) previous run has errored out
                 //   2) state requests we re-run record for whatever reason
@@ -127,36 +104,33 @@ public class TransmissionCommands {
                 // As long as we have the proper link in the email, they state will get the
                 // correct record to look at (via the email).
                 //
-                String entryFolderId = null;
-                List<String> existingDirectories = googleDriveClient.findDirectory(confirmationNumber, folderId);
-                if (existingDirectories.size() > 0) {
+
+                // do any directories in this county exist by that name? if so delete them and their files.
+                List<File> existingDirectories = googleDriveClient.findDirectory(confirmationNumber, folderId);
+                if (!existingDirectories.isEmpty()) {
                     // remove folder
-                    
-                    // TODO - clear out contents of folder
-                    // TODO - log that we are clearing out contents of folder
-                    // TODO - log that we are re-uploading files
-                } else {
-                    entryFolderId = googleDriveClient.createFolder(folderId, confirmationNumber, errors);
+                    for (File dir : existingDirectories) {
+                        googleDriveClient.deleteDirectory(dir.getName(), dir.getId(), errors);
+                    }
                 }
-                
+
+                String entryFolderId = googleDriveClient.createFolder(folderId, confirmationNumber, errors);
                 if (entryFolderId == null) {
-                    // something is really wrong here
+                    // something is really wrong here; note the error and skip the entry
                     log.error("Failed to create folder for submission {}", submission.getId());
-                    // TODO update Transmission table with errors
-                    // set status to FAILED
+                    updateTransmissionStatus(transmission, TransmissionStatus.FAILED, errors, false);
                     return;
                 }
 
                 List<UserFile> userFilesForSubmission = userFileRepositoryService.findAllBySubmission(submission);
 
-                for (UserFile file : userFilesForSubmission) {
-                    // get file from S3
+                for (int count = 0; count < userFilesForSubmission.size(); count++) {
+                    UserFile file = userFilesForSubmission.get(count);
+                    // get the file from S3
                     CloudFile cloudFile = cloudFileRepository.get(file.getRepositoryPath());
-                    // TODO = craft proper filename
-                    //String fileName = getUserFileName();
-
+                    String fileName = getUserFileName(confirmationNumber, file, count + 1, userFilesForSubmission.size());
                     // send to google
-                    googleDriveClient.uploadFile(entryFolderId, file.getOriginalName(), file.getMimeType(),
+                    googleDriveClient.uploadFile(entryFolderId, fileName, file.getMimeType(),
                             cloudFile.getFileBytes(), errors);
                 }
 
@@ -166,46 +140,33 @@ public class TransmissionCommands {
                 log.error("Failed to generate PDF for submission {}: {}", submission.getId(), e.getMessage());
             }
 
-            // TODO - update accounting in transmission table that the records was sent
-            // Change status to "COMPLETE"
-            // TODO - send emails to state
+            // TODO - send emails to state (another ticket)
+
+            updateTransmissionStatus(transmission, TransmissionStatus.COMPLETED, errors, true);
         });
+    }
 
-
-        /*
-        List<UUID> successfullySubmittedIds = new ArrayList<>();
-
-        successfullySubmittedIds.forEach(id -> {
-            Submission submission = Submission.builder().id(id).build();
-            Transmission transmission = transmissionRepository.findBySubmissionAndTransmissionType(submission, transmissionType);
-            transmission.setTimeSent(new Date());
-            transmission.setStatus(TransmissionStatus.Complete);
-            transmissionRepository.save(transmission);
-        });
-        log.info("Finished transmission of a batch");
-
-        failedSubmissions.forEach((id, errorMessages) -> {
-                    Submission submission = Submission.builder().id(id).build();
-                    Transmission transmission = transmissionRepository.findBySubmissionAndTransmissionType(submission, transmissionType);
-                    transmission.setStatus(TransmissionStatus.Failed);
-                    transmission.setRunId(runId);
-                    transmission.setSubmissionErrors(errorMessages);
-                    transmissionRepository.save(transmission);
-                }
-        );
-        failedDocumentation.forEach((id, errorMessages) -> {
-                    Submission submission = Submission.builder().id(id).build();
-                    Transmission transmission = transmissionRepository.findBySubmissionAndTransmissionType(submission, transmissionType);
-                    transmission.setDocumentationErrors(errorMessages);
-                    transmissionRepository.save(transmission);
-                }
-        );
-        */
+    private void updateTransmissionStatus(Transmission transmission, TransmissionStatus status, Map<String, String> errors,
+            boolean markSent) {
+        transmission.setUpdatedAt(OffsetDateTime.now());
+        transmission.setStatus(status.name());
+        transmission.setErrors(errors);
+        if (markSent) {
+            transmission.setSentAt(OffsetDateTime.now());
+        }
+        transmissionRepository.save(transmission);
     }
 
     private String getPdfFilename(String confirmationNumber) {
         // Final form: M000000-9701-Maryland-Benefits-Pilot.pdf
         return String.format("%s-9701-Maryland-Benefits-Pilot.pdf", confirmationNumber);
+    }
+
+    private String getUserFileName(String confirmationNumber, UserFile file, int number, int totalNumFiles) {
+        // Final form: M000000-doc1of2-Maryland-Benefits-Pilot.[filetype]
+        int extIndex = file.getOriginalName().lastIndexOf(".");
+        String ext = file.getOriginalName().substring(extIndex + 1);
+        return String.format("%s-doc%dof%d-Maryland-Benefits-Pilot.%s", confirmationNumber, number, totalNumFiles, ext);
     }
 
     private String getCountyFolderId(String county) {
