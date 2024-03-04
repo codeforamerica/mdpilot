@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -45,17 +46,9 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
     private final String GOOGLE_CREDS = System.getenv("GOOGLE_DRIVE_CREDS");
 
     private HttpRequestInitializer getCredentialsServiceAccount(NetHttpTransport httpTransport) throws IOException {
-        // TODO(DEV) - Where to put service_account.json file -- pull from S3?
         InputStream credentials = new ByteArrayInputStream(GOOGLE_CREDS.getBytes(StandardCharsets.UTF_8));
 
-        return GoogleCredential
-                //.fromStream(GoogleDriveClientImpl.class.getClassLoader().getResourceAsStream(CREDENTIALS_FILE_PATH))
-                .fromStream(credentials)
-                .createScoped(DriveScopes.all());
-
-        //return GoogleCredential
-        //        .fromStream(new FileInputStream("service_account.json"))
-        //        .createScoped(DriveScopes.all());
+        return GoogleCredential.fromStream(credentials).createScoped(DriveScopes.all());
     }
 
     /**
@@ -65,7 +58,7 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
      * @param name
      * @return
      */
-    public String createFolder(String parentFolderId, String name) {
+    public String createFolder(String parentFolderId, String name, List<String> errors) {
         File fileMetadata = new File();
         fileMetadata.setName(name);
         fileMetadata.setParents(Collections.singletonList(parentFolderId));
@@ -78,9 +71,10 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
             return file.getId();
         } catch (GoogleJsonResponseException e) {
             // TODO(developer) - handle error appropriately
-            System.err.println("Unable to create folder: " + e.getDetails());
+            errors.add("Unable to create folder: " + e.getDetails());
+            log.error("Unable to create folder: " + e.getDetails());
         } catch (IOException e) {
-            System.err.println("Unable to create folder: " + e);
+            log.error("Unable to create folder: " + e);
         }
         return null;
     }
@@ -94,7 +88,7 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
      * @param fileBytes
      * @return
      */
-    public String uploadFile(String parentFolderId, String fileName, String mimeType, byte[] fileBytes) {
+    public String uploadFile(String parentFolderId, String fileName, String mimeType, byte[] fileBytes, List<String> errors) {
 
         File fileMetadata = new File();
         fileMetadata.setName(fileName);
@@ -118,6 +112,28 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
             log.error("Unable to upload file: " + e);
             return "";
         }
+    }
+    
+    public List<String> findDirectory(String name, String parentId) {
+        List<String> directories = new ArrayList<>();
+        try {
+            FileList result = service.files().list()
+                    .setQ(String.format("name = '%s' and '%s' in parents and mimeType='application/vnd.google-apps.folder' and trashed = false", name, parentId))
+                    .setSpaces("drive")
+                    .setFields("nextPageToken, files(id)")
+                    .execute();
+            List<File> files = result.getFiles();
+            if (files == null || files.isEmpty()) {
+                log.info("No directories found with name {}.", name);
+            } else {
+                for (File file : files) {
+                    directories.add(file.getId());
+                }
+            }
+        } catch (IOException e) {
+            log.error("Unable to find directory: " + e);
+        }
+        return directories;
     }
 
     private void listFiles(String folderId, int numberOfFiles) throws IOException {
