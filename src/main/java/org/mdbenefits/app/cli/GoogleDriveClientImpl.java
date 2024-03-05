@@ -7,12 +7,12 @@ import com.google.api.client.http.ByteArrayContent;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive.Files.Create;
+import formflow.library.data.UserFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +24,7 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import java.util.Collections;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 // TODO - the MDC does not have the transmission id in it. Maybe we should include that
@@ -31,13 +32,13 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-//@Profile({"production", "staging"})
+@Profile({"dev", "staging", "production"})
 public class GoogleDriveClientImpl implements GoogleDriveClient {
 
     // TODO - read these in from somewhere else
     private final GsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private final String APPLICATION_NAME = "MD Benefits";
-
+    private final String GOOGLE_CREDS = System.getenv("GOOGLE_DRIVE_CREDS");
     private Drive service;
 
     public GoogleDriveClientImpl() throws IOException, GeneralSecurityException {
@@ -48,21 +49,13 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
                 .build();
     }
 
-    private final String GOOGLE_CREDS = System.getenv("GOOGLE_DRIVE_CREDS");
-
     private HttpRequestInitializer getCredentialsServiceAccount(NetHttpTransport httpTransport) throws IOException {
         InputStream credentials = new ByteArrayInputStream(GOOGLE_CREDS.getBytes(StandardCharsets.UTF_8));
 
         return GoogleCredential.fromStream(credentials).createScoped(DriveScopes.all());
     }
 
-    /**
-     * Create a new file directory in Google Drive in the parent folder specified.
-     *
-     * @param parentFolderId
-     * @param name
-     * @return
-     */
+    @Override
     public String createFolder(String parentFolderId, String name, Map<String, String> errors) {
         File fileMetadata = new File();
         fileMetadata.setName(name);
@@ -85,16 +78,8 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
         return null;
     }
 
-    /**
-     * Upload a byte array as a file in Google Drive
-     *
-     * @param parentFolderId
-     * @param fileName
-     * @param mimeType
-     * @param fileBytes
-     * @return
-     */
-    public String uploadFile(String parentFolderId, String fileName, String mimeType, byte[] fileBytes,
+    @Override
+    public String uploadFile(String parentFolderId, String fileName, String mimeType, byte[] fileBytes, String fileId,
             Map<String, String> errors) {
 
         File fileMetadata = new File();
@@ -105,7 +90,6 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
 
         try {
             Create createRequest = service.files().create(fileMetadata, mediaContent);
-            // Supposedly MediaHttpUploader will automatically resume interrupted uploads
             createRequest.getMediaHttpUploader()
                     .setDirectUploadEnabled(false)
                     .setChunkSize(MediaHttpUploader.MINIMUM_CHUNK_SIZE);
@@ -113,7 +97,7 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
             log.info("New file has ID: " + file.getId());
             return file.getId();
         } catch (Exception e) {
-            String error = String.format("Unable to upload file %s: %s", fileName, e.getMessage());
+            String error = String.format("Unable to upload file %s (ID: %s): %s", fileName, fileId, e.getMessage());
             if (e instanceof GoogleJsonResponseException) {
                 error += ": " + ((GoogleJsonResponseException) e).getDetails();
             }
@@ -123,6 +107,7 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
         return "";
     }
 
+    @Override
     public List<File> findDirectory(String name, String parentId) {
         try {
             FileList result = service.files().list()
@@ -144,6 +129,7 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
         return List.of();
     }
 
+    @Override
     public boolean deleteDirectory(String name, String directoryId, Map<String, String> errors) {
         try {
             service.files()
