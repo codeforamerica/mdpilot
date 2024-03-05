@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.enums.ApplicantObjective;
 import org.mdbenefits.app.data.enums.EthnicityType;
 import org.mdbenefits.app.testutils.AbstractBasePageTest;
-import org.mdbenefits.app.data.enums.CitizenshipStatus;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -455,14 +454,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         // Home Address
         assertThat(testPage.getTitle()).isEqualTo(message("home-address.title"));
 
-        testPage.clickElementById("noHomeAddress-true");
-        testPage.clickContinue();
-
-        // Where to send mail
-        assertThat(testPage.getTitle()).isEqualTo(message("where-to-send-mail.title"));
-
-        testPage.goBack();
-        testPage.clickElementById("noHomeAddress-true");
         testPage.enter("homeAddressStreetAddress1", "test");
         testPage.enter("homeAddressCity", "test2");
         testPage.enter("homeAddressZipCode", "12");
@@ -710,8 +701,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.navigateToFlowScreen("mdBenefitsFlow/homeAddress");
         testPage.clickElementById("noHomeAddress-true");
         testPage.clickContinue();
-        assertThat(testPage.getTitle()).isEqualTo(message("where-to-send-mail.title"));
-        testPage.clickButton("Add a mailing address");
         testPage.enter("mailingAddressStreetAddress1", "1445 34th Ave");
         testPage.enter("mailingAddressStreetAddress2", "Apt A");
         testPage.enter("mailingAddressCity", "Oakland");
