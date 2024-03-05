@@ -19,6 +19,7 @@ import org.mdbenefits.app.data.Transmission;
 import org.mdbenefits.app.data.TransmissionRepository;
 import org.mdbenefits.app.data.enums.Counties;
 import org.mdbenefits.app.data.enums.TransmissionStatus;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.stereotype.Service;
@@ -31,8 +32,11 @@ public class TransmissionCommands {
 
     // TODO: make these config variables in .env and application yaml files.
     // These, below, are for the staging folders
-    private final String BALTIMORE_COUNTY_GOOGLE_DIR_ID = "1YOYOyWQk4FwWKzcm7LawsgdJcYDar3vF";
-    private final String QUEENANNES_COUNTY_GOOGLE_DIR_ID = "17IV3UXlIY6JVtFuDXYbiwMibcUGZx-Ga";
+    @Value("${google.drive.baltimore-county-directory-id}")
+    private String BALTIMORE_COUNTY_GOOGLE_DIR_ID;
+    
+    @Value("${google.drive.queen-annes-county-directory-id}")
+    private String QUEENANNES_COUNTY_GOOGLE_DIR_ID;
 
     private final TransmissionRepository transmissionRepository;
     private final CloudFileRepository cloudFileRepository;

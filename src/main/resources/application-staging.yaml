@@ -7,3 +7,7 @@ spring:
 management:
   endpoints:
     enabled-by-default: false
+google:
+  drive:
+    baltimore-county-directory-id: ${BALTIMORE_COUNTY_GOOGLE_DIR_ID_STAGING}
+    queen-annes-county-directory-id: ${QUEENANNES_COUNTY_GOOGLE_DIR_ID_STAGING}
