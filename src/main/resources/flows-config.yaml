@@ -32,12 +32,9 @@ flow:
     crossFieldValidationAction: ValidateHomeAddress
     onPostAction: ClearNoHomeAddressIfNotSelected
     nextScreens:
-      - name: noPermanentAddress
+      - name: mailingAddressNoAddress
         condition: NoPermanentAddress
       - name: mailingAddress
-  noPermanentAddress:
-    nextScreens:
-      - name: contactInfo
   mailingAddressNoAddress:
     crossFieldValidationAction: ValidateMailingAddress
     nextScreens:
