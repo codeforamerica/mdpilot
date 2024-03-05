@@ -2,9 +2,11 @@ package org.mdbenefits.app.cli;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
+import com.google.api.client.googleapis.media.MediaHttpUploader;
 import com.google.api.client.http.ByteArrayContent;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.services.drive.Drive.Files.Create;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +35,6 @@ import org.springframework.stereotype.Component;
 public class GoogleDriveClientImpl implements GoogleDriveClient {
 
     // TODO - read these in from somewhere else
-    private final String CREDENTIALS_FILE_PATH = "service_account.json";
     private final GsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private final String APPLICATION_NAME = "MD Benefits";
 
@@ -103,11 +104,12 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
         ByteArrayContent mediaContent = new ByteArrayContent(mimeType, fileBytes);
 
         try {
-            // TODO:  either change to resume-able upload OR craft retries with
-            // exponential back off
-            File file = service.files().create(fileMetadata, mediaContent)
-                    .setFields("id")
-                    .execute();
+            Create createRequest = service.files().create(fileMetadata, mediaContent);
+            // Supposedly MediaHttpUploader will automatically resume interrupted uploads
+            createRequest.getMediaHttpUploader()
+                    .setDirectUploadEnabled(false)
+                    .setChunkSize(MediaHttpUploader.MINIMUM_CHUNK_SIZE);
+            File file = createRequest.setFields("id").execute();
             log.info("New file has ID: " + file.getId());
             return file.getId();
         } catch (Exception e) {
