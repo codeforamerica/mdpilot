@@ -30,11 +30,9 @@ import com.google.api.services.drive.model.File;
 @ShellComponent
 public class TransmissionCommands {
 
-    // TODO: make these config variables in .env and application yaml files.
-    // These, below, are for the staging folders
     @Value("${google.drive.baltimore-county-directory-id}")
     private String BALTIMORE_COUNTY_GOOGLE_DIR_ID;
-    
+
     @Value("${google.drive.queen-annes-county-directory-id}")
     private String QUEENANNES_COUNTY_GOOGLE_DIR_ID;
 
@@ -49,7 +47,7 @@ public class TransmissionCommands {
             CloudFileRepository cloudFileRepository,
             UserFileRepositoryService userFileRepositoryService,
             PdfService pdfService,
-            GoogleDriveClientImpl googleDriveClient) throws GeneralSecurityException, IOException {
+            GoogleDriveClient googleDriveClient) throws GeneralSecurityException, IOException {
 
         this.transmissionRepository = transmissionRepository;
         this.cloudFileRepository = cloudFileRepository;
@@ -58,13 +56,13 @@ public class TransmissionCommands {
         this.googleDriveClient = googleDriveClient;
     }
 
-    // TODO:  ensure only one running at a time via @Scheduled config
+    // TODO:  ensure only one running at a time via @Scheduled config (another ticket, I think)
     // I think there is a configuration where we can specify that that the next one cannot start
     // until the first one is done.
     //
     //@Scheduled(fixedRateString = "${transmissions.wic-ece-transmission-rate}")
     @ShellMethod(key = "send-files")
-    public void transmit() throws IOException, JSchException, SftpException {
+    public void transmit() {
         log.info("Finding submissions to transmit...");
 
         List<Transmission> queuedTransmissions = transmissionRepository.findTransmissionsByStatus("QUEUED");
@@ -83,8 +81,7 @@ public class TransmissionCommands {
         transmitBatch(queuedTransmissions);
     }
 
-    private void transmitBatch(List<Transmission> transmissions)
-            throws IOException, JSchException, SftpException {
+    private void transmitBatch(List<Transmission> transmissions) {
 
         Map<String, String> errors = new HashMap<>();
         log.info("Preparing to send {} submissions", transmissions.size());
@@ -130,16 +127,20 @@ public class TransmissionCommands {
 
                 for (int count = 0; count < userFilesForSubmission.size(); count++) {
                     UserFile file = userFilesForSubmission.get(count);
+
                     // get the file from S3
                     CloudFile cloudFile = cloudFileRepository.get(file.getRepositoryPath());
+
                     String fileName = getUserFileName(confirmationNumber, file, count + 1, userFilesForSubmission.size());
+
                     // send to google
-                    googleDriveClient.uploadFile(entryFolderId, fileName, file.getMimeType(),
-                            cloudFile.getFileBytes(), errors);
+                    googleDriveClient.uploadFile(entryFolderId, fileName, file.getMimeType(), cloudFile.getFileBytes(),
+                            file.getFileId().toString(), errors);
                 }
 
                 // upload pdf file
-                googleDriveClient.uploadFile(entryFolderId, pdfFileName, "application/pdf", pdfFileBytes, errors);
+                googleDriveClient.uploadFile(entryFolderId, pdfFileName, "application/pdf", pdfFileBytes,
+                        confirmationNumber + "_PDF", errors);
             } catch (IOException e) {
                 log.error("Failed to generate PDF for submission {}: {}", submission.getId(), e.getMessage());
             }
@@ -152,7 +153,6 @@ public class TransmissionCommands {
 
     private void updateTransmissionStatus(Transmission transmission, TransmissionStatus status, Map<String, String> errors,
             boolean markSent) {
-        transmission.setUpdatedAt(OffsetDateTime.now());
         transmission.setStatus(status.name());
         transmission.setErrors(errors);
         if (markSent) {
@@ -161,18 +161,37 @@ public class TransmissionCommands {
         transmissionRepository.save(transmission);
     }
 
+    /**
+     * Return a specially formatted file name for PDF files.  Example: M000000-9701-Maryland-Benefits-Pilot.pdf
+     *
+     * @param confirmationNumber application confirmation number (ex. M00001)
+     * @return String filename
+     */
     private String getPdfFilename(String confirmationNumber) {
-        // Final form: M000000-9701-Maryland-Benefits-Pilot.pdf
         return String.format("%s-9701-Maryland-Benefits-Pilot.pdf", confirmationNumber);
     }
 
+    /**
+     * Return a specially formatted file name for user files.  Example: M000000-doc1of2-Maryland-Benefits-Pilot.jpg
+     *
+     * @param confirmationNumber application confirmation number (ex. M00001)
+     * @param file               UserFile to pull information from
+     * @param number             the number that this file is (X in Xof10)
+     * @param totalNumFiles      the total number of user files (X in 1ofX)
+     * @return String filename
+     */
     private String getUserFileName(String confirmationNumber, UserFile file, int number, int totalNumFiles) {
-        // Final form: M000000-doc1of2-Maryland-Benefits-Pilot.[filetype]
         int extIndex = file.getOriginalName().lastIndexOf(".");
         String ext = file.getOriginalName().substring(extIndex + 1);
         return String.format("%s-doc%dof%d-Maryland-Benefits-Pilot.%s", confirmationNumber, number, totalNumFiles, ext);
     }
 
+    /**
+     * Return the proper Google Drive ID based on the county name.
+     *
+     * @param county String containing the county name
+     * @return String containing the Google Drive ID.
+     */
     private String getCountyFolderId(String county) {
         return county.equals(Counties.BALTIMORE.name()) ? BALTIMORE_COUNTY_GOOGLE_DIR_ID : QUEENANNES_COUNTY_GOOGLE_DIR_ID;
     }
