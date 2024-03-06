@@ -3,13 +3,13 @@ package org.mdbenefits.app.cli;
 import formflow.library.data.Submission;
 import formflow.library.data.SubmissionRepositoryService;
 import formflow.library.email.MailgunEmailClient;
-import io.opencensus.stats.Aggregation.Count;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.mdbenefits.app.data.SubmissionTestBuilder;
 import org.mdbenefits.app.data.Transmission;
 import org.mdbenefits.app.data.TransmissionRepository;
@@ -17,19 +17,15 @@ import org.mdbenefits.app.data.enums.Counties;
 import org.mdbenefits.app.data.enums.ProgramType;
 import org.mdbenefits.app.data.enums.TransmissionStatus;
 import org.mdbenefits.app.submission.actions.HandleApplicationSigned;
-import org.mdbenefits.app.testutils.AbstractBasePageTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.MessageSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 
 @Slf4j
 @ActiveProfiles("test")
@@ -112,7 +108,7 @@ public class TransmissionCommandsTest {
 
         submissionList.forEach(s -> {
             Transmission transmission = transmissionRepository.findTransmissionBySubmission(s);
-            assertThat(transmission.getStatus().equals(TransmissionStatus.COMPLETED.name()));
+            assertThat(transmission.getStatus().equals(TransmissionStatus.COMPLETED.name())).isTrue();
         });
     }
 }
