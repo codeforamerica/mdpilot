@@ -60,9 +60,37 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
             //prepareCitizenshipStatus(inputData, results);
 
             prepareRaceEthnicityInfo(inputData, results);
+
+            results.put("applicantMailingAddressFull", new SingleField("applicantMailingAddressFull", formatMailingAddress(inputData), null));
         }
 
         return results;
+    }
+
+    public String formatMailingAddress(Map<String, Object> inputData) {
+        String mailingAddressFull;
+        if (inputData.getOrDefault("sameAsHomeAddress", "false").equals("true")) {
+            mailingAddressFull = "";
+        } else {
+            if (inputData.get("mailingAddressStreetAddress2") != null) {
+                mailingAddressFull = String.format("%s, %s, %s, %s %s",
+                        inputData.get("mailingAddressStreetAddress1"),
+                        inputData.get("mailingAddressStreetAddress2"),
+                        inputData.get("mailingAddressCity"),
+                        inputData.get("mailingAddressState"),
+                        inputData.get("mailingAddressZipCode")
+                );
+            } else {
+                mailingAddressFull = String.format("%s, %s, %s %s",
+                        inputData.get("mailingAddressStreetAddress1"),
+                        inputData.get("mailingAddressCity"),
+                        inputData.get("mailingAddressState"),
+                        inputData.get("mailingAddressZipCode")
+                );
+
+            }
+        }
+        return mailingAddressFull;
     }
 
     private void prepareCitizenshipStatus(Map<String, Object> inputData, Map<String, SubmissionField> results) {

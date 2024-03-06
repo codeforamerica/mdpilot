@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.SubmissionTestBuilder;
-import org.mdbenefits.app.data.enums.EthnicityType;
 import org.mdbenefits.app.data.enums.RaceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,10 +30,16 @@ class PDFServiceTest {
                         "", "F", "", "", "111111111")
                 .withHouseholdMemberApplying("Jane", "Doe", "1", "5", "2000",
                         "Child", "F", "", "", "222222222", "Yes", "Yes", null, null)
-                .with("homeAddressStreetAddress1", "972 Mission St, 5th Floor")
+                .with("homeAddressStreetAddress1", "972 Mission St")
+                .with("homeAddressStreetAddress2", "5th Floor")
                 .with("homeAddressCity", "San Francisco")
                 .with("homeAddressState", "CA")
                 .with("homeAddressZipCode", "94103")
+                .with("mailingAddressStreetAddress1", "916 Mission St")
+//                .with("mailingAddressStreetAddress2", "4th Floor")
+                .with("mailingAddressCity", "San Francisco")
+                .with("mailingAddressState", "CA")
+                .with("mailingAddressZipCode", "94086")
                 .with("phoneNumber", "(510) 555-1212")
                 .with("programs[]", List.of("SNAP", "RCA"))
                 .with("isApplicantPregnant", "No")
