@@ -7,7 +7,6 @@ import com.google.api.client.http.ByteArrayContent;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive.Files.Create;
-import formflow.library.data.UserFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
@@ -31,21 +29,21 @@ import org.springframework.stereotype.Component;
 @Component
 @Profile({"dev", "staging", "production"})
 public class GoogleDriveClientImpl implements GoogleDriveClient {
-    
-    private final GsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-    private final String APPLICATION_NAME = "MD Benefits";
+
     private final String GOOGLE_CREDS = System.getenv("GOOGLE_DRIVE_CREDS");
-    private Drive service;
+    private final Drive service;
 
     public GoogleDriveClientImpl() throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsServiceAccount(HTTP_TRANSPORT))
-                .setApplicationName(APPLICATION_NAME)
+        service = new Drive.Builder(
+                GoogleNetHttpTransport.newTrustedTransport(),
+                GsonFactory.getDefaultInstance(),
+                getCredentialsServiceAccount())
+                .setApplicationName("MD Benefits")
                 .build();
     }
 
-    private HttpRequestInitializer getCredentialsServiceAccount(NetHttpTransport httpTransport) throws IOException {
+    private HttpRequestInitializer getCredentialsServiceAccount() throws IOException {
         InputStream credentials = new ByteArrayInputStream(GOOGLE_CREDS.getBytes(StandardCharsets.UTF_8));
 
         return GoogleCredential.fromStream(credentials).createScoped(DriveScopes.all());
