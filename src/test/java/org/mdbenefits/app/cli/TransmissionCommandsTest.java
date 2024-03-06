@@ -60,8 +60,8 @@ public class TransmissionCommandsTest {
                 .withPersonalInfo("John", "Doe", "10", "12", "1999",
                         "", "", "", "", "")
                 .withHouseholdMemberApplying("Betty", "White", "10", "2", "1999",
-                        "Child", "F", "NeverMarried", "firstGrade", "123456789",
-                        List.of(RaceType.ASIAN.name()), EthnicityType.NOT_HISPANIC_OR_LATINO.name())
+                        "Child", "F", "NeverMarried", "firstGrade", "123456789", 
+                        "Yes", "Yes", List.of(RaceType.ASIAN.name()), EthnicityType.NOT_HISPANIC_OR_LATINO.name())
                 .with("county", Counties.BALTIMORE.name())
                 .build()
         );
@@ -72,7 +72,7 @@ public class TransmissionCommandsTest {
                         "", "", "", "", "")
                 .withHouseholdMemberApplying("Betty", "Red", "10", "2", "1999",
                         "Child", "F", "NeverMarried", "firstGrade", "123456789",
-                        List.of(RaceType.ASIAN.name()), EthnicityType.NOT_HISPANIC_OR_LATINO.name())
+                        "Yes", "Yes", List.of(RaceType.ASIAN.name()), EthnicityType.NOT_HISPANIC_OR_LATINO.name())
                 .with("county", Counties.BALTIMORE.name())
                 .build()
         );
@@ -83,7 +83,7 @@ public class TransmissionCommandsTest {
                         "", "", "", "", "")
                 .withHouseholdMemberApplying("Malcolm", "Tester", "10", "2", "1999",
                         "Child", "F", "NeverMarried", "firstGrade", "123456789",
-                        List.of(RaceType.ASIAN.name()), EthnicityType.NOT_HISPANIC_OR_LATINO.name())
+                        "Yes", "Yes", List.of(RaceType.ASIAN.name()), EthnicityType.NOT_HISPANIC_OR_LATINO.name())
                 .with("county", Counties.BALTIMORE.name())
                 .build()
         );
