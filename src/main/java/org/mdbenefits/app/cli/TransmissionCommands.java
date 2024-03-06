@@ -82,10 +82,11 @@ public class TransmissionCommands {
     private void transmitBatch(List<Transmission> transmissions) {
 
         Map<String, String> errors = new HashMap<>();
-        log.info("Preparing to send {} submissions", transmissions.size());
+        log.info("Preparing to send {} transmissions.", transmissions.size());
 
         transmissions.forEach(transmission -> {
             Submission submission = transmission.getSubmission();
+            log.info("Sending transmission with ID {} for submission with ID: {}.", transmission.getId(), submission.getId());
             updateTransmissionStatus(transmission, TransmissionStatus.TRANSMITTING, errors, false);
             try {
                 byte[] pdfFileBytes = pdfService.getFilledOutPDF(submission);
@@ -98,6 +99,8 @@ public class TransmissionCommands {
 
                 List<File> existingDirectories = googleDriveClient.findDirectory(confirmationNumber, folderId);
                 if (!existingDirectories.isEmpty()) {
+                    log.info("Found {} existing instances of folder for submission with ID: {}. Deleting existing instances.", existingDirectories.size(),
+                            submission.getId());
                     // remove folder
                     for (File dir : existingDirectories) {
                         googleDriveClient.deleteDirectory(dir.getName(), dir.getId(), errors);
@@ -107,7 +110,7 @@ public class TransmissionCommands {
                 String entryFolderId = googleDriveClient.createFolder(folderId, confirmationNumber, errors);
                 if (entryFolderId == null) {
                     // something is really wrong here; note the error and skip the entry
-                    log.error("Failed to create folder for submission {}", submission.getId());
+                    log.error("Failed to create folder for submission with ID: {}.", submission.getId());
                     updateTransmissionStatus(transmission, TransmissionStatus.FAILED, errors, false);
                     return;
                 }
@@ -121,7 +124,8 @@ public class TransmissionCommands {
                     CloudFile cloudFile = cloudFileRepository.get(file.getRepositoryPath());
 
                     String fileName = getUserFileName(confirmationNumber, file, count + 1, userFilesForSubmission.size());
-
+                    log.info("Uploading file {} of {} for submission with ID: {}.", count + 1, userFilesForSubmission.size(),
+                            submission.getId());
                     // send to google
                     googleDriveClient.uploadFile(entryFolderId, fileName, file.getMimeType(), cloudFile.getFileBytes(),
                             file.getFileId().toString(), errors);
@@ -131,7 +135,7 @@ public class TransmissionCommands {
                 googleDriveClient.uploadFile(entryFolderId, pdfFileName, "application/pdf", pdfFileBytes,
                         confirmationNumber + "_PDF", errors);
             } catch (IOException e) {
-                log.error("Failed to generate PDF for submission {}: {}", submission.getId(), e.getMessage());
+                log.error("Failed to generate PDF for submission with ID {}: {}.", submission.getId(), e.getMessage());
             }
 
             // TODO - send emails to state (another ticket)

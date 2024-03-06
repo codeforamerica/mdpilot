@@ -27,15 +27,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-// TODO - the MDC does not have the transmission id in it. Maybe we should include that
-// in messages here.
-
 @Slf4j
 @Component
 @Profile({"dev", "staging", "production"})
 public class GoogleDriveClientImpl implements GoogleDriveClient {
-
-    // TODO - read these in from somewhere else
+    
     private final GsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private final String APPLICATION_NAME = "MD Benefits";
     private final String GOOGLE_CREDS = System.getenv("GOOGLE_DRIVE_CREDS");
@@ -65,7 +61,7 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
             File file = service.files().create(fileMetadata)
                     .setFields("id")
                     .execute();
-            System.out.println("Folder ID: " + file.getId());
+            log.info("Created Google Drive Folder with ID: " + file.getId());
             return file.getId();
         } catch (Exception e) {
             String error = String.format("Unable to create folder %s in %s", name, parentFolderId);
@@ -94,7 +90,7 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
                     .setDirectUploadEnabled(false)
                     .setChunkSize(MediaHttpUploader.MINIMUM_CHUNK_SIZE);
             File file = createRequest.setFields("id").execute();
-            log.info("New file has ID: " + file.getId());
+            log.info("Uploaded file with ID: " + file.getId());
             return file.getId();
         } catch (Exception e) {
             String error = String.format("Unable to upload file %s (ID: %s): %s", fileName, fileId, e.getMessage());
