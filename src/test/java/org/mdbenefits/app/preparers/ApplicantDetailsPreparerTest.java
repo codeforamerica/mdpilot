@@ -45,4 +45,33 @@ public class ApplicantDetailsPreparerTest {
                 .isEqualTo(new SingleField("applicantEthnicity", "1", null));
     }
 
+    @Test
+    public void whenMailingAddressSameAsHomeAddressThenEmptyMailingAddress() {
+        Map<String, Object> inputData = Map.of("sameAsHomeAddress", "true");
+        assertThat(preparer.formatMailingAddress(inputData)).isEqualTo("");
+    }
+
+    @Test
+    public void whenMailingAddressStreetAddress2PresentThenIncludesIt() {
+        Map<String, Object> inputData = Map.of(
+                "mailingAddressStreetAddress1", "10 Main St",
+                "mailingAddressStreetAddress2", "Unit #A",
+                "mailingAddressCity", "Baltimore",
+                "mailingAddressState", "MD",
+                "mailingAddressZipCode", "21201"
+                );
+        assertThat(preparer.formatMailingAddress(inputData)).isEqualTo("10 Main St, Unit #A, Baltimore, MD 21201");
+    }
+
+    @Test
+    public void whenMailingAddressStreetAddress2AbsentThenOmitsIt() {
+        Map<String, Object> inputData = Map.of(
+                "mailingAddressStreetAddress1", "10 Main St",
+                "mailingAddressCity", "Baltimore",
+                "mailingAddressState", "MD",
+                "mailingAddressZipCode", "21201"
+        );
+        assertThat(preparer.formatMailingAddress(inputData)).isEqualTo("10 Main St, Baltimore, MD 21201");
+    }
+
 }

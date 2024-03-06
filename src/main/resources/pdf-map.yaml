@@ -19,6 +19,7 @@ inputFields:
   homeAddressCity: applicant_home_address_city
   homeAddressState: applicant_home_address_state
   homeAddressZipCode: applicant_home_address_zip_code
+  applicantMailingAddressFull: applicant_mailing_address_full
   speaksEnglish: applicant_speaks_english
   needsCashAssistance: applicant_needs_cash_assistance
   needsSNAP: applicant_needs_snap
