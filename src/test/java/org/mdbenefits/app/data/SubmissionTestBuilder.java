@@ -34,50 +34,12 @@ public class SubmissionTestBuilder {
         return this;
     }
 
-    public SubmissionTestBuilder withHouseholdMember(
-            String firstName, String lastName,
-            String birthDay, String birthMonth, String birthYear,
-            String relationship, String sex, String maritalStatus,
-            String education, String ssn, List<String> raceInfo, String ethnicity) {
-        List<Map<String, Object>> household = (List<Map<String, Object>>) submission.getInputData().get("household");
-        if (household == null) {
-            household = new ArrayList<>();
-        }
-
-        Map<String, Object> member = new HashMap<>();
-        String uuid = "%s-%s".formatted(firstName, lastName).toLowerCase();
-        member.put("uuid", uuid);
-        member.put("householdMemberFirstName", firstName);
-        member.put("householdMemberLastName", lastName);
-        member.put("householdMemberBirthDay", birthDay);
-        member.put("householdMemberBirthMonth", birthMonth);
-        member.put("householdMemberBirthYear", birthYear);
-        member.put("householdMemberRelationship", relationship);
-        member.put("householdMemberSex", sex);
-        member.put("householdMemberMaritalStatus", maritalStatus);
-        member.put("householdMemberHighestEducation", education);
-        member.put("householdMemberEncryptedSSN", ssn);
-        member.put("householdMemberCitizenshipStatus", CitizenshipStatus.US_CITIZEN.name());
-
-        household.add(member);
-        if (raceInfo != null && !raceInfo.isEmpty()) {
-            submission.getInputData().put(
-                    "householdMemberRace" + FieldNameMarkers.DYNAMIC_FIELD_MARKER + uuid + "[]", raceInfo);
-        }
-        if (ethnicity != null && !ethnicity.isBlank()) {
-            submission.getInputData().put(
-                    "householdMemberEthnicity" + FieldNameMarkers.DYNAMIC_FIELD_MARKER + uuid, ethnicity);
-        }
-
-        submission.getInputData().put("household", household);
-        return this;
-    }
-
     public SubmissionTestBuilder withHouseholdMemberApplying(
         String firstName, String lastName,
         String birthDay, String birthMonth, String birthYear,
         String relationship, String sex, String maritalStatus,
         String education, String ssn, String isPregnant, String isDisabled, List<String> raceInfo, String ethnicity) {
+        
         List<Map<String, Object>> household = (List<Map<String, Object>>) submission.getInputData().get("household");
         if (household == null) {
             household = new ArrayList<>();
@@ -100,16 +62,10 @@ public class SubmissionTestBuilder {
         member.put("householdMemberApplyingForBenefits", "Yes");
         member.put("householdMemberIsPregnant", isPregnant);
         member.put("householdMemberHasDisability", isDisabled);
+        member.put("householdMemberRace[]", raceInfo);
+        member.put("householdMemberEthnicity", ethnicity);
 
         household.add(member);
-        if (raceInfo != null && !raceInfo.isEmpty()) {
-            submission.getInputData().put(
-                "householdMemberRace" + FieldNameMarkers.DYNAMIC_FIELD_MARKER + uuid + "[]", raceInfo);
-        }
-        if (ethnicity != null && !ethnicity.isBlank()) {
-            submission.getInputData().put(
-                "householdMemberEthnicity" + FieldNameMarkers.DYNAMIC_FIELD_MARKER + uuid, ethnicity);
-        }
 
         submission.getInputData().put("household", household);
         return this;

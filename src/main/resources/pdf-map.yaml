@@ -68,6 +68,8 @@ subflowInfo:
       householdRaceEthnicityCode: hhmember_ethnicity
       householdMemberCitizen: hhmember_is_citizen
       householdMemberApplyingForBenefits: hhmember_is_applying
+      householdMemberRace: hhmember_race
+      householdMemberEthnicity: hhmember_ethnicity
 
   # Vraj - Usable to here
   #  citizenshipStatus: applicant_is_citizen

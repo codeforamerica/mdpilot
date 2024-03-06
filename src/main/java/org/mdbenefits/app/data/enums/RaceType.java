@@ -1,14 +1,16 @@
 package org.mdbenefits.app.data.enums;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.Getter;
 
 @Getter
 public enum RaceType {
     AMERICAN_INDIAN("1", "race-selection.option1"),
     ASIAN("2", "race-selection.option2"),
-    BLACK_OR_AFRICAN_AMERICA("3", "race-selection.option3"),
+    BLACK_OR_AFRICAN_AMERICAN("3", "race-selection.option3"),
     NATIVE_HAWAIIAN_OR_PACIFIC_ISLANDER("4", "race-selection.option4"),
     WHITE("5", "race-selection.option5"),
     PREFER_NO_ANSWER("", "race-selection.other");
@@ -33,4 +35,12 @@ public enum RaceType {
         RaceType raceType = (RaceType) MAP_BY_VALUE.get(value);
         return raceType != null ? raceType.pdfValue : "";
     }
+    
+   public static String getRaceCodeStringFromValue(List<String> value) {
+      return value.stream()
+               .map(RaceType::getPdfValueFromValue)
+               .filter(s -> !s.isBlank())
+               .sorted()
+               .collect(Collectors.joining(","));
+   }
 }
