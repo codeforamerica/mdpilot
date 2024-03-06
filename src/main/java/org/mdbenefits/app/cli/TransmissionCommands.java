@@ -1,7 +1,5 @@
 package org.mdbenefits.app.cli;
 
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.SftpException;
 import formflow.library.data.Submission;
 import formflow.library.data.UserFile;
 import formflow.library.data.UserFileRepositoryService;
@@ -47,7 +45,7 @@ public class TransmissionCommands {
             CloudFileRepository cloudFileRepository,
             UserFileRepositoryService userFileRepositoryService,
             PdfService pdfService,
-            GoogleDriveClient googleDriveClient) throws GeneralSecurityException, IOException {
+            GoogleDriveClient googleDriveClient) {
 
         this.transmissionRepository = transmissionRepository;
         this.cloudFileRepository = cloudFileRepository;
@@ -98,15 +96,6 @@ public class TransmissionCommands {
 
                 String pdfFileName = getPdfFilename(confirmationNumber);
 
-                // directory duplication can happen when:
-                //   1) previous run has errored out
-                //   2) state requests we re-run record for whatever reason
-                //
-                // As long as we have the proper link in the email, they state will get the
-                // correct record to look at (via the email).
-                //
-
-                // do any directories in this county exist by that name? if so delete them and their files.
                 List<File> existingDirectories = googleDriveClient.findDirectory(confirmationNumber, folderId);
                 if (!existingDirectories.isEmpty()) {
                     // remove folder
