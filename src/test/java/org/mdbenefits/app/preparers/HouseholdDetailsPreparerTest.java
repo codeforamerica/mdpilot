@@ -55,7 +55,7 @@ class HouseholdDetailsPreparerTest {
     public void shouldMapRaceAndEthnicityCodes(String race, String ethnicity, String racePdfValue, String ethnicityPdfValue) {
         Submission submission = new SubmissionTestBuilder()
             .withHouseholdMemberApplying("Betty", "White", "10", "2", "1999", "Child", "F", "NeverMarried", "firstGrade",
-                "123456789", List.of(race), ethnicity)
+                "123456789","Yes", "Yes", List.of(race), ethnicity)
             .build();
         Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);
         assertThat(result.get("householdMemberRace_1"))
@@ -68,7 +68,7 @@ class HouseholdDetailsPreparerTest {
     public void shouldMapMultipleRaceValues() {
         Submission submission = new SubmissionTestBuilder()
                 .withHouseholdMemberApplying("Betty", "White", "10", "2", "1999", "Child", "F", "NeverMarried", "firstGrade",
-                        "123456789", List.of(RaceType.ASIAN.name(), RaceType.BLACK_OR_AFRICAN_AMERICAN.name()), EthnicityType.NOT_HISPANIC_OR_LATINO.name())
+                        "123456789", "Yes", "Yes", List.of(RaceType.ASIAN.name(), RaceType.BLACK_OR_AFRICAN_AMERICAN.name()), EthnicityType.NOT_HISPANIC_OR_LATINO.name())
                 .build();
         Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);
         assertThat(result.get("householdMemberRace_1"))
@@ -79,7 +79,7 @@ class HouseholdDetailsPreparerTest {
     public void shouldNotMapPreferNotToAnswer() {
         Submission submission = new SubmissionTestBuilder()
                 .withHouseholdMemberApplying("Betty", "White", "10", "2", "1999", "Child", "F", "NeverMarried", "firstGrade",
-                        "123456789", List.of(RaceType.PREFER_NO_ANSWER.name()), EthnicityType.PREFER_NO_ANSWER.name())
+                        "123456789", "Yes", "Yes", List.of(RaceType.PREFER_NO_ANSWER.name()), EthnicityType.PREFER_NO_ANSWER.name())
                 .build();
         Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);
         assertThat(result.get("householdMemberRace_1"))
