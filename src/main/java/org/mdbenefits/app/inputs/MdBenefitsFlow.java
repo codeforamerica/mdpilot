@@ -38,10 +38,11 @@ public class MdBenefitsFlow extends FlowInputs {
     @NotBlank(message = "{error.missing-firstname}")
     private String firstName;
 
+    private String middleName;
+
     @NotBlank(message = "{error.missing-lastname}")
     private String lastName;
 
-    private String otherNames;
 
     private String birthDay;
     private String birthMonth;

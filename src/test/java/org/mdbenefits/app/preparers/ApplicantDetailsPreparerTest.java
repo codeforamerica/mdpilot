@@ -59,7 +59,7 @@ public class ApplicantDetailsPreparerTest {
                 "mailingAddressCity", "Baltimore",
                 "mailingAddressState", "MD",
                 "mailingAddressZipCode", "21201"
-                );
+        );
         assertThat(preparer.formatMailingAddress(inputData)).isEqualTo("10 Main St, Unit #A, Baltimore, MD 21201");
     }
 
@@ -74,4 +74,10 @@ public class ApplicantDetailsPreparerTest {
         assertThat(preparer.formatMailingAddress(inputData)).isEqualTo("10 Main St, Baltimore, MD 21201");
     }
 
+    public void testWithMiddleName() {
+        submission.getInputData().put("middleName", "MiddleName");
+        Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);
+        assertThat(result.get("applicantFullName"))
+                .isEqualTo(new SingleField("applicantFullName", "Doe, John, MiddleName", null));
+    }
 }
