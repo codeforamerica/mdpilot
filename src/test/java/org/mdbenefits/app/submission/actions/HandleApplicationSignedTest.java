@@ -24,6 +24,7 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 @SpringBootTest
 class HandleApplicationSignedTest {
+
     @MockBean
     MailgunEmailClient mailgunEmailClient;
     @Autowired
@@ -51,7 +52,8 @@ class HandleApplicationSignedTest {
 
         handleApplicationSigned.run(submission);
 
-        Mockito.verify(mailgunEmailClient, Mockito.never()).sendEmail(Mockito.any(), Mockito.any(), Mockito.any());    }
+        Mockito.verify(mailgunEmailClient, Mockito.never()).sendEmail(Mockito.any(), Mockito.any(), Mockito.any());
+    }
 
     @Test
     public void shouldRecordSuccessfulSend() {

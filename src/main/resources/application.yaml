@@ -1,8 +1,3 @@
-sftp:
-  username: ${SFTP_USERNAME:}
-  password: ${SFTP_PASSWORD:}
-  upload-url: ${SFTP_UPLOAD_URL:}
-  environment-path: 'prod'
 form-flow:
   lock-after-submitted:
     - flow: mdBenefitsFlow
@@ -108,3 +103,7 @@ server:
 management:
   endpoints:
     enabled-by-default: false
+google:
+  drive:
+    baltimore-county-directory-id: ${BALTIMORE_COUNTY_GOOGLE_DIR_ID}
+    queen-annes-county-directory-id: ${QUEENANNES_COUNTY_GOOGLE_DIR_ID}
