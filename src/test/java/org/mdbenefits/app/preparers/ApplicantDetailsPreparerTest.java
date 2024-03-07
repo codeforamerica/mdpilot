@@ -25,7 +25,8 @@ public class ApplicantDetailsPreparerTest {
                 .withPersonalInfo("John", "Doe", "10", "12", "1999",
                         "", "", "", "", "")
                 .with("isApplicantApplying", "Yes")
-                .with("isApplicantPregnant", "No")
+                .with("isApplicantPregnant", "Yes")
+                .with("applicantHasDisability", "Yes")
                 .with("applicantRace[]", List.of(RaceType.ASIAN.name(), RaceType.AMERICAN_INDIAN.name()))
                 .with("applicantEthnicity", EthnicityType.HISPANIC_OR_LATINO.name())
                 .build();
@@ -43,6 +44,10 @@ public class ApplicantDetailsPreparerTest {
                 .isEqualTo(new SingleField("applicantRace", "1,2", null));
         assertThat(result.get("applicantEthnicity"))
                 .isEqualTo(new SingleField("applicantEthnicity", "1", null));
+        assertThat(result.get("applicantIsPregnantName"))
+                .isEqualTo(new SingleField("applicantIsPregnantName", "See cover page", null));
+        assertThat(result.get("applicantHasDisabilityName"))
+                .isEqualTo(new SingleField("applicantHasDisabilityName", "See cover page", null));
     }
 
     @Test
