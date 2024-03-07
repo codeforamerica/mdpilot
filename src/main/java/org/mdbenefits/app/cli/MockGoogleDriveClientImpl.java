@@ -1,7 +1,6 @@
 package org.mdbenefits.app.cli;
 
 import com.google.api.services.drive.model.File;
-import formflow.library.data.UserFile;
 import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -14,9 +13,12 @@ import org.springframework.stereotype.Component;
 public class MockGoogleDriveClientImpl implements GoogleDriveClient {
 
     @Override
-    public String createFolder(String locationId, String folderName, Map<String, String> errors) {
+    public GoogleDriveFolder createFolder(String locationId, String folderName, Map<String, String> errors) {
         log.info("Mock create folder {}", folderName);
-        return "12345";
+        File file = new File();
+        file.setWebViewLink("https://example.com");
+        file.setId("12345");
+        return new GoogleDriveFolder(file);
     }
 
     @Override
