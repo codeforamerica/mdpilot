@@ -53,7 +53,7 @@ public class TransmissionCommandsTest {
     @BeforeEach
     void setup() {
         handleApplicationSigned = new HandleApplicationSigned(messageSource, mailgunEmailClient, submissionRepositoryService,
-                transmissionRepository, jdbcTemplate);
+                transmissionRepository, jdbcTemplate, transmissionCommands);
 
         submissionList.add(new SubmissionTestBuilder()
                 .with("programs[]", List.of(ProgramType.SNAP))

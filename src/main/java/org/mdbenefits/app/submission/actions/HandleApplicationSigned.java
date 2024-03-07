@@ -6,6 +6,7 @@ import formflow.library.data.Submission;
 import formflow.library.data.SubmissionRepositoryService;
 import formflow.library.email.MailgunEmailClient;
 import lombok.extern.slf4j.Slf4j;
+import org.mdbenefits.app.cli.TransmissionCommands;
 import org.mdbenefits.app.data.Transmission;
 import org.mdbenefits.app.data.TransmissionRepository;
 import org.springframework.context.MessageSource;
@@ -25,14 +26,18 @@ public class HandleApplicationSigned implements Action {
     private final TransmissionRepository transmissionRepository;
 
     private final JdbcTemplate jdbcTemplate;
+    
+    private final TransmissionCommands transmissionCommands;
 
     public HandleApplicationSigned(MessageSource messageSource, MailgunEmailClient mailgunEmailClient,
-            SubmissionRepositoryService submissionRepositoryService, TransmissionRepository transmissionRepository, JdbcTemplate jdbcTemplate) {
+            SubmissionRepositoryService submissionRepositoryService, TransmissionRepository transmissionRepository, JdbcTemplate jdbcTemplate,
+            TransmissionCommands transmissionCommands) {
         this.messageSource = messageSource;
         this.mailgunEmailClient = mailgunEmailClient;
         this.submissionRepositoryService = submissionRepositoryService;
         this.transmissionRepository = transmissionRepository;
         this.jdbcTemplate = jdbcTemplate;
+        this.transmissionCommands = transmissionCommands;
     }
 
     @Override
@@ -46,6 +51,7 @@ public class HandleApplicationSigned implements Action {
         Transmission transmission = Transmission.fromSubmission(submission);
         transmissionRepository.save(transmission);
         log.info("Created transmission");
+        transmissionCommands.transmit();
    }
 
     private void assignConfirmationNumber(Submission submission) {
@@ -53,6 +59,7 @@ public class HandleApplicationSigned implements Action {
         submission.getInputData().put("confirmationNumber", confirmationNumber);
         log.info("Using confirmationNumber: {}", confirmationNumber);
         submissionRepositoryService.save(submission);
+
     }
 
     private void sendEmailToApplicant(Submission submission) {

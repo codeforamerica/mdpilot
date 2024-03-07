@@ -10,6 +10,7 @@ import formflow.library.data.SubmissionRepositoryService;
 import formflow.library.email.MailgunEmailClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mdbenefits.app.cli.TransmissionCommands;
 import org.mdbenefits.app.data.SubmissionTestBuilder;
 import org.mdbenefits.app.data.Transmission;
 import org.mdbenefits.app.data.TransmissionRepository;
@@ -35,13 +36,15 @@ class HandleApplicationSignedTest {
     TransmissionRepository transmissionRepository;
     @Autowired
     JdbcTemplate jdbcTemplate;
+    @Autowired
+    TransmissionCommands transmissionCommands;
 
     private HandleApplicationSigned handleApplicationSigned;
 
     @BeforeEach
     void setup() {
         handleApplicationSigned = new HandleApplicationSigned(messageSource, mailgunEmailClient, submissionRepositoryService,
-                transmissionRepository, jdbcTemplate);
+                transmissionRepository, jdbcTemplate, transmissionCommands);
     }
 
     @Test
