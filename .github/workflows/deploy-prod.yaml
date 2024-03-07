@@ -41,6 +41,9 @@ jobs:
             'SMARTY_AUTH_ID=${{ secrets.SMARTY_AUTH_ID }}' \
             'SMARTY_AUTH_TOKEN=${{ secrets.SMARTY_AUTH_TOKEN }}' \
             'ENCRYPTION_KEYSET=${{ secrets.PROD_ENCRYPTION_KEYSET }}' \
+            'BALTIMORE_COUNTY_GOOGLE_DIR_ID=${{ secrets.PROD_BALTIMORE_COUNTY_GOOGLE_DIR_ID }}' \
+            'QUEENANNES_COUNTY_GOOGLE_DIR_ID=${{ secrets.PROD_QUEENANNES_COUNTY_GOOGLE_DIR_ID }}' \
+            'GOOGLE_DRIVE_CREDS=${{ secrets.PROD_GOOGLE_DRIVE_CREDS }}' \
             'DEFAULT_LOCALE=en' \
             'demo=true' \
             'FORCE_SSL=true'
