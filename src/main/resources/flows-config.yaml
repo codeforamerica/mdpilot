@@ -32,17 +32,7 @@ flow:
     crossFieldValidationAction: ValidateHomeAddress
     onPostAction: ClearNoHomeAddressIfNotSelected
     nextScreens:
-      - name: mailingAddressNoAddress
-        condition: NoPermanentAddress
       - name: mailingAddress
-  mailingAddressNoAddress:
-    crossFieldValidationAction: ValidateMailingAddress
-    nextScreens:
-      - name: selectAddress
-        condition: SmartySuggestionFound
-      - name: verifyAddress
-        condition: SmartySuggestionNotFound
-      - name: contactInfo
   mailingAddress:
     crossFieldValidationAction: ValidateMailingAddress
     onPostAction: ClearSameAsHomeAddressIfNotSelected

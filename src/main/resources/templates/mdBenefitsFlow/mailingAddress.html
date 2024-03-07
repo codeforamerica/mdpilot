@@ -12,14 +12,16 @@
         <th:block
             th:replace="~{fragments/cardHeader :: cardHeader(header=#{mailing-address.header}, subtext=#{mailing-address.subtext})}"/>
         <th:block
-            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::mailingAddress})}">
-          <th:block th:ref="mailingAddress">
+            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::addressContent})}">
+          <th:block th:ref="addressContent">
             <div class="form-card__content">
-              <th:block th:replace="~{fragments/inputs/singleCheckbox ::
+              <th:block th:if="${inputData.getOrDefault('noHomeAddress', 'false').equals('false')}">
+                <th:block th:replace="~{fragments/inputs/singleCheckbox ::
                   singleCheckbox(inputName='sameAsHomeAddress',
                   label=#{mailing-address.same-address},
                   value='true'
                  )}"/>
+              </th:block>
               <span id="hidden-mailing-fields">
                 <th:block th:replace="~{fragments/inputs/address ::
                                   address(
