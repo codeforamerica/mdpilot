@@ -257,7 +257,7 @@ flow:
     nextScreens:
       - name: expensesChildSupportAmount
         condition: HasChildSupportExpenses
-      - name: expensesElderlyCare
+      - name: docUploadIntro
   expensesChildSupportAmount:
     nextScreens:
       - name: finalSignPost
