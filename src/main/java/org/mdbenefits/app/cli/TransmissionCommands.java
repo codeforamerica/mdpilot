@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.model.AmazonS3Exception;
 import formflow.library.data.Submission;
 import formflow.library.data.UserFile;
 import formflow.library.data.UserFileRepositoryService;
+import formflow.library.email.MailgunEmailClient;
 import formflow.library.file.CloudFile;
 import formflow.library.file.CloudFileRepository;
 import formflow.library.pdf.PdfService;
@@ -11,13 +12,16 @@ import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.mdbenefits.app.data.Transmission;
 import org.mdbenefits.app.data.TransmissionRepository;
 import org.mdbenefits.app.data.enums.Counties;
 import org.mdbenefits.app.data.enums.TransmissionStatus;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.stereotype.Service;
@@ -34,24 +38,42 @@ public class TransmissionCommands {
     @Value("${google.drive.queen-annes-county-directory-id}")
     private String QUEENANNES_COUNTY_GOOGLE_DIR_ID;
 
+    private List<String> emailRecipients_Baltimore =
+            List.of(
+                    "bseeger+balt@codeforamerica.org",
+                    "vraj+balt@codeforamerica.org"
+            );
+    private List<String> emailRecipients_QueenAnnes =
+            List.of(
+                    "bseeger+qa@codeforamerica.org",
+                    "vraj+qa@codeforamerica.org"
+            );
+
     private final TransmissionRepository transmissionRepository;
     private final CloudFileRepository cloudFileRepository;
     private final PdfService pdfService;
     private final GoogleDriveClient googleDriveClient;
     private final UserFileRepositoryService userFileRepositoryService;
 
+    private final MailgunEmailClient mailgunEmailClient;
+    private final MessageSource messageSource;
+
     public TransmissionCommands(
             TransmissionRepository transmissionRepository,
             CloudFileRepository cloudFileRepository,
             UserFileRepositoryService userFileRepositoryService,
             PdfService pdfService,
-            GoogleDriveClient googleDriveClient) {
+            GoogleDriveClient googleDriveClient,
+            MailgunEmailClient mailgunEmailClient,
+            MessageSource messageSource) {
 
         this.transmissionRepository = transmissionRepository;
         this.cloudFileRepository = cloudFileRepository;
         this.userFileRepositoryService = userFileRepositoryService;
         this.pdfService = pdfService;
         this.googleDriveClient = googleDriveClient;
+        this.mailgunEmailClient = mailgunEmailClient;
+        this.messageSource = messageSource;
     }
 
     // TODO:  ensure only one running at a time via @Scheduled config (another ticket, I think)
@@ -102,6 +124,7 @@ public class TransmissionCommands {
             }
             String county = (String) submission.getInputData().get("county");
             String folderId = getCountyFolderId(county);
+            String emailRecipients = getCountyEmailRecipients(county);
             String confirmationNumber = (String) submission.getInputData().get("confirmationNumber");
 
             String pdfFileName = getPdfFilename(confirmationNumber);
@@ -125,8 +148,8 @@ public class TransmissionCommands {
                 }
             }
 
-            String entryFolderId = googleDriveClient.createFolder(folderId, confirmationNumber, errorMap);
-            if (entryFolderId == null) {
+            GoogleDriveFolder newFolder = googleDriveClient.createFolder(folderId, confirmationNumber, errorMap);
+            if (newFolder.getId() == null) {
                 // something is really wrong here; note the error and skip the entry
                 String error = String.format("Failed to create folder in Google Drive for submission with ID: %s.",
                         submission.getId());
@@ -135,12 +158,12 @@ public class TransmissionCommands {
             }
 
             // upload pdf file
-            String pdfGDId = googleDriveClient.uploadFile(entryFolderId, pdfFileName, "application/pdf", pdfFileBytes,
+            String pdfGDId = googleDriveClient.uploadFile(newFolder.getId(), pdfFileName, "application/pdf", pdfFileBytes,
                     confirmationNumber + "_PDF", errorMap);
 
             if (pdfGDId.isBlank()) {
                 // the PDF did not get sent correctly.  Note it and skip the entry
-                googleDriveClient.deleteDirectory(confirmationNumber, entryFolderId, errorMap);
+                googleDriveClient.deleteDirectory(confirmationNumber, newFolder.getId(), errorMap);
                 String error = String.format("Unable to upload the PDF file for submission with ID: %s", submission.getId());
                 handleError(transmission, "pdfTransfer", error, errorMap);
                 return;
@@ -161,7 +184,7 @@ public class TransmissionCommands {
                             userFilesForSubmission.size(),
                             submission.getId());
                     // send to google
-                    googleDriveClient.uploadFile(entryFolderId, fileName, file.getMimeType(), cloudFile.getFileBytes(),
+                    googleDriveClient.uploadFile(newFolder.getId(), fileName, file.getMimeType(), cloudFile.getFileBytes(),
                             file.getFileId().toString(), errorMap);
                 } catch (AmazonS3Exception e) {
                     String error = String.format(
@@ -171,10 +194,31 @@ public class TransmissionCommands {
                 }
             }
 
-            // TODO - send emails to state (another ticket)
+            sendEmailToCaseworkers(transmission, confirmationNumber, emailRecipients, newFolder.getUrl(), errorMap);
 
             updateTransmissionStatus(transmission, TransmissionStatus.COMPLETED, errorMap, true);
         });
+    }
+
+    // email addresses is a string of email addresses with a space in between
+    private void sendEmailToCaseworkers(Transmission transmission, String confirmationNumber, String emailAddresses,
+            String googleDriveLink, Map<String, String> errorMap) {
+
+        if (emailAddresses.isEmpty()) {
+            String error = "Unable to send email, as there are no recipients configured.";
+            handleError(transmission, "sendingEmail", error, errorMap);
+            return;
+        }
+
+        Locale locale = new Locale("en");
+        String subject = messageSource.getMessage("email-to-caseworkers.subject", new Object[]{confirmationNumber}, null, locale);
+        String body = messageSource.getMessage("email-to-caseworkers.body", new Object[]{confirmationNumber, googleDriveLink},
+                null, locale);
+
+        if (mailgunEmailClient.sendEmail(subject, emailAddresses, body) == null) {
+            String error = String.format("Sending email to '%s' failed.", emailAddresses);
+            handleError(transmission, "sendingEmail", error, errorMap);
+        }
     }
 
     // Set errorKey = null when the errorMsg has already been recorded in 'errorMap'
@@ -229,5 +273,11 @@ public class TransmissionCommands {
      */
     private String getCountyFolderId(String county) {
         return county.equals(Counties.BALTIMORE.name()) ? BALTIMORE_COUNTY_GOOGLE_DIR_ID : QUEENANNES_COUNTY_GOOGLE_DIR_ID;
+    }
+
+    private String getCountyEmailRecipients(String county) {
+        List<String> recipients =
+                county.equals(Counties.BALTIMORE.name()) ? emailRecipients_Baltimore : emailRecipients_QueenAnnes;
+        return String.join(", ", recipients);
     }
 }

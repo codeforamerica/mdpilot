@@ -14,7 +14,7 @@ public interface GoogleDriveClient {
      * @param errors     error map for any errors to be added to
      * @return String id of the new folder
      */
-    String createFolder(String locationId, String folderName, Map<String, String> errors);
+    GoogleDriveFolder createFolder(String locationId, String folderName, Map<String, String> errors);
 
     /**
      * Uploads file data to the specified folder.

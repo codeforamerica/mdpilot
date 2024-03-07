@@ -50,17 +50,17 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
     }
 
     @Override
-    public String createFolder(String parentFolderId, String name, Map<String, String> errors) {
+    public GoogleDriveFolder createFolder(String parentFolderId, String name, Map<String, String> errors) {
         File fileMetadata = new File();
         fileMetadata.setName(name);
         fileMetadata.setParents(Collections.singletonList(parentFolderId));
         fileMetadata.setMimeType("application/vnd.google-apps.folder");
         try {
             File file = service.files().create(fileMetadata)
-                    .setFields("id")
+                    .setFields("id, webViewLink")
                     .execute();
             log.info("Created Google Drive Folder with ID: " + file.getId());
-            return file.getId();
+            return new GoogleDriveFolder(file);
         } catch (Exception e) {
             String error = String.format("Unable to create folder %s in %s", name, parentFolderId);
             if (e instanceof GoogleJsonResponseException) {
