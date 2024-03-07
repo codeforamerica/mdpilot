@@ -21,14 +21,15 @@
                   helpText=#{personal-info.firstname-help})}"/>
 
               <th:block th:replace="~{fragments/inputs/text ::
+                  text(inputName='middleName',
+                  label=#{personal-info.middlename},
+                  helpText=#{personal-info.middlename-help})}"/>
+
+              <th:block th:replace="~{fragments/inputs/text ::
                   text(inputName='lastName',
                   label=#{personal-info.lastname},
                   helpText=#{personal-info.lastname-help})}"/>
 
-              <th:block th:replace="~{fragments/inputs/text ::
-                  text(inputName='otherNames',
-                  label=#{personal-info.othernames},
-                  helpText=#{personal-info.othernames-help})}"/>
 
               <th:block th:replace="~{fragments/inputs/date ::
                   date(inputName='birth',

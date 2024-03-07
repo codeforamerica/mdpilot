@@ -8,7 +8,6 @@ import formflow.library.pdf.SubmissionFieldPreparer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.mdbenefits.app.data.enums.CitizenshipStatus;
@@ -28,6 +27,10 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
         Map<String, Object> inputData = submission.getInputData();
 
         String fullName = String.format("%s, %s", inputData.get("lastName"), inputData.get("firstName"));
+        if (inputData.get("middleName") != null) {
+            fullName += ", " + inputData.get("middleName");
+        }
+
         results.put("applicantFullName", new SingleField("applicantFullName", (String) fullName, null));
 
         var dob = Stream.of("birthMonth", "birthDay", "birthYear")
@@ -48,7 +51,7 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
                 results.put("applicantSex", new SingleField("applicantSex", "", null));
             }
 
-            if (inputData.getOrDefault("isApplicantPregnant","No").toString().equalsIgnoreCase("Yes")) {
+            if (inputData.getOrDefault("isApplicantPregnant", "No").toString().equalsIgnoreCase("Yes")) {
                 results.put("applicantIsPregnantName", new SingleField("applicantIsPregnantName", (String) fullName, null));
             }
 

@@ -621,12 +621,12 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.selectRadio("householdMemberEnrolledInSchool", "Yes");
         testPage.selectRadio("householdMemberHasDisability", "Yes");
         testPage.clickContinue();
-        
+
         assertThat(testPage.getTitle()).isEqualTo(message("household-race-and-ethnicity.title"));
         testPage.clickElementById("householdMemberRace-WHITE");
         testPage.selectRadio("householdMemberEthnicity", EthnicityType.HISPANIC_OR_LATINO.name());
         testPage.clickContinue();
-        
+
         assertThat(testPage.getTitle()).isEqualTo(message("household-list.title"));
         testPage.clickButton("I'm done");
 
@@ -716,6 +716,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.navigateToFlowScreen("mdBenefitsFlow/personalInfo");
 
         testPage.enter("firstName", "test");
+        testPage.enter("middleName", "MiddleName");
         testPage.enter("lastName", "test2");
         testPage.enter("birthMonth", "12");
         testPage.enter("birthDay", "25");
