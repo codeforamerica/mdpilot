@@ -1,5 +1,6 @@
 package org.mdbenefits.app.cli;
 
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import formflow.library.data.Submission;
 import formflow.library.data.UserFile;
 import formflow.library.data.UserFileRepositoryService;
@@ -7,7 +8,6 @@ import formflow.library.file.CloudFile;
 import formflow.library.file.CloudFileRepository;
 import formflow.library.pdf.PdfService;
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -61,93 +61,135 @@ public class TransmissionCommands {
     //@Scheduled(fixedRateString = "${transmissions.wic-ece-transmission-rate}")
     @ShellMethod(key = "send-files")
     public void transmit() {
-        log.info("Finding submissions to transmit...");
+        log.info("[Transmission] Finding submissions to transmit...");
 
         List<Transmission> queuedTransmissions = transmissionRepository.findTransmissionsByStatus("QUEUED");
         if (queuedTransmissions.isEmpty()) {
-            log.info("Nothing to transmit. Exiting.");
+            log.info("[Transmission] Nothing to transmit. Exiting.");
             return;
         }
 
-        log.info("Found %s queued transmissions".formatted(queuedTransmissions.size()));
+        log.info("[Transmission] Found %s queued transmissions".formatted(queuedTransmissions.size()));
 
         // Consideration - should we batch these?  Probably not, initially.
         // Worth keeping an eye on.
         if (queuedTransmissions.size() > 50) {
-            log.warn("More than 50 submissions at once ({})", queuedTransmissions.size());
+            log.warn("[Transmission] More than 50 submissions at once ({})", queuedTransmissions.size());
         }
         transmitBatch(queuedTransmissions);
     }
 
     private void transmitBatch(List<Transmission> transmissions) {
 
-        Map<String, String> errors = new HashMap<>();
-        log.info("Preparing to send {} transmissions.", transmissions.size());
+        log.info("[Transmission] Preparing to send {} transmissions.", transmissions.size());
 
         transmissions.forEach(transmission -> {
+            Map<String, String> errorMap = new HashMap<>();
             Submission submission = transmission.getSubmission();
-            log.info("Sending transmission with ID {} for submission with ID: {}.", transmission.getId(), submission.getId());
-            updateTransmissionStatus(transmission, TransmissionStatus.TRANSMITTING, errors, false);
+            log.info("[Transmission {}] Sending transmission for submission with ID: {}.", transmission.getId(),
+                    submission.getId());
+            updateTransmissionStatus(transmission, TransmissionStatus.TRANSMITTING, errorMap, false);
+            byte[] pdfFileBytes;
             try {
-                byte[] pdfFileBytes = pdfService.getFilledOutPDF(submission);
+                pdfFileBytes = pdfService.getFilledOutPDF(submission);
+            } catch (IOException e) {
+                String error = String.format("Failed to generate PDF for Transmission ID %s (Submission ID %s): %s.",
+                        transmission.getId(),
+                        submission.getId(),
+                        e.getMessage());
+                handleError(transmission, "pdfGeneration", error, errorMap);
+                return;
+            }
+            String county = (String) submission.getInputData().get("county");
+            String folderId = getCountyFolderId(county);
+            String confirmationNumber = (String) submission.getInputData().get("confirmationNumber");
 
-                String county = (String) submission.getInputData().get("county");
-                String folderId = getCountyFolderId(county);
-                String confirmationNumber = (String) submission.getInputData().get("confirmationNumber");
+            String pdfFileName = getPdfFilename(confirmationNumber);
 
-                String pdfFileName = getPdfFilename(confirmationNumber);
-
-                List<File> existingDirectories = googleDriveClient.findDirectory(confirmationNumber, folderId);
-                if (!existingDirectories.isEmpty()) {
-                    log.info("Found {} existing instances of folder for submission with ID: {}. Deleting existing instances.", existingDirectories.size(),
-                            submission.getId());
-                    // remove folder
-                    for (File dir : existingDirectories) {
-                        googleDriveClient.deleteDirectory(dir.getName(), dir.getId(), errors);
+            List<File> existingDirectories = googleDriveClient.findDirectory(confirmationNumber, folderId);
+            if (!existingDirectories.isEmpty()) {
+                log.info(
+                        "[Transmission {}]: Found {} existing instances of folder '{}' for submission with ID: {}. Deleting existing instances.",
+                        transmission.getId(),
+                        existingDirectories.size(),
+                        confirmationNumber,
+                        submission.getId());
+                // remove any already existing folders
+                for (File dir : existingDirectories) {
+                    if (!googleDriveClient.deleteDirectory(dir.getName(), dir.getId(), errorMap)) {
+                        String error = String.format("Failed to delete existing Google Drive directory '%s'", dir.getId());
+                        handleError(transmission, null, error, errorMap);
+                        // don't return - keep going. A new folder will be created and the link to that new
+                        // folder will be sent to caseworker's office
                     }
                 }
+            }
 
-                String entryFolderId = googleDriveClient.createFolder(folderId, confirmationNumber, errors);
-                if (entryFolderId == null) {
-                    // something is really wrong here; note the error and skip the entry
-                    log.error("Failed to create folder for submission with ID: {}.", submission.getId());
-                    updateTransmissionStatus(transmission, TransmissionStatus.FAILED, errors, false);
-                    return;
-                }
+            String entryFolderId = googleDriveClient.createFolder(folderId, confirmationNumber, errorMap);
+            if (entryFolderId == null) {
+                // something is really wrong here; note the error and skip the entry
+                String error = String.format("Failed to create folder in Google Drive for submission with ID: %s.",
+                        submission.getId());
+                handleError(transmission, null, error, errorMap);
+                return;
+            }
 
-                List<UserFile> userFilesForSubmission = userFileRepositoryService.findAllBySubmission(submission);
+            // upload pdf file
+            String pdfGDId = googleDriveClient.uploadFile(entryFolderId, pdfFileName, "application/pdf", pdfFileBytes,
+                    confirmationNumber + "_PDF", errorMap);
 
-                for (int count = 0; count < userFilesForSubmission.size(); count++) {
-                    UserFile file = userFilesForSubmission.get(count);
+            if (pdfGDId.isBlank()) {
+                // the PDF did not get sent correctly.  Note it and skip the entry
+                googleDriveClient.deleteDirectory(confirmationNumber, entryFolderId, errorMap);
+                String error = String.format("Unable to upload the PDF file for submission with ID: %s", submission.getId());
+                handleError(transmission, "pdfTransfer", error, errorMap);
+                return;
+            }
 
+            List<UserFile> userFilesForSubmission = userFileRepositoryService.findAllBySubmission(submission);
+
+            for (int count = 0; count < userFilesForSubmission.size(); count++) {
+                UserFile file = userFilesForSubmission.get(count);
+                try {
                     // get the file from S3
                     CloudFile cloudFile = cloudFileRepository.get(file.getRepositoryPath());
 
                     String fileName = getUserFileName(confirmationNumber, file, count + 1, userFilesForSubmission.size());
-                    log.info("Uploading file {} of {} for submission with ID: {}.", count + 1, userFilesForSubmission.size(),
+                    log.info("[Transmission {}] Uploading file {} of {} for submission with ID: {}.",
+                            transmission.getId(),
+                            count + 1,
+                            userFilesForSubmission.size(),
                             submission.getId());
                     // send to google
                     googleDriveClient.uploadFile(entryFolderId, fileName, file.getMimeType(), cloudFile.getFileBytes(),
-                            file.getFileId().toString(), errors);
+                            file.getFileId().toString(), errorMap);
+                } catch (AmazonS3Exception e) {
+                    String error = String.format(
+                            "Unable to upload the UserFile (ID: %s) for submission with ID: %s. Exception: %s",
+                            file.getFileId(), submission.getId(), e.getMessage());
+                    handleError(transmission, "fetchingS3File", error, errorMap);
                 }
-
-                // upload pdf file
-                googleDriveClient.uploadFile(entryFolderId, pdfFileName, "application/pdf", pdfFileBytes,
-                        confirmationNumber + "_PDF", errors);
-            } catch (IOException e) {
-                log.error("Failed to generate PDF for submission with ID {}: {}.", submission.getId(), e.getMessage());
             }
 
             // TODO - send emails to state (another ticket)
 
-            updateTransmissionStatus(transmission, TransmissionStatus.COMPLETED, errors, true);
+            updateTransmissionStatus(transmission, TransmissionStatus.COMPLETED, errorMap, true);
         });
     }
 
-    private void updateTransmissionStatus(Transmission transmission, TransmissionStatus status, Map<String, String> errors,
+    // Set errorKey = null when the errorMsg has already been recorded in 'errorMap'
+    private void handleError(Transmission transmission, String errorKey, String errorMsg, Map<String, String> errorMap) {
+        log.error("[Transmission {}]: {}", transmission.getId(), errorMsg);
+        if (errorKey != null) {
+            errorMap.put(errorKey, errorMsg);
+        }
+        updateTransmissionStatus(transmission, TransmissionStatus.FAILED, errorMap, false);
+    }
+
+    private void updateTransmissionStatus(Transmission transmission, TransmissionStatus status, Map<String, String> errorMap,
             boolean markSent) {
         transmission.setStatus(status.name());
-        transmission.setErrors(errors);
+        transmission.setErrors(errorMap);
         if (markSent) {
             transmission.setSentAt(OffsetDateTime.now());
         }

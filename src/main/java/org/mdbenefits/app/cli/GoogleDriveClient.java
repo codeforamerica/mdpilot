@@ -39,7 +39,7 @@ public interface GoogleDriveClient {
     List<File> findDirectory(String name, String parentId);
 
     /**
-     * Delete the specified directory with the matching directory ID.
+     * Deletes the specified directory with the matching directory ID.
      *
      * @param name        Name of the directory to delete
      * @param directoryId ID of directory to delete
