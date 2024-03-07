@@ -1,0 +1,51 @@
+name: Deploy to Aptible Demo
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs: { }
+
+jobs:
+  deploy:
+    name: Deploy to aptible-demo
+    runs-on: ubuntu-latest
+    environment: demo
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.APTIBLE_GIT_SSH_KEY }}
+      - name: Deploy Using Aptible CLI
+        run: |
+          ssh-keyscan beta.aptible.com >> ~/.ssh/known_hosts
+          wget -O aptible-package https://omnibus-aptible-toolbelt.s3.amazonaws.com/aptible/omnibus-aptible-toolbelt/master/206/pkg/aptible-toolbelt_0.16.5%2B20200508143656~ubuntu.16.04-1_amd64.deb
+          sudo dpkg -i aptible-package
+          aptible login \
+            --email='${{ secrets.APTIBLE_USERNAME }}' \
+            --password='${{ secrets.APTIBLE_PASSWORD }}'
+          git push --force ${{ vars.DEMO_APTIBLE_REMOTE_URL }} ${GITHUB_SHA}:${{ vars.DEMO_APTIBLE_REMOTE_BRANCH }}
+          aptible deploy \
+            --app sn-md-pilot-demo \
+            --git-commitish ${GITHUB_SHA} \
+            'SPRING_DATASOURCE_URL=${{ secrets.DEMO_SPRING_DATASOURCE_URL }}' \
+            'SPRING_DATASOURCE_USERNAME=${{ secrets.DEMO_SPRING_DATASOURCE_USERNAME }}' \
+            'SPRING_DATASOURCE_PASSWORD=${{ secrets.DEMO_SPRING_DATASOURCE_PASSWORD }}' \
+            'SPRING_PROFILES_ACTIVE=staging' \
+            'AWS_ACCESS_KEY=${{ secrets.STAGING_AWS_ACCESS_KEY }}' \
+            'AWS_BUCKET=${{ vars.STAGING_AWS_BUCKET }}' \
+            'AWS_CMK=${{ secrets.STAGING_AWS_CMK }}' \
+            'AWS_SECRET_KEY=${{ secrets.STAGING_AWS_SECRET_KEY }}' \
+            'MAILGUN_KEY=${{ secrets.STAGING_MAILGUN_KEY }}' \
+            'MIXPANEL_API_KEY=${{ secrets.STAGING_MIXPANEL_API_KEY }}' \
+            'SMARTY_AUTH_ID=${{ secrets.SMARTY_AUTH_ID }}' \
+            'SMARTY_AUTH_TOKEN=${{ secrets.SMARTY_AUTH_TOKEN }}' \
+            'ENCRYPTION_KEYSET=${{ secrets.STAGING_ENCRYPTION_KEYSET }}' \
+            'BALTIMORE_COUNTY_GOOGLE_DIR_ID=${{ secrets.DEMO_BALTIMORE_COUNTY_GOOGLE_DIR_ID }}' \
+            'QUEENANNES_COUNTY_GOOGLE_DIR_ID=${{ secrets.DEMO_QUEENANNES_COUNTY_GOOGLE_DIR_ID }}' \
+            'GOOGLE_DRIVE_CREDS=${{ secrets.STAGING_GOOGLE_DRIVE_CREDS }}' \
+            'DEFAULT_LOCALE=en' \
+            'demo=true' \
+            'FORCE_SSL=true'
