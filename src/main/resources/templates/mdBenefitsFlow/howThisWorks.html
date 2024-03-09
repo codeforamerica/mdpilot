@@ -7,92 +7,67 @@
   <section class="slab">
     <div class="grid">
       <div th:replace="~{fragments/goBack :: goBackLink}"></div>
-      <script th:inline="javascript">
-          $(function() {
-              $('.reveal:not(.force-show-content)').removeClass('is-hiding-content');
-          });
-      </script>
-      <main id="content" role="main" class="form-card spacing-above-35"
-            th:with="maxFiles=${@environment.getProperty('form-flow.uploads.max-files')},
-                     maxSize=${@environment.getProperty('form-flow.uploads.max-file-size')}">
+      <main id="content" role="main" class="form-card spacing-above-35">
         <th:block th:replace="~{fragments/icons :: prepareToApply}"></th:block>
         <th:block
-            th:replace="~{fragments/cardHeader :: cardHeader(header=#{how-this-works.header}, subtext=#{how-this-works.subtext})}"/>
-        <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
-                controlId='r1',
-                linkLabel=~{::revealLabel1},
-                content=~{::revealContent1})}">
-          <th:block th:ref="revealLabel1">
-            <i class="icon-">&#xE862;</i>
-            <span th:text="#{how-this-works.we-will-ask}"></span>
-          </th:block>
-          <th:block th:ref="revealContent1">
-            <ul class="list--bulleted">
-              <li th:text="#{how-this-works.we-will-ask-l1}"></li>
-              <li th:text="#{how-this-works.we-will-ask-l2}"></li>
-              <li th:text="#{how-this-works.we-will-ask-l3}"></li>
-              <li th:text="#{how-this-works.we-will-ask-l4}"></li>
-            </ul>
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{how-this-works.header})}"/>
+        <p th:utext="#{how-this-works.subtext}"></p>
+        <p th:utext="#{how-this-works.we-will-ask}"></p>
+        <ul class="list--bulleted">
+          <li th:text="#{how-this-works.we-will-ask-l1}"></li>
+          <li th:text="#{how-this-works.we-will-ask-l2}"></li>
+          <li th:text="#{how-this-works.we-will-ask-l3}"></li>
+          <li th:text="#{how-this-works.we-will-ask-l4}"></li>
+          <li th:text="#{how-this-works.we-will-ask-l5}"></li>
+          <li th:text="#{how-this-works.we-will-ask-l6}"></li>
+        </ul>
+        <th:block th:replace="~{fragments/honeycrisp/accordion :: accordion(
+          buttonLabel=#{how-this-works.who-can},
+          content=~{::who})}">
+            <th:block th:ref="who">
+             <p th:text="#{how-this-works.who-can-l1}"></p>
+              <p th:text="#{how-this-works.who-can-l2}"></p>
+            </th:block>
+        </th:block>
+        <th:block th:replace="~{fragments/honeycrisp/accordion :: accordion(
+          buttonLabel=#{how-this-works.after},
+          content=~{::after})}">
+          <th:block th:ref="after">
+            <p th:text="#{how-this-works.after-l1}"></p>
+            <p th:text="#{how-this-works.after-l2}"></p>
           </th:block>
         </th:block>
-
-        <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
-                controlId='r2',
-                linkLabel=~{::revealLabel2},
-                content=~{::revealContent2})}">
-          <th:block th:ref="revealLabel2">
-            <i class="icon-">&#xE862;</i>
-            <span th:text="#{how-this-works.submitting-an-incomplete-app}"></span>
-          </th:block>
-          <th:block th:ref="revealContent2">
-            <p th:text="#{how-this-works.submitting-an-incomplete-app-l1}"></p>
-            <p th:text="#{how-this-works.submitting-an-incomplete-app-l2}"></p>
+        <th:block th:replace="~{fragments/honeycrisp/accordion :: accordion(
+          buttonLabel=#{how-this-works.how-soon},
+          content=~{::how-soon})}">
+          <th:block th:ref="how-soon">
+            <p th:text="#{how-this-works.how-soon-l1}"></p>
+            <p th:text="#{how-this-works.how-soon-l2}"></p>
+            <p th:text="#{how-this-works.how-soon-l3}"></p>
           </th:block>
         </th:block>
-
-        <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
-                controlId='r3',
-                linkLabel=~{::revealLabel3},
-                content=~{::revealContent3})}">
-          <th:block th:ref="revealLabel3">
-            <i class="icon-">&#xE862;</i>
-            <span th:text="#{how-this-works.adding-documents}"></span>
-          </th:block>
-          <th:block th:ref="revealContent3">
-            <ul class="list--bulleted">
-              <li th:text="#{how-this-works.adding-documents-l1}"></li>
-              <li th:text="#{how-this-works.adding-documents-l2}"></li>
-              <li th:text="#{how-this-works.adding-documents-l3}"></li>
-            </ul>
+        <th:block th:replace="~{fragments/honeycrisp/accordion :: accordion(
+          buttonLabel=#{how-this-works.minimum-application},
+          content=~{::minimum-application})}">
+          <th:block th:ref="minimum-application">
+            <p th:text="#{how-this-works.minimum-application-l1}"></p>
+            <p th:utext="#{how-this-works.minimum-application-l2}"></p>
+            <p th:utext="#{how-this-works.minimum-application-l3}"></p>
+            <p th:utext="#{how-this-works.minimum-application-l4}"></p>
           </th:block>
         </th:block>
-
-        <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
-                controlId='r4',
-                linkLabel=~{::revealLabel4},
-                content=~{::revealContent4},
-                forceShowContent='true')}">
-          <th:block th:ref="revealLabel4">
-            <i class="icon-">&#xE862;</i>
-            <span th:text="#{how-this-works.after-you-submit}"></span>
-          </th:block>
-          <th:block th:ref="revealContent4">
-            <p th:text="#{how-this-works.after-you-submit-l1}"></p>
-            <p th:utext="#{how-this-works.after-you-submit-l2}"></p>
-            <p th:text="#{how-this-works.after-you-submit-l3}"></p>
+        <th:block th:replace="~{fragments/honeycrisp/accordion :: accordion(
+          buttonLabel=#{how-this-works.add-documents},
+          content=~{::add-documents})}">
+          <th:block th:ref="add-documents"
+                    th:with="email=${inputData.county == 'BALTIMORE' ? '<a href=&quot;mailto:baltimorecounty.dmc@maryland.gov&quot; target=&quot;_blank&quot;>baltimorecounty.dmc@maryland.gov</a>' : 
+                    (inputData.county == 'QUEEN_ANNES' ? '<a href=&quot;mailto:qacfia.customeraccount@maryland.gov&quot; target=&quot;_blank&quot;>qacfia.customeraccount@maryland.gov</a>' : null)}">
+            <p th:text="#{how-this-works.add-documents-l1}"></p>
+            <p th:utext="#{how-this-works.add-documents-l2}"></p>
+            <p th:utext="#{how-this-works.add-documents-l3}"></p>
+            <p th:utext="#{how-this-works.add-documents-l4(${email})}"></p>
           </th:block>
         </th:block>
-
-        <div class="form-card__footer spacing-below-60">
-          <th:block th:replace="~{fragments/continueButton :: continue}"/>
-        </div>
-
-        <div class="display-flex">
-          <div class="spacing-right-10">
-            <th:block th:replace="~{fragments/icons :: filledLock}"></th:block>
-          </div>
-          <p class="text--small" th:utext="#{how-this-works.your-information-is-secure}"></p>
-        </div>
       </main>
     </div>
   </section>

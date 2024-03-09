@@ -20,6 +20,17 @@ flow:
       - name: choosePrograms
   choosePrograms:
     nextScreens:
+      - name: expeditedSnapNotice
+  expeditedSnapNotice:
+    condition: ProgramsIncludeSnap
+    nextScreens:
+      - name: ohepNotice
+  ohepNotice:
+    condition: ProgramsIncludeSnapOrTCA
+    nextScreens:
+      - name: howThisWorks
+  howThisWorks:
+    nextScreens:
       - name: signPost
   signPost:
     nextScreens:
