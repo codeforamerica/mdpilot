@@ -1,6 +1,7 @@
 package org.mdbenefits.app.cli;
 
 import com.amazonaws.services.s3.model.AmazonS3Exception;
+import com.mailgun.model.message.MessageResponse;
 import formflow.library.data.Submission;
 import formflow.library.data.UserFile;
 import formflow.library.data.UserFileRepositoryService;
@@ -32,22 +33,17 @@ import com.google.api.services.drive.model.File;
 @ShellComponent
 public class TransmissionCommands {
 
-    @Value("${google.drive.baltimore-county-directory-id}")
+    @Value("${transmission.google-drive-directory-id.baltimore-county}")
     private String BALTIMORE_COUNTY_GOOGLE_DIR_ID;
 
-    @Value("${google.drive.queen-annes-county-directory-id}")
-    private String QUEENANNES_COUNTY_GOOGLE_DIR_ID;
+    @Value("${transmission.google-drive-directory-id.queen-annes-county}")
+    private String QUEEN_ANNES_COUNTY_GOOGLE_DIR_ID;
 
-    private List<String> emailRecipients_Baltimore =
-            List.of(
-                    "bseeger+balt@codeforamerica.org",
-                    "vraj+balt@codeforamerica.org"
-            );
-    private List<String> emailRecipients_QueenAnnes =
-            List.of(
-                    "bseeger+qa@codeforamerica.org",
-                    "vraj+qa@codeforamerica.org"
-            );
+    @Value("${transmission.email-recipients.baltimore-county}")
+    private String BALITMORE_COUNTY_EMAIL_RECIPIENTS;
+
+    @Value("${transmission.email-recipients.queen-annes-county}")
+    private String QUEEN_ANNES_COUNTY_EMAIL_RECIPIENTS;
 
     private final TransmissionRepository transmissionRepository;
     private final CloudFileRepository cloudFileRepository;
@@ -204,6 +200,8 @@ public class TransmissionCommands {
     private void sendEmailToCaseworkers(Transmission transmission, String confirmationNumber, String emailAddresses,
             String googleDriveLink, Map<String, String> errorMap) {
 
+        log.info("[Transmission {}] Sending notification email to caseworkers at: {}", transmission.getId(), emailAddresses);
+
         if (emailAddresses.isEmpty()) {
             String error = "Unable to send email, as there are no recipients configured.";
             handleError(transmission, "sendingEmail", error, errorMap);
@@ -215,10 +213,14 @@ public class TransmissionCommands {
         String body = messageSource.getMessage("email-to-caseworkers.body", new Object[]{confirmationNumber, googleDriveLink},
                 null, locale);
 
-        if (mailgunEmailClient.sendEmail(subject, emailAddresses, body) == null) {
-            String error = String.format("Sending email to '%s' failed.", emailAddresses);
+        MessageResponse messageResponse = mailgunEmailClient.sendEmail(subject, emailAddresses, body);
+        if (messageResponse == null) {
+            String error = String.format("Sending email to '%s' failed: %s.", emailAddresses, messageResponse.getMessage());
             handleError(transmission, "sendingEmail", error, errorMap);
         }
+
+        log.info("[Transmission {}] email sent successfully (message: {} : {})", transmission.getId(), messageResponse.getId(),
+                messageResponse.getMessage());
     }
 
     // Set errorKey = null when the errorMsg has already been recorded in 'errorMap'
@@ -272,12 +274,10 @@ public class TransmissionCommands {
      * @return String containing the Google Drive ID.
      */
     private String getCountyFolderId(String county) {
-        return county.equals(Counties.BALTIMORE.name()) ? BALTIMORE_COUNTY_GOOGLE_DIR_ID : QUEENANNES_COUNTY_GOOGLE_DIR_ID;
+        return county.equals(Counties.BALTIMORE.name()) ? BALTIMORE_COUNTY_GOOGLE_DIR_ID : QUEEN_ANNES_COUNTY_GOOGLE_DIR_ID;
     }
 
     private String getCountyEmailRecipients(String county) {
-        List<String> recipients =
-                county.equals(Counties.BALTIMORE.name()) ? emailRecipients_Baltimore : emailRecipients_QueenAnnes;
-        return String.join(", ", recipients);
+        return county.equals(Counties.BALTIMORE.name()) ? BALITMORE_COUNTY_EMAIL_RECIPIENTS : QUEEN_ANNES_COUNTY_EMAIL_RECIPIENTS;
     }
 }

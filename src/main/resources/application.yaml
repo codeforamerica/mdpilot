@@ -34,8 +34,8 @@ form-flow:
   email-client:
     mailgun:
       key: ${MAILGUN_KEY:'no-key-set'}
-      domain: 'mail.forms-starter.cfa-platforms.org'
-      sender-email: 'MD Pilot Staging <mdpilot@mail.forms-starter.cfa-platforms.org>'
+      domain: 'mg.marylandbenefits.org'
+      sender-email: 'Maryland Benefits DEMO <help@marylandbenefits.org>'
 spring:
   flyway:
     placeholders:
@@ -103,7 +103,10 @@ server:
 management:
   endpoints:
     enabled-by-default: false
-google:
-  drive:
-    baltimore-county-directory-id: ${BALTIMORE_COUNTY_GOOGLE_DIR_ID}
-    queen-annes-county-directory-id: ${QUEENANNES_COUNTY_GOOGLE_DIR_ID}
+transmission:
+  email-recipients:
+    baltimore-county: ${BALTIMORE_COUNTY_EMAIL_ADDRESSES}
+    queen-annes-county: ${QUEENANNES_COUNTY_EMAIL_ADDRESSES}
+  google-drive-directory-id:
+    baltimore-county: ${BALTIMORE_COUNTY_GOOGLE_DIR_ID}
+    queen-annes-county: ${QUEENANNES_COUNTY_GOOGLE_DIR_ID}
