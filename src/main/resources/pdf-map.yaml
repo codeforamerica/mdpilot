@@ -42,6 +42,7 @@ inputFields:
   applicantIsEnrolledInSchool: applicant_is_in_school
   applicantRace: applicant_race
   applicantEthnicity: applicant_ethnicity
+  confirmationNumber: confirmation_number
 
   #Section M
   someoneHasDrugKingpinFelony: household_drugpin_felony_bool
