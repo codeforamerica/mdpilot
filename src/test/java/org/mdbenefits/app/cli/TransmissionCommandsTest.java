@@ -1,5 +1,6 @@
 package org.mdbenefits.app.cli;
 
+import com.mailgun.model.message.MessageResponse;
 import formflow.library.data.Submission;
 import formflow.library.data.SubmissionRepositoryService;
 import formflow.library.email.MailgunEmailClient;
@@ -27,6 +28,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @Slf4j
 @ActiveProfiles("test")
@@ -60,7 +63,7 @@ public class TransmissionCommandsTest {
                 .withPersonalInfo("John", "Doe", "10", "12", "1999",
                         "", "", "", "", "")
                 .withHouseholdMemberApplying("Betty", "White", "10", "2", "1999",
-                        "Child", "F", "NeverMarried", "firstGrade", "123456789", 
+                        "Child", "F", "NeverMarried", "firstGrade", "123456789",
                         "Yes", "Yes", List.of(RaceType.ASIAN.name()), EthnicityType.NOT_HISPANIC_OR_LATINO.name())
                 .with("county", Counties.BALTIMORE.name())
                 .build()
@@ -99,6 +102,14 @@ public class TransmissionCommandsTest {
 
     @Test
     public void ensureSubmittedSubmissionsAreEnqueued() {
+
+        MessageResponse messageResponse = MessageResponse.builder()
+                .id("12345")
+                .message("Queued. Thank you")
+                .build();
+
+        when(mailgunEmailClient.sendEmail(any(), any(), any())).thenReturn(messageResponse);
+
         List<Transmission> transmissions = transmissionRepository.findTransmissionsByStatus(TransmissionStatus.QUEUED.name());
 
         assertThat(transmissions.size()).isEqualTo(submissionList.size());

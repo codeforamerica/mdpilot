@@ -35,7 +35,10 @@ spring:
     timeout: 72h
     jdbc:
       initialize-schema: always
-google:
-  drive:
-    baltimore-county-directory-id: 12345
-    queen-annes-county-directory-id: 12345
+transmission:
+  email-recipients:
+    baltimore-county: test@maininator.com
+    queen-annes-county: test@mailinator.com
+  google-drive-directory-id:
+    baltimore-county: 12345
+    queen-annes-county: 23456
