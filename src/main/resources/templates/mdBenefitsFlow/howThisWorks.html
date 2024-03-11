@@ -13,7 +13,7 @@
             th:replace="~{fragments/cardHeader :: cardHeader(header=#{how-this-works.header})}"/>
         <p th:utext="#{how-this-works.subtext}"></p>
         <p th:utext="#{how-this-works.we-will-ask}"></p>
-        <ul class="list--bulleted">
+        <ul class="list--bulleted spacing-below-60">
           <li th:text="#{how-this-works.we-will-ask-l1}"></li>
           <li th:text="#{how-this-works.we-will-ask-l2}"></li>
           <li th:text="#{how-this-works.we-will-ask-l3}"></li>
@@ -68,6 +68,9 @@
             <p th:utext="#{how-this-works.add-documents-l4(${email})}"></p>
           </th:block>
         </th:block>
+        <div class="spacing-above-60">
+          <th:block th:replace="~{fragments/continueButton :: continue}" />
+        </div>
       </main>
     </div>
   </section>
