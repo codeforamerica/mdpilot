@@ -59,7 +59,7 @@ public class Page {
 
     public void clickButton(String buttonText) {
         checkForBadMessageKeys();
-        WebElement buttonToClick = findElementsByButtonText(buttonText);
+        WebElement buttonToClick = findElementByButtonText(buttonText);
         if (buttonToClick == null) {
             throw new RuntimeException("No button found containing text: " + buttonText);
         }
@@ -325,11 +325,18 @@ public class Page {
         return driver.findElement(By.id(id));
     }
 
-    public WebElement findElementsByButtonText(String buttonText) {
+    public WebElement findElementByButtonText(String buttonText) {
         return driver.findElements(By.className("button")).stream()
             .filter(button -> button.getText().contains(buttonText))
             .findFirst()
             .orElse(null);
+    }
+
+    public WebElement findAccordionByButtonText(String buttonText) {
+        return driver.findElements(By.className("accordion__button")).stream()
+                .filter(button -> button.getText().contains(buttonText))
+                .findFirst()
+                .orElse(null);
     }
 
     public boolean elementDoesNotExistById(String id) {

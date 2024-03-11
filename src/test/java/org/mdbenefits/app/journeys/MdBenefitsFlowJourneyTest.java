@@ -54,13 +54,13 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     void redirectToMyMDTHINKOnUnsupportedCounty() {
         testPage.navigateToFlowScreen("mdBenefitsFlow/county");
         // should redirect to MyMDTHINK
-        testPage.selectFromDropdown("county", "Frederick County");
+        testPage.selectFromDropdown("county", Counties.FREDERICK.getDisplayName());
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("redirect.mdthink.title"));
 
         // should not redirect
         testPage.navigateToFlowScreen("mdBenefitsFlow/county");
-        testPage.selectFromDropdown("county", "Baltimore County");
+        testPage.selectFromDropdown("county", Counties.BALTIMORE.getDisplayName());
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("select-app.title"));
     }
@@ -116,7 +116,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     void selectSnapOrTcaHelpAndChooseProgramFlow() {
         // select help needed
         testPage.navigateToFlowScreen("mdBenefitsFlow/county");
-        testPage.selectFromDropdown("county", "Baltimore County");
+        testPage.selectFromDropdown("county", Counties.BALTIMORE.getDisplayName());
         testPage.clickContinue();
         testPage.clickElementById("none__checkbox");
         testPage.clickContinue();
@@ -157,7 +157,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     void selectNonSnapOrTcaAndChooseProgramFlow() {
         // select help needed
         testPage.navigateToFlowScreen("mdBenefitsFlow/county");
-        testPage.selectFromDropdown("county", "Baltimore County");
+        testPage.selectFromDropdown("county", Counties.BALTIMORE.getDisplayName());
         testPage.clickContinue();
         testPage.clickElementById("none__checkbox");
         testPage.clickContinue();
@@ -447,7 +447,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickButton("Apply Now");
         assertThat(testPage.getTitle()).isEqualTo("County");
 
-        testPage.selectFromDropdown("county", "Baltimore County");
+        testPage.selectFromDropdown("county", Counties.BALTIMORE.getDisplayName());
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("Select application");
 
@@ -748,6 +748,18 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("verify-address.title"));
         assertThat(driver.findElements(By.className("notice--warning")).get(0).getText()).isEqualTo(
                 message("select-address.notice"));
+    }
+    
+    @Test
+    void howThisWorksShouldShowCorrectEmailForCounty() {
+        preloadCountyScreen(Counties.BALTIMORE.getDisplayName());
+        testPage.navigateToFlowScreen("mdBenefitsFlow/howThisWorks");
+        testPage.findAccordionByButtonText("How to add documents").click();
+        assertThat(testPage.findElementById("county-document-email").getText()).contains("baltimorecounty.dmc@maryland.gov");
+        preloadCountyScreen(Counties.QUEEN_ANNES.getDisplayName());
+        testPage.navigateToFlowScreen("mdBenefitsFlow/howThisWorks");
+        testPage.findAccordionByButtonText("How to add documents").click();
+        assertThat(testPage.findElementById("county-document-email").getText()).contains("qacfia.customeraccount@maryland.gov");
     }
 
     void loadUserPersonalData() {

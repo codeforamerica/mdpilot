@@ -60,12 +60,14 @@
           buttonLabel=#{how-this-works.add-documents},
           content=~{::add-documents})}">
           <th:block th:ref="add-documents"
-                    th:with="email=${inputData.county == 'BALTIMORE' ? '<a href=&quot;mailto:baltimorecounty.dmc@maryland.gov&quot; target=&quot;_blank&quot;>baltimorecounty.dmc@maryland.gov</a>' : 
-                    (inputData.county == 'QUEEN_ANNES' ? '<a href=&quot;mailto:qacfia.customeraccount@maryland.gov&quot; target=&quot;_blank&quot;>qacfia.customeraccount@maryland.gov</a>' : null)}">
+                    th:with="email=${inputData.county == T(org.mdbenefits.app.data.enums.Counties).BALTIMORE.name() ? 
+                    '<a href=&quot;mailto:baltimorecounty.dmc@maryland.gov&quot; target=&quot;_blank&quot;>baltimorecounty.dmc@maryland.gov</a>' : 
+                    (inputData.county == T(org.mdbenefits.app.data.enums.Counties).QUEEN_ANNES.name() ?
+                    '<a href=&quot;mailto:qacfia.customeraccount@maryland.gov&quot; target=&quot;_blank&quot;>qacfia.customeraccount@maryland.gov</a>' : null)}">
             <p th:text="#{how-this-works.add-documents-l1}"></p>
             <p th:utext="#{how-this-works.add-documents-l2}"></p>
             <p th:utext="#{how-this-works.add-documents-l3}"></p>
-            <p th:utext="#{how-this-works.add-documents-l4(${email})}"></p>
+            <p id="county-document-email" th:utext="#{how-this-works.add-documents-l4(${email})}"></p>
           </th:block>
         </th:block>
         <div class="spacing-above-60">
