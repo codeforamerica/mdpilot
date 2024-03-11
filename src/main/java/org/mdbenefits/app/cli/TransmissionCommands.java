@@ -217,10 +217,11 @@ public class TransmissionCommands {
         if (messageResponse == null) {
             String error = String.format("Sending email to '%s' failed: %s.", emailAddresses, messageResponse.getMessage());
             handleError(transmission, "sendingEmail", error, errorMap);
+        } else {
+            log.info("[Transmission {}] email sent successfully (message: {} : {})", transmission.getId(),
+                    messageResponse.getId(),
+                    messageResponse.getMessage());
         }
-
-        log.info("[Transmission {}] email sent successfully (message: {} : {})", transmission.getId(), messageResponse.getId(),
-                messageResponse.getMessage());
     }
 
     // Set errorKey = null when the errorMsg has already been recorded in 'errorMap'
