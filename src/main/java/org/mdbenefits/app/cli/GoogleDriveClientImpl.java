@@ -56,8 +56,9 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
         fileMetadata.setParents(Collections.singletonList(parentFolderId));
         fileMetadata.setMimeType("application/vnd.google-apps.folder");
         try {
+            String properties = String.join(",", GoogleDriveFolder.properties);
             File file = service.files().create(fileMetadata)
-                    .setFields("id, webViewLink")
+                    .setFields(properties)
                     .execute();
             log.info("Created Google Drive Folder with ID: " + file.getId());
             return new GoogleDriveFolder(file);
