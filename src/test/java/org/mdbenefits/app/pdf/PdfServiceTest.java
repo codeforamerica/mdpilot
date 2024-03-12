@@ -8,6 +8,7 @@ import formflow.library.data.Submission;
 import formflow.library.pdf.PdfService;
 import java.io.File;
 import java.io.IOException;
+import java.time.OffsetDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.SubmissionTestBuilder;
@@ -54,20 +55,32 @@ class PDFServiceTest {
                 .with("someoneConvictedForTradingBenefits", "true")
                 .with("someoneIsReceivingBenefitsWithFakeID", "false")
                 .with("applicantRace[]", List.of(RaceType.ASIAN.name(), RaceType.WHITE.name()))
+                .with("confirmationNumber", "M123456789")
                 .build();
 
         submission.setFlow("mdBenefitsFlow");
+        submission.setSubmittedAt(OffsetDateTime.parse("2024-01-01T00:00:00Z"));
 
         File pdfFile = pdfService.generate(submission);
-
+        // Cover page 1
         String page1 = getPageText(pdfFile, 1);
+        // Confirmation number
+        assertThat(page1).contains("M123456789");
+        // Applicant full name
         assertThat(page1).contains("Doe, John");
+        // Submission Date
+        assertThat(page1).contains("01/01/2024");
+        // Applicant Phone
+        assertThat(page1).contains("(510) 555-1212");
+        // 9701 Page 1
+        String page4 = getPageText(pdfFile, 4);
+        assertThat(page4).contains("Doe, John");
 
-        String page2 = getPageText(pdfFile, 2);
+        String page5 = getPageText(pdfFile, 5);
         // applicant DOB
-        assertThat(page2).contains("12/10/1999");
+        assertThat(page5).contains("12/10/1999");
         // applicant Race
-        assertThat(page2).contains("2,5");
+        assertThat(page5).contains("2,5");
     }
 
     private static String getPageText(File file, int page) throws IOException {
