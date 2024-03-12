@@ -14,6 +14,7 @@ inputFields:
   #Page1
   applicantFullName: applicant_full_name
   phoneNumber: applicant_home_phone_number
+  emailAddress: applicant_email
   homeAddressStreetAddress1: applicant_home_address_line1
   homeAddressStreetAddress2: applicant_home_address_line2
   homeAddressCity: applicant_home_address_city
