@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head(title=#{expedited-snap-notice.title})}"></head>
+<head th:replace="~{fragments/head :: head(title=#{ohep-notice.title})}"></head>
 <body>
 <div class="page-wrapper">
   <div th:replace="~{fragments/toolbar :: toolbar}"></div>
@@ -10,13 +10,19 @@
       <main id="content" role="main" class="form-card spacing-above-35 expedited-snap-notice">
         <th:block th:replace="~{fragments/icons :: choosePrograms}"></th:block>
         <th:block
-            th:replace="~{fragments/cardHeader :: cardHeader(header=#{expedited-snap-notice.header})}"/>
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{ohep-notice.header})}"/>
         <div class="form-card__content">
-          <p class="h2" th:text="#{expedited-snap-notice.no-income}"></p>
-          <p class="h2 spacing-below-95" th:text="#{expedited-snap-notice.expedited-snap}"></p>
+          <th:block th:replace="~{fragments/honeycrisp/accordion :: accordion(
+            buttonLabel=#{ohep-notice.ohep},
+            content=~{:: content})}">
+              <th:block th:ref="content">
+                <p th:text="#{ohep-notice.ohep-l1}"></p>
+                <p th:text="#{ohep-notice.ohep-l2}"></p>
+              </th:block>
+          </th:block>
         </div>
         <div class="form-card__footer">
-          <th:block th:replace="~{fragments/continueButton :: continue}"/>
+          <th:block th:replace="~{fragments/continueButton :: continue(text=#{general.ok-thanks})}"/>
         </div>
       </main>
     </div>

@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.enums.ApplicantObjective;
+import org.mdbenefits.app.data.enums.Counties;
 import org.mdbenefits.app.data.enums.EthnicityType;
 import org.mdbenefits.app.testutils.AbstractBasePageTest;
 import org.openqa.selenium.By;
@@ -53,19 +54,20 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     void redirectToMyMDTHINKOnUnsupportedCounty() {
         testPage.navigateToFlowScreen("mdBenefitsFlow/county");
         // should redirect to MyMDTHINK
-        testPage.selectFromDropdown("county", "Frederick County");
+        testPage.selectFromDropdown("county", Counties.FREDERICK.getDisplayName());
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("redirect.mdthink.title"));
 
         // should not redirect
         testPage.navigateToFlowScreen("mdBenefitsFlow/county");
-        testPage.selectFromDropdown("county", "Baltimore County");
+        testPage.selectFromDropdown("county", Counties.BALTIMORE.getDisplayName());
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("select-app.title"));
     }
 
     @Test
     void selectNotSureHelpNeededAndChooseProgramFlow() {
+        preloadCountyScreen(Counties.BALTIMORE.getDisplayName());
         // select help needed
         testPage.navigateToFlowScreen("mdBenefitsFlow/selectHelpNeeded");
         testPage.clickContinue();
@@ -94,6 +96,18 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         testPage.clickElementById("programs-SNAP");
         testPage.clickContinue();
+        
+        // Expedited Snap Notice
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-notice.title"));
+        testPage.clickContinue();
+        
+        // OHEP Notice
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-notice.title"));
+        testPage.clickButton("Ok, thanks");
+        
+        // How this works
+        assertThat(testPage.getTitle()).isEqualTo(message("how-this-works.title"));
+        testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("signpost.title"));
     }
@@ -101,9 +115,13 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     @Test
     void selectSnapOrTcaHelpAndChooseProgramFlow() {
         // select help needed
-        testPage.navigateToFlowScreen("mdBenefitsFlow/selectHelpNeeded");
+        testPage.navigateToFlowScreen("mdBenefitsFlow/county");
+        testPage.selectFromDropdown("county", Counties.BALTIMORE.getDisplayName());
+        testPage.clickContinue();
+        testPage.clickElementById("none__checkbox");
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("Select help");
+        testPage.clickContinue();
         assert (testPage.hasErrorText(message("error.missing-general")));
 
         testPage.clickElementById("helpNeeded-FOOD");
@@ -126,20 +144,27 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         testPage.clickElementById("programs-SNAP");
         testPage.clickContinue();
-
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-notice.title"));
+        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-notice.title"));
+        testPage.clickButton("Ok, thanks");
+        assertThat(testPage.getTitle()).isEqualTo(message("how-this-works.title"));
+        testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("signpost.title"));
     }
 
     @Test
     void selectNonSnapOrTcaAndChooseProgramFlow() {
         // select help needed
-        testPage.navigateToFlowScreen("mdBenefitsFlow/selectHelpNeeded");
+        testPage.navigateToFlowScreen("mdBenefitsFlow/county");
+        testPage.selectFromDropdown("county", Counties.BALTIMORE.getDisplayName());
+        testPage.clickContinue();
+        testPage.clickElementById("none__checkbox");
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("Select help");
+        testPage.clickContinue();
         assert (testPage.hasErrorText(message("error.missing-general")));
-
         testPage.clickElementById("helpNeeded-REFUGEE");
-
         testPage.clickContinue();
 
         // choose program flow
@@ -157,7 +182,8 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         testPage.clickElementById("programs-RCA");
         testPage.clickContinue();
-
+        assertThat(testPage.getTitle()).isEqualTo(message("how-this-works.title"));
+        testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("signpost.title"));
     }
 
@@ -421,7 +447,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickButton("Apply Now");
         assertThat(testPage.getTitle()).isEqualTo("County");
 
-        testPage.selectFromDropdown("county", "Baltimore County");
+        testPage.selectFromDropdown("county", Counties.BALTIMORE.getDisplayName());
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("Select application");
 
@@ -436,6 +462,18 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         // choose program
         assertThat(testPage.getTitle()).isEqualTo(message("choose-programs.title"));
 
+        testPage.clickContinue();
+        
+        // Expedited Snap Notice
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-notice.title"));
+        testPage.clickContinue();
+        
+        // OHEP Notice
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-notice.title"));
+        testPage.clickButton("Ok, thanks");
+        
+        // How this works
+        assertThat(testPage.getTitle()).isEqualTo(message("how-this-works.title"));
         testPage.clickContinue();
 
         // Signpost
@@ -711,6 +749,18 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(driver.findElements(By.className("notice--warning")).get(0).getText()).isEqualTo(
                 message("select-address.notice"));
     }
+    
+    @Test
+    void howThisWorksShouldShowCorrectEmailForCounty() {
+        preloadCountyScreen(Counties.BALTIMORE.getDisplayName());
+        testPage.navigateToFlowScreen("mdBenefitsFlow/howThisWorks");
+        testPage.findAccordionByButtonText("How to add documents").click();
+        assertThat(testPage.findElementById("county-document-email").getText()).contains("baltimorecounty.dmc@maryland.gov");
+        preloadCountyScreen(Counties.QUEEN_ANNES.getDisplayName());
+        testPage.navigateToFlowScreen("mdBenefitsFlow/howThisWorks");
+        testPage.findAccordionByButtonText("How to add documents").click();
+        assertThat(testPage.findElementById("county-document-email").getText()).contains("qacfia.customeraccount@maryland.gov");
+    }
 
     void loadUserPersonalData() {
         testPage.navigateToFlowScreen("mdBenefitsFlow/personalInfo");
@@ -759,5 +809,11 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("household-income.title"));
         testPage.clickButton("Yes");
 
+    }
+    
+    void preloadCountyScreen(String county) {
+        testPage.navigateToFlowScreen("mdBenefitsFlow/county");
+        testPage.selectFromDropdown("county", county);
+        testPage.clickContinue();
     }
 }

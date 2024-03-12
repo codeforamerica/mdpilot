@@ -491,3 +491,7 @@ li li {
 .form-group-spacing-half .form-group {
   margin-bottom: 4rem;
 }
+
+.expedited-snap-notice header {
+  margin-bottom: 2.5rem;
+}
