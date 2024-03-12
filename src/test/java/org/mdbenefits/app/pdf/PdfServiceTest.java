@@ -69,18 +69,18 @@ class PDFServiceTest {
         // Applicant full name
         assertThat(page1).contains("Doe, John");
         // Submission Date
-        assertThat(page1).contains("01/01/2-24");
+        assertThat(page1).contains("01/01/2024");
         // Applicant Phone
         assertThat(page1).contains("(510) 555-1212");
         // 9701 Page 1
-        String page1 = getPageText(pdfFile, 3);
-        assertThat(page1).contains("Doe, John");
+        String page4 = getPageText(pdfFile, 4);
+        assertThat(page4).contains("Doe, John");
 
-        String page2 = getPageText(pdfFile, 4);
+        String page5 = getPageText(pdfFile, 5);
         // applicant DOB
-        assertThat(page2).contains("12/10/1999");
+        assertThat(page5).contains("12/10/1999");
         // applicant Race
-        assertThat(page2).contains("2,5");
+        assertThat(page5).contains("2,5");
     }
 
     private static String getPageText(File file, int page) throws IOException {
