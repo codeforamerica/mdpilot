@@ -215,7 +215,7 @@ public class TransmissionCommands {
 
         MessageResponse messageResponse = mailgunEmailClient.sendEmail(subject, emailAddresses, body);
         if (messageResponse == null) {
-            String error = String.format("Sending email to '%s' failed: %s.", emailAddresses, messageResponse.getMessage());
+            String error = String.format("Sending email to '%s' failed", emailAddresses);
             handleError(transmission, "sendingEmail", error, errorMap);
         } else {
             log.info("[Transmission {}] email sent successfully (message: {} : {})", transmission.getId(),
