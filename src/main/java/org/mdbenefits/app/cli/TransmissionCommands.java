@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.mdbenefits.app.data.Transmission;
 import org.mdbenefits.app.data.TransmissionRepository;
@@ -23,14 +23,16 @@ import org.mdbenefits.app.data.enums.Counties;
 import org.mdbenefits.app.data.enums.TransmissionStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.shell.standard.ShellComponent;
-import org.springframework.shell.standard.ShellMethod;
 import org.springframework.stereotype.Service;
 import com.google.api.services.drive.model.File;
 
 @Slf4j
 @Service
 @ShellComponent
+@EnableScheduling
 public class TransmissionCommands {
 
     @Value("${transmission.google-drive-directory-id.baltimore-county}")
@@ -72,14 +74,19 @@ public class TransmissionCommands {
         this.messageSource = messageSource;
     }
 
-    // TODO:  ensure only one running at a time via @Scheduled config (another ticket, I think)
-    // I think there is a configuration where we can specify that that the next one cannot start
-    // until the first one is done.
-    //
-    //@Scheduled(fixedRateString = "${transmissions.wic-ece-transmission-rate}")
-    @ShellMethod(key = "send-files")
+    /**
+     * A method to transmit records from our system to the state system. It will run 60 seconds after the system starts up, and
+     * then every 5 minutes (300 seconds) after that. This interval can be configured via the application.yaml file.
+     * <p>
+     * This uses fixedDelay, which means that the next run will not start until the first one has ended.
+     */
+    @Scheduled(
+            timeUnit = TimeUnit.SECONDS,
+            initialDelayString = "${transmission.transmission-initial-delay-seconds:60}",
+            fixedDelayString = "${transmission.transmission-rate-seconds:300}"
+    )
     public void transmit() {
-        log.info("[Transmission] Finding submissions to transmit...");
+        log.info("[Transmission] Checking for submissions to transmit...");
 
         List<Transmission> queuedTransmissions = transmissionRepository.findTransmissionsByStatus("QUEUED");
         if (queuedTransmissions.isEmpty()) {

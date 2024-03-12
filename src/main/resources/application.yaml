@@ -104,6 +104,8 @@ management:
   endpoints:
     enabled-by-default: false
 transmission:
+  transmission-initial-delay-seconds: 60
+  transmission-rate-seconds: 300
   email-recipients:
     baltimore-county: ${BALTIMORE_COUNTY_EMAIL_ADDRESSES}
     queen-annes-county: ${QUEENANNES_COUNTY_EMAIL_ADDRESSES}
