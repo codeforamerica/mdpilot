@@ -6,10 +6,16 @@ import formflow.library.data.SubmissionRepositoryService;
 import formflow.library.email.MailgunEmailClient;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.mdbenefits.app.data.enums.EthnicityType;
 import org.mdbenefits.app.data.SubmissionTestBuilder;
 import org.mdbenefits.app.data.Transmission;
@@ -23,17 +29,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.context.MessageSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @Slf4j
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@TestInstance(Lifecycle.PER_CLASS)
+@TestMethodOrder(OrderAnnotation.class)
 public class TransmissionCommandsTest {
 
     @MockBean
@@ -46,14 +58,14 @@ public class TransmissionCommandsTest {
     TransmissionRepository transmissionRepository;
     @Autowired
     JdbcTemplate jdbcTemplate;
-    @Autowired
+    @SpyBean
     TransmissionCommands transmissionCommands;
 
     private HandleApplicationSigned handleApplicationSigned;
 
-    private List<Submission> submissionList = new ArrayList<>();
+    private final List<Submission> submissionList = new ArrayList<>();
 
-    @BeforeEach
+    @BeforeAll
     void setup() {
         handleApplicationSigned = new HandleApplicationSigned(messageSource, mailgunEmailClient, submissionRepositoryService,
                 transmissionRepository, jdbcTemplate);
@@ -98,10 +110,6 @@ public class TransmissionCommandsTest {
                     submissionRepositoryService.save(s);
                 }
         );
-    }
-
-    @Test
-    public void ensureSubmittedSubmissionsAreEnqueued() {
 
         MessageResponse messageResponse = MessageResponse.builder()
                 .id("12345")
@@ -109,18 +117,39 @@ public class TransmissionCommandsTest {
                 .build();
 
         when(mailgunEmailClient.sendEmail(any(), any(), any())).thenReturn(messageResponse);
+    }
 
+    @Test
+    @Order(1)
+    public void ensureSubmittedSubmissionsAreEnqueued() {
         List<Transmission> transmissions = transmissionRepository.findTransmissionsByStatus(TransmissionStatus.QUEUED.name());
 
         assertThat(transmissions.size()).isEqualTo(submissionList.size());
+    }
 
-        transmissionCommands.transmit();
+    @Test
+    @Order(2)
+    public void transmitterRunsAndProcessesWork() {
+        // Note: if more submitted submissions are added it may take longer than 13 seconds to process everything.
+        await().atMost(13, TimeUnit.SECONDS).untilAsserted(
+                () -> verify(transmissionCommands, times(2)).transmit());
 
+        // ensure that all transmissions were processed
         assertThat(transmissionRepository.findTransmissionsByStatus(TransmissionStatus.QUEUED.name()).isEmpty()).isTrue();
 
         submissionList.forEach(s -> {
             Transmission transmission = transmissionRepository.findTransmissionBySubmission(s);
             assertThat(transmission.getStatus().equals(TransmissionStatus.COMPLETED.name())).isTrue();
         });
+    }
+
+    @Test
+    @Order(3)
+    public void transmitterRunsWhenNoWorkIsQueued() {
+
+        assertThat(transmissionRepository.findTransmissionsByStatus(TransmissionStatus.QUEUED.name())).isEmpty();
+
+        await().atMost(12, TimeUnit.SECONDS).untilAsserted(
+                () -> verify(transmissionCommands, times(2)).transmit());
     }
 }

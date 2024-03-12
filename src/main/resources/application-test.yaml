@@ -36,6 +36,8 @@ spring:
     jdbc:
       initialize-schema: always
 transmission:
+  transmission-rate-seconds: 5
+  transmission-initial-delay-seconds: 2
   email-recipients:
     baltimore-county: test@maininator.com
     queen-annes-county: test@mailinator.com
