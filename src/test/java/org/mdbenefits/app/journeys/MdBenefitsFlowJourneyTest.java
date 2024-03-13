@@ -96,15 +96,15 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         testPage.clickElementById("programs-SNAP");
         testPage.clickContinue();
-        
+
         // Expedited Snap Notice
         assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-notice.title"));
         testPage.clickContinue();
-        
+
         // OHEP Notice
         assertThat(testPage.getTitle()).isEqualTo(message("ohep-notice.title"));
         testPage.clickButton("Ok, thanks");
-        
+
         // How this works
         assertThat(testPage.getTitle()).isEqualTo(message("how-this-works.title"));
         testPage.clickContinue();
@@ -463,15 +463,15 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("choose-programs.title"));
 
         testPage.clickContinue();
-        
+
         // Expedited Snap Notice
         assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-notice.title"));
         testPage.clickContinue();
-        
+
         // OHEP Notice
         assertThat(testPage.getTitle()).isEqualTo(message("ohep-notice.title"));
         testPage.clickButton("Ok, thanks");
-        
+
         // How this works
         assertThat(testPage.getTitle()).isEqualTo(message("how-this-works.title"));
         testPage.clickContinue();
@@ -749,7 +749,27 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(driver.findElements(By.className("notice--warning")).get(0).getText()).isEqualTo(
                 message("select-address.notice"));
     }
-    
+
+    @Test
+    void shouldEditMailingAddressWhenNoHomeAddressAndEditRequested() throws SmartyException, IOException, InterruptedException {
+        when(addressValidationService.validate(any())).thenReturn(Map.of());
+        testPage.navigateToFlowScreen("mdBenefitsFlow/homeAddress");
+        testPage.clickElementById("noHomeAddress-true");
+        testPage.clickContinue();
+        testPage.enter("mailingAddressStreetAddress1", "123 Main Street");
+        testPage.enter("mailingAddressStreetAddress2", "Apt A");
+        testPage.enter("mailingAddressCity", "Some City");
+        testPage.enter("mailingAddressZipCode", "12345");
+        testPage.selectFromDropdown("mailingAddressState", "CA - California");
+        testPage.clickContinue();
+
+        testPage.clickButton(message("address-validation.button.edit-my-address"));
+        // make sure we go to the mailing address page and that there is no option
+        // to click "Same as my current living address"
+        assertThat(testPage.getTitle()).isEqualTo(message("mailing-address.title"));
+        assertThat(testPage.elementDoesNotExistById("sameAsHomeAddress-true")).isTrue();
+    }
+
     @Test
     void howThisWorksShouldShowCorrectEmailForCounty() {
         preloadCountyScreen(Counties.BALTIMORE.getDisplayName());
@@ -810,7 +830,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("household-income.title"));
         testPage.clickButton("Yes");
     }
-    
+
     void preloadCountyScreen(String county) {
         testPage.navigateToFlowScreen("mdBenefitsFlow/county");
         testPage.selectFromDropdown("county", county);
