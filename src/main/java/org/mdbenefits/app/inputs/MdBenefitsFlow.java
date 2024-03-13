@@ -175,6 +175,8 @@ public class MdBenefitsFlow extends FlowInputs {
 
     // Income
     private String householdHasIncome;
+    
+    private String incomeLessThan150;
 
     @NotBlank(message = "{error.missing-general}")
     private String householdMemberJobAdd;
