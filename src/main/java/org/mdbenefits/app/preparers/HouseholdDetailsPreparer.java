@@ -8,7 +8,6 @@ import formflow.library.pdf.SubmissionFieldPreparer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.mdbenefits.app.data.enums.CitizenshipStatus;
 import org.mdbenefits.app.data.enums.EthnicityType;
@@ -28,16 +27,17 @@ public class HouseholdDetailsPreparer implements SubmissionFieldPreparer {
         if (household != null) {
             int iteration = 1;  // start at one!
             for (Map<String, Object> householdMember : household) {
-                String fullName = removeTrailingCommaAndSpace(String.format("%s, %s, %s", 
-                    householdMember.get("householdMemberLastName"),
-                    householdMember.get("householdMemberFirstName"), 
-                    householdMember.getOrDefault("householdMemberMiddleName", "")));
+                String fullName = removeTrailingCommaAndSpace(String.format("%s, %s, %s",
+                        householdMember.get("householdMemberLastName"),
+                        householdMember.get("householdMemberFirstName"),
+                        householdMember.getOrDefault("householdMemberMiddleName", "")));
                 results.put("householdMemberFullName_" + iteration, new SingleField("householdMemberFullName",
                         fullName, iteration));
 
                 String applyingStatus = (String) householdMember.get("householdMemberApplyingForBenefits");
-                
-                String householdMemberRelationship = RelationshipType.getPDFValueFromValue(householdMember.get("householdMemberRelationship").toString());
+
+                String householdMemberRelationship = RelationshipType.getPDFValueFromValue(
+                        householdMember.get("householdMemberRelationship").toString());
                 results.put("householdMemberRelationship_" + iteration,
                         new SingleField("householdMemberRelationship", householdMemberRelationship, iteration));
 
@@ -53,18 +53,18 @@ public class HouseholdDetailsPreparer implements SubmissionFieldPreparer {
                             new SingleField("householdMemberCitizen", citizen, iteration));
 
                     var dob = Stream.of("householdMemberBirthMonth", "householdMemberBirthDay", "householdMemberBirthYear")
-                        .map(householdMember::get)
-                        .reduce((e, c) -> e + "/" + c)
-                        .get();
+                            .map(householdMember::get)
+                            .reduce((e, c) -> e + "/" + c)
+                            .get();
 
                     results.put("householdMemberDOB_" + iteration,
-                        new SingleField("householdMemberDOB", (String) dob, iteration));
+                            new SingleField("householdMemberDOB", (String) dob, iteration));
 
                     String householdMemberSex = householdMember.get("householdMemberSex").toString();
 
                     if (!householdMemberSex.equalsIgnoreCase("other")) {
                         results.put("householdMemberSex_" + iteration,
-                            new SingleField("householdMemberSex", householdMemberSex, iteration));
+                                new SingleField("householdMemberSex", householdMemberSex, iteration));
                     }
 
                     prepareRaceEthnicityInfo(householdMember, results, iteration);
@@ -83,7 +83,8 @@ public class HouseholdDetailsPreparer implements SubmissionFieldPreparer {
         return fullName.replaceAll(", $", "");
     }
 
-    private void prepareRaceEthnicityInfo(Map<String, Object> householdMember, Map<String, SubmissionField> results, int iteration) {
+    private void prepareRaceEthnicityInfo(Map<String, Object> householdMember, Map<String, SubmissionField> results,
+            int iteration) {
         List<String> householdMemberRace = (List) householdMember.getOrDefault("householdMemberRace[]", List.of());
         String householdMemberEthnicity = (String) householdMember.getOrDefault("householdMemberEthnicity", "");
 
@@ -92,6 +93,7 @@ public class HouseholdDetailsPreparer implements SubmissionFieldPreparer {
         String ethnicityCode = EthnicityType.getPdfValueFromValue(householdMemberEthnicity);
 
         results.put("householdMemberRace_" + iteration, new SingleField("householdMemberRace", raceCode, iteration));
-        results.put("householdMemberEthnicity_" + iteration, new SingleField("householdMemberEthnicity", ethnicityCode, iteration));
+        results.put("householdMemberEthnicity_" + iteration,
+                new SingleField("householdMemberEthnicity", ethnicityCode, iteration));
     }
 }

@@ -175,7 +175,7 @@ public class MdBenefitsFlow extends FlowInputs {
 
     // Income
     private String householdHasIncome;
-    
+
     private String incomeLessThan150;
 
     @NotBlank(message = "{error.missing-general}")
@@ -203,6 +203,27 @@ public class MdBenefitsFlow extends FlowInputs {
 
     @NotEmpty(message = "{error.missing-general}")
     private List<String> additionalIncome;
+
+    @NotEmpty(message = "{error.missing-general}")
+    private String additionalIncomeAlimony;
+    @NotEmpty(message = "{error.missing-general}")
+    private String additionalIncomeChildSupport;
+    @NotEmpty(message = "{error.missing-general}")
+    private String additionalIncomeFriendsAndFamily;
+    @NotEmpty(message = "{error.missing-general}")
+    private String additionalIncomePensionRetirement;
+    @NotEmpty(message = "{error.missing-general}")
+    private String additionalIncomeSSI;
+    @NotEmpty(message = "{error.missing-general}")
+    private String additionalIncomeSS;
+    @NotEmpty(message = "{error.missing-general}")
+    private String additionalIncomeUnemployment;
+    @NotEmpty(message = "{error.missing-general}")
+    private String additionalIncomeVeteransBenefits;
+    @NotEmpty(message = "{error.missing-general}")
+    private String additionalIncomeWorkersComp;
+    @NotEmpty(message = "{error.missing-general}")
+    private String additionalIncomeOther;
 
     @NotEmpty
     private List<String> moneyOnHandTypes;

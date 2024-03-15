@@ -214,9 +214,11 @@ flow:
     nextScreens:
       - name: householdAdditionalIncome
   householdAdditionalIncome:
+    onPostAction: ClearUnusedAdditionalIncomeFields
     nextScreens:
-      - name: householdMoneyOnHand
-        condition: ProgramsIncludeSnap
+      - name: householdAdditionalIncomeAmount
+  householdAdditionalIncomeAmount:
+    nextScreens:
       - name: expensesSignPost
   householdMoneyOnHand:
     nextScreens:
