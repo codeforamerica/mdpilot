@@ -17,7 +17,7 @@
               <h2 th:text="#{choose-programs.check-all-that-apply}"></h2>
               <th:block th:replace="~{fragments/inputs/checkboxFieldset ::
                   checkboxFieldset(inputName='programs',
-                  ariaLabel=#{choose-programs.header},
+                  ariaLabel='header',
                   content=~{::content})}">
                 <th:block th:ref="content">
                   <th:block
@@ -26,12 +26,12 @@
                         th:each="programType : ${T(org.mdbenefits.app.data.enums.ProgramType).values()}">
                       <th:block
                           th:if="${relevantPrograms.contains(programType)}">
-                      <h2
-                          th:with="shortDesc=${programType.getShortDescSrc().isBlank()} ? '' : #{${programType.getShortDescSrc()}}"
-                          th:utext="${shortDesc}">
-                      </h2>
+                        <h2
+                            th:with="shortDesc=${programType.getShortDescSrc().isBlank()} ? '' : #{${programType.getShortDescSrc()}}"
+                            th:utext="${shortDesc}">
+                        </h2>
                         <th:block
-                                  th:replace="~{fragments/inputs/checkboxInSet:: checkboxInSet(
+                            th:replace="~{fragments/inputs/checkboxInSet:: checkboxInSet(
                               inputName='programs',
                               value=${programType.name()},
                               label=#{${programType.getNameSrc()}},

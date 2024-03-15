@@ -8,6 +8,7 @@
     <div class="grid">
       <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
+        <th:block th:replace="~{fragments/icons :: assetsCashAccounts}"></th:block>
         <th:block
             th:replace="~{fragments/cardHeader :: cardHeader(header=#{additional-income.header}, subtext=#{additional-income.subtext})}"/>
         <th:block
@@ -19,22 +20,18 @@
                   ariaLabel='header',
                   content=~{::content})}">
                 <th:block th:ref="content">
-                  <th:block th:replace="~{fragments/inputs/checkboxInSet ::
-                    checkboxInSet(inputName='additionalIncome', value='SSI', label=#{additional-income.choice1})}"/>
-                  <th:block th:replace="~{fragments/inputs/checkboxInSet ::
-                    checkboxInSet(inputName='additionalIncome', value='SocialSecurity', label=#{additional-income.choice2})}"/>
-                  <th:block th:replace="~{fragments/inputs/checkboxInSet ::
-                    checkboxInSet(inputName='additionalIncome', value='Unemployment', label=#{additional-income.choice3})}"/>
-                  <th:block th:replace="~{fragments/inputs/checkboxInSet ::
-                    checkboxInSet(inputName='additionalIncome', value='WorkersCompensation', label=#{additional-income.choice4})}"/>
-                  <th:block th:replace="~{fragments/inputs/checkboxInSet ::
-                    checkboxInSet(inputName='additionalIncome', value='ChildSupport', label=#{additional-income.choice5})}"/>
-                  <th:block th:replace="~{fragments/inputs/checkboxInSet ::
-                    checkboxInSet(inputName='additionalIncome', value='VeteransBenefits', label=#{additional-income.choice6})}"/>
-                  <th:block th:replace="~{fragments/inputs/checkboxInSet ::
-                    checkboxInSet(inputName='additionalIncome', value='Contributions', label=#{additional-income.choice7})}"/>
-                  <th:block th:replace="~{fragments/inputs/checkboxInSet ::
-                    checkboxInSet(inputName='additionalIncome', value='None', label=#{general.none-of-the-above}, noneOfTheAbove=true)}"/>
+                  <th:block
+                      th:each="addIncome : ${T(org.mdbenefits.app.data.enums.AdditionalIncomeType).values()}">
+                    <th:block
+                        th:with="isOther=${addIncome.name().equals(T(org.mdbenefits.app.data.enums.AdditionalIncomeType).NONE_OF_THESE.name())}">
+                      <th:block
+                          th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(
+                        inputName='additionalIncome',
+                        value=${addIncome.name()},
+                        noneOfTheAbove=${isOther},
+                        label=#{${addIncome.getLabelSrc()}})}"/>
+                    </th:block>
+                  </th:block>
                 </th:block>
               </th:block>
             </div>

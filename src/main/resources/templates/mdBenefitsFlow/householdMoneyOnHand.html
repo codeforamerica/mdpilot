@@ -16,10 +16,10 @@
             th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
           <th:block th:ref="formContent">
             <div class="form-card__content">
-              <th:block th:replace="~{fragments/inputs/checkboxFieldset ::
-                checkboxFieldset(inputName='moneyOnHandTypes',
-                ariaLabel=#{moneyonhand-types.header},
-                content=~{::moneyOnHand})}">
+              <th:block th:replace="~{fragments/inputs/checkboxFieldset :: checkboxFieldset(
+                  inputName='moneyOnHandTypes',
+                  ariaLabel='header',
+                  content=~{::moneyOnHand})}">
                 <th:block th:ref="moneyOnHand">
                   <th:block
                       th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(inputName='moneyOnHandTypes',value=#{moneyonhand-types.option1}, label=#{moneyonhand-types.option1})}"/>
