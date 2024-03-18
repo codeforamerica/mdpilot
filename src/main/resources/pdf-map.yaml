@@ -45,6 +45,52 @@ inputFields:
   applicantEthnicity: applicant_ethnicity
   confirmationNumber: confirmation_number
 
+  #Section J
+  additionalIncome:
+    ALIMONY: ADDITIONAL_INCOME_ALIMONY
+    CHILD_SUPPORT: ADDITIONAL_INCOME_CHILD_SUPPORT
+    FRIENDS_FAMILY_CONTRIBUTION: ADDITIONAL_INCOME_FRIENDS_RELATIVES
+    PENSION_RETIREMENT: ADDITIONAL_INCOME_PENSION_RETIREMENT
+    SUPPLEMENTAL_SECURITY_INCOME: ADDITIONAL_INCOME_SSI
+    SOCIAL_SECURITY: ADDITIONAL_INCOME_SOCIAL_SECURITY
+    UNEMPLOYMENT: ADDITIONAL_INCOME_UNEMPLOYMENT
+    VETERANS_BENEFITS: ADDITIONAL_INCOME_VETERANS_BENEFITS
+    WORKERS_COMPENSATION: ADDITIONAL_INCOME_WORKERS_COMP
+    OTHER: ADDITIONAL_INCOME_OTHER
+
+  additionalIncomeTypeOfBenefitRow1: TYPE_OF_BENEFIT_ROW1
+  additionalIncomeTypeOfBenefitRow2: TYPE_OF_BENEFIT_ROW2
+  additionalIncomeTypeOfBenefitRow3: TYPE_OF_BENEFIT_ROW3
+  additionalIncomeTypeOfBenefitRow4: TYPE_OF_BENEFIT_ROW4
+  additionalIncomeTypeOfBenefitRow5: TYPE_OF_BENEFIT_ROW5
+  additionalIncomeTypeOfBenefitRow6: TYPE_OF_BENEFIT_ROW6
+  additionalIncomeTypeOfBenefitRow7: TYPE_OF_BENEFIT_ROW7
+  additionalIncomeTypeOfBenefitRow8: TYPE_OF_BENEFIT_ROW8
+  additionalIncomeTypeOfBenefitRow9: TYPE_OF_BENEFIT_ROW9
+  additionalIncomeTypeOfBenefitRow10: TYPE_OF_BENEFIT_ROW10
+
+  additionalIncomeAmountRow1: ADDITIONAL_INCOME_AMOUNT_ROW1
+  additionalIncomeAmountRow2: ADDITIONAL_INCOME_AMOUNT_ROW2
+  additionalIncomeAmountRow3: ADDITIONAL_INCOME_AMOUNT_ROW3
+  additionalIncomeAmountRow4: ADDITIONAL_INCOME_AMOUNT_ROW4
+  additionalIncomeAmountRow5: ADDITIONAL_INCOME_AMOUNT_ROW5
+  additionalIncomeAmountRow6: ADDITIONAL_INCOME_AMOUNT_ROW6
+  additionalIncomeAmountRow7: ADDITIONAL_INCOME_AMOUNT_ROW7
+  additionalIncomeAmountRow8: ADDITIONAL_INCOME_AMOUNT_ROW8
+  additionalIncomeAmountRow9: ADDITIONAL_INCOME_AMOUNT_ROW9
+  additionalIncomeAmountRow10: ADDITIONAL_INCOME_AMOUNT_ROW10
+
+  additionalIncomeReceivedRow1: ADDITIONAL_INCOME_RECEIVED_ROW1
+  additionalIncomeReceivedRow2: ADDITIONAL_INCOME_RECEIVED_ROW2
+  additionalIncomeReceivedRow3: ADDITIONAL_INCOME_RECEIVED_ROW3
+  additionalIncomeReceivedRow4: ADDITIONAL_INCOME_RECEIVED_ROW4
+  additionalIncomeReceivedRow5: ADDITIONAL_INCOME_RECEIVED_ROW5
+  additionalIncomeReceivedRow6: ADDITIONAL_INCOME_RECEIVED_ROW6
+  additionalIncomeReceivedRow7: ADDITIONAL_INCOME_RECEIVED_ROW7
+  additionalIncomeReceivedRow8: ADDITIONAL_INCOME_RECEIVED_ROW8
+  additionalIncomeReceivedRow9: ADDITIONAL_INCOME_RECEIVED_ROW9
+  additionalIncomeReceivedRow10: ADDITIONAL_INCOME_RECEIVED_ROW10
+
   #Section M
   someoneHasDrugKingpinFelony: household_drugpin_felony_bool
   someoneHasVolumeDrugDealerFelony: household_volume_drug_dealer_felony_bool

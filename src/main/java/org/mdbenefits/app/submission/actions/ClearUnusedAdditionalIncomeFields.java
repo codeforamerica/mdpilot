@@ -6,6 +6,7 @@ import formflow.library.data.Submission;
 import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.mdbenefits.app.data.enums.AdditionalIncomeType;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,37 +24,12 @@ public class ClearUnusedAdditionalIncomeFields implements Action {
     public void run(FormSubmission formSubmission, Submission submission) {
         Map<String, String> submissionInputData = (Map) submission.getInputData();
         List<String> additionalIncomeTypes = (List) formSubmission.getFormData().getOrDefault("additionalIncome[]", List.of());
-        boolean none = additionalIncomeTypes.contains("NONE_OF_THESE");
+        boolean none = additionalIncomeTypes.contains("NONE");
 
-        if (none || !additionalIncomeTypes.contains("ALIMONY")) {
-            submissionInputData.remove("additionalIncomeAlimony");
-        }
-        if (none || !additionalIncomeTypes.contains("CHILD_SUPPORT")) {
-            submissionInputData.remove("additionalIncomeChildSupport");
-        }
-        if (none || !additionalIncomeTypes.contains("FRIENDS_FAMILY_CONTRIBUTION")) {
-            submissionInputData.remove("additionalIncomeFriendsAndFamily");
-        }
-        if (none || !additionalIncomeTypes.contains("PENSION_RETIREMENT")) {
-            submissionInputData.remove("additionalIncomePensionRetirement");
-        }
-        if (none || !additionalIncomeTypes.contains("SUPPLEMENTAL_SECURITY_INCOME")) {
-            submissionInputData.remove("additionalIncomeSSI");
-        }
-        if (none || !additionalIncomeTypes.contains("SOCIAL_SECURITY")) {
-            submissionInputData.remove("additionalIncomeSS");
-        }
-        if (none || !additionalIncomeTypes.contains("UNEMPLOYMENT")) {
-            submissionInputData.remove("additionalIncomeUnemployment");
-        }
-        if (none || !additionalIncomeTypes.contains("VETERANS_BENEFITS")) {
-            submissionInputData.remove("additionalIncomeVeteransBenefits");
-        }
-        if (none || !additionalIncomeTypes.contains("WORKERS_COMPENSATION")) {
-            submissionInputData.remove("additionalIncomeWorkersComp");
-        }
-        if (none || !additionalIncomeTypes.contains("OTHER")) {
-            submissionInputData.remove("additionalIncomeOther");
+        for (AdditionalIncomeType type : AdditionalIncomeType.values()) {
+            if (none || !additionalIncomeTypes.contains(type.name())) {
+                submissionInputData.remove(type.getInputFieldName());
+            }
         }
     }
 

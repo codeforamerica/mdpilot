@@ -3,16 +3,36 @@ package org.mdbenefits.app.preparers;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import formflow.library.data.Submission;
+import formflow.library.pdf.SingleField;
+import formflow.library.pdf.SubmissionField;
+import java.util.List;
+import java.util.Map;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.SubmissionTestBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.MessageSource;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("test")
+@SpringBootTest
 class IncomeDetailsPreparerTest {
 
-    private final IncomeDetailsPreparer preparer = new IncomeDetailsPreparer();
+
+    @Autowired
+    private MessageSource messageSource;
+
+    private IncomeDetailsPreparer incomePreparer;
+
+    @BeforeEach
+    void setup() {
+        incomePreparer = new IncomeDetailsPreparer(messageSource);
+    }
 
     @Test
-    public void testNoJobs() {
-        var results = preparer.prepareSubmissionFields(new Submission(), null);
+    public void testNoJobsNoAdditionalIncome() {
+        var results = incomePreparer.prepareSubmissionFields(new Submission(), null);
         assertThat(results).isEmpty();
     }
 
@@ -25,9 +45,57 @@ class IncomeDetailsPreparerTest {
                 .withJob("Ydopa Aksj", "CiA", "It varies", "1000", "false")
                 .build();
 
-        var results = preparer.prepareSubmissionFields(submission, null);
+        var results = incomePreparer.prepareSubmissionFields(submission, null);
         assertThat(results.size()).isEqualTo(20);
     }
 
+    @Test
+    public void testAdditionalIncomeOfNone() {
+        Submission submission = new SubmissionTestBuilder()
+                .with("additionalIncome[]", List.of("NONE"))
+                .build();
 
+        var results = incomePreparer.prepareSubmissionFields(submission, null);
+        assertThat(results).isEmpty();
+    }
+
+    @Test
+    public void testAdditionalIncome() {
+        Submission submission = new SubmissionTestBuilder()
+                .with("additionalIncome[]",
+                        List.of(
+                                "ALIMONY",
+                                "CHILD_SUPPORT",
+                                "UNEMPLOYMENT",
+                                "PENSION_RETIREMENT",
+                                "SOCIAL_SECURITY",
+                                "WORKERS_COMPENSATION",
+                                "VETERANS_BENEFITS"))
+                .with("additionalIncomeAlimony", "500")
+                .with("additionalIncomeChildSupport", "200")
+                .with("additionalIncomeUnemployment", "200")
+                .with("additionalIncomePensionRetirement", "200")
+                .with("additionalIncomeSS", "200")
+                .with("additionalIncomeWorkersComp", "200")
+                .with("additionalIncomeVeteransBenefits", "200")
+                .build();
+        Map<String, SubmissionField> fields = incomePreparer.prepareSubmissionFields(submission, null);
+        assertThat(fields.size()).isEqualTo(21);
+
+        // spot check
+        SingleField alimonySingleField = (SingleField) fields.get("additionalIncomeTypeOfBenefitRow1");
+        assertThat(alimonySingleField.getValue()).isEqualTo("Alimony");
+
+        SingleField alimonySingleFieldAmount = (SingleField) fields.get("additionalIncomeAmountRow1");
+        assertThat(alimonySingleFieldAmount.getValue()).isEqualTo("$500");
+
+        SingleField vbSingleField = (SingleField) fields.get("additionalIncomeTypeOfBenefitRow7");
+        assertThat(vbSingleField.getValue()).isEqualTo("Veteran's Benefits");
+
+        SingleField vbSingleFieldAmount = (SingleField) fields.get("additionalIncomeAmountRow7");
+        assertThat(vbSingleFieldAmount.getValue()).isEqualTo("$200");
+
+        SingleField yesRow = (SingleField) fields.get("additionalIncomeReceivedRow5");
+        assertThat(yesRow.getValue()).isEqualToIgnoringCase("Yes");
+    }
 }
