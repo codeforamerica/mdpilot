@@ -12,6 +12,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.Locale;
+
 @Slf4j
 @Component
 public class HandleApplicationSigned implements Action {
@@ -60,8 +62,9 @@ public class HandleApplicationSigned implements Action {
         if (recipientEmail == null || recipientEmail.isBlank()) {
             return;
         }
-        String subject = messageSource.getMessage("email-to-recipient.subject", null, null);
-        String messageBody = messageSource.getMessage("email-to-recipient.body", null, null);
+        String confirmationNumber = (String) submission.getInputData().get("confirmationNumber");
+        String subject = messageSource.getMessage("email-to-recipient.subject", null, Locale.ENGLISH);
+        String messageBody = messageSource.getMessage("email-to-recipient.body", new Object[]{confirmationNumber}, Locale.ENGLISH);
         MessageResponse mailgunResponse = mailgunEmailClient.sendEmail(
                 subject,
                 recipientEmail,

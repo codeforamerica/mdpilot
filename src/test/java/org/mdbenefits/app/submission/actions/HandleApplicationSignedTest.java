@@ -1,9 +1,5 @@
 package org.mdbenefits.app.submission.actions;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-
 import com.mailgun.model.message.MessageResponse;
 import formflow.library.data.Submission;
 import formflow.library.data.SubmissionRepositoryService;
@@ -13,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.SubmissionTestBuilder;
 import org.mdbenefits.app.data.Transmission;
 import org.mdbenefits.app.data.TransmissionRepository;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +18,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.MessageSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -35,6 +37,9 @@ class HandleApplicationSignedTest {
     TransmissionRepository transmissionRepository;
     @Autowired
     JdbcTemplate jdbcTemplate;
+
+    @Captor
+    ArgumentCaptor<String> emailBodyCaptor;
 
     private HandleApplicationSigned handleApplicationSigned;
 
@@ -71,6 +76,21 @@ class HandleApplicationSignedTest {
         assertThat((String) submission.getInputData().get("confirmationNumber")).matches("M\\d{5,}");
         Transmission transmission = transmissionRepository.findTransmissionBySubmission(submission);
         assertThat(transmission.getStatus()).isEqualTo("QUEUED");
+    }
+
+    @Test
+    public void includesConfirmationNumberInEmailBody() {
+        Submission submission = new SubmissionTestBuilder()
+                .with("emailAddress", "foo@example.com")
+                .build();
+        submission.setFlow("mdBenefitsFlow");
+        MessageResponse mockResponse = mock(MessageResponse.class);
+        Mockito.when(mailgunEmailClient.sendEmail(any(), any(), emailBodyCaptor.capture()))
+                .thenReturn(mockResponse);
+
+        handleApplicationSigned.run(submission);
+
+        assertThat(emailBodyCaptor.getValue()).contains((String) submission.getInputData().get("confirmationNumber"));
     }
 
     @Test
