@@ -214,12 +214,14 @@ flow:
     nextScreens:
       - name: householdAdditionalIncome
   householdAdditionalIncome:
-    nextScreens:
-      - name: householdAdditionalIncomeAmount
-  householdAdditionalIncomeAmount:
     beforeSaveAction: ClearUnusedAdditionalIncomeFields
     nextScreens:
-      - name: expensesSignPost
+      - name: householdAdditionalIncomeAmount
+        condition: HasAdditionalIncome
+      - name: householdMoneyOnHand
+  householdAdditionalIncomeAmount:
+    nextScreens:
+      - name: householdMoneyOnHand
   householdMoneyOnHand:
     nextScreens:
       - name: householdMoneyOnHandDetails

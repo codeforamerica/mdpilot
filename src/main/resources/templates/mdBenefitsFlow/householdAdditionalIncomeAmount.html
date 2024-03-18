@@ -15,99 +15,18 @@
             th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formDetails})}">
           <th:block th:ref="formDetails">
             <div class="form-card__content">
-              <div th:with="income=${inputData.get('additionalIncome[]')},
-                           additionalIncomeTypes=${T(org.mdbenefits.app.data.enums.AdditionalIncomeType)},
-                           placeholder='0.00'"
-                   class="spacing-below-15">
+              <div class="spacing-below-15">
                 <th:block
-                    th:if="${(income != null) && income.contains(additionalIncomeTypes.ALIMONY.name())}">
-                  <th:block
-                      th:replace="~{fragments/inputs/money :: money(
-                          inputName='additionalIncomeAlimony',
-                          label=${#messages.msg(additionalIncomeTypes.ALIMONY.getLabelSrc())},
-                          placeholder=${placeholder}
-                  )}"/>
-                </th:block>
-                <th:block
-                    th:if="${(income != null) && income.contains(additionalIncomeTypes.CHILD_SUPPORT.name())}">
-                  <th:block
-                      th:replace="~{fragments/inputs/money :: money(
-                          inputName='additionalIncomeChildSupport',
-                          label=${#messages.msg(additionalIncomeTypes.CHILD_SUPPORT.getLabelSrc())},
-                          placeholder=${placeholder}
-                  )}"/>
-                </th:block>
-                <th:block
-                    th:if="${(income != null) && income.contains(additionalIncomeTypes.FRIENDS_FAMILY_CONTRIBUTION.name())}">
-                  <th:block
-                      th:replace="~{fragments/inputs/money :: money(
-                          inputName='additionalIncomeFriendsAndFamily',
-                          label=${#messages.msg(additionalIncomeTypes.FRIENDS_FAMILY_CONTRIBUTION.getLabelSrc())},
-                          placeholder=${placeholder}
-                  )}"/>
-                </th:block>
-                <th:block
-                    th:if="${(income != null) && income.contains(additionalIncomeTypes.PENSION_RETIREMENT.name())}">
-                  <th:block
-                      th:replace="~{fragments/inputs/money :: money(
-                          inputName='additionalIncomePensionRetirement',
-                          label=${#messages.msg(additionalIncomeTypes.PENSION_RETIREMENT.getLabelSrc())},
-                          placeholder=${placeholder}
-                  )}"/>
-                </th:block>
-                <th:block
-                    th:if="${(income != null) && income.contains(additionalIncomeTypes.SUPPLEMENTAL_SECURITY_INCOME.name())}">
-                  <th:block
-                      th:replace="~{fragments/inputs/money :: money(
-                          inputName='additionalIncomeSSI',
-                          label=${#messages.msg(additionalIncomeTypes.SUPPLEMENTAL_SECURITY_INCOME.getLabelSrc())},
-                          placeholder=${placeholder}
-                  )}"/>
-                </th:block>
-                <th:block
-                    th:if="${(income != null) && income.contains(additionalIncomeTypes.SOCIAL_SECURITY.name())}">
-                  <th:block
-                      th:replace="~{fragments/inputs/money :: money(
-                          inputName='additionalIncomeSS',
-                          label=${#messages.msg(additionalIncomeTypes.SOCIAL_SECURITY.getLabelSrc())},
-                          placeholder=${placeholder}
-                  )}"/>
-                </th:block>
-                <th:block
-                    th:if="${(income != null) && income.contains(additionalIncomeTypes.UNEMPLOYMENT.name())}">
-                  <th:block
-                      th:replace="~{fragments/inputs/money :: money(
-                          inputName='additionalIncomeUnemployment',
-                          label=${#messages.msg(additionalIncomeTypes.UNEMPLOYMENT.getLabelSrc())},
-                          placeholder=${placeholder}
-                  )}"/>
-                </th:block>
-                <th:block
-                    th:if="${(income != null) && income.contains(additionalIncomeTypes.VETERANS_BENEFITS.name())}">
-                  <th:block
-                      th:replace="~{fragments/inputs/money :: money(
-                          inputName='additionalIncomeVeteransBenefits',
-                          label=${#messages.msg(additionalIncomeTypes.VETERANS_BENEFITS.getLabelSrc())},
-                          placeholder=${placeholder}
-                  )}"/>
-                </th:block>
-                <th:block
-                    th:if="${(income != null) && income.contains(additionalIncomeTypes.WORKERS_COMPENSATION.name())}">
-                  <th:block
-                      th:replace="~{fragments/inputs/money :: money(
-                          inputName='additionalIncomeWorkersComp',
-                          label=${#messages.msg(additionalIncomeTypes.WORKERS_COMPENSATION.getLabelSrc())},
-                          placeholder=${placeholder}
-                  )}"/>
-                </th:block>
-                <th:block
-                    th:if="${(income != null) && income.contains(additionalIncomeTypes.OTHER.name())}">
-                  <th:block
-                      th:replace="~{fragments/inputs/money :: money(
-                          inputName='additionalIncomeOther',
-                          label=${#messages.msg(additionalIncomeTypes.OTHER.getLabelSrc())},
-                          placeholder=${placeholder}
-                  )}"/>
+                    th:each="addIncomeType : ${inputData.get('additionalIncome[]')}">
+                  <th:block th:with="addIncomeTypeEnum=${T(org.mdbenefits.app.data.enums.AdditionalIncomeType).getEnumByName(addIncomeType)},
+                            placeholder='0.00'">
+                    <th:block
+                        th:replace="~{fragments/inputs/money :: money(
+                          inputName=${addIncomeTypeEnum.getInputFieldName()},
+                          label=${#messages.msg(addIncomeTypeEnum.getLabelSrc())},
+                          placeholder=${placeholder})}"
+                    />
+                  </th:block>
                 </th:block>
               </div>
             </div>
