@@ -23,15 +23,18 @@
                   <th:block
                       th:each="addIncome : ${T(org.mdbenefits.app.data.enums.AdditionalIncomeType).values()}">
                     <th:block
-                        th:with="isOther=${addIncome.name().equals(T(org.mdbenefits.app.data.enums.AdditionalIncomeType).NONE_OF_THESE.name())}">
-                      <th:block
-                          th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(
+                        th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(
                         inputName='additionalIncome',
                         value=${addIncome.name()},
-                        noneOfTheAbove=${isOther},
+                        noneOfTheAbove=false,
                         label=#{${addIncome.getLabelSrc()}})}"/>
-                    </th:block>
                   </th:block>
+                  <th:block
+                      th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(
+                        inputName='additionalIncome',
+                        value='NONE',
+                        noneOfTheAbove=true,
+                        label=#{additional-income.choice.none})}"/>
                 </th:block>
               </th:block>
             </div>
