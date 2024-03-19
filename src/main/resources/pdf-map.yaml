@@ -45,6 +45,15 @@ inputFields:
   applicantEthnicity: applicant_ethnicity
   confirmationNumber: confirmation_number
 
+  #Section E
+  householdHasMoneyOnHand: household_has_money_or_resources_bool
+  householdMoneyResource1: resources_or_assets_type_1
+  householdMoneyResource2: resources_or_assets_type_2
+  householdMoneyResource3: resources_or_assets_type_3
+  householdMoneyResource4: resources_or_assets_type_4
+  householdMoneyResource5: resources_or_assets_type_5
+  householdMoneyResource6: resources_or_assets_type_6
+
   #Section J
   additionalIncome:
     ALIMONY: ADDITIONAL_INCOME_ALIMONY
