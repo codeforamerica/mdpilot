@@ -5,7 +5,7 @@
       hasIcon=${!#strings.isEmpty(checkboxIcon)},
       name=${inputName} + '[]',
       checked=${T(formflow.library.utils.InputUtils).arrayOrStringContains(fieldData.getOrDefault(name, ''), value)},
-      id=${#bools.isTrue(noneOfTheAbove) ? 'none__checkbox' : inputName + '-' + value}"
+      id=${#bools.isTrue(noneOfTheAbove) ? 'none__checkbox-' + inputName : inputName + '-' + value}"
     th:assert="
       ${!#strings.isEmpty(inputName)},
       ${!#strings.isEmpty(value)},
@@ -27,9 +27,9 @@
     <div>
       <div th:text="${label}"></div>
       <small th:if="${hasHelpText}"
-         th:id="${id} + '-help-text'"
-         th:utext="${checkboxHelpText}"
-         class="text--small with-no-padding font-weight--normal"></small>
+             th:id="${id} + '-help-text'"
+             th:utext="${checkboxHelpText}"
+             class="text--small with-no-padding font-weight--normal"></small>
     </div>
   </label>
 </th:block>
