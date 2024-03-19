@@ -584,11 +584,11 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickButton("No");
 
         assertThat(testPage.getTitle()).isEqualTo(message("additional-income.title"));
-        testPage.clickElementById("none__checkbox");
+        testPage.clickElementById("none__checkbox-additionalIncome");
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("moneyonhand-types.title"));
-        testPage.clickElementById("none__checkbox");
+        testPage.clickElementById("none__checkbox-moneyOnHandTypes");
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("expenses-signpost.title"));
@@ -702,11 +702,11 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickButton("No");
 
         assertThat(testPage.getTitle()).isEqualTo(message("additional-income.title"));
-        testPage.clickElementById("none__checkbox");
+        testPage.clickElementById("none__checkbox-additionalIncome");
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("moneyonhand-types.title"));
-        testPage.clickElementById("none__checkbox");
+        testPage.clickElementById("none__checkbox-moneyOnHandTypes");
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("expenses-signpost.title"));
