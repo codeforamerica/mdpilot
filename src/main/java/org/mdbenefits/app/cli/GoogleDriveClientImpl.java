@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@Profile({"dev", "staging", "production"})
+@Profile({"dev", "staging", "prod"})
 public class GoogleDriveClientImpl implements GoogleDriveClient {
 
     private final String GOOGLE_CREDS = System.getenv("GOOGLE_DRIVE_CREDS");
