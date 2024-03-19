@@ -45,7 +45,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         // should not redirect
         testPage.navigateToFlowScreen("mdBenefitsFlow/selectApplication");
-        testPage.clickElementById("none__checkbox");
+        testPage.clickElementById("none__checkbox-applicationInfo");
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("help-needed.title"));
     }
@@ -76,7 +76,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         testPage.clickElementById("helpNeeded-CHILDREN");
         // this line unchecks helpNeeded-Children because none__checkbox is a noneOfTheAbove=true
-        testPage.clickElementById("none__checkbox");
+        testPage.clickElementById("none__checkbox-helpNeeded");
 
         testPage.clickContinue();
 
@@ -118,7 +118,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.navigateToFlowScreen("mdBenefitsFlow/county");
         testPage.selectFromDropdown("county", Counties.BALTIMORE.getDisplayName());
         testPage.clickContinue();
-        testPage.clickElementById("none__checkbox");
+        testPage.clickElementById("none__checkbox-applicationInfo");
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("Select help");
         testPage.clickContinue();
@@ -159,7 +159,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.navigateToFlowScreen("mdBenefitsFlow/county");
         testPage.selectFromDropdown("county", Counties.BALTIMORE.getDisplayName());
         testPage.clickContinue();
-        testPage.clickElementById("none__checkbox");
+        testPage.clickElementById("none__checkbox-applicationInfo");
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("Select help");
         testPage.clickContinue();
@@ -344,7 +344,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
         // Utilities
         assertThat(testPage.getTitle()).isEqualTo(message("utilities.title"));
-        testPage.clickElementById("none__checkbox");
+        testPage.clickElementById("none__checkbox-householdUtilitiesExpenses");
         testPage.clickContinue();
         // Seasonal Farm Worker
         assertThat(testPage.getTitle()).isEqualTo(message("seasonal-farmworker.title"));
@@ -451,7 +451,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("Select application");
 
-        testPage.clickElementById("none__checkbox");
+        testPage.clickElementById("none__checkbox-applicationInfo");
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("Select help");
 
