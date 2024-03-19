@@ -228,13 +228,6 @@ public class MdBenefitsFlow extends FlowInputs {
     @NotEmpty
     private List<String> moneyOnHandTypes;
 
-    @DynamicField
-    private String moneyOnHandOwner;
-
-    @Money
-    @DynamicField
-    private String moneyOnHandValue;
-
     @Money(message = "{error.invalid-money}")
     @NotBlank(message = "{error.missing-dollar-amount}")
     private String monthlyHouseholdIncome;

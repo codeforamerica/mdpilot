@@ -23,10 +23,10 @@
                   <th:block
                       th:each="option : ${T(org.mdbenefits.app.data.enums.MoneyOnHandType).values()}">
                     <th:block
-                        th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(inputName='moneyOnHandTypes',value=${option.getValue()}, label=#{${option.getLabelSrc()}})}"/>
+                        th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(inputName='moneyOnHandTypes',value=${option.name()}, label=#{${option.getLabelSrc()}})}"/>
                   </th:block>
                   <th:block
-                      th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(inputName='moneyOnHandTypes',value='None', label=#{general.none-of-the-above}, noneOfTheAbove=true)}"/>
+                      th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(inputName='moneyOnHandTypes',value=#{general.none}, label=#{general.none-of-the-above}, noneOfTheAbove=true)}"/>
                 </th:block>
               </th:block>
 
