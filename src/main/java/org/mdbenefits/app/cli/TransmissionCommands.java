@@ -26,6 +26,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.shell.standard.ShellComponent;
+import org.springframework.shell.standard.ShellMethod;
 import org.springframework.stereotype.Service;
 import com.google.api.services.drive.model.File;
 
@@ -52,7 +53,6 @@ public class TransmissionCommands {
     private final PdfService pdfService;
     private final GoogleDriveClient googleDriveClient;
     private final UserFileRepositoryService userFileRepositoryService;
-
     private final MailgunEmailClient mailgunEmailClient;
     private final MessageSource messageSource;
 
@@ -75,16 +75,18 @@ public class TransmissionCommands {
     }
 
     /**
-     * A method to transmit records from our system to the state system. It will run 60 seconds after the system starts up, and
-     * then every 5 minutes (300 seconds) after that. This interval can be configured via the application.yaml file.
+     * A method to transmit records from our system to the state system. By default, it will run 60 seconds after the system
+     * starts up, and then every 5 minutes (300 seconds) after that. This interval can be configured via the application.yaml
+     * file.
      * <p>
-     * This uses fixedDelay, which means that the next run will not start until the first one has ended.
+     * This uses the @Scheduled fixedDelay method, which means that the next run will not start until the previous one has ended.
      */
     @Scheduled(
             timeUnit = TimeUnit.SECONDS,
             initialDelayString = "${transmission.transmission-initial-delay-seconds:60}",
             fixedDelayString = "${transmission.transmission-rate-seconds:300}"
     )
+    @ShellMethod("sends files")
     public void transmit() {
         log.info("[Transmission] Checking for submissions to transmit...");
 
@@ -104,6 +106,18 @@ public class TransmissionCommands {
         transmitBatch(queuedTransmissions);
     }
 
+    /**
+     * For each transmission in the list passed in, this will:
+     * <ol>
+     *   <li>create a Google Drive directory for the transmission </li>
+     *   <li>create a PDF of the submission info and put that in the new Google Drive Directory</li>
+     *   <li> copy any files from S3 -> Google Drive that are related to this submission</li>
+     *   <li>create and send an email to caseworkers notifying them that a new submission has been created.
+     *   It will include a link to where the package is located. </li>
+     * </ol>
+     *
+     * @param transmissions A list of transmissions to transmit
+     */
     private void transmitBatch(List<Transmission> transmissions) {
 
         log.info("[Transmission] Preparing to send {} transmissions.", transmissions.size());
@@ -142,7 +156,7 @@ public class TransmissionCommands {
                         submission.getId());
                 // remove any already existing folders
                 for (File dir : existingDirectories) {
-                    if (!googleDriveClient.deleteDirectory(dir.getName(), dir.getId(), errorMap)) {
+                    if (!googleDriveClient.trashDirectory(dir.getName(), dir.getId(), errorMap)) {
                         String error = String.format("Failed to delete existing Google Drive directory '%s'", dir.getId());
                         handleError(transmission, null, error, errorMap);
                         // don't return - keep going. A new folder will be created and the link to that new
@@ -152,7 +166,7 @@ public class TransmissionCommands {
             }
 
             GoogleDriveFolder newFolder = googleDriveClient.createFolder(folderId, confirmationNumber, errorMap);
-            if (newFolder.getId() == null) {
+            if (newFolder == null || newFolder.getId() == null) {
                 // something is really wrong here; note the error and skip the entry
                 String error = String.format("Failed to create folder in Google Drive for submission with ID: %s.",
                         submission.getId());
@@ -166,7 +180,7 @@ public class TransmissionCommands {
 
             if (pdfGDId.isBlank()) {
                 // the PDF did not get sent correctly.  Note it and skip the entry
-                googleDriveClient.deleteDirectory(confirmationNumber, newFolder.getId(), errorMap);
+                googleDriveClient.trashDirectory(confirmationNumber, newFolder.getId(), errorMap);
                 String error = String.format("Unable to upload the PDF file for submission with ID: %s", submission.getId());
                 handleError(transmission, "pdfTransfer", error, errorMap);
                 return;
@@ -203,7 +217,16 @@ public class TransmissionCommands {
         });
     }
 
-    // email addresses is a string of email addresses with a space in between
+    /**
+     * Send email about the transmission to specified email addresses.
+     *
+     * @param transmission       the transmission we are concerned with
+     * @param confirmationNumber the confirmation number of the application
+     * @param emailAddresses     the email addresses to send it to - these should be a string of email addresses with a space in
+     *                           between addresses
+     * @param googleDriveLink    the link to the Google Drive directory where the package is
+     * @param errorMap           the map of errors so that this code can add to it if any errors happen
+     */
     private void sendEmailToCaseworkers(Transmission transmission, String confirmationNumber, String emailAddresses,
             String googleDriveLink, Map<String, String> errorMap) {
 
@@ -231,7 +254,17 @@ public class TransmissionCommands {
         }
     }
 
-    // Set errorKey = null when the errorMsg has already been recorded in 'errorMap'
+    /**
+     * This will help handle error messages in a consistent manner and make the code above easier:  1) log them, 2) add them to
+     * the error array if an errorKey was sent in and 3) update the transmission status in the db.
+     * <p>
+     * Be sure to set the errorKey = null if the errorMsg has already been recorded in 'errorMap'.
+     *
+     * @param transmission the transmission to update
+     * @param errorKey     the error key to use when recording the error in the error map
+     * @param errorMsg     the message to put in the log and the errorMap
+     * @param errorMap     the map of errors to get stored with the transmission in the db.
+     */
     private void handleError(Transmission transmission, String errorKey, String errorMsg, Map<String, String> errorMap) {
         log.error("[Transmission {}]: {}", transmission.getId(), errorMsg);
         if (errorKey != null) {
@@ -240,6 +273,15 @@ public class TransmissionCommands {
         updateTransmissionStatus(transmission, TransmissionStatus.FAILED, errorMap, false);
     }
 
+    /**
+     * Updates the transmission's status information, including the overall status, error messages and mark it sent (if
+     * requested).
+     *
+     * @param transmission the transmission to update
+     * @param status       the TransmissionStatus status
+     * @param errorMap     a Map<String,String>
+     * @param markSent
+     */
     private void updateTransmissionStatus(Transmission transmission, TransmissionStatus status, Map<String, String> errorMap,
             boolean markSent) {
         transmission.setStatus(status.name());
@@ -285,6 +327,12 @@ public class TransmissionCommands {
         return county.equals(Counties.BALTIMORE.name()) ? BALTIMORE_COUNTY_GOOGLE_DIR_ID : QUEEN_ANNES_COUNTY_GOOGLE_DIR_ID;
     }
 
+    /**
+     * Return the email recipients based on the county name.
+     *
+     * @param county
+     * @return
+     */
     private String getCountyEmailRecipients(String county) {
         return county.equals(Counties.BALTIMORE.name()) ? BALITMORE_COUNTY_EMAIL_RECIPIENTS : QUEEN_ANNES_COUNTY_EMAIL_RECIPIENTS;
     }
