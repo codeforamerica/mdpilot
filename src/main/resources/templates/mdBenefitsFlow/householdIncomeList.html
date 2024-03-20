@@ -70,23 +70,6 @@
                         <span th:text="#{income-list.no-jobs-added}"></span>
                       </div>
                     </th:block>
-
-                    <th:block th:if="${incomeItem.get('itemType').equals('household-total')}">
-                      <hr>
-                      <span class="subflow-list__icon">
-                    <th:block th:replace="~{'fragments/icons' :: iconHouseOutlineTiny}"/>
-                    </span>
-
-                      <span class="subflow-list__icon">
-                    </span>
-                      <div class="subflow-list__item-title">
-                        <span th:text="#{income-list.total-monthly-pay}"></span>
-                      </div>
-
-                      <div class="subflow-list__item-body">
-                        <div><span th:text="${incomeItem.income}"></span></div>
-                      </div>
-                    </th:block>
                   </li>
                 </ul>
 
