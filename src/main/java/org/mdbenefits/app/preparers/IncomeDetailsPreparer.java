@@ -1,5 +1,7 @@
 package org.mdbenefits.app.preparers;
 
+import static java.util.Collections.emptyList;
+
 import formflow.library.data.Submission;
 import formflow.library.pdf.PdfMap;
 import formflow.library.pdf.SingleField;
@@ -9,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import org.mdbenefits.app.data.enums.MoneyOnHandType;
 import org.springframework.context.MessageSource;
 import org.mdbenefits.app.data.enums.AdditionalIncomeType;
 import org.springframework.stereotype.Component;
@@ -28,6 +31,7 @@ public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
 
         results.putAll(prepareIncome(submission));
         results.putAll(prepareAdditionIncome(submission));
+        results.putAll(prepareMoneyOnHandResources(submission));
         return results;
     }
 
@@ -99,5 +103,31 @@ public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
                         "Yes",
                         null
                 ));
+    }
+
+    private Map<String, SubmissionField> prepareMoneyOnHandResources(Submission submission) {
+        Map<String, SubmissionField> fields = new HashMap<>();
+        var moneyOnHandSelected = (List<String>) submission.getInputData().getOrDefault("moneyOnHandTypes[]", emptyList());
+
+        if (moneyOnHandSelected.isEmpty()){
+            return fields;
+        }
+        if(moneyOnHandSelected.size() == 1 && moneyOnHandSelected.contains("NONE")) {
+            fields.put("householdHasResourcesOrAssets", new SingleField("householdHasResourcesOrAssets", "false", null
+            ));
+            return fields;
+        } else {
+            int i = 1;
+            for (var type : MoneyOnHandType.values()) {
+                if (moneyOnHandSelected.contains(type.name())) {
+                    fields.put("householdHasResourcesOrAssets", new SingleField("householdHasResourcesOrAssets", "true", null
+                    ));
+                    fields.put("resourcesOrAssetsType" + i, new SingleField("resourcesOrAssetsType" + i, messagesSource.getMessage(
+                        type.getLabelSrc(), null, Locale.ENGLISH), null));
+                    i++;
+                }
+            }
+        }
+        return fields;
     }
 }

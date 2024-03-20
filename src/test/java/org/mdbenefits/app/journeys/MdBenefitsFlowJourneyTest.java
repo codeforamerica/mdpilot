@@ -572,6 +572,27 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickButton(message("household-question.no-text"));
 
         assertThat(testPage.getTitle()).isEqualTo(message("seasonal-farmworker.title"));
+        testPage.clickButton("No");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("income-signpost.title"));
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("income-less-than-150.title"));
+        testPage.clickButton("No");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("household-income.title"));
+        testPage.clickButton("No");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("additional-income.title"));
+        testPage.clickElementById("none__checkbox-additionalIncome");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("moneyonhand-types.title"));
+        testPage.clickElementById("none__checkbox-moneyOnHandTypes");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("expenses-signpost.title"));
+        testPage.clickContinue();
 
         // PLACEHOLDER FOR ADDITIONAL TESTS
 
@@ -669,6 +690,27 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickButton("I'm done");
 
         assertThat(testPage.getTitle()).isEqualTo(message("seasonal-farmworker.title"));
+        testPage.clickButton("No");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("income-signpost.title"));
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("income-less-than-150.title"));
+        testPage.clickButton("No");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("household-income.title"));
+        testPage.clickButton("No");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("additional-income.title"));
+        testPage.clickElementById("none__checkbox-additionalIncome");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("moneyonhand-types.title"));
+        testPage.clickElementById("none__checkbox-moneyOnHandTypes");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("expenses-signpost.title"));
+        testPage.clickContinue();
     }
 
     @Test

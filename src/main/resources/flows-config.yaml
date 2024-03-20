@@ -224,13 +224,6 @@ flow:
       - name: householdMoneyOnHand
   householdMoneyOnHand:
     nextScreens:
-      - name: householdMoneyOnHandDetails
-        condition: HasMoneyOnHand
-      - name: expensesSignPost
-  householdMoneyOnHandDetails:
-    nextScreens:
-      - name: householdRent
-        condition: IsApplyingForExpeditedSnap
       - name: expensesSignPost
   expensesSignPost:
     nextScreens:
