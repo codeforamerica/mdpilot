@@ -35,7 +35,7 @@ form-flow:
     mailgun:
       key: ${MAILGUN_KEY:'no-key-set'}
       domain: 'mg.marylandbenefits.org'
-      sender-email: 'Maryland Benefits DEMO <help@marylandbenefits.org>'
+      sender-email: 'Maryland Benefits <help@marylandbenefits.org>'
 spring:
   flyway:
     placeholders:
@@ -110,5 +110,6 @@ transmission:
     baltimore-county: ${BALTIMORE_COUNTY_EMAIL_ADDRESSES}
     queen-annes-county: ${QUEENANNES_COUNTY_EMAIL_ADDRESSES}
   google-drive-directory-id:
+    team-drive: ${GOOGLE_DRIVE_SHARED_ID:''}
     baltimore-county: ${BALTIMORE_COUNTY_GOOGLE_DIR_ID}
     queen-annes-county: ${QUEENANNES_COUNTY_GOOGLE_DIR_ID}
