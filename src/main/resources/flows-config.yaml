@@ -85,8 +85,6 @@ flow:
   householdRent:
     nextScreens:
       - name: householdRentAmount
-        condition: HouseholdPaysRent
-      - name: householdUtilities
   householdRentAmount:
     nextScreens:
       - name: householdSignPost
