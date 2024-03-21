@@ -227,6 +227,7 @@ flow:
     nextScreens:
       - name: householdHomeExpenses
   householdHomeExpenses:
+    beforeSaveAction: ClearUnusedExpensesFields
     nextScreens:
       - name: householdHomeExpensesAmount
         condition: HasHouseholdHomeExpenses
