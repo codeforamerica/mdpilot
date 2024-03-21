@@ -131,6 +131,21 @@ inputFields:
   homeExpenseWater: expense_water_amount
   homeExpenseWoodOrCoal: expense_wood_amount
 
+  homeExpenseCondominiumFeesFrequency: expense_condo_fees_frequency
+  homeExpenseElectricityFrequency: expense_electric_frequency
+  homeExpenseGarbageFrequency: expense_garbage_frequency
+  homeExpenseGasFrequency: expense_gas_frequency
+  homeExpenseHomeownerInsuranceFrequency: expense_home_owners_insurance_frequency
+  homeExpenseMortgageFrequency: expense_mortgage_frequency
+  homeExpenseOilFrequency: expense_oil_frequency
+  homeExpenseOtherHomeExpensesFrequency: expense_other_frequency
+  homeExpensePropertyTaxFrequency: expense_property_tax_frequency
+  homeExpenseRentFrequency: expense_rent_frequency
+  homeExpenseSewerFrequency: expense_sewer_frequency
+  homeExpensePhoneFrequency: expense_telephone_frequency
+  homeExpenseWaterFrequency: expense_water_frequency
+  homeExpenseWoodOrCoalFrequency: expense_wood_frequency
+
   #Section M
   someoneHasDrugKingpinFelony: household_drugpin_felony_bool
   someoneHasVolumeDrugDealerFelony: household_volume_drug_dealer_felony_bool
