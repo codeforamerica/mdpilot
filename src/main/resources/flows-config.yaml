@@ -232,21 +232,9 @@ flow:
     nextScreens:
       - name: householdHomeExpensesAmount
         condition: HasHouseholdHomeExpenses
-      - name: householdUtilities
+      - name: householdMedicalExpenses
   householdHomeExpensesAmount:
     nextScreens:
-      - name: householdUtilities
-  householdUtilities:
-    nextScreens:
-      - name: householdSeasonalFarmWorker
-        condition: IsApplyingForExpeditedSnapAndHasNoUtilityExpenses
-      - name: householdUtilitiesAmount
-        condition: HasUtilitiesExpenses
-      - name: householdMedicalExpenses
-  householdUtilitiesAmount:
-    nextScreens:
-      - name: householdSeasonalFarmWorker
-        condition: IsApplyingForExpeditedSnap
       - name: householdMedicalExpenses
   householdMedicalExpenses:
     nextScreens:

@@ -100,6 +100,37 @@ inputFields:
   additionalIncomeReceivedRow9: ADDITIONAL_INCOME_RECEIVED_ROW9
   additionalIncomeReceivedRow10: ADDITIONAL_INCOME_RECEIVED_ROW10
 
+  #Section K
+  householdHomeExpenses:
+    CONDO_FEES: expense_condo_fees_bool
+    ELECTRICITY: expense_electric_bool
+    GARBAGE: expense_garbage_bool
+    GAS: expense_gas_bool
+    HOMEOWNERS_INSURANCE: expense_home_owners_insurance_bool
+    MORTGAGE: expense_mortgage_bool
+    OIL: expense_oil_bool
+    OTHER: expense_other_bool
+    PHONE: expense_telephone_bool
+    PROPERTY_TAX: expense_property_tax_bool
+    SEWAGE: expense_sewer_bool
+    WATER: expense_water_bool
+    WOOD_OR_COAL: expense_wood_bool
+
+  homeExpenseCondominiumFees: expense_condo_fees_amount
+  homeExpenseElectricity: expense_electric_amount
+  homeExpenseGarbage: expense_garbage_amount
+  homeExpenseGas: expense_gas_amount
+  homeExpenseHomeownerInsurance: expense_home_owners_insurance_amount
+  homeExpenseMortgage: expense_mortgage_amount
+  homeExpenseOil: expense_oil_amount
+  homeExpenseOtherHomeExpenses: expense_other_amount
+  homeExpensePhone: expense_telephone_amount
+  homeExpensePropertyTax: expense_property_tax_amount
+  homeExpenseRent: expense_rent_amount
+  homeExpenseSewer: expense_sewer_amount
+  homeExpenseWater: expense_water_amount
+  homeExpenseWoodOrCoal: expense_wood_amount
+
   #Section M
   someoneHasDrugKingpinFelony: household_drugpin_felony_bool
   someoneHasVolumeDrugDealerFelony: household_volume_drug_dealer_felony_bool

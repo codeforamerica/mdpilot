@@ -342,10 +342,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("household-rent-amount.title"));
         testPage.enter("householdRentAmount", "1200");
         testPage.clickContinue();
-        // Utilities
-        assertThat(testPage.getTitle()).isEqualTo(message("utilities.title"));
-        testPage.clickElementById("none__checkbox-householdUtilitiesExpenses");
-        testPage.clickContinue();
+
         // Seasonal Farm Worker
         assertThat(testPage.getTitle()).isEqualTo(message("seasonal-farmworker.title"));
         testPage.clickButton("No");

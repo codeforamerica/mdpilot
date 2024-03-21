@@ -26,17 +26,13 @@ class HouseholdExpensesPreparerTest {
     public void shouldAddFieldsForHouseholdExpenses() {
         Submission submission = new SubmissionTestBuilder()
                 .with("householdHomeExpenses[]", List.of("mortgage", "homeOwnerInsurance"))
-                .with("householdUtilitiesExpenses[]", List.of("phone", "heating"))
-                .with("householdUtilitiesExpenseAmount_wildcard_phone", "10")
                 .with("householdHomeExpenseAmount_wildcard_mortgage", "20")
                 .with("householdHomeExpenseAmount_wildcard_homeownerInsurance", "30")
                 .build();
 
         Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);
 
-        assertThat(result.size()).isEqualTo(10);
-        assertThat(result.get("heatingOrCoolingInd"))
-                .isEqualTo(new SingleField("heatingOrCoolingInd", "true", null));
+        assertThat(result.size()).isEqualTo(6);
         assertThat(result.get("householdExpensesType1"))
                 .isEqualTo(new SingleField("householdExpensesType", "Homeowner's Insurance", 1));
         assertThat(result.get("householdExpensesAmount1"))
@@ -50,36 +46,5 @@ class HouseholdExpensesPreparerTest {
                 .isEqualTo(new SingleField("householdExpensesAmount", "20", 2));
         assertThat(result.get("householdExpensesFreq2"))
                 .isEqualTo(new SingleField("householdExpensesFreq", "Monthly", 2));
-
-        assertThat(result.get("householdExpensesType3"))
-                .isEqualTo(new SingleField("householdExpensesType", "Phone/Cell Phone", 3));
-        assertThat(result.get("householdExpensesAmount3"))
-                .isEqualTo(new SingleField("householdExpensesAmount", "10", 3));
-        assertThat(result.get("householdExpensesFreq3"))
-                .isEqualTo(new SingleField("householdExpensesFreq", "Monthly", 3));
-    }
-
-    @Test
-    public void shouldCombineOtherExpenses() {
-        Submission submission = new SubmissionTestBuilder()
-                .with("householdHomeExpenses[]", List.of("Other"))
-                .with("householdUtilitiesExpenseAmount_wildcard_otherUtilitiesExpenses", "10")
-                .with("householdHomeExpenseAmount_wildcard_otherHomeExpenses", "22")
-                .build();
-
-        Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);
-
-        assertThat(result.size()).isEqualTo(5);
-        assertThat(result.get("heatingOrCoolingInd"))
-                .isEqualTo(new SingleField("heatingOrCoolingInd", "false", null));
-        assertThat(result.get("Other"))
-                .isEqualTo(new SingleField("Other", "Yes", null));
-        assertThat(result.get("householdExpensesType_1"))
-                .isEqualTo(new SingleField("householdExpensesType_1", "Other", null));
-        assertThat(result.get("householdExpensesAmount_1"))
-                .isEqualTo(new SingleField("householdExpensesAmount_1", "32.0", null));
-        assertThat(result.get("householdExpensesFreq_1"))
-                .isEqualTo(new SingleField("householdExpensesFreq_1", "Monthly", null));
-
     }
 }
