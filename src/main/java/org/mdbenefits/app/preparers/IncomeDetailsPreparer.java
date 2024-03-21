@@ -1,20 +1,22 @@
 package org.mdbenefits.app.preparers;
 
-import static java.util.Collections.emptyList;
-
 import formflow.library.data.Submission;
 import formflow.library.pdf.PdfMap;
 import formflow.library.pdf.SingleField;
 import formflow.library.pdf.SubmissionField;
 import formflow.library.pdf.SubmissionFieldPreparer;
+import org.mdbenefits.app.data.enums.AdditionalIncomeType;
+import org.mdbenefits.app.data.enums.MoneyOnHandType;
+import org.springframework.context.MessageSource;
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import org.mdbenefits.app.data.enums.MoneyOnHandType;
-import org.springframework.context.MessageSource;
-import org.mdbenefits.app.data.enums.AdditionalIncomeType;
-import org.springframework.stereotype.Component;
+
+import static java.util.Collections.emptyList;
+import static org.mdbenefits.app.utils.SubmissionUtilities.isNoneOfAboveSelection;
 
 @Component
 public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
@@ -69,8 +71,7 @@ public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
         List<String> additionalIncomeTypes = (List) submission.getInputData().getOrDefault("additionalIncome[]", List.of());
         int row = 1;
 
-        if (additionalIncomeTypes.isEmpty() ||
-                (additionalIncomeTypes.size() == 1 && additionalIncomeTypes.contains("NONE"))) {
+        if (isNoneOfAboveSelection(additionalIncomeTypes)) {
             return fields;
         }
 
@@ -112,7 +113,7 @@ public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
         if (moneyOnHandSelected.isEmpty()){
             return fields;
         }
-        if(moneyOnHandSelected.size() == 1 && moneyOnHandSelected.contains("NONE")) {
+        if(isNoneOfAboveSelection(moneyOnHandSelected)) {
             fields.put("householdHasResourcesOrAssets", new SingleField("householdHasResourcesOrAssets", "false", null
             ));
             return fields;

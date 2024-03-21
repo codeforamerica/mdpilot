@@ -1,12 +1,8 @@
 package org.mdbenefits.app.preparers;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import formflow.library.data.Submission;
 import formflow.library.pdf.SingleField;
 import formflow.library.pdf.SubmissionField;
-import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.SubmissionTestBuilder;
@@ -14,6 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.MessageSource;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.List;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mdbenefits.app.utils.SubmissionUtilities.NONE_OF_ABOVE_SELECTION_VALUE;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -52,7 +54,7 @@ class IncomeDetailsPreparerTest {
     @Test
     public void testAdditionalIncomeOfNone() {
         Submission submission = new SubmissionTestBuilder()
-                .with("additionalIncome[]", List.of("NONE"))
+                .with("additionalIncome[]", List.of(NONE_OF_ABOVE_SELECTION_VALUE))
                 .build();
 
         var results = incomePreparer.prepareSubmissionFields(submission, null);
@@ -104,7 +106,7 @@ class IncomeDetailsPreparerTest {
     public void testPrepareMoneyOnHandResourcesDoesNotAddWhenNONEisPresent() {
         Submission submission = new SubmissionTestBuilder()
             .withPersonalInfo("Person", "One", "", "", "", "", "", "", "", "")
-            .with("moneyOnHandTypes[]", List.of("NONE"))
+            .with("moneyOnHandTypes[]", List.of(NONE_OF_ABOVE_SELECTION_VALUE))
             .build();
 
         Map<String, SubmissionField> result = incomePreparer.prepareSubmissionFields(submission, null);
