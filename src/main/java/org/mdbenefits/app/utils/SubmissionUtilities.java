@@ -76,13 +76,6 @@ public class SubmissionUtilities {
         PDF_RELATIONSHIP_MAP.put("other", "other");
     }
 
-    public static String formatSSN(String ssn) {
-        if (ssn == null || ssn.isEmpty()) {
-            return "";
-        }
-        return String.format("%s-%s-%s", ssn.substring(0, 3), ssn.substring(3, 5), ssn.substring(5));
-    }
-
     public static String formatMoney(String value) {
         if (value == null) {
             return "";

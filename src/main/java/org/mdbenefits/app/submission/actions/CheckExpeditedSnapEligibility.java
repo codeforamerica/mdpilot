@@ -33,9 +33,10 @@ public class CheckExpeditedSnapEligibility implements Action {
             BigDecimal rentAmount = new BigDecimal(rentString).setScale(2, RoundingMode.HALF_UP);
 
             boolean isMigrantOrSeasonalFarmWorker = inputData.get("migrantOrSeasonalFarmWorkerInd").toString().equals("true");
-            boolean hasUtilities =
-                    inputData.containsKey("householdUtilitiesExpenses[]") && !inputData.get("householdUtilitiesExpenses[]")
-                            .toString().equals("None");
+            // TODO: Update this logic with household expenses that are considered utilities
+            boolean hasUtilities = false;
+//                    inputData.containsKey("householdUtilitiesExpenses[]") && !inputData.get("householdUtilitiesExpenses[]")
+//                            .toString().equals("None");
 
             // Household has less than 150 in monthly income, including cash on hand is less than or equal to 100
             // BigDecimal compareTo returns -1 if less than, 0 if equal, 1 if greater than
@@ -49,11 +50,12 @@ public class CheckExpeditedSnapEligibility implements Action {
             // Households combined monthly income + cash on hand is less than the total monthly rent/mortgage + utilities
             BigDecimal utilitiesTotal = BigDecimal.ZERO;
             if (hasUtilities) {
-                List<String> utilityTypes = (List<String>) inputData.get("householdUtilitiesExpenses[]");
-                utilitiesTotal = utilityTypes.stream()
-                        .map(type -> inputData.getOrDefault("householdUtilitiesExpenseAmount_wildcard_" + type, "0").toString())
-                        .map(stringValue -> new BigDecimal(stringValue).setScale(2, RoundingMode.HALF_UP))
-                        .reduce(BigDecimal.ZERO, BigDecimal::add);
+                // TODO: Update this logic with the relevant household expenses that are considered utilities
+//                List<String> utilityTypes = (List<String>) inputData.get("householdUtilitiesExpenses[]");
+//                utilitiesTotal = utilityTypes.stream()
+//                        .map(type -> inputData.getOrDefault("householdUtilitiesExpenseAmount_wildcard_" + type, "0").toString())
+//                        .map(stringValue -> new BigDecimal(stringValue).setScale(2, RoundingMode.HALF_UP))
+//                        .reduce(BigDecimal.ZERO, BigDecimal::add);
             }
 
             boolean isEligibleByIncomeAndCashOnHandLessThanExpenses =

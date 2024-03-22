@@ -87,13 +87,13 @@ class IncomeDetailsPreparerTest {
         assertThat(alimonySingleField.getValue()).isEqualTo("Alimony");
 
         SingleField alimonySingleFieldAmount = (SingleField) fields.get("additionalIncomeAmountRow1");
-        assertThat(alimonySingleFieldAmount.getValue()).isEqualTo("$500");
+        assertThat(alimonySingleFieldAmount.getValue()).isEqualTo("500");
 
         SingleField vbSingleField = (SingleField) fields.get("additionalIncomeTypeOfBenefitRow7");
         assertThat(vbSingleField.getValue()).isEqualTo("Veteran's Benefits");
 
         SingleField vbSingleFieldAmount = (SingleField) fields.get("additionalIncomeAmountRow7");
-        assertThat(vbSingleFieldAmount.getValue()).isEqualTo("$200");
+        assertThat(vbSingleFieldAmount.getValue()).isEqualTo("200");
 
         SingleField yesRow = (SingleField) fields.get("additionalIncomeReceivedRow5");
         assertThat(yesRow.getValue()).isEqualToIgnoringCase("Yes");

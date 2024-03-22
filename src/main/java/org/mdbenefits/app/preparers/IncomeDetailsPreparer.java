@@ -94,7 +94,7 @@ public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
         addFields.put("additionalIncomeAmountRow" + rowNum,
                 new SingleField(
                         "additionalIncomeAmountRow" + rowNum,
-                        "$" + submission.getInputData().get(type.getInputFieldName()),
+                        (String) submission.getInputData().getOrDefault(type.getInputFieldName(), ""),
                         null
                 ));
         addFields.put("additionalIncomeReceivedRow" + rowNum,

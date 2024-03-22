@@ -9,21 +9,22 @@
       <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
         <th:block
-            th:replace="~{fragments/cardHeader :: cardHeader(header=#{expenses-amount.question(#{home-expenses})})}"/>
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{home-expenses-amount.header}, subtext=#{expenses-estimate-ok})}"/>
         <th:block
             th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formDetails})}">
           <th:block th:ref="formDetails">
             <div class="form-card__content">
-              <div th:each="expense, iter:${inputData.get('householdHomeExpenses[]')}"
-                   class="spacing-below-15">
+              <div class="spacing-below-15">
                 <th:block
-                    th:with="inputName=${'householdHomeExpenseAmount' + T(formflow.library.inputs.FieldNameMarkers).DYNAMIC_FIELD_MARKER + expense}">
-                  <th:block
-                      th:with="labelName=${T(org.mdbenefits.app.data.enums.HomeExpensesType).getLabelSrcFromValue(expense)}">
+                    th:each="addHomeExpense : ${inputData.get('householdHomeExpenses[]')}">
+                  <th:block th:with="addHomeExpenseEnum=${T(org.mdbenefits.app.data.enums.HomeExpensesType).getEnumByName(addHomeExpense)},
+                            placeholder='0.00'">
                     <th:block
-                        th:replace="~{fragments/inputs/money :: money(inputName=${inputName},
-                      label=${#messages.msg(labelName)},
-                      helpText=#{expenses-estimate-ok})}"/>
+                        th:replace="~{fragments/inputs/money :: money(
+                          inputName=${addHomeExpenseEnum.getInputFieldName()},
+                          label=${#messages.msg(addHomeExpenseEnum.getLabelSrc())},
+                          placeholder=${placeholder})}"
+                    />
                   </th:block>
                 </th:block>
               </div>

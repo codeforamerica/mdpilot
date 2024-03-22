@@ -21,7 +21,7 @@
                 <th:block
                     th:each="option : ${T(org.mdbenefits.app.data.enums.HomeExpensesType).values()}">
                   <th:block
-                      th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(inputName='householdHomeExpenses', value=${option.getValue()}, label=#{${option.getLabelSrc()}})}"/>
+                      th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(inputName='householdHomeExpenses', value=${option.name()}, label=#{${option.getLabelSrc()}})}"/>
                 </th:block>
                 <th:block
                     th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(inputName='householdHomeExpenses',value='None', label=#{general.none-of-the-above}, noneOfTheAbove=true)}"/>

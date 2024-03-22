@@ -85,8 +85,6 @@ flow:
   householdRent:
     nextScreens:
       - name: householdRentAmount
-        condition: HouseholdPaysRent
-      - name: householdUtilities
   householdRentAmount:
     nextScreens:
       - name: householdSignPost
@@ -229,24 +227,13 @@ flow:
     nextScreens:
       - name: householdHomeExpenses
   householdHomeExpenses:
+    beforeSaveAction: ClearUnusedExpensesFields
     nextScreens:
       - name: householdHomeExpensesAmount
         condition: HasHouseholdHomeExpenses
-      - name: householdUtilities
+      - name: householdMedicalExpenses
   householdHomeExpensesAmount:
     nextScreens:
-      - name: householdUtilities
-  householdUtilities:
-    nextScreens:
-      - name: householdSeasonalFarmWorker
-        condition: IsApplyingForExpeditedSnapAndHasNoUtilityExpenses
-      - name: householdUtilitiesAmount
-        condition: HasUtilitiesExpenses
-      - name: householdMedicalExpenses
-  householdUtilitiesAmount:
-    nextScreens:
-      - name: householdSeasonalFarmWorker
-        condition: IsApplyingForExpeditedSnap
       - name: householdMedicalExpenses
   householdMedicalExpenses:
     nextScreens:
