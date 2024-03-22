@@ -46,6 +46,7 @@ public interface GoogleDriveClient {
      * @param directoryId ID of directory to delete
      * @param errors      error map for any errors to be added to
      * @return boolean value indicating success or failure to delete
+     * @see GoogleDriveClient#trashDirectory(String, String, Map)  trashDirectory
      */
     boolean deleteDirectory(String name, String directoryId, Map<String, String> errors);
 
@@ -56,6 +57,7 @@ public interface GoogleDriveClient {
      * @param directoryId ID of directory to delete
      * @param errors      error map for any errors to be added to
      * @return boolean value indicating success or failure to delete
+     * @see GoogleDriveClient#deleteDirectory(String, String, Map)  deleteDirectory
      */
     boolean trashDirectory(String name, String directoryId, Map<String, String> errors);
 }
