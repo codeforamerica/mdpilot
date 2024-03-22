@@ -3,19 +3,21 @@
     th:with="
       hasHelpText=${!#strings.isEmpty(checkboxHelpText)},
       hasIcon=${!#strings.isEmpty(checkboxIcon)},
+      hasNoneValue=${#strings.isEmpty(value) and #bools.isTrue(noneOfTheAbove)},
+      actualValue=${hasNoneValue ? T(org.mdbenefits.app.utils.SubmissionUtilities).NONE_OF_ABOVE_SELECTION_VALUE : value},
       name=${inputName} + '[]',
-      checked=${T(formflow.library.utils.InputUtils).arrayOrStringContains(fieldData.getOrDefault(name, ''), value)},
-      id=${#bools.isTrue(noneOfTheAbove) ? 'none__checkbox-' + inputName : inputName + '-' + value}"
+      checked=${T(formflow.library.utils.InputUtils).arrayOrStringContains(fieldData.getOrDefault(name, ''), actualValue)},
+      id=${#bools.isTrue(noneOfTheAbove) ? 'none__checkbox-' + inputName : inputName + '-' + actualValue}"
     th:assert="
       ${!#strings.isEmpty(inputName)},
-      ${!#strings.isEmpty(value)},
+      ${!#strings.isEmpty(actualValue)},
       ${!#strings.isEmpty(label)}">
   <label th:for="${id}"
          th:id="${id} + '-label'"
          class="checkbox display-flex">
     <input type="checkbox"
            th:id="${id}"
-           th:value="${value}"
+           th:value="${actualValue}"
            th:name="${name}"
            th:checked="${checked}"
            th:attr="

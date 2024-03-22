@@ -1,13 +1,15 @@
 package org.mdbenefits.app.submission.actions;
 
 import formflow.library.config.submission.Action;
-import formflow.library.data.FormSubmission;
 import formflow.library.data.Submission;
-import java.util.List;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.mdbenefits.app.data.enums.AdditionalIncomeType;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Map;
+
+import static org.mdbenefits.app.utils.SubmissionUtilities.isNoneOfAboveSelection;
 
 @Component
 @Slf4j
@@ -23,7 +25,7 @@ public class ClearUnusedAdditionalIncomeFields implements Action {
     public void run(Submission submission) {
         Map<String, String> submissionInputData = (Map) submission.getInputData();
         List<String> additionalIncomeTypes = (List) submission.getInputData().getOrDefault("additionalIncome[]", List.of());
-        boolean none = additionalIncomeTypes.contains("NONE");
+        boolean none = isNoneOfAboveSelection(additionalIncomeTypes);
 
         for (AdditionalIncomeType type : AdditionalIncomeType.values()) {
             if (none || !additionalIncomeTypes.contains(type.name())) {

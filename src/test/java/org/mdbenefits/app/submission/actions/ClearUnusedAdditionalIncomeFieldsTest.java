@@ -1,15 +1,17 @@
 package org.mdbenefits.app.submission.actions;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import formflow.library.data.Submission;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.SubmissionTestBuilder;
 import org.mdbenefits.app.data.enums.AdditionalIncomeType;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mdbenefits.app.utils.SubmissionUtilities.NONE_OF_ABOVE_SELECTION_VALUE;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -25,7 +27,7 @@ class ClearUnusedAdditionalIncomeFieldsTest {
     @Test
     public void shouldClearAllFieldsIfNoneSelected() {
         Submission submission = new SubmissionTestBuilder()
-                .with("additionalIncome[]", List.of("NONE"))
+                .with("additionalIncome[]", List.of(NONE_OF_ABOVE_SELECTION_VALUE))
                 .with(AdditionalIncomeType.ALIMONY.getInputFieldName(), "2000")
                 .with(AdditionalIncomeType.PENSION_RETIREMENT.getInputFieldName(), "222")
                 .with(AdditionalIncomeType.VETERANS_BENEFITS.getInputFieldName(), "1000")

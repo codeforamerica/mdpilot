@@ -1,19 +1,18 @@
 package org.mdbenefits.app.utils;
 
+import formflow.library.data.Submission;
+
+import javax.annotation.Nullable;
+import java.text.DecimalFormat;
+import java.time.OffsetDateTime;
+import java.util.*;
+
 import static formflow.library.inputs.FieldNameMarkers.DYNAMIC_FIELD_MARKER;
 import static java.util.Collections.emptyList;
 
-import formflow.library.data.Submission;
-import java.text.DecimalFormat;
-import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class SubmissionUtilities {
 
+    public static final String NONE_OF_ABOVE_SELECTION_VALUE = "NONE";
     public static final String ENCRYPTED_SSNS_INPUT_NAME = "householdMemberEncryptedSSN";
     public static final String[] SENSITIVE_CONVICTION_QUESTIONS = {
             "IsReceivingBenefitsWithFakeID",
@@ -209,5 +208,17 @@ public class SubmissionUtilities {
 
     public static String getDecryptedSSNKeyName(String uuid) {
         return "householdMemberSsn%s%s".formatted(DYNAMIC_FIELD_MARKER, uuid);
+    }
+
+    public static boolean isNoneOfAboveSelection(@Nullable Object value) {
+        if (value == null) {
+            return true;
+        } else if (value instanceof List<?> valueList) {
+            return valueList.size() == 1 && isNoneOfAboveSelection(valueList.get(0));
+        } else if (value instanceof String valueString) {
+            return valueString.equalsIgnoreCase((NONE_OF_ABOVE_SELECTION_VALUE));
+        } else {
+            throw new IllegalArgumentException("Illegal data type for none-of-the-above selection");
+        }
     }
 }
