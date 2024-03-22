@@ -24,7 +24,6 @@ public class HouseholdExpensesPreparer implements SubmissionFieldPreparer {
 
         var householdExpenses = (List<String>) submission.getInputData().getOrDefault("householdHomeExpenses[]", emptyList());
         if (!householdExpenses.isEmpty()) {
-            int i = 1;
             for (String expense : householdExpenses) {
                 var householdExpenseEnum = HomeExpensesType.getEnumByName(expense);
                 if (householdExpenseEnum != null) {
