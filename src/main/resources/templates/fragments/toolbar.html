@@ -2,35 +2,36 @@
   <header class="main-header toolbar__wrapper" id="main-header">
     <div class="toolbar" id="toolbar">
       <a href="#content" id="skip-to-content" class="button button--small">Skip to content</a>
-
       <a class="logo" href="/">
         <picture>
           <!--          TODO: Other picture sources, fix alt below -->
-          <source srcset="/assets/images/md-gov.png" type="image/png">
-          <img src="/assets/images/md-gov.png" alt="Maryland.gov logo" class="max-width-logo"/>
+          <source srcset="/assets/images/MarylandLogoSmall.svg" type="image/svg">
+          <img src="/assets/images/MarylandLogoSmall.svg" alt="MarylandBenefits.org"
+               style="max-width:375px;"/>
         </picture>
       </a>
       <script>
-          $(document).ready(function () {
-              $("a[rel~='keep-params']").each(function (e) {
-                  const params = window.location.search.replace('?', '&').replace(/&lang=\S{2}/, "");
-                  $(this).attr('href', $(this).attr('href') + params);
-              })
+        $(document).ready(function () {
+          $("a[rel~='keep-params']").each(function (e) {
+            const params = window.location.search.replace('?', '&').replace(/&lang=\S{2}/, "");
+            $(this).attr('href', $(this).attr('href') + params);
+          })
 
-              $("#caseNumber").on("input", function (e) {
-                  var val = $(this).val();
-                  if (val !== null && val.length >= 9) {
-                      $(this).val(val.slice(0,9));
-                  }
-              })
+          $("#caseNumber").on("input", function (e) {
+            var val = $(this).val();
+            if (val !== null && val.length >= 9) {
+              $(this).val(val.slice(0, 9));
+            }
+          })
 
-              $(".flash__dismiss").on("click", function (e) {
-                $(this).parent()[0].setAttribute("class", "display-none");
-              })
+          $(".flash__dismiss").on("click", function (e) {
+            $(this).parent()[0].setAttribute("class", "display-none");
+          })
 
-          });
+        });
       </script>
-   </div>
+    </div>
   </header>
-  <th:block th:replace="~{fragments/demoBanner :: demoBanner(demoText=#{demo.banner-text}, demoProfile=${@environment.getProperty('demo')})}"/>
+  <th:block
+      th:replace="~{fragments/demoBanner :: demoBanner(demoText=#{demo.banner-text}, demoProfile=${@environment.getProperty('demo')})}"/>
 </th:block>
