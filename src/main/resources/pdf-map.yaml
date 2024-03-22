@@ -102,6 +102,7 @@ inputFields:
 
   #Section K
   householdHomeExpenses:
+    RENT: expense_rent_bool
     CONDO_FEES: expense_condo_fees_bool
     ELECTRICITY: expense_electric_bool
     GARBAGE: expense_garbage_bool
