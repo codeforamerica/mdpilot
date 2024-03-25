@@ -20,10 +20,12 @@ flow:
       - name: choosePrograms
   choosePrograms:
     nextScreens:
-      - name: expeditedSnapNotice
-  expeditedSnapNotice:
-    condition: ProgramsIncludeSnap
-    nextScreens:
+      # we are not doing expeditedSnap during the first phase, but leaving this in
+      # for v1.5 phase
+      #      - name: expeditedSnapNotice
+      #  expeditedSnapNotice:
+      #    condition: ProgramsIncludeSnap
+      #    nextScreens:
       - name: ohepNotice
   ohepNotice:
     condition: ProgramsIncludeSnapOrTCA

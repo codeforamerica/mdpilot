@@ -494,8 +494,9 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
 
         // Expedited Snap Notice
-        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-notice.title"));
-        testPage.clickContinue();
+        // taking this out for now, as we have disabled expedited snap for the time being
+        //assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-notice.title"));
+        //testPage.clickContinue();
 
         // OHEP Notice
         assertThat(testPage.getTitle()).isEqualTo(message("ohep-notice.title"));
