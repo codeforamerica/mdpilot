@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head(title=#{income-less-than-150.title})}"></head>
+<head th:replace="~{fragments/head :: head(title=#{ohep-heating.title})}"></head>
 <body>
 <div class="page-wrapper">
   <div th:replace="~{fragments/toolbar :: toolbar}"></div>
@@ -8,16 +8,23 @@
     <div class="grid">
       <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
+        <th:block th:replace="~{fragments/icons :: householdFamilyIncome}"></th:block>
         <th:block
-            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
-          <th:block th:ref="formContent">
-            <th:block th:replace="~{fragments/icons :: householdOrange}"></th:block>
-            <th:block
-                th:replace="~{fragments/cardHeader :: cardHeader(header=#{income-less-than-150.header})}"/>
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{ohep-heating.header})}"/>
+        <p th:utext="#{ohep-heating.subheader}"></p>
+        <th:block th:replace="~{fragments/form :: form(action=${formAction}, content=~{::OHEPHeatingForm})}">
+          <th:block th:ref="OHEPHeatingForm">
+            <div class="form-card__content">
+              <th:block th:replace="~{fragments/inputs/text ::
+                text(inputName='heatingCompanyName',
+                label=#{ohep-heating.q1})}" />
+              <th:block th:replace="~{fragments/inputs/text ::
+                text(inputName='heatingAccountNumber',
+                label=#{ohep-heating.q2})}" />
+            </div>
             <div class="form-card__footer">
-              <th:block th:replace="~{fragments/inputs/yesOrNo :: yesOrNo(
-                inputName='incomeLessThan150',
-                ariaDescribe='header')}"/>
+              <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
+                text=#{general.inputs.continue})}"/>
             </div>
           </th:block>
         </th:block>

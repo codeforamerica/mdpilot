@@ -208,6 +208,26 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     }
 
     @Test
+    void displayRentQuestionWhenRentExpense(){
+        loadUserPersonalData();
+        testPage.navigateToFlowScreen("mdBenefitsFlow/expensesSignPost");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("expenses-signpost.title"));
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("home-expenses.title"));
+        testPage.clickElementById("householdHomeExpenses-RENT-label");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("home-expenses-amount.title"));
+        testPage.enter("homeExpenseRent", "55");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-rent.title"));
+        testPage.clickContinue();
+    }
+
+    @Test
     void hourlyIncomeFlow() {
         loadUserPersonalData();
         loadHouseHoldData("First", "User", "12", "22", "1991", true);
@@ -591,6 +611,16 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("expenses-signpost.title"));
         testPage.clickContinue();
 
+        assertThat(testPage.getTitle()).isEqualTo(message("home-expenses.title"));
+        testPage.clickElementById("none__checkbox-householdHomeExpenses");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-electricity.title"));
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-heating.title"));
+        testPage.clickContinue();
+
         // PLACEHOLDER FOR ADDITIONAL TESTS
 
         testPage.navigateToFlowScreen("mdBenefitsFlow/docUploadIntro");
@@ -707,6 +737,16 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("expenses-signpost.title"));
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("home-expenses.title"));
+        testPage.clickElementById("none__checkbox-householdHomeExpenses");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-electricity.title"));
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-heating.title"));
         testPage.clickContinue();
     }
 
