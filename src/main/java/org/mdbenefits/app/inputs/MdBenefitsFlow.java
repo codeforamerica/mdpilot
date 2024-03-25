@@ -247,18 +247,48 @@ public class MdBenefitsFlow extends FlowInputs {
     @NotEmpty(message = "{error.missing-general}")
     private List<String> householdHomeExpenses;
 
-    @NotBlank(message = "{error.missing-dollar-amount}")
     @Money(message = "{error.invalid-money}")
-    @DynamicField
-    private String householdHomeExpenseAmount;
-
     @NotEmpty(message = "{error.missing-general}")
-    private List<String> householdUtilitiesExpenses;
-
-    @NotBlank(message = "{error.missing-dollar-amount}")
+    private String homeExpenseRent;
     @Money(message = "{error.invalid-money}")
-    @DynamicField
-    private String householdUtilitiesExpenseAmount;
+    @NotEmpty(message = "{error.missing-general}")
+    private String homeExpenseMortgage;
+    @Money(message = "{error.invalid-money}")
+    @NotEmpty(message = "{error.missing-general}")
+    private String homeExpensePhone;
+    @Money(message = "{error.invalid-money}")
+    @NotEmpty(message = "{error.missing-general}")
+    private String homeExpenseElectricity;
+    @Money(message = "{error.invalid-money}")
+    @NotEmpty(message = "{error.missing-general}")
+    private String homeExpenseWater;
+    @Money(message = "{error.invalid-money}")
+    @NotEmpty(message = "{error.missing-general}")
+    private String homeExpenseSewer;
+    @Money(message = "{error.invalid-money}")
+    @NotEmpty(message = "{error.missing-general}")
+    private String homeExpenseGarbage;
+    @Money(message = "{error.invalid-money}")
+    @NotEmpty(message = "{error.missing-general}")
+    private String homeExpenseGas;
+    @Money(message = "{error.invalid-money}")
+    @NotEmpty(message = "{error.missing-general}")
+    private String homeExpenseOil;
+    @Money(message = "{error.invalid-money}")
+    @NotEmpty(message = "{error.missing-general}")
+    private String homeExpenseWoodOrCoal;
+    @Money(message = "{error.invalid-money}")
+    @NotEmpty(message = "{error.missing-general}")
+    private String homeExpenseCondominiumFees;
+    @Money(message = "{error.invalid-money}")
+    @NotEmpty(message = "{error.missing-general}")
+    private String homeExpensePropertyTax;
+    @Money(message = "{error.invalid-money}")
+    @NotEmpty(message = "{error.missing-general}")
+    private String homeExpenseHomeownerInsurance;
+    @Money(message = "{error.invalid-money}")
+    @NotEmpty(message = "{error.missing-general}")
+    private String homeExpenseOtherHomeExpenses;
 
     private String hasDependentCareExpenses;
 

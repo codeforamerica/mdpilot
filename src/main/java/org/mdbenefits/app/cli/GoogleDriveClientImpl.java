@@ -6,6 +6,7 @@ import com.google.api.client.googleapis.media.MediaHttpUploader;
 import com.google.api.client.http.ByteArrayContent;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.services.drive.Drive.Files;
 import com.google.api.services.drive.Drive.Files.Create;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -22,6 +23,8 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import java.util.Collections;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -33,7 +36,11 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
     private final String GOOGLE_CREDS = System.getenv("GOOGLE_DRIVE_CREDS");
     private final Drive service;
 
-    public GoogleDriveClientImpl() throws IOException, GeneralSecurityException {
+    private final String teamDriveId;
+
+    public GoogleDriveClientImpl(@Value("${transmission.google-drive-directory-id.team-drive:''}") String teamDriveId)
+            throws IOException, GeneralSecurityException {
+        this.teamDriveId = teamDriveId;
         // Build a new authorized API client service.
         service = new Drive.Builder(
                 GoogleNetHttpTransport.newTrustedTransport(),
@@ -53,12 +60,15 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
     public GoogleDriveFolder createFolder(String parentFolderId, String name, Map<String, String> errors) {
         File fileMetadata = new File();
         fileMetadata.setName(name);
+        fileMetadata.setDriveId(teamDriveId);
         fileMetadata.setParents(Collections.singletonList(parentFolderId));
         fileMetadata.setMimeType("application/vnd.google-apps.folder");
         try {
             String properties = String.join(",", GoogleDriveFolder.properties);
-            File file = service.files().create(fileMetadata)
+            File file = service.files()
+                    .create(fileMetadata)
                     .setFields(properties)
+                    .setSupportsAllDrives(true) // necessary for team drives
                     .execute();
             log.info("Created Google Drive Folder with ID: " + file.getId());
             return new GoogleDriveFolder(file);
@@ -78,17 +88,24 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
             Map<String, String> errors) {
 
         File fileMetadata = new File();
-        fileMetadata.setName(fileName);
-        fileMetadata.setParents(Collections.singletonList(parentFolderId));
+        fileMetadata.setName(fileName)
+                .setParents(Collections.singletonList(parentFolderId))
+                .setDriveId(teamDriveId);
 
         ByteArrayContent mediaContent = new ByteArrayContent(mimeType, fileBytes);
 
         try {
-            Create createRequest = service.files().create(fileMetadata, mediaContent);
+            Create createRequest = service.files().create(fileMetadata, mediaContent)
+                    .setSupportsAllDrives(true)
+                    .setSupportsTeamDrives(true)
+                    .setFields("id");
+
             createRequest.getMediaHttpUploader()
                     .setDirectUploadEnabled(false)
                     .setChunkSize(MediaHttpUploader.MINIMUM_CHUNK_SIZE);
-            File file = createRequest.setFields("id").execute();
+
+            File file = createRequest.execute();
+
             log.info("Uploaded file with ID: " + file.getId());
             return file.getId();
         } catch (Exception e) {
@@ -105,12 +122,20 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
     @Override
     public List<File> findDirectory(String name, String parentId) {
         try {
-            FileList result = service.files().list()
+            Files.List fileList = service.files().list()
                     .setQ(String.format(
                             "name = '%s' and '%s' in parents and mimeType='application/vnd.google-apps.folder' and trashed = false",
-                            name, parentId))
-                    .setSpaces("drive")
-                    .setFields("nextPageToken, files(id, name)")
+                            name, parentId));
+            if (teamDriveId.isBlank()) {
+                fileList.setSpaces("drive");
+            } else {
+                fileList.setSupportsAllDrives(true)
+                        .setIncludeItemsFromAllDrives(true)
+                        .setCorpora("drive")
+                        .setDriveId(teamDriveId);
+            }
+
+            FileList result = fileList.setFields("nextPageToken, files(id, name)")
                     .execute();
 
             List<File> dirs = result.getFiles();
@@ -125,10 +150,32 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
     }
 
     @Override
+    public boolean trashDirectory(String name, String directoryId, Map<String, String> errors) {
+        try {
+            File metadata = new File();
+            metadata.setTrashed(true);
+            service.files()
+                    .update(directoryId, metadata)
+                    .setSupportsTeamDrives(true)
+                    .setSupportsAllDrives(true)
+                    .execute();
+            log.info("Deleted directory {} ({})", name, directoryId);
+        } catch (IOException e) {
+            String error = String.format("Unable to delete directory %s: %s", directoryId, e.getMessage());
+            log.error(error);
+            errors.put("delete", error);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public boolean deleteDirectory(String name, String directoryId, Map<String, String> errors) {
         try {
             service.files()
                     .delete(directoryId)
+                    .setSupportsTeamDrives(true)
+                    .setSupportsAllDrives(true)
                     .execute();
             log.info("Deleted directory {} ({})", name, directoryId);
         } catch (IOException e) {
@@ -145,6 +192,10 @@ public class GoogleDriveClientImpl implements GoogleDriveClient {
                 .setQ(String.format("'%s' in parents and trashed = false", folderId))
                 .setSpaces("drive")
                 .setPageSize(numberOfFiles)
+                .setDriveId(teamDriveId)
+                .setCorpora("drive")
+                .setSupportsAllDrives(true)
+                .setSupportsTeamDrives(true)
                 .setFields("nextPageToken, files(id, name)")
                 .execute();
         List<File> files = result.getFiles();

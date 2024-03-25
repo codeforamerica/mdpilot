@@ -4,35 +4,42 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
 
+
 @Getter
 public enum HomeExpensesType {
-    RENT("rent", "home-expenses.rent"),
-    MORTGAGE("mortgage", "home-expenses.mortgage"),
-    HOMEOWNERS_INSURANCE("homeownerInsurance", "home-expenses.homeinsurance"),
-    PROPERTY_TAX("propertyTax", "home-expenses.tax"),
-    CONDO_FEES("condominiumFees", "home-expenses.condo-fees"),
-    LOT_RENT("lotRent", "home-expenses.lot-rent"),
-    FLOOD_INSURANCE("floodInsurance", "home-expenses.flood-insurance"),
-    OTHER("otherHomeExpenses", "home-expenses.other");
+//    Utilities and home expenses are mixed together now. The label string will show how the data was tagged originally.
+    RENT("homeExpenseRent", "home-expenses.rent"),
+    MORTGAGE("homeExpenseMortgage", "home-expenses.mortgage"),
+    PHONE("homeExpensePhone", "utilities-expenses.telephone"),
+    ELECTRICITY("homeExpenseElectricity", "utilities-expenses.electricity"),
+    WATER("homeExpenseWater", "utilities-expenses.water"),
+    SEWAGE("homeExpenseSewer", "utilities-expenses.sewage"),
+    GARBAGE("homeExpenseGarbage", "utilities-expenses.garbage"),
+    GAS("homeExpenseGas", "utilities-expenses.gas"),
+    OIL("homeExpenseOil", "utilities-expenses.oil"),
+    WOOD_OR_COAL("homeExpenseWoodOrCoal", "utilities-expenses.wood-or-coal"),
+    CONDO_FEES("homeExpenseCondominiumFees", "home-expenses.condo-fees"),
+    PROPERTY_TAX("homeExpensePropertyTax", "home-expenses.tax"),
+    HOMEOWNERS_INSURANCE("homeExpenseHomeownerInsurance", "home-expenses.home-insurance"),
+    OTHER("homeExpenseOtherHomeExpenses", "home-expenses.other");
 
-    private final String value;
+    private final String inputFieldName;
     private final String labelSrc;
 
-    static private final Map<String, HomeExpensesType> MAP_BY_VALUE = new HashMap<>();
+    private static final Map<String, HomeExpensesType> ENUM_BY_NAME = new HashMap<>();
 
     static {
         for (HomeExpensesType type : HomeExpensesType.values()) {
-            MAP_BY_VALUE.put(type.value, type);
+            ENUM_BY_NAME.put(type.name(), type);
         }
     }
 
-    HomeExpensesType(String value, String labelSrc) {
-        this.value = value;
+    HomeExpensesType(String inputFieldName, String labelSrc) {
+        this.inputFieldName = inputFieldName;
         this.labelSrc = labelSrc;
     }
 
-    public static String getLabelSrcFromValue(String value) {
-        HomeExpensesType expenseType = (HomeExpensesType) MAP_BY_VALUE.get(value);
-        return expenseType != null ? expenseType.labelSrc : null;
+    public static HomeExpensesType getEnumByName(String name) {
+        return ENUM_BY_NAME.get(name);
     }
 }

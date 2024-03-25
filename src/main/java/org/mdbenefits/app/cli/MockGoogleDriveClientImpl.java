@@ -36,8 +36,13 @@ public class MockGoogleDriveClientImpl implements GoogleDriveClient {
 
     @Override
     public boolean deleteDirectory(String name, String directoryId, Map<String, String> errors) {
-        log.info("Pretending to delete directory.");
+        log.info("Pretending to delete a directory.");
         return true;
     }
 
+    @Override
+    public boolean trashDirectory(String name, String directoryId, Map<String, String> errors) {
+        log.info("Pretending to trash a directory.");
+        return true;
+    }
 }

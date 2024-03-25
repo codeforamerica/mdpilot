@@ -39,12 +39,25 @@ public interface GoogleDriveClient {
     List<File> findDirectory(String name, String parentId);
 
     /**
-     * Deletes the specified directory with the matching directory ID.
+     * Hard deletes the specified directory with the matching directory ID; this bypasses the trash feature. Only "Managers" in a
+     * Google Drive team environment can use this call. A "Content Manager" will not have sufficient permissions to use this.
      *
      * @param name        Name of the directory to delete
      * @param directoryId ID of directory to delete
      * @param errors      error map for any errors to be added to
      * @return boolean value indicating success or failure to delete
+     * @see GoogleDriveClient#trashDirectory(String, String, Map)  trashDirectory
      */
     boolean deleteDirectory(String name, String directoryId, Map<String, String> errors);
+
+    /**
+     * Puts a specified directory into the trash. A Google Drive user with "Content Manager" role can use this method.
+     *
+     * @param name        Name of the directory to delete
+     * @param directoryId ID of directory to delete
+     * @param errors      error map for any errors to be added to
+     * @return boolean value indicating success or failure to delete
+     * @see GoogleDriveClient#deleteDirectory(String, String, Map)  deleteDirectory
+     */
+    boolean trashDirectory(String name, String directoryId, Map<String, String> errors);
 }

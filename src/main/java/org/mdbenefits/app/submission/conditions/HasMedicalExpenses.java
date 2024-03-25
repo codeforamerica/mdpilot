@@ -8,6 +8,6 @@ public class HasMedicalExpenses extends BasicArrayCondition {
 
     @Override
     public Boolean run(Submission submission) {
-        return run(submission, "householdMedicalExpenses[]");
+        return checkHasValidSelection(submission, "householdMedicalExpenses[]");
     }
 }
