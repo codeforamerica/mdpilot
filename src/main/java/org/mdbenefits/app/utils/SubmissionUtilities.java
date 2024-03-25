@@ -221,4 +221,20 @@ public class SubmissionUtilities {
             throw new IllegalArgumentException("Illegal data type for none-of-the-above selection");
         }
     }
+
+    /**
+     * Uses the "birthDay", "birthMonth", and "birthYear" fields from the input data to create an "MM/DD/YYYY" formatted string.
+     *
+     * @param inputData input data map to pull the dates from.
+     * @return
+     */
+    public static String getFormattedBirthdate(Map<String, Object> inputData) {
+        Integer month = Integer.valueOf((String) inputData.getOrDefault("birthMonth", "0"));
+        Integer day = Integer.valueOf((String) inputData.getOrDefault("birthDay", "0"));
+        Integer year = Integer.valueOf((String) inputData.getOrDefault("birthYear", "0"));
+        if (month.equals(0) || day.equals(0) || year.equals(0)) {
+            return "";
+        }
+        return String.format("%02d/%02d/%4d", month, day, year);
+    }
 }

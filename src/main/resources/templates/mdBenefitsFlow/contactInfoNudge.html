@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(title=#{contact-info-nudge.title})}"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <th:block th:replace="~{fragments/icons :: stepArrow}"></th:block>
+        <th:block
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{contact-info-nudge.header}, subtext=#{contact-info-nudge.p1})}"/>
+        <th:block
+            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
+          <th:block th:ref="formContent">
+            <div class="form-card__content">
+
+            </div>
+            <div class="form-card__footer">
+              <button class="button button--primary"
+                      th:onclick="'window.history.back(); return false;'">
+                <span th:text="#{contact-info-nudge.add-contact-info}"></span>
+              </button>
+              <button style="margin-left:0;" class="button button--secondary"
+                      th:href="'/flow/' + ${flow} + '/' + ${screen} + '/navigation'">
+                <span th:text="#{contact-info-nudge.skip-contact-info}"></span>
+              </button>
+            </div>
+          </th:block>
+        </th:block>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>

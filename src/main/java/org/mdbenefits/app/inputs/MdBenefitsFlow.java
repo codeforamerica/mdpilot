@@ -43,7 +43,6 @@ public class MdBenefitsFlow extends FlowInputs {
     @NotBlank(message = "{error.missing-lastname}")
     private String lastName;
 
-
     private String birthDay;
     private String birthMonth;
     private String birthYear;
@@ -85,23 +84,18 @@ public class MdBenefitsFlow extends FlowInputs {
     private String selectAddress;
 
     //Contact Info
-    private String phoneNumber;
-
     @Pattern(regexp = "^\\(\\d{3}\\) \\d{3}-\\d{4}$", message = "{error.invalid-phone}")
     private String cellPhoneNumber;
 
     @Pattern(regexp = "^\\(\\d{3}\\) \\d{3}-\\d{4}$", message = "{error.invalid-phone}")
+    private String homePhoneNumber;
+
+    @Pattern(regexp = "^\\(\\d{3}\\) \\d{3}-\\d{4}$", message = "{error.invalid-phone}")
     private String workPhoneNumber;
 
-    private String wantsReminders;
-
-    private String identifiesAsDeaf;
-
-    private String preferredCommsMethod;
+    private String textingCellNumberIsOkay;
 
     private String emailAddress;
-
-    private List<String> remindersMethod;
 
     // Household
     private String multiplePersonHousehold;

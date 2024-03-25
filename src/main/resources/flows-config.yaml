@@ -62,13 +62,13 @@ flow:
   contactInfo:
     crossFieldValidationAction: ValidateContactMethod
     nextScreens:
-      - name: phoneNumberNudge
-        condition: PhoneNumberMissing
-      - name: reviewContactInfo
-  phoneNumberNudge:
+      - name: contactInfoNudge
+        condition: ContactInfoMissing
+      - name: contactInfoReview
+  contactInfoNudge:
     nextScreens:
-      - name: reviewContactInfo
-  reviewContactInfo:
+      - name: contactInfoReview
+  contactInfoReview:
     nextScreens:
       - name: householdSignPost
   expeditedSnapStart:

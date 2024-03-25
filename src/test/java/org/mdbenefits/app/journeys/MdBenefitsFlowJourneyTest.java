@@ -318,7 +318,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         loadUserPersonalData();
         loadAddressData();
         loadContactData();
-        testPage.navigateToFlowScreen("mdBenefitsFlow/reviewContactInfo");
+        testPage.navigateToFlowScreen("mdBenefitsFlow/contactInfoReview");
         assertThat(testPage.getTitle()).isEqualTo(message("review-contact-info.title"));
         testPage.clickLink(message("review-contact-info.submit-incomplete"));
         // Expedited Snap Start
@@ -512,23 +512,22 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickButton("Use this address");
 
         assertThat(testPage.getTitle()).isEqualTo(message("contact-info.title"));
-        testPage.clickElementById("remindersMethod-By email-label");
-        testPage.enter("emailAddress", "mail@mail.com");
 
         testPage.clickContinue();
 
-        assertThat(testPage.getTitle()).isEqualTo(message("phone-number-nudge.title"));
+        assertThat(testPage.getTitle()).isEqualTo(message("contact-info-nudge.title"));
 
-        testPage.clickButton("Add a phone number");
+        testPage.clickButton(message("contact-info-nudge.add-contact-info"));
 
         assertThat(testPage.getTitle()).isEqualTo(message("contact-info.title"));
-        testPage.enter("phoneNumber", "123-456-7891");
+        testPage.enter("cellPhoneNumber", "123-456-7891");
+        testPage.enter("emailAddress", "mail@mail.com");
 
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("review-contact-info.title"));
 
-        testPage.clickButton("This looks correct");
+        testPage.clickButton(message("review-contact-info.this-looks-correct"));
 
         // Individual Only Household
         assertThat(testPage.getTitle()).isEqualTo(message("household-signpost.title"));
