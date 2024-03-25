@@ -251,6 +251,7 @@ flow:
         condition: HasHouseholdMemberDisabledOrOver60
       - name: expensesDependentCare
   householdMedicalExpenses:
+    beforeSaveAction: ClearUnusedMedicalExpensesFields
     nextScreens:
       - name: householdMedicalExpensesAmount
         condition: HasMedicalExpenses
