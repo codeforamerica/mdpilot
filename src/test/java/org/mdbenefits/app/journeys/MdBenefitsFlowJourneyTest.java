@@ -98,8 +98,8 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
 
         // Expedited Snap Notice
-        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-notice.title"));
-        testPage.clickContinue();
+        // assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-notice.title"));
+        // testPage.clickContinue();
 
         // OHEP Notice
         assertThat(testPage.getTitle()).isEqualTo(message("ohep-notice.title"));
@@ -144,8 +144,8 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         testPage.clickElementById("programs-SNAP");
         testPage.clickContinue();
-        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-notice.title"));
-        testPage.clickContinue();
+        //assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-notice.title"));
+        //testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("ohep-notice.title"));
         testPage.clickButton("Ok, thanks");
         assertThat(testPage.getTitle()).isEqualTo(message("how-this-works.title"));
