@@ -6,34 +6,33 @@ import lombok.Getter;
 
 @Getter
 public enum MedicalExpensesType {
-    DENTAL("dentalBills", "medical-expenses.dental-bills"),
-    HOSPITAL_BILLS("hospitalBills", "medical-expenses.hospital-bills"),
-    PRESCRIPTION_MEDICINE("prescriptionMedicine", "medical-expenses.prescription-medicine"),
-    PRESCRIPTION_PREMIUM("prescriptionPremium", "medical-expenses.prescription-premium"),
-    MEDICAL_APPLIANCES("medicalAppliances", "medical-expenses.medical-appliances"),
-    INSURANCE_PREMIUMS("insurancePremiums", "medical-expenses.insurance-premiums"),
-    NURSING_HOME("nursingHome", "medical-expenses.nursing-home"),
-    OTHER("otherMedicalExpenses", "medical-expenses.other");
+    HEALTH_MEDICAL_INSURANCE("medicalExpenseHealthMedicalInsurance", "medical-expenses.options.insurance-premiums"),
+    DENTURES_GLASSES_HEARING_AIDS("medicalExpenseDenturesGlassesEtc", "medical-expenses.options.dentures-glasses-etc"),
+    HOSPITAL_BILLS("medicalExpenseHospitalBills", "medical-expenses.options.hospital-bills"),
+    ATTENDANT_CARE("medicalExpenseAttendantCare", "medical-expenses.options.attendant-care"),
+    MEDICAL_DENTAL_INSURANCE("medicalExpenseMedicalDentalInsurance", "medical-expenses.options.dental-insurance"),
+    TRANSPORTATION_COSTS("medicalExpenseTransportationCosts", "medical-expenses.options.transporation-costs"),
+    NURSING("medicalExpenseNursing", "medical-expenses.options.nursing"),
+    PHARMACY("medicalExpensePharmacy", "medical-expenses.options.pharmacy-expenses"),
+    OTHER("medicalExpenseOther", "medical-expenses.options.other");
 
-
-    private final String value;
+    private final String inputFieldName;
     private final String labelSrc;
 
-    static private final Map<String, MedicalExpensesType> MAP_BY_VALUE = new HashMap<>();
+    private static final Map<String, MedicalExpensesType> ENUM_BY_NAME = new HashMap<>();
 
     static {
         for (MedicalExpensesType type : MedicalExpensesType.values()) {
-            MAP_BY_VALUE.put(type.value, type);
+            ENUM_BY_NAME.put(type.name(), type);
         }
     }
 
-    MedicalExpensesType(String value, String labelSrc) {
-        this.value = value;
+    MedicalExpensesType(String inputFieldName, String labelSrc) {
+        this.inputFieldName = inputFieldName;
         this.labelSrc = labelSrc;
     }
 
-    public static String getLabelSrcFromValue(String value) {
-        MedicalExpensesType expenseType = (MedicalExpensesType) MAP_BY_VALUE.get(value);
-        return expenseType != null ? expenseType.labelSrc : null;
+    public static MedicalExpensesType getEnumByName(String name) {
+        return ENUM_BY_NAME.get(name);
     }
 }
