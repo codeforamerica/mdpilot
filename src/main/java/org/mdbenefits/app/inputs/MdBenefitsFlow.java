@@ -296,6 +296,18 @@ public class MdBenefitsFlow extends FlowInputs {
 
     private String heatingAccountNumber;
 
+    private List<String> medicalExpenses;
+
+    private String medicalExpenseHealthMedicalInsurance;
+    private String medicalExpenseDenturesGlassesEtc;
+    private String medicalExpenseHospitalBills;
+    private String medicalExpenseAttendantCare;
+    private String medicalExpenseMedicalDentalInsurance;
+    private String medicalExpenseTransportationCosts;
+    private String medicalExpenseNursing;
+    private String medicalExpensePharmacy;
+    private String medicalExpenseOther;
+
     private String hasDependentCareExpenses;
 
     @Money(message = "{error.invalid-money}")

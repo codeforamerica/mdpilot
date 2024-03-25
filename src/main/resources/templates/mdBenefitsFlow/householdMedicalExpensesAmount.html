@@ -9,26 +9,23 @@
       <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
         <th:block
-            th:replace="~{fragments/cardHeader :: cardHeader(header=#{expenses-amount.question(#{medical-expenses})})}"/>
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{medical-expenses.amount.header}, subtext=#{medical-expenses.amount.subheader})}"/>
         <th:block
             th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formDetails})}">
           <th:block th:ref="formDetails">
             <div class="form-card__content">
-              <div th:each="expense, iter:${inputData.get('householdMedicalExpenses[]')}"
-                   class="spacing-below-15">
-                <th:block
-                    th:with="inputName=${'householdMedicalExpenseAmount' + T(formflow.library.inputs.FieldNameMarkers).DYNAMIC_FIELD_MARKER + expense}">
+              <th:block
+                  th:each="addMedicalExpense : ${inputData.get('medicalExpenses[]')}">
+                <th:block th:with="addMedicalExpenseEnum=${T(org.mdbenefits.app.data.enums.MedicalExpensesType).getEnumByName(addMedicalExpense)},
+                            placeholder='0.00'">
                   <th:block
-                      th:with="labelName=${T(org.mdbenefits.app.data.enums.MedicalExpensesType).getLabelSrcFromValue(expense)}">
-                    <th:block
-                        th:replace="~{fragments/inputs/money :: money(inputName=${inputName},
-                      label=${#messages.msg(labelName)},
-                      helpText=#{expenses-estimate-ok},
-                      postfix='/month')}"/>
-                  </th:block>
+                      th:replace="~{fragments/inputs/money :: money(
+                          inputName=${addMedicalExpenseEnum.getInputFieldName()},
+                          label=${#messages.msg(addMedicalExpenseEnum.getLabelSrc())},
+                          placeholder=${placeholder})}"
+                  />
                 </th:block>
-                <hr/>
-              </div>
+              </th:block>
             </div>
             <div class="form-card__footer">
               <th:block

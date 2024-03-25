@@ -6,28 +6,46 @@ import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.time.LocalDate;
+
 import org.mdbenefits.app.data.enums.CitizenshipStatus;
 
 public class HouseholdUtilities {
 
-    public static boolean isMember18orOlder(int day, int month, int year) throws NumberFormatException {
+    /**
+     * Checks the birthdate against the current calendar date (now) to see if the birthdate is 60 years or older.
+     *
+     * @param day   day of Birth
+     * @param month month of Birth
+     * @param year  year of Birth
+     * @return boolean - true if member is 60 or older, otherwise false
+     * @throws NumberFormatException throws this if the day, month or year passed in are invalid
+     */
+    public static boolean isMember60orOlder(int year, int month, int day) throws NumberFormatException {
+        return isMember60orOlder(year, month, day, Calendar.getInstance());
+    }
+
+    /**
+     * Checks the birthdate against the calendar date passed in to see if the birthdate is 60 years old or older.
+     *
+     * @param day      day of Birth
+     * @param month    month of Birth
+     * @param year     year of Birth
+     * @param calendar calendar to compare the birthdate to
+     * @return boolean - true if member is 60 or older, otherwise false
+     * @throws NumberFormatException throws this if the day, month or year passed in are invalid
+     */
+    public static boolean isMember60orOlder(int year, int month, int day, Calendar calendar) throws NumberFormatException {
 
         if (day <= 0 || month <= 0 || year <= 0) {
             throw new NumberFormatException("cannot analyze birthdate as fields are missing");
         }
 
-        Calendar memberBirthDayCal = Calendar.getInstance();
-        memberBirthDayCal.set(Calendar.YEAR, year);
-        memberBirthDayCal.set(Calendar.MONTH, month);
-        memberBirthDayCal.set(Calendar.DAY_OF_MONTH, day);
+        LocalDate currentDate = LocalDate.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId());
+        LocalDate memberBirthDate = LocalDate.of(year, month, day);
+        LocalDate sixtiethBirthday = memberBirthDate.plusYears(60);
 
-        Calendar cal = Calendar.getInstance();
-        cal.set(year, month, day);
-        cal.add(Calendar.YEAR, -18);
-
-        // these are converted to milliseconds since Epoch and then compared.
-        // if the memberBirthDayCal is < or == the cal, then they are 18+ years old.
-        return memberBirthDayCal.compareTo(cal) <= 0;
+        return sixtiethBirthday.isBefore(currentDate) || sixtiethBirthday.isEqual(currentDate);
     }
 
     public static List<Map<String, Object>> formattedHouseholdData(Submission submission, String key) {

@@ -248,7 +248,7 @@ flow:
   ohepHeating:
     nextScreens:
       - name: householdMedicalExpenses
-        condition: HasHouseholdMemberOver60
+        condition: HasHouseholdMemberDisabledOrOver60
       - name: expensesDependentCare
   householdMedicalExpenses:
     nextScreens:
