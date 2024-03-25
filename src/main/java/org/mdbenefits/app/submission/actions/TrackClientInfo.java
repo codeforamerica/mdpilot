@@ -41,9 +41,9 @@ public abstract class TrackClientInfo implements Action {
         properties.put("last_name", formData.containsKey("lastName"));
         properties.put("birth_date", formData.containsKey("birthDate"));
         properties.put("ssn", formData.containsKey("ssn"));
-        properties.put("phone", formData.containsKey("phoneNumber"));
+        properties.put("phone", formData.containsKey("cellPhoneNumber"));
         properties.put("email", formData.containsKey("emailAddress"));
-        properties.put("case_number", formData.containsKey("caseNumber"));
+        properties.put("case_number", formData.containsKey("confirmationNumber"));
 
         mixpanelTracker.trackWithProfile(submissionId, getEventName(), properties);
     }

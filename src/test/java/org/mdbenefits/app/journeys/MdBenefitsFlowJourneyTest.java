@@ -855,8 +855,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     void loadContactData() {
         testPage.navigateToFlowScreen("mdBenefitsFlow/contactInfo");
         testPage.enter("emailAddress", "test@gmail.com");
-        testPage.enter("phoneNumber", "555-456-7891");
-        testPage.clickElementById("remindersMethod-By email-label");
+        testPage.enter("cellPhoneNumber", "555-456-7891");
         testPage.clickContinue();
     }
 
