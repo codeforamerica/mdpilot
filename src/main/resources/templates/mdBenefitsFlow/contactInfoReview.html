@@ -19,31 +19,63 @@
               <div class="spacing-above-15">
                 <p th:text="${fieldData.firstName} + ' ' + ${fieldData.lastName}"></p>
               </div>
-              <hr class="spacing-below-35 spacing-above-35">
+              <hr class="spacing-below-35 spacing-above-20">
+              <b th:text="#{review-contact-info.birthdate}"></b>
+              <div class="spacing-above-10">
+                <p th:text="${T(org.mdbenefits.app.utils.SubmissionUtilities).getFormattedBirthdate(fieldData)}"></p>
+              </div>
               <b th:text="#{review-contact-info.mailing-address}"></b>
-              <div class="spacing-above-15">
+              <div class="spacing-above-10">
                 <p class="spacing-below-5" th:text="${fieldData.mailingAddressStreetAddress1}"></p>
                 <p class="spacing-below-5" th:text="${fieldData.mailingAddressStreetAddress2}"></p>
                 <p class="spacing-below-5"
                    th:text="${fieldData.mailingAddressCity} + ', ' + ${fieldData.mailingAddressState}"></p>
                 <p th:text="${fieldData.mailingAddressZipCode}"></p>
               </div>
-              <hr class="spacing-below-35 spacing-above-35">
-              <b th:text="#{review-contact-info.contact-information}"></b>
-              <div class="spacing-above-15">
-                <p class="spacing-below-5" th:text="${fieldData.phoneNumber}"></p>
-                <p class="spacing-below-5" th:text="${fieldData.emailAddress}"></p>
-              </div>
-              <hr class="spacing-below-35 spacing-above-35">
 
+              <hr class="spacing-below-35 spacing-above-35">
+              <div class="spacing-above-15">
+                <b th:text="#{review-contact-info.cell-phone-number}"></b>
+                <p class="spacing-below-5 spacing-above-10"
+                   th:text="${fieldData.getOrDefault('cellPhoneNumber', '')}"></p>
+              </div>
+
+              <hr class="spacing-below-35 spacing-above-35">
+              <div class="spacing-above-15">
+                <b th:text="#{review-contact-info.get-text-messages}"></b>
+                <div class="spacing-above-10">
+                  <p th:text=
+                         "${fieldData.textingCellNumberIsOkay.equals('true') ? #messages.msg('general.inputs.yes') : #messages.msg('general.inputs.no')}"></p>
+                </div>
+              </div>
+
+              <hr class="spacing-below-35 spacing-above-35">
+              <div class="spacing-above-15">
+                <b th:text="#{review-contact-info.home-phone-number}"></b>
+                <p class="spacing-below-5 spacing-above-10"
+                   th:text="${fieldData.getOrDefault('homePhoneNumber', '--')}"></p>
+              </div>
+
+              <hr class="spacing-below-35 spacing-above-35">
+              <div class="spacing-above-15">
+                <b th:text="#{review-contact-info.work-phone-number}"></b>
+                <p class="spacing-below-5 spacing-above-10"
+                   th:text="${fieldData.getOrDefault('workPhoneNumber', '--')}"></p>
+              </div>
+
+              <hr class="spacing-below-35 spacing-above-35">
+              <div class="spacing-above-15">
+                <b th:text="#{review-contact-info.email-address}"></b>
+                <p class="spacing-below-5 spacing-above-10"
+                   th:text="${fieldData.getOrDefault('emailAddress', '--')}"></p>
+              </div>
             </div>
+            <hr class="spacing-below-35 spacing-above-35">
             <div class="form-card__footer">
               <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
                   text=#{review-contact-info.this-looks-correct})}"/>
               <a class="button button--secondary" th:text="#{review-contact-info.edit}"
                  th:href="'/flow/' + ${flow} + '/personalInfo'"></a>
-              <div><a th:text="#{review-contact-info.submit-incomplete}"
-                      th:href="'/flow/' + ${flow} + '/expeditedSnapStart'"></a></div>
             </div>
           </th:block>
         </th:block>
