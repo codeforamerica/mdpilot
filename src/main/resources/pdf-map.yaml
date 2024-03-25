@@ -13,7 +13,9 @@ inputFields:
 
   #Page1
   applicantFullName: applicant_full_name
-  phoneNumber: applicant_home_phone_number
+  cellPhoneNumber: applicant_cell_phone_number
+  homePhoneNumber: applicant_home_phone_number
+  workPhoneNumber: applicant_work_phone_number
   emailAddress: applicant_email
   homeAddressStreetAddress1: applicant_home_address_line1
   homeAddressStreetAddress2: applicant_home_address_line2
