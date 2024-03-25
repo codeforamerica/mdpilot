@@ -231,10 +231,25 @@ flow:
     nextScreens:
       - name: householdHomeExpensesAmount
         condition: HasHouseholdHomeExpenses
-      - name: householdMedicalExpenses
+      - name: ohepRent
+        condition: HasHouseholdRentExpenses
+      - name: ohepElectricity
   householdHomeExpensesAmount:
     nextScreens:
+      - name: ohepRent
+        condition: HasHouseholdRentExpenses
+      - name: ohepElectricity
+  ohepRent:
+    nextScreens:
+      - name: ohepElectricity
+  ohepElectricity:
+    nextScreens:
+      - name: ohepHeating
+  ohepHeating:
+    nextScreens:
       - name: householdMedicalExpenses
+        condition: HasHouseholdMemberOver60
+      - name: expensesDependentCare
   householdMedicalExpenses:
     nextScreens:
       - name: householdMedicalExpensesAmount
