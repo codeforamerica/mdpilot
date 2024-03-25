@@ -41,7 +41,9 @@ class PDFServiceTest {
                 .with("mailingAddressCity", "San Francisco")
                 .with("mailingAddressState", "CA")
                 .with("mailingAddressZipCode", "94086")
-                .with("phoneNumber", "(510) 555-1212")
+                .with("cellPhoneNumber", "(510) 555-1111")
+                .with("homePhoneNumber", "(510) 555-2222")
+                .with("workPhoneNumber", "(510) 555-3333")
                 .with("programs[]", List.of("SNAP", "RCA"))
                 .with("isApplicantPregnant", "No")
                 .with("applicantHasDisability", "No")
@@ -71,7 +73,9 @@ class PDFServiceTest {
         // Submission Date
         assertThat(page1).contains("01/01/2024");
         // Applicant Phone
-        assertThat(page1).contains("(510) 555-1212");
+        assertThat(page1).contains("(510) 555-1111");
+        assertThat(page1).contains("(510) 555-2222");
+        assertThat(page1).contains("(510) 555-3333");
         // 9701 Page 1
         String page4 = getPageText(pdfFile, 4);
         assertThat(page4).contains("Doe, John");
