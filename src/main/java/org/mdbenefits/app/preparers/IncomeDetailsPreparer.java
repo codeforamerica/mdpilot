@@ -39,28 +39,45 @@ public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
 
     private Map<String, SubmissionField> prepareIncome(Submission submission) {
         Map<String, SubmissionField> fields = new HashMap<>();
-        var income = (List<Map<String, Object>>) submission.getInputData().get("income");
-        if (income != null) {
-            int iterator = 1;
-            for (int i = 0; i < income.size(); i++) {
-                Map<String, Object> incomeDetails = income.get(i);
+        Map<String, Object> inputData = submission.getInputData();
+        var income = (List<Map<String, Object>>) inputData.get("income");
 
+        boolean hasIncome = income != null && !income.isEmpty();
+        fields.put(
+                "householdHasEarnedIncome",
+                new SingleField("householdHasEarnedIncome", hasIncome ? "true" : "false", null));
+
+        if (income != null) {
+            int i = 1;
+            for (Map<String, Object> incomeDetails : income) {
                 var employeeName = incomeDetails.get("householdMemberJobAdd");
+                if (employeeName.equals("you")) {
+                    employeeName = inputData.get("firstName") + " " + inputData.get("lastName");
+                }
+
                 var employerName = incomeDetails.get("employerName");
                 var hoursPerWeek = incomeDetails.get("hoursPerWeek");
 
                 var payPeriod = incomeDetails.get("payPeriod");
                 var hourlyWage = incomeDetails.get("hourlyWage");
-                fields.put("employeeName" + i, new SingleField("employeeName", (String) employeeName, iterator));
-                fields.put("employerName" + i, new SingleField("employerName", (String) employerName, iterator));
-                fields.put("employmentPayFreq" + i,
-                        new SingleField("employmentPayFreq", (String) payPeriod, iterator));
-                fields.put("employeeHoursPerWeek" + i,
-                        new SingleField("employeeHoursPerWeek", (String) hoursPerWeek, iterator));
-                fields.put("employeeHourlyWage" + i,
-                        new SingleField("employeeHourlyWage", (String) hourlyWage, iterator));
-                iterator++;
 
+                fields.put("employeeName" + i,
+                        new SingleField("employeeName" + i, (String) employeeName, null));
+                fields.put("employerName" + i,
+                        new SingleField("employerName" + i, (String) employerName, null));
+                fields.put("employmentRateOfPay" + i,
+                        new SingleField("employmentRateOfPay" + i, "Last 30 Days", null));
+
+                // TODO: Update these with the proper values once they're collected (issue 187216234)
+                // https://www.pivotaltracker.com/n/projects/2688497/stories/187216234
+                fields.put("employmentPayFreq" + i,
+                        new SingleField("employmentPayFreq" + i, (String) payPeriod, null));
+                fields.put("employmentHoursWorked" + i,
+                        new SingleField("employmentHoursWorked" + i, (String) hoursPerWeek, null));
+                fields.put("employmentPayPerPeriod" + i,
+                        new SingleField("employmentPayPerPeriod" + i, (String) hourlyWage, null));
+
+                i++;
             }
         }
         return fields;

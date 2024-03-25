@@ -54,6 +54,27 @@ inputFields:
   resourcesOrAssetsType5: resources_or_assets_type_5
   resourcesOrAssetsType6: resources_or_assets_type_6
 
+  #Section G
+  householdHasEarnedIncome: household_has_earned_income_bool
+  employeeName1: income_earner_full_name_1
+  employerName1: income_employer_details_1
+  employmentRateOfPay1: income_rate_of_pay_1
+  employmentHoursWorked1: income_hours_worked_1
+  employmentPayPerPeriod1: income_amount_per_pay_period_1
+  employmentPayFreq1: income_pay_period_1
+  employeeName2: income_earner_full_name_2
+  employerName2: income_employer_details_2
+  employmentRateOfPay2: income_rate_of_pay_2
+  employmentHoursWorked2: income_hours_worked_2
+  employmentPayPerPeriod2: income_amount_per_pay_period_2
+  employmentPayFreq2: income_pay_period_2
+  employeeName3: income_earner_full_name_3
+  employerName3: income_employer_details_3
+  employmentRateOfPay3: income_rate_of_pay_3
+  employmentHoursWorked3: income_hours_worked_3
+  employmentPayPerPeriod3: income_amount_per_pay_period_3
+  employmentPayFreq3: income_pay_period_3
+
   #Section J
   additionalIncome:
     ALIMONY: ADDITIONAL_INCOME_ALIMONY
