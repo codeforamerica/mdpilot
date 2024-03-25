@@ -35,7 +35,8 @@ class IncomeDetailsPreparerTest {
     @Test
     public void testNoJobsNoAdditionalIncome() {
         var results = incomePreparer.prepareSubmissionFields(new Submission(), null);
-        assertThat(results).isEmpty();
+
+        assertThat(withNoJobIncome(results)).isEmpty();
     }
 
     @Test
@@ -48,7 +49,10 @@ class IncomeDetailsPreparerTest {
                 .build();
 
         var results = incomePreparer.prepareSubmissionFields(submission, null);
-        assertThat(results.size()).isEqualTo(20);
+        assertThat(results.size()).isEqualTo(25);
+
+        var hasIncomeField = (SingleField) results.get("householdHasEarnedIncome");
+        assertThat(hasIncomeField.getValue()).isEqualTo("true");
     }
 
     @Test
@@ -58,7 +62,7 @@ class IncomeDetailsPreparerTest {
                 .build();
 
         var results = incomePreparer.prepareSubmissionFields(submission, null);
-        assertThat(results).isEmpty();
+        assertThat(withNoJobIncome(results)).isEmpty();
     }
 
     @Test
@@ -82,7 +86,7 @@ class IncomeDetailsPreparerTest {
                 .with("additionalIncomeVeteransBenefits", "200")
                 .build();
         Map<String, SubmissionField> fields = incomePreparer.prepareSubmissionFields(submission, null);
-        assertThat(fields.size()).isEqualTo(21);
+        assertThat(withNoJobIncome(fields).size()).isEqualTo(21);
 
         // spot check
         SingleField alimonySingleField = (SingleField) fields.get("additionalIncomeTypeOfBenefitRow1");
@@ -123,7 +127,7 @@ class IncomeDetailsPreparerTest {
 
         Map<String, SubmissionField> result = incomePreparer.prepareSubmissionFields(submission, null);
 
-        assertThat(result.size()).isEqualTo(4);
+        assertThat(withNoJobIncome(result).size()).isEqualTo(4);
         assertThat(result.get("householdHasResourcesOrAssets"))
             .isEqualTo(new SingleField("householdHasResourcesOrAssets", "true", null));
         assertThat(result.get("resourcesOrAssetsType1"))
@@ -134,5 +138,13 @@ class IncomeDetailsPreparerTest {
 
         assertThat(result.get("resourcesOrAssetsType3"))
             .isEqualTo(new SingleField("resourcesOrAssetsType3", "Bonds", null));
+    }
+
+    private Map<String, SubmissionField> withNoJobIncome(Map<String, SubmissionField> results) {
+        assertThat(results.keySet()).contains("householdHasEarnedIncome");
+        var hasIncomeField = (SingleField) results.get("householdHasEarnedIncome");
+        assertThat(hasIncomeField.getValue()).isEqualTo("false");
+        results.remove("householdHasEarnedIncome");
+        return results;
     }
 }
