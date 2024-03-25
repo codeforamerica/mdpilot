@@ -290,6 +290,12 @@ public class MdBenefitsFlow extends FlowInputs {
     @NotEmpty(message = "{error.missing-general}")
     private String homeExpenseOtherHomeExpenses;
 
+    private List<String> ohepRentSituations;
+
+    private String expenseHeatIncludedRent;
+
+    private String expenseSection8Housing;
+
     private String hasDependentCareExpenses;
 
     @Money(message = "{error.invalid-money}")
