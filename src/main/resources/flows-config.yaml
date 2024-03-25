@@ -232,12 +232,12 @@ flow:
       - name: householdHomeExpensesAmount
         condition: HasHouseholdHomeExpenses
       - name: ohepRent
-        condition: HasHouseholdRentExpenses
+        condition: HasHouseholdRentExpense
       - name: ohepElectricity
   householdHomeExpensesAmount:
     nextScreens:
       - name: ohepRent
-        condition: HasHouseholdRentExpenses
+        condition: HasHouseholdRentExpense
       - name: ohepElectricity
   ohepRent:
     nextScreens:

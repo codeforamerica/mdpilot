@@ -290,6 +290,12 @@ public class MdBenefitsFlow extends FlowInputs {
 
     private String expenseSection8Housing;
 
+    private String electricityAccountNumber;
+
+    private String heatingCompanyName;
+
+    private String heatingAccountNumber;
+
     private String hasDependentCareExpenses;
 
     @Money(message = "{error.invalid-money}")
