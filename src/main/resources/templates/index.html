@@ -4,31 +4,38 @@
 <body class="template--static-page">
 <div class="page-wrapper">
   <th:block th:replace="~{fragments/toolbar :: toolbar}"/>
-  <main id="content" role="main">
-    <section class="slab slab--white">
-      <div class="grid">
-        <div class="grid__item width-one-half">
+  <main id="content" role="main" class="spacing-above-35 spacing-below-35"
+        style="padding-bottom:0;">
+    <section class="form-card slab slab--white"
+             style="border-bottom-left-radius: 0px; border-bottom-right-radius: 0px">
+      <div>
+        <div>
           <th:block th:replace="~{fragments/icons :: nextSteps}"></th:block>
-          <h1 class="spacing-below-15 spacing-above-0" th:utext="#{index.header}"></h1>
-          <p class="spacing-below-15" th:utext="#{index.description}"></p>
-          <a id="upload_docs_1" th:href="#{index.apply-now.link}"
-             th:utext="#{index.apply-now}"
-             th:rel="keep-params"
-             class="button button--primary spacing-below-10"><i
-              class="button__icon icon-arrow_forward"></i></a>
-          <p th:utext="#{index.apply-on-mdthink}"></p>
         </div>
-        <div class="grid__item width-one-half">
-          <picture>
-            <source srcset="/assets/images/mother-with-laptop-father-playing.webp"
-                    type="image/webp">
-            <source srcset="/assets/images/mother-with-laptop-father-playing.png" type="image/png">
-            <img src="/assets/images/mother-with-laptop-father-playing.png"
-                 alt="A mother with laptop while father and child playing">
-          </picture>
-        </div>
+        <h1 class="spacing-below-15 spacing-above-0" th:utext="#{index.header}"></h1>
+        <p class="spacing-below-95" th:utext="#{index.description}"></p>
+        <a id="upload_docs_1" th:href="#{index.apply-now.link}"
+           th:utext="#{index.apply-now}"
+           th:rel="keep-params"
+           class="button button--primary spacing-below-10"><i
+            class="button__icon icon-arrow_forward"></i></a>
+        <span class="text--small spacing-above-15" style="display:flex; align-items:center;">
+          <th:block th:replace="~{fragments/icons :: filledLock}"/>
+          <div style="margin-inline-start: 5px">
+            <th:block th:text="#{index.safe-and-secure}"/>
+          </div>
+        </span>
       </div>
     </section>
+    <section class="form-card slab slab--minnesota-sky-blue"
+             style="text-align: center; padding-top: 30px; padding-bottom: 30px; border-top-right-radius: 0px; border-top-left-radius: 0px;">
+      <img src="/assets/images/MarylandAndDHS.svg"
+           alt="Maryland State Logo"
+           class="border-right"
+           style="width: 250px;">
+      <p class="spacing-above-25" style="margin-bottom: 0" th:text="#{index.state-info}"></p>
+    </section>
+
   </main>
 </div>
 <th:block th:replace="~{fragments/footer :: footer}"/>
