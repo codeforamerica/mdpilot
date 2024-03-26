@@ -27,6 +27,8 @@ class IncomeDetailsPreparerTest {
 
     private IncomeDetailsPreparer incomePreparer;
 
+    final int FIELDS_PER_JOB = 5;
+
     @BeforeEach
     void setup() {
         incomePreparer = new IncomeDetailsPreparer(messageSource);
@@ -42,17 +44,15 @@ class IncomeDetailsPreparerTest {
     @Test
     public void testMultipleJobs() {
         Submission submission = new SubmissionTestBuilder()
-                .withJob("Joka Aksj", "CfA", "10", "11", "true")
-                .withJob("Bsod Aksj", "CgA", "90", "10", "true")
-                .withJob("Olas Aksj", "ChA", "Every 2 weeks", "50", "false")
-                .withJob("Ydopa Aksj", "CiA", "It varies", "1000", "false")
+                .withJob("Joka Aksj", "CfA", "Every week", "11")
+                .withJob("Bsod Aksj", "CgA", "Twice a month", "10")
+                .withJob("Olas Aksj", "ChA", "Every 2 weeks", "50")
+                .withJob("Ydopa Aksj", "CiA", "It varies", "1000")
                 .build();
 
         var results = incomePreparer.prepareSubmissionFields(submission, null);
-        assertThat(results.size()).isEqualTo(25);
 
-        var hasIncomeField = (SingleField) results.get("householdHasEarnedIncome");
-        assertThat(hasIncomeField.getValue()).isEqualTo("true");
+        assertThat(withJobIncome(results).size()).isEqualTo(FIELDS_PER_JOB * 4);
     }
 
     @Test
@@ -139,11 +139,20 @@ class IncomeDetailsPreparerTest {
         assertThat(result.get("resourcesOrAssetsType3"))
             .isEqualTo(new SingleField("resourcesOrAssetsType3", "Bonds", null));
     }
+    private void assertJobIncome(Map<String, SubmissionField> results, String expected) {
+        assertThat(results).containsKey("householdHasEarnedIncome");
+        var hasIncomeField = (SingleField) results.get("householdHasEarnedIncome");
+        assertThat(hasIncomeField.getValue()).isEqualTo(expected);
+    }
 
     private Map<String, SubmissionField> withNoJobIncome(Map<String, SubmissionField> results) {
-        assertThat(results.keySet()).contains("householdHasEarnedIncome");
-        var hasIncomeField = (SingleField) results.get("householdHasEarnedIncome");
-        assertThat(hasIncomeField.getValue()).isEqualTo("false");
+        assertJobIncome(results, "false");
+        results.remove("householdHasEarnedIncome");
+        return results;
+    }
+
+    private Map<String, SubmissionField> withJobIncome(Map<String, SubmissionField> results) {
+        assertJobIncome(results, "true");
         results.remove("householdHasEarnedIncome");
         return results;
     }

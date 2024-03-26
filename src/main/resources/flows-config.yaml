@@ -184,21 +184,7 @@ flow:
   householdEmployerName:
     subflow: income
     nextScreens:
-      - name: jobPaidByHour
-  jobPaidByHour:
-    subflow: income
-    nextScreens:
-      - name: jobHourlyWage
-        condition: JobPaidByTheHour
       - name: jobPayPeriod
-  jobHourlyWage:
-    subflow: income
-    nextScreens:
-      - name: jobHoursPerWeek
-  jobHoursPerWeek:
-    subflow: income
-    nextScreens:
-      - name: householdIncomeList
   jobPayPeriod:
     subflow: income
     nextScreens:
