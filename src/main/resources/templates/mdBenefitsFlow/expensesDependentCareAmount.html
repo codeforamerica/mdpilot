@@ -15,7 +15,8 @@
             <div class="form-card__content">
               <th:block th:replace="~{fragments/inputs/money ::
                   money(inputName='expensesDependentCare',
-                  ariaLabel='header', postfix='/month')}" />
+                  ariaLabel='header',
+                  placeholder='0.00')}" />
             </div>
             <div class="form-card__footer">
               <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
