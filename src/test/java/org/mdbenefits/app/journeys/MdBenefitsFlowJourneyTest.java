@@ -108,8 +108,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         // How this works
         assertThat(testPage.getTitle()).isEqualTo(message("how-this-works.title"));
         testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("signpost.title"));
     }
 
     @Test
@@ -150,7 +148,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickButton("Ok, thanks");
         assertThat(testPage.getTitle()).isEqualTo(message("how-this-works.title"));
         testPage.clickContinue();
-        assertThat(testPage.getTitle()).isEqualTo(message("signpost.title"));
     }
 
     @Test
@@ -184,7 +181,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("how-this-works.title"));
         testPage.clickContinue();
-        assertThat(testPage.getTitle()).isEqualTo(message("signpost.title"));
     }
 
     @Test
@@ -504,10 +500,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         // How this works
         assertThat(testPage.getTitle()).isEqualTo(message("how-this-works.title"));
-        testPage.clickContinue();
-
-        // Signpost
-        assertThat(testPage.getTitle()).isEqualTo(message("signpost.title"));
         testPage.clickContinue();
 
         // Personal Info

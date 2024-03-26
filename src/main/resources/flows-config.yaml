@@ -33,9 +33,6 @@ flow:
       - name: howThisWorks
   howThisWorks:
     nextScreens:
-      - name: signPost
-  signPost:
-    nextScreens:
       - name: personalInfo
   personalInfo:
     crossFieldValidationAction: ValidateBirthdate
