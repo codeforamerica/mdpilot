@@ -1,5 +1,6 @@
 package org.mdbenefits.app.submission.conditions;
 
+import static java.util.Collections.emptyList;
 import static org.mdbenefits.app.utils.HouseholdUtilities.isMember60orOlder;
 
 import formflow.library.config.submission.Condition;
@@ -14,7 +15,7 @@ public class HasHouseholdMemberDisabledOrOver60 implements Condition {
     @Override
     public Boolean run(Submission submission) {
         var inputData = submission.getInputData();
-        List<Map<String, Object>> householdMembers = (List) inputData.get("household");
+        List<Map<String, Object>> householdMembers = (List) inputData.getOrDefault("household", emptyList());
         int applicantBirthdateDay = Integer.parseInt((String) inputData.get("birthDay"));
         int applicantBirthdateMonth = Integer.parseInt((String) inputData.get("birthMonth"));
         int applicantBirthdateYear = Integer.parseInt((String) inputData.get("birthYear"));

@@ -228,6 +228,18 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     }
 
     @Test
+    void doesNotDisplayAmountWhenMedicalExpenseIsNone(){
+        loadUserPersonalData();
+        testPage.navigateToFlowScreen("mdBenefitsFlow/householdMedicalExpenses");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("medical-expenses-amount.title"));
+        testPage.clickElementById("none__checkbox-medicalExpenses");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("dependentcare.title"));
+    }
+
+    @Test
     void hourlyIncomeFlow() {
         loadUserPersonalData();
         loadHouseHoldData("First", "User", "12", "22", "1991", true);
@@ -575,7 +587,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("applicant-disability.title"));
-        testPage.selectRadio("applicantHasDisability", "No");
+        testPage.selectRadio("applicantHasDisability", "Yes");
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo((message("race-ethnicity-selection.title")));
@@ -620,9 +632,19 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("ohep-heating.title"));
         testPage.clickContinue();
 
-        // PLACEHOLDER FOR ADDITIONAL TESTS
+        assertThat(testPage.getTitle()).isEqualTo(message("medical-expenses.title"));
+        testPage.clickElementById("medicalExpenses-HEALTH_MEDICAL_INSURANCE-label");
+        testPage.clickContinue();
 
-        testPage.navigateToFlowScreen("mdBenefitsFlow/docUploadIntro");
+        assertThat(testPage.getTitle()).isEqualTo(message("medical-expenses.title"));
+        testPage.enter("medicalExpenseHealthMedicalInsurance", "500");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("dependentcare.title"));
+        testPage.clickButton("No");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("childsupportexpenses.title"));
+        testPage.clickButton("No");
 
         // Upload documents
         assertThat(testPage.getTitle()).isEqualTo(message("doc-upload-intro.title"));
@@ -747,6 +769,24 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         assertThat(testPage.getTitle()).isEqualTo(message("ohep-heating.title"));
         testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("medical-expenses.title"));
+        testPage.clickElementById("medicalExpenses-HEALTH_MEDICAL_INSURANCE-label");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("medical-expenses.title"));
+        testPage.enter("medicalExpenseHealthMedicalInsurance", "500");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("dependentcare.title"));
+        testPage.clickButton("No");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("childsupportexpenses.title"));
+        testPage.clickButton("No");
+
+        // Upload documents
+        assertThat(testPage.getTitle()).isEqualTo(message("doc-upload-intro.title"));
+        testPage.clickButton(message("doc-upload-intro.continue"));
     }
 
     @Test
