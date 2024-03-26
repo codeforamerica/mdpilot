@@ -1,12 +1,11 @@
 package org.mdbenefits.app.data;
 
 import formflow.library.data.Submission;
-import org.mdbenefits.app.data.enums.CitizenshipStatus;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.mdbenefits.app.data.enums.CitizenshipStatus;
 
 public class SubmissionTestBuilder {
 
