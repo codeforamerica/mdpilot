@@ -296,16 +296,36 @@ public class MdBenefitsFlow extends FlowInputs {
 
     private String heatingAccountNumber;
 
+    // medical expenses for 60+ or disability
+    @NotEmpty(message = "{error.missing-general}")
     private List<String> medicalExpenses;
 
+    @Money(message = "{error.invalid-money}")
+    @NotEmpty(message = "{error.missing-general}")
     private String medicalExpenseHealthMedicalInsurance;
+    @Money(message = "{error.invalid-money}")
+    @NotEmpty(message = "{error.missing-general}")
     private String medicalExpenseDenturesGlassesEtc;
+    @Money(message = "{error.invalid-money}")
+    @NotEmpty(message = "{error.missing-general}")
     private String medicalExpenseHospitalBills;
+    @Money(message = "{error.invalid-money}")
+    @NotEmpty(message = "{error.missing-general}")
     private String medicalExpenseAttendantCare;
+    @Money(message = "{error.invalid-money}")
+    @NotEmpty(message = "{error.missing-general}")
     private String medicalExpenseMedicalDentalInsurance;
+    @Money(message = "{error.invalid-money}")
+    @NotEmpty(message = "{error.missing-general}")
     private String medicalExpenseTransportationCosts;
+    @Money(message = "{error.invalid-money}")
+    @NotEmpty(message = "{error.missing-general}")
     private String medicalExpenseNursing;
+    @Money(message = "{error.invalid-money}")
+    @NotEmpty(message = "{error.missing-general}")
     private String medicalExpensePharmacy;
+    @Money(message = "{error.invalid-money}")
+    @NotEmpty(message = "{error.missing-general}")
     private String medicalExpenseOther;
 
     private String hasDependentCareExpenses;
