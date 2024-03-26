@@ -73,7 +73,7 @@ flow:
       - name: householdSignPost
   expeditedSnapStart:
     nextScreens:
-      - name: finalSignPost
+      - name: legalStuff
         condition: IsMinimumApplication
       - name: householdHasAdditionalMembers
   householdIncomeLast30Days:
@@ -158,10 +158,10 @@ flow:
       - name: expeditedSnapDeferredNotice
   expeditedSnapQualificationNotice:
     nextScreens:
-      - name: finalSignPost
+      - name: legalStuff
   expeditedSnapDeferredNotice:
     nextScreens:
-      - name: finalSignPost
+      - name: legalStuff
   incomeSignPost:
     nextScreens:
       - name: incomeLessThan150
@@ -272,12 +272,6 @@ flow:
         condition: HasChildSupportExpenses
       - name: docUploadIntro
   expensesChildSupportAmount:
-    nextScreens:
-      - name: finalSignPost
-  finalSignPost:
-    nextScreens:
-      - name: registerToVote
-  registerToVote:
     nextScreens:
       - name: docUploadIntro
   docUploadIntro:
