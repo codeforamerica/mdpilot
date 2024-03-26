@@ -35,6 +35,9 @@ inputFields:
   householdMemberHasDisabilitySeeCover: hhmember_disability_see_cover
   householdMemberIsPregnant: household_pregnancy_bool
   householdMemberIsPregnantSeeCover: hhmember_pregnancy_see_cover
+  heatingCompanyName: expense_heating_company_name
+  heatingAccountNumber: expense_heating_account_number
+  electricityAccountNumber: expense_electricity_account_number
 
   #Section A
   isApplicantApplying: applicant_is_applying
@@ -106,6 +109,12 @@ inputFields:
   employmentHoursWorked8: income_hours_worked_8
   employmentPayPerPeriod8: income_amount_per_pay_period_8
   employmentPayFreq8: income_pay_period_8
+
+  #Section H
+  hasDependentCareExpenses: expense_dependent_care_bool
+  expensesDependentCare: expense_dependent_care_amount
+  hasChildSupportExpenses: expense_child_support_bool
+  expensesChildSupport: expense_child_support_amount
 
   #Section J
   additionalIncome:
@@ -199,6 +208,33 @@ inputFields:
   homeExpensePhoneFrequency: expense_telephone_frequency
   homeExpenseWaterFrequency: expense_water_frequency
   homeExpenseWoodOrCoalFrequency: expense_wood_frequency
+
+  expenseSection8Housing: expense_section_8_bool
+  expenseHeatIncludedRent: expense_heat_included_rent_bool
+
+  #Section L
+  hasMedicalExpenses: expense_medical_any_bool
+
+  medicalExpenseHealthMedicalInsurance: expense_medical_healthcare_amount
+  medicalExpenseDenturesGlassesEtc: expense_medical_aids_amount
+  medicalExpenseHospitalBills: expense_medical_hospital_amount
+  medicalExpenseAttendantCare: expense_medical_attendant_amount
+  medicalExpenseMedicalDentalInsurance: expense_medical_dental_amount
+  medicalExpenseTransportationCosts: expense_medical_transport_amount
+  medicalExpenseNursing: expense_medical_nursing_amount
+  medicalExpensePharmacy: expense_medical_pharmacy_amount
+  medicalExpenseOther: expense_medical_other_amount
+
+  medicalExpenses:
+    HEALTH_MEDICAL_INSURANCE: expense_medical_healthcare_bool
+    DENTURES_GLASSES_HEARING_AIDS: expense_medical_aids_bool
+    HOSPITAL_BILLS: expense_medical_hospital_bool
+    ATTENDANT_CARE: expense_medical_attendant_bool
+    MEDICAL_DENTAL_INSURANCE: expense_medical_dental_bool
+    TRANSPORTATION_COSTS: expense_medical_transport_bool
+    NURSING: expense_medical_nursing_bool
+    PHARMACY: expense_medical_pharmacy_bool
+    OTHER: expense_medical_other_bool
 
   #Section M
   someoneHasDrugKingpinFelony: household_drugpin_felony_bool
