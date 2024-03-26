@@ -1,6 +1,7 @@
 package org.mdbenefits.app.preparers;
 
 import static java.util.Collections.emptyList;
+import static org.mdbenefits.app.utils.SubmissionUtilities.isNoneOfAboveSelection;
 
 import formflow.library.data.Submission;
 import formflow.library.pdf.PdfMap;
@@ -32,6 +33,35 @@ public class HouseholdExpensesPreparer implements SubmissionFieldPreparer {
                 }
             }
         }
+
+        var section8 = (List<String>) submission.getInputData().getOrDefault("expenseSection8Housing[]", emptyList());
+        if(!section8.isEmpty()){
+            results.put("expenseSection8Housing", new SingleField("expenseSection8Housing",String.valueOf(section8.contains("true")), null));
+        }
+
+        var expenseIncludesHeat = (List<String>) submission.getInputData().getOrDefault("expenseHeatIncludedRent[]", emptyList());
+        if(!expenseIncludesHeat.isEmpty()){
+            results.put("expenseHeatIncludedRent", new SingleField("expenseHeatIncludedRent",String.valueOf(expenseIncludesHeat.contains("true")), null));
+        }
+
+        var hasMedicalExpenses = (List<String>) submission.getInputData().getOrDefault("medicalExpenses[]", emptyList());
+        var hasMedicalExpensesBool = !hasMedicalExpenses.isEmpty() && !isNoneOfAboveSelection(hasMedicalExpenses);
+
+        results.put("hasMedicalExpenses", new SingleField("hasMedicalExpenses",String.valueOf(hasMedicalExpensesBool), null));
+
+
+        var hasDependentCareExpenses = (String) submission.getInputData().getOrDefault("hasDependentCareExpenses", "");
+
+        if(!hasDependentCareExpenses.isEmpty()){
+            if(hasDependentCareExpenses.equals("true")){
+                results.put("hasDependentCareExpenses", new SingleField("hasDependentCareExpenses", "household", null));
+
+                var dependentCareExpensesAmount = (String) submission.getInputData().getOrDefault("expensesDependentCare", "");
+                results.put("expensesDependentCare", new SingleField("expensesDependentCare", dependentCareExpensesAmount + " /month", null));
+
+            }
+        }
+
 
         return results;
     }
