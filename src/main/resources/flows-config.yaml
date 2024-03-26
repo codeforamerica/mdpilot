@@ -299,11 +299,15 @@ flow:
   confirmation:
     beforeDisplayAction: FormatSubmittedAtDate
     nextScreens:
-      - name: confirmation
+      - name: finalPage
+  finalPage:
+    nextScreens:
+      - name: finalPage
 landmarks:
   firstScreen: county
   afterSubmitPages:
     - confirmation
+    - finalPage
 subflows:
   household:
     entryScreen: householdHasAdditionalMembers

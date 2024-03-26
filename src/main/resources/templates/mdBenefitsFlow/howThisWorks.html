@@ -24,10 +24,10 @@
         <th:block th:replace="~{fragments/honeycrisp/accordion :: accordion(
           buttonLabel=#{how-this-works.who-can},
           content=~{::who})}">
-            <th:block th:ref="who">
-             <p th:text="#{how-this-works.who-can-l1}"></p>
-              <p th:text="#{how-this-works.who-can-l2}"></p>
-            </th:block>
+          <th:block th:ref="who">
+            <p th:text="#{how-this-works.who-can-l1}"></p>
+            <p th:text="#{how-this-works.who-can-l2}"></p>
+          </th:block>
         </th:block>
         <th:block th:replace="~{fragments/honeycrisp/accordion :: accordion(
           buttonLabel=#{how-this-works.after},
@@ -61,17 +61,18 @@
           content=~{::add-documents})}">
           <th:block th:ref="add-documents"
                     th:with="email=${inputData.county == T(org.mdbenefits.app.data.enums.Counties).BALTIMORE.name() ? 
-                    '<a href=&quot;mailto:baltimorecounty.dmc@maryland.gov&quot; target=&quot;_blank&quot;>baltimorecounty.dmc@maryland.gov</a>' : 
+                    '<a href=&quot;mailto:baltimorecounty.dmc@maryland.gov&quot; target=&quot;_blank&quot;>baltimorecounty.dmc@&#8203;maryland.gov</a>' :
                     (inputData.county == T(org.mdbenefits.app.data.enums.Counties).QUEEN_ANNES.name() ?
-                    '<a href=&quot;mailto:qacfia.customeraccount@maryland.gov&quot; target=&quot;_blank&quot;>qacfia.customeraccount@maryland.gov</a>' : null)}">
+                    '<a href=&quot;mailto:qacfia.customeraccount@maryland.gov&quot; target=&quot;_blank&quot;>qacfia.customeraccount@&#8203;maryland.gov</a>' : null)}">
             <p th:text="#{how-this-works.add-documents-l1}"></p>
             <p th:utext="#{how-this-works.add-documents-l2}"></p>
             <p th:utext="#{how-this-works.add-documents-l3}"></p>
-            <p id="county-document-email" th:utext="#{how-this-works.add-documents-l4(${email})}"></p>
+            <p id="county-document-email"
+               th:utext="#{how-this-works.add-documents-l4(${email})}"></p>
           </th:block>
         </th:block>
         <div class="spacing-above-60">
-          <th:block th:replace="~{fragments/continueButton :: continue}" />
+          <th:block th:replace="~{fragments/continueButton :: continue}"/>
         </div>
       </main>
     </div>

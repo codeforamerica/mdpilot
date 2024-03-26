@@ -237,4 +237,9 @@ public class SubmissionUtilities {
         }
         return String.format("%02d/%02d/%4d", month, day, year);
     }
+
+    public static String getEnvProfile() {
+        return System.getProperty("spring.profile.active", "");
+    }
+
 }

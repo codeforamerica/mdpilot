@@ -11,81 +11,81 @@
           $('.reveal:not(.force-show-content)').removeClass('is-hiding-content');
         });
       </script>
-      <main id="content" role="main" class="form-card spacing-above-35"
-            th:with="inLinkGroup=${T(org.mdbenefits.app.utils.SubmissionUtilities).inExperimentGroup('LINK', submission)},
-        inApplyGroup=${T(org.mdbenefits.app.utils.SubmissionUtilities).inExperimentGroup('APPLY', submission)}">
+      <main id="content" role="main" class="form-card spacing-above-35">
         <div th:if="${lockedSubmissionMessage}" class="notice--warning">
           <p th:text="${lockedSubmissionMessage}"></p>
         </div>
-        <div th:if="${docUploadFinalized}" class="notice--warning">
-          <p th:text="${docUploadFinalized}"></p>
-        </div>
-        <div th:if="${addDocumentsSkipped}" class="notice--warning">
-          <p th:text="${addDocumentsSkipped}"></p>
-        </div>
-        <div th:if="${docUploadExpired}" class="notice--warning">
-          <p th:text="${docUploadExpired}"></p>
-        </div>
-        <th:block th:replace="~{fragments/icons :: computerWithCheckmark}"></th:block>
+        <th:block th:replace="~{fragments/icons :: docWithMagnifyingGlass}"></th:block>
         <th:block
-            th:replace="~{fragments/cardHeader :: cardHeader(header=#{confirmation.header}, subtext=#{confirmation.subtext(${inputData.get('formattedSubmittedAt')})})}"/>
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{confirmation.header}, subtext=#{confirmation.subtext(${inputData.get('confirmationNumber')})})}"/>
         <th:block
             th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
           <th:block th:ref="formContent">
+            <th:block th:if="${fieldData.containsKey('emailAddress')}">
+              <th:block th:replace="~{fragments/icons :: greenCheckmark}"/>
+              <span class="email-confirmation-text" th:text="#{confirmation.email-info}"></span>
+            </th:block>
 
-            <th:block th:unless="${inApplyGroup || inLinkGroup}">
-              <hr>
-              <h2 class="h2" th:text="#{confirmation.next-steps}"></h2>
-              <div class="vertical-steps">
-                <div class="vertical-steps__step">
-                  <div class="notice--warning steps-box spacing-below-0">
-                    <th:block th:replace="~{fragments/icons :: socialGroup}"></th:block>
-                    <p class="spacing-below-15"
-                       th:utext="#{confirmation.p1_html(${inputData.get('interviewDate')})}"></p>
-                  </div>
-                </div>
-                <div class="vertical-steps__step">
-                  <div class="notice-info steps-box">
-                    <th:block th:replace="~{fragments/icons :: localPostOfficeBlack}"></th:block>
-                    <p th:utext="#{confirmation.p2_html}"></p>
-                  </div>
-                </div>
-                <div class="vertical-steps__step">
-                  <div class="notice-info steps-box vertical-step-bottom">
-                    <th:block th:replace="~{fragments/icons :: contactPhone}"></th:block>
-                    <p th:utext="#{confirmation.p3}"></p>
-                  </div>
+            <hr>
+
+            <h2 class="h2" th:text="#{confirmation.next-steps}"></h2>
+
+            <div class="vertical-steps">
+              <div class="vertical-steps__step">
+                <div class="notice-green steps-box spacing-below-0">
+                  <th:block th:replace="~{fragments/icons :: miniPortrait}"></th:block>
+                  <p class="spacing-below-15"
+                     th:utext="#{confirmation.p1}"></p>
                 </div>
               </div>
-            </th:block>
-            <th:block th:replace="~{'fragments/honeycrisp/reveal' :: reveal(
-                controlId='r1',
-                linkLabel=~{::revealLabel1},
-                content=~{::revealContent1},
-                forceShowContent='true')}">
-              <th:block th:ref="revealLabel1">
-                <i class="icon-">&#xE862;</i>
-                <th:span th:text="#{confirmation.helpful-resources}"></th:span>
-              </th:block>
-              <th:block th:ref="revealContent1">
-                <ul class="list--bulleted">
-                  <li th:utext="#{confirmation.helpful-resources.l1}"></li>
-                  <li th:utext="#{confirmation.helpful-resources.l2}"></li>
-                </ul>
-              </th:block>
-            </th:block>
 
-            <div th:replace="~{fragments/feedback :: feedback}"></div>
-            <div class="success-confirmation-box zero-flex-shrink spacing-below-60">
-              <th:block th:replace="~{fragments/icons :: smallDownloadDocuments}"></th:block>
-              <div>
-                <p th:text="#{confirmation.save-a-copy-of-your-application}"></p>
-                <a th:href="'/download/' + ${flow} + '/' + ${submission.getId()}"
-                   th:text="#{confirmation.download-your-application}"></a>
+              <div class="vertical-steps__step">
+                <div class="notice-info steps-box">
+                  <th:block th:replace="~{fragments/icons :: miniFile}"></th:block>
+                  <p th:utext="#{confirmation.p2}"></p>
+                </div>
+              </div>
+
+              <div class="vertical-steps__step">
+                <div class="notice-info steps-box vertical-step-bottom">
+                  <th:block th:replace="~{fragments/icons :: miniChat}"></th:block>
+                  <p th:utext="#{confirmation.p3}"></p>
+                </div>
+              </div>
+
+              <div class="vertical-steps__step">
+                <div class="notice-info steps-box vertical-step-bottom">
+                  <th:block th:replace="~{fragments/icons :: miniClock}"></th:block>
+                  <p th:utext="#{confirmation.p4}"></p>
+                </div>
+              </div>
+
+              <div class="vertical-steps__step">
+                <div class="notice-info steps-box vertical-step-bottom">
+                  <th:block th:replace="~{fragments/icons :: miniLightbulb}"></th:block>
+                  <p th:utext="#{confirmation.p5}"></p>
+                </div>
               </div>
             </div>
 
+            <hr>
 
+            <div th:replace="~{fragments/feedback :: feedback}"></div>
+            <a class="spacing-above-25 button button--secondary"
+               th:href="'/flow/' + ${flow} + '/finalPage'"
+               th:text="#{confirmation.done-button}"></a>
+
+            <th:block th:if="${@environment.getProperty('spring.profiles.active', '') != 'prod'}">
+              <hr>
+              <div class="success-confirmation-box zero-flex-shrink spacing-below-60">
+                <th:block th:replace="~{fragments/icons :: smallDownloadDocuments}"></th:block>
+                <div>
+                  <p th:text="#{confirmation.save-a-copy-of-your-application}"></p>
+                  <a th:href="'/download/' + ${flow} + '/' + ${submission.getId()}"
+                     th:text="#{confirmation.download-your-application}"></a>
+                </div>
+              </div>
+            </th:block>
           </th:block>
         </th:block>
       </main>
