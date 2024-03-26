@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="~{fragments/head :: head(title=#{final-page.title})}"></head>
+<body>
+<script>
+  console.log("setting timer for redirect!");
+  setTimeout(function () {
+    window.location.href = "/";
+    console.log("Redirecting now...");
+  }, 5000);
+</script>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <th:block th:replace="~{fragments/icons :: nextSteps}"/>
+        <th:block th:if="${fieldData.containsKey('applicationFeedback')}">
+          <p th:replace="~{fragments/cardHeader :: cardHeader(header=#{final-page.header.opt1})}"></p>
+        </th:block>
+        <th:block th:unless="${fieldData.containsKey('applicationFeedback')}">
+          <p th:replace="~{fragments/cardHeader :: cardHeader(header=#{final-page.header.opt2})}"></p>
+        </th:block>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>
+
