@@ -1,17 +1,8 @@
 package org.mdbenefits.app.journeys;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
 import com.smartystreets.api.exceptions.SmartyException;
 import formflow.library.address_validation.AddressValidationService;
 import formflow.library.address_validation.ValidatedAddress;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -22,6 +13,16 @@ import org.mdbenefits.app.testutils.AbstractBasePageTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.springframework.boot.test.mock.mockito.MockBean;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @Slf4j
 public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
@@ -240,64 +241,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     }
 
     @Test
-    void hourlyIncomeFlow() {
-        loadUserPersonalData();
-        loadHouseHoldData("First", "User", "12", "22", "1991", true);
-        loadHouseHoldData("Second", "User", "01", "23", "1997", true);
-        preloadIncomeScreen();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("income-by-job.title"));
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("income-who.title"));
-        testPage.clickContinue();
-        assert (testPage.hasErrorText(message("error.missing-general")));
-
-        testPage.clickElementById("householdMemberJobAdd-you");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("employer-name.title"));
-        testPage.clickContinue();
-
-        assert (testPage.hasErrorText(message("error.missing-general")));
-        testPage.enter("employerName", "job1");
-
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("job-paid-by-hour.title"));
-        testPage.clickButton("Yes");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("job-hourly-wage.title"));
-        testPage.clickContinue();
-
-        assert (testPage.hasErrorText(message("error.missing-dollar-amount")));
-        testPage.enter("hourlyWage", "a");
-        testPage.clickContinue();
-
-        assert (testPage.hasErrorText(message("error.invalid-money")));
-        testPage.enter("hourlyWage", ".99");
-
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("job-hours-per-week.title"));
-        testPage.clickContinue();
-
-        assert (testPage.hasErrorText(RANGE_ERROR_MESSAGE));
-        assert (testPage.hasErrorText(message("error.missing-general")));
-
-        testPage.enter("hoursPerWeek", "100000");
-        testPage.clickContinue();
-
-        assert (testPage.hasErrorText(RANGE_ERROR_MESSAGE));
-
-        testPage.enter("hoursPerWeek", "10");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("income-list.title"));
-    }
-
-    @Test
-    void otherIncomeFlow() {
+    void incomeFlow() {
         loadUserPersonalData();
         loadHouseHoldData("Third", "User", "12", "22", "1991", true);
         loadHouseHoldData("Fourth", "User", "01", "23", "1997", true);
@@ -320,9 +264,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.enter("employerName", "job1");
 
         testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("job-paid-by-hour.title"));
-        testPage.clickButton("No");
 
         testPage.clickContinue();
         assert (testPage.hasErrorText(message("error.missing-pay-period")));

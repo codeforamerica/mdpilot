@@ -56,10 +56,8 @@ public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
                 }
 
                 var employerName = incomeDetails.get("employerName");
-                var hoursPerWeek = incomeDetails.get("hoursPerWeek");
-
-                var payPeriod = incomeDetails.get("payPeriod");
-                var hourlyWage = incomeDetails.get("hourlyWage");
+                var payFrequency = incomeDetails.get("payPeriod");
+                var payPeriodAmount = incomeDetails.get("payPeriodAmount");
 
                 fields.put("employeeName" + i,
                         new SingleField("employeeName" + i, (String) employeeName, null));
@@ -67,20 +65,35 @@ public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
                         new SingleField("employerName" + i, (String) employerName, null));
                 fields.put("employmentRateOfPay" + i,
                         new SingleField("employmentRateOfPay" + i, "Last 30 Days", null));
-
-                // TODO: Update these with the proper values once they're collected (issue 187216234)
-                // https://www.pivotaltracker.com/n/projects/2688497/stories/187216234
-                fields.put("employmentPayFreq" + i,
-                        new SingleField("employmentPayFreq" + i, (String) payPeriod, null));
-                fields.put("employmentHoursWorked" + i,
-                        new SingleField("employmentHoursWorked" + i, (String) hoursPerWeek, null));
                 fields.put("employmentPayPerPeriod" + i,
-                        new SingleField("employmentPayPerPeriod" + i, (String) hourlyWage, null));
+                        new SingleField("employmentPayPerPeriod" + i, (String) payPeriodAmount, null));
+                fields.put("employmentPayFreq" + i,
+                        new SingleField("employmentPayFreq" + i, preparePayPeriod((String) payFrequency), null));
 
                 i++;
             }
         }
         return fields;
+    }
+
+    private String getPayPeriodMessage(String subtype) {
+        return messagesSource.getMessage("job-pay-period." + subtype, null, Locale.ENGLISH);
+    }
+
+    private String preparePayPeriod(String value) {
+        if (value.equals(getPayPeriodMessage("every-week"))) {
+            return "weekly";
+        } else if (value.equals(getPayPeriodMessage("every-two-weeks"))) {
+            return "biweekly";
+        } else if (value.equals(getPayPeriodMessage("twice-a-month"))) {
+            return "semimonthly";
+        } else if (value.equals(getPayPeriodMessage("every-month"))) {
+            return "monthly";
+        } else if (value.equals(getPayPeriodMessage("it-varies"))) {
+            return "varies";
+        } else {
+            throw new AssertionError("Unrecognized pay period value: " + value);
+        }
     }
 
     private Map<String, SubmissionField> prepareAdditionIncome(Submission submission) {
