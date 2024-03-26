@@ -22,7 +22,7 @@ class HouseholdExpensesPreparerTest {
             .build();
 
         Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);
-        assertThat(result).isEmpty();
+        assertThat(withNoMedicalExpenses(result)).isEmpty();
     }
 
     @Test
@@ -36,7 +36,7 @@ class HouseholdExpensesPreparerTest {
 
         Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);
 
-        assertThat(result.size()).isEqualTo(3);
+        assertThat(withNoMedicalExpenses(result).size()).isEqualTo(3);
         assertThat(result.get("homeExpenseRentFrequency"))
             .isEqualTo(new SingleField("homeExpenseRentFrequency", "Monthly", null));
 
@@ -45,5 +45,12 @@ class HouseholdExpensesPreparerTest {
 
         assertThat(result.get("homeExpensePhoneFrequency"))
             .isEqualTo(new SingleField("homeExpensePhoneFrequency", "Monthly", null));
+    }
+
+    private Map<String, SubmissionField> withNoMedicalExpenses(Map<String, SubmissionField> results) {
+        assertThat(results.keySet()).contains("hasMedicalExpenses");
+        var hasMedicalExpenses = (SingleField) results.remove("hasMedicalExpenses");
+        assertThat(hasMedicalExpenses.getValue()).isEqualTo("false");
+        return results;
     }
 }
