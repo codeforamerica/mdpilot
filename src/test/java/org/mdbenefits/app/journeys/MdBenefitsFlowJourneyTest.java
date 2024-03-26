@@ -64,125 +64,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("select-app.title"));
     }
-
-    @Test
-    void selectNotSureHelpNeededAndChooseProgramFlow() {
-        preloadCountyScreen(Counties.BALTIMORE.getDisplayName());
-        // select help needed
-        testPage.navigateToFlowScreen("mdBenefitsFlow/selectHelpNeeded");
-        testPage.clickContinue();
-        assertThat(testPage.getTitle()).isEqualTo("Select help");
-        assert (testPage.hasErrorText(message("error.missing-general")));
-
-        testPage.clickElementById("helpNeeded-CHILDREN");
-        // this line unchecks helpNeeded-Children because none__checkbox is a noneOfTheAbove=true
-        testPage.clickElementById("none__checkbox-helpNeeded");
-
-        testPage.clickContinue();
-
-        // choose program flow
-        assertThat(testPage.getTitle()).isEqualTo("Choose programs");
-        assertThat(testPage.findElementById("programs-SNAP")).isNotNull();
-        assertThat(testPage.findElementById("programs-SNAP").getAttribute("Checked")).isNull();
-        assertThat(testPage.findElementById("programs-TDAP")).isNotNull();
-        assertThat(testPage.findElementById("programs-TDAP").getAttribute("Checked")).isNull();
-        assertThat(testPage.findElementById("programs-TCA")).isNotNull();
-        assertThat(testPage.findElementById("programs-TCA").getAttribute("Checked")).isNull();
-        assertThat(testPage.findElementById("programs-RCA")).isNotNull();
-        assertThat(testPage.findElementById("programs-RCA").getAttribute("Checked")).isNull();
-
-        testPage.clickContinue();
-        assert (testPage.hasErrorText(message("error.missing-general")));
-
-        testPage.clickElementById("programs-SNAP");
-        testPage.clickContinue();
-
-        // Expedited Snap Notice
-        // assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-notice.title"));
-        // testPage.clickContinue();
-
-        // OHEP Notice
-        assertThat(testPage.getTitle()).isEqualTo(message("ohep-notice.title"));
-        testPage.clickButton("Ok, thanks");
-
-        // How this works
-        assertThat(testPage.getTitle()).isEqualTo(message("how-this-works.title"));
-        testPage.clickContinue();
-    }
-
-    @Test
-    void selectSnapOrTcaHelpAndChooseProgramFlow() {
-        // select help needed
-        testPage.navigateToFlowScreen("mdBenefitsFlow/county");
-        testPage.selectFromDropdown("county", Counties.BALTIMORE.getDisplayName());
-        testPage.clickContinue();
-        testPage.clickElementById("none__checkbox-applicationInfo");
-        testPage.clickContinue();
-        assertThat(testPage.getTitle()).isEqualTo("Select help");
-        testPage.clickContinue();
-        assert (testPage.hasErrorText(message("error.missing-general")));
-
-        testPage.clickElementById("helpNeeded-FOOD");
-
-        testPage.clickContinue();
-
-        // choose program flow
-        assertThat(testPage.getTitle()).isEqualTo("Choose programs");
-        assertThat(testPage.findElementById("programs-SNAP")).isNotNull();
-        assertThat(testPage.findElementById("programs-SNAP").getAttribute("Checked")).isNotNull();
-        assertThat(testPage.findElementById("programs-TCA")).isNotNull();
-        assertThat(testPage.findElementById("programs-TCA").getAttribute("Checked")).isNull();
-        assertThat(testPage.elementDoesNotExistById("programs-TDAP")).isTrue();
-        assertThat(testPage.elementDoesNotExistById("programs-RCA")).isTrue();
-
-        testPage.clickElementById("programs-SNAP");
-
-        testPage.clickContinue();
-        assert (testPage.hasErrorText(message("error.missing-general")));
-
-        testPage.clickElementById("programs-SNAP");
-        testPage.clickContinue();
-        //assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-notice.title"));
-        //testPage.clickContinue();
-        assertThat(testPage.getTitle()).isEqualTo(message("ohep-notice.title"));
-        testPage.clickButton("Ok, thanks");
-        assertThat(testPage.getTitle()).isEqualTo(message("how-this-works.title"));
-        testPage.clickContinue();
-    }
-
-    @Test
-    void selectNonSnapOrTcaAndChooseProgramFlow() {
-        // select help needed
-        testPage.navigateToFlowScreen("mdBenefitsFlow/county");
-        testPage.selectFromDropdown("county", Counties.BALTIMORE.getDisplayName());
-        testPage.clickContinue();
-        testPage.clickElementById("none__checkbox-applicationInfo");
-        testPage.clickContinue();
-        assertThat(testPage.getTitle()).isEqualTo("Select help");
-        testPage.clickContinue();
-        assert (testPage.hasErrorText(message("error.missing-general")));
-        testPage.clickElementById("helpNeeded-REFUGEE");
-        testPage.clickContinue();
-
-        // choose program flow
-        assertThat(testPage.getTitle()).isEqualTo("Choose programs");
-        assertThat(testPage.elementDoesNotExistById("programs-SNAP")).isTrue();
-        assertThat(testPage.elementDoesNotExistById("programs-TCA")).isTrue();
-        assertThat(testPage.elementDoesNotExistById("programs-TDAP")).isTrue();
-        assertThat(testPage.findElementById("programs-RCA")).isNotNull();
-        assertThat(testPage.findElementById("programs-RCA").getAttribute("Checked")).isNotNull();
-
-        testPage.clickElementById("programs-RCA");
-
-        testPage.clickContinue();
-        assert (testPage.hasErrorText(message("error.missing-general")));
-
-        testPage.clickElementById("programs-RCA");
-        testPage.clickContinue();
-        assertThat(testPage.getTitle()).isEqualTo(message("how-this-works.title"));
-        testPage.clickContinue();
-    }
-
     @Test
     void personalInformationFlow() {
         testPage.navigateToFlowScreen("mdBenefitsFlow/personalInfo");
@@ -446,6 +327,8 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickElementById("helpNeeded-FOOD");
         testPage.clickElementById("helpNeeded-CHILDREN");
         testPage.clickContinue();
+
+        testPage.clickElementById("programs-TCA");
         testPage.clickContinue();
 
         testPage.navigateToFlowScreen("mdBenefitsFlow/tcaOhepAgreement");
@@ -486,6 +369,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         // choose program
         assertThat(testPage.getTitle()).isEqualTo(message("choose-programs.title"));
+        testPage.clickElementById("programs-TCA");
 
         testPage.clickContinue();
 

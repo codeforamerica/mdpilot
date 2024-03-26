@@ -15,7 +15,6 @@ flow:
     nextScreens:
       - name: redirectToMDThink
   selectHelpNeeded:
-    beforeSaveAction: PreCheckPrograms
     nextScreens:
       - name: choosePrograms
   choosePrograms:
