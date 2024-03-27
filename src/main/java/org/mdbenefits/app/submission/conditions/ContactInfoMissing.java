@@ -13,12 +13,11 @@ public class ContactInfoMissing implements Condition {
 
     @Override
     public Boolean run(Submission submission) {
-        Map<String, Object> inputData = (Map) submission.getInputData();
+        Map<String, Object> inputData = submission.getInputData();
         String cellPhoneNumber = (String) inputData.getOrDefault("cellPhoneNumber", "");
         String homePhoneNumber = (String) inputData.getOrDefault("homePhoneNumber", "");
         String workPhoneNumber = (String) inputData.getOrDefault("workPhoneNumber", "");
-        String emailAddress = (String) inputData.getOrDefault("emailAddress", "");
         return cellPhoneNumber.isBlank() && homePhoneNumber.isBlank() &&
-                workPhoneNumber.isBlank() && emailAddress.isBlank();
+                workPhoneNumber.isBlank();
     }
 }
