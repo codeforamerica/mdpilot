@@ -162,9 +162,6 @@ flow:
       - name: legalStuff
   incomeSignPost:
     nextScreens:
-      - name: incomeLessThan150
-  incomeLessThan150:
-    nextScreens:
       - name: householdIncome
   householdIncome:
     nextScreens:
@@ -298,11 +295,15 @@ flow:
   confirmation:
     beforeDisplayAction: FormatSubmittedAtDate
     nextScreens:
-      - name: confirmation
+      - name: finalPage
+  finalPage:
+    nextScreens:
+      - name: finalPage
 landmarks:
   firstScreen: county
   afterSubmitPages:
     - confirmation
+    - finalPage
 subflows:
   household:
     entryScreen: householdHasAdditionalMembers

@@ -86,7 +86,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     }
 
     @Test
-    void displayRentQuestionWhenRentExpense(){
+    void displayRentQuestionWhenRentExpense() {
         loadUserPersonalData();
         testPage.navigateToFlowScreen("mdBenefitsFlow/expensesSignPost");
 
@@ -106,7 +106,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     }
 
     @Test
-    void doesNotDisplayAmountWhenMedicalExpenseIsNone(){
+    void doesNotDisplayAmountWhenMedicalExpenseIsNone() {
         loadUserPersonalData();
         testPage.navigateToFlowScreen("mdBenefitsFlow/householdMedicalExpenses");
 
@@ -423,9 +423,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("income-signpost.title"));
         testPage.clickContinue();
 
-        assertThat(testPage.getTitle()).isEqualTo(message("income-less-than-150.title"));
-        testPage.clickButton("No");
-
         assertThat(testPage.getTitle()).isEqualTo(message("household-income.title"));
         testPage.clickButton("No");
 
@@ -560,9 +557,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         assertThat(testPage.getTitle()).isEqualTo(message("income-signpost.title"));
         testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("income-less-than-150.title"));
-        testPage.clickButton("No");
 
         assertThat(testPage.getTitle()).isEqualTo(message("household-income.title"));
         testPage.clickButton("No");
@@ -718,6 +712,27 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.findElementById("county-document-email").getText()).contains("qacfia.customeraccount@maryland.gov");
     }
 
+    @Test
+    void confirmationPageWithNoFeedback() {
+        testPage.navigateToFlowScreen("mdBenefitsFlow/confirmation");
+        testPage.clickButton(message("confirmation.done-button"));
+        assertThat(testPage.getElementText("header")).isEqualTo(message("final-page.header.opt2"));
+        await().atMost(10, TimeUnit.SECONDS).until(
+                () -> testPage.elementExistsById("apply_now")
+        );
+    }
+
+    @Test
+    void confirmationPageWithFeedback() {
+        testPage.navigateToFlowScreen("mdBenefitsFlow/confirmation");
+        testPage.selectRadio("applicationFeedback", "Very easy");
+        testPage.clickButton(message("confirmation.submit-feedback"));
+        assertThat(testPage.getElementText("header")).isEqualTo(message("final-page.header.opt1"));
+        await().atMost(10, TimeUnit.SECONDS).until(
+                () -> testPage.elementExistsById("apply_now")
+        );
+    }
+
     void loadUserPersonalData() {
         testPage.navigateToFlowScreen("mdBenefitsFlow/personalInfo");
 
@@ -760,8 +775,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     void preloadIncomeScreen() {
         testPage.navigateToFlowScreen("mdBenefitsFlow/incomeSignPost");
         testPage.clickContinue();
-        assertThat(testPage.getTitle()).isEqualTo(message("income-less-than-150.title"));
-        testPage.clickButton("No");
+
         assertThat(testPage.getTitle()).isEqualTo(message("household-income.title"));
         testPage.clickButton("Yes");
     }

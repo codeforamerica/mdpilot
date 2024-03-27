@@ -348,17 +348,6 @@ public class MdBenefitsFlow extends FlowInputs {
     @DynamicField
     private String householdMedicalExpenseAmount;
 
-    // WIC / ECE
-    private String interestedInEceInd;
-    private String interestedInWicInd;
-    private String adultsWorking;
-    private String guardiansHaveDisabilityInd;
-
-    // Final Screen
-    @NotBlank(message = "{error.missing-general}")
-    private String votingRegistrationRequested;
-
-
     private String householdMemberEthnicity;
 
     private List<String> householdMemberRace;
@@ -369,11 +358,10 @@ public class MdBenefitsFlow extends FlowInputs {
     @NotBlank(message = "{error.missing-general}")
     private String signature;
 
-    @NotBlank(message = "{final-confirmation.answer-feedback-question}")
-    private String digitalAssisterFeedback;
+    @NotBlank(message = "{confirmation.answer-feedback-question}")
+    private String applicationFeedback;
 
-    private String digitalAssisterFeedbackDetail;
-
+    private String applicationFeedbackDetail;
 
     // Expedited Snap Start
     private String isApplyingForExpeditedSnap;

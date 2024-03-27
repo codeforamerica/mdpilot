@@ -121,8 +121,8 @@ body {
 }
 
 .job-item > p {
-  text-transform:uppercase;
-  !important color:grey;
+  text-transform: uppercase;
+!important color: grey;
 }
 
 .spacing-right-10 {
@@ -192,8 +192,8 @@ input[type="number"] {
   margin-right: auto;
 }
 
-.notice-blue {
-  background: #E9F6FF;
+.notice-green {
+  background: #EBFFEF;
   border: 1px solid #003865;
   border-radius: 3px;
   position: relative;
@@ -226,7 +226,7 @@ input[type="number"] {
 .steps-box {
   display: flex;
   align-items: flex-start;
-  gap: 20px;
+  gap: 10px;
   padding-bottom: 0;
 }
 
@@ -276,8 +276,8 @@ input[type="number"] {
 
 
 .toolbar {
-   align-items: flex-start;
-   padding-top: 12px;
+  align-items: flex-start;
+  padding-top: 12px;
 }
 
 .toolbar__wrapper {
@@ -459,7 +459,7 @@ p.grey-text {
   color: #5F5854;
 }
 
-button.button.button--secondary{
+button.button.button--secondary {
   margin-left: 0;
 }
 
@@ -494,4 +494,9 @@ li li {
 
 .expedited-snap-notice header {
   margin-bottom: 2.5rem;
+}
+
+.email-confirmation-text {
+  color: #00891B;
+  font-weight: bold;
 }
