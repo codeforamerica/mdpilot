@@ -104,7 +104,11 @@ public class MdBenefitsFlow extends FlowInputs {
     @NotBlank(message = "{error.missing-general}")
     private String isApplicantApplying;
 
+    @Pattern(regexp = "^\\d{3}-\\d{2}-\\d{4}$", message = "{error.invalid-ssn}")
     private String applicantSSN;
+
+    @NotBlank(message = "{error.missing-general}")
+    private String applicantCitizenshipStatus;
 
     @NotBlank(message = "{error.missing-general}")
     private String applicantSex;
@@ -148,8 +152,7 @@ public class MdBenefitsFlow extends FlowInputs {
     @NotBlank(message = "{error.missing-general}")
     private String householdMemberCitizenshipStatus;
 
-    @NotBlank(message = "{error.missing-general}")
-    @Size(min = 11, max = 11, message = "{error.invalid-ssn}")
+    @Pattern(regexp = "^\\d{3}-\\d{2}-\\d{4}$", message = "{error.invalid-ssn}")
     private String householdMemberSsn;
 
     @NotBlank(message = "{error.missing-general}")
@@ -163,9 +166,6 @@ public class MdBenefitsFlow extends FlowInputs {
 
     // SNAP
     private String migrantOrSeasonalFarmWorkerInd;
-
-    @NotBlank
-    private String applicantCitizenshipStatus;
 
     // Income
     private String householdHasIncome;

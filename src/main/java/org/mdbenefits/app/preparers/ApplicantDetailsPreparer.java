@@ -57,9 +57,7 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
             if (inputData.getOrDefault("applicantHasDisability", "").toString().equalsIgnoreCase("Yes")) {
                 results.put("applicantHasDisabilityName", new SingleField("applicantHasDisabilityName", "See cover page", null));
             }
-
-            // TODO - this will get finished when design says it's ready
-            //prepareCitizenshipStatus(inputData, results);
+            prepareCitizenshipStatus(inputData, results);
 
             prepareRaceEthnicityInfo(inputData, results);
 
@@ -97,18 +95,12 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
     }
 
     private void prepareCitizenshipStatus(Map<String, Object> inputData, Map<String, SubmissionField> results) {
-        boolean allAreCitizens = ((String) inputData.get("allAreCitizens")).equalsIgnoreCase("yes");
-        boolean applyingForSelf = ((String) inputData.get("isApplicantApplying")).equalsIgnoreCase("yes");
-        String citizen = "Y";
+        String citizenshipStatus = (String) inputData.getOrDefault("applicantCitizenshipStatus","");
 
-        if (!allAreCitizens && applyingForSelf) {
-            String citizenshipStatus = (String) inputData.get("applicantCitizenshipStatus");
-            if (!citizenshipStatus.equals(CitizenshipStatus.US_CITIZEN.name())) {
-                citizen = "N";
-            }
+        if (!citizenshipStatus.isBlank()) {
+            var status = citizenshipStatus.equals(CitizenshipStatus.US_CITIZEN.name()) ? "Yes" : "No";
+            results.put("applicantCitizenshipStatus", new SingleField("applicantCitizenshipStatus", status, null));
         }
-
-        results.put("citizenshipStatus", new SingleField("citizenshipStatus", citizen, null));
     }
 
     private void prepareRaceEthnicityInfo(Map<String, Object> inputData, Map<String, SubmissionField> results) {

@@ -91,9 +91,12 @@ flow:
       - name: applicantApplying
   applicantApplying:
     nextScreens:
-      - name: applicantSex
+      - name: applicantCitizenship
         condition: IsApplicantApplyingForSelf
       - name: householdHasAdditionalMembers
+  applicantCitizenship:
+    nextScreens:
+      - name: applicantSex
   # Not a next screen of any screen but directly linked to from applicantApplying
   whyWeAskForSSN:
     nextScreens:

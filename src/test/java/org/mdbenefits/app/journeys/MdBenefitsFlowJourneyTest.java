@@ -384,12 +384,15 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("applicant-applying.title"));
+        testPage.selectRadio("isApplicantApplying", "Yes");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("applicant-applying.citizenship.title"));
         testPage.clickLink("Why do we ask for SSNs?");
         assertThat(testPage.getTitle()).isEqualTo(message("ssn-why.title"));
         testPage.clickLink("Go Back");
-        assertThat(testPage.getTitle()).isEqualTo(message("applicant-applying.title"));
-
-        testPage.selectRadio("isApplicantApplying", "Yes");
+        assertThat(testPage.getTitle()).isEqualTo(message("applicant-applying.citizenship.title"));
+        testPage.selectFromDropdown("applicantCitizenshipStatus", message("citizenship.types.us-citizen"));
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("personal-info.sex.title"));

@@ -46,6 +46,7 @@ inputFields:
   applicantSSN: applicant_ssn
   applicantSex: applicant_sex
   applicantIsEnrolledInSchool: applicant_is_in_school
+  applicantCitizenshipStatus: applicant_is_citizen
   applicantRace: applicant_race
   applicantEthnicity: applicant_ethnicity
   confirmationNumber: confirmation_number
