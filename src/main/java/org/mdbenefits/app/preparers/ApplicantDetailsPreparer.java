@@ -45,11 +45,12 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
 
             results.put("speaksEnglish", new SingleField("speaksEnglish", (String) "true", null));
 
-            if (inputData.get("applicantSex").toString().equalsIgnoreCase("other")) {
+            // unset the applicantSex field if the value is unset or "other"
+            if (inputData.getOrDefault("applicantSex", "other").toString().equalsIgnoreCase("other")) {
                 results.put("applicantSex", new SingleField("applicantSex", "", null));
             }
 
-            if (inputData.getOrDefault("isApplicantPregnant","No").toString().equalsIgnoreCase("Yes")) {
+            if (inputData.getOrDefault("isApplicantPregnant", "No").toString().equalsIgnoreCase("Yes")) {
                 results.put("applicantIsPregnantName", new SingleField("applicantIsPregnantName", "See cover page", null));
             }
 
@@ -62,7 +63,8 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
 
             prepareRaceEthnicityInfo(inputData, results);
 
-            results.put("applicantMailingAddressFull", new SingleField("applicantMailingAddressFull", formatMailingAddress(inputData), null));
+            results.put("applicantMailingAddressFull",
+                    new SingleField("applicantMailingAddressFull", formatMailingAddress(inputData), null));
         }
 
         return results;
