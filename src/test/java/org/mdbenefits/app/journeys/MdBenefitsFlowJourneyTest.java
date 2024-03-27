@@ -205,7 +205,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     }
 
     @Test
-    void displayRentQuestionWhenRentExpense(){
+    void displayRentQuestionWhenRentExpense() {
         loadUserPersonalData();
         testPage.navigateToFlowScreen("mdBenefitsFlow/expensesSignPost");
 
@@ -225,7 +225,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     }
 
     @Test
-    void doesNotDisplayAmountWhenMedicalExpenseIsNone(){
+    void doesNotDisplayAmountWhenMedicalExpenseIsNone() {
         loadUserPersonalData();
         testPage.navigateToFlowScreen("mdBenefitsFlow/householdMedicalExpenses");
 
@@ -832,6 +832,27 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.navigateToFlowScreen("mdBenefitsFlow/howThisWorks");
         testPage.findAccordionByButtonText("How to add documents").click();
         assertThat(testPage.findElementById("county-document-email").getText()).contains("qacfia.customeraccount@maryland.gov");
+    }
+
+    @Test
+    void confirmationPageWithNoFeedback() {
+        testPage.navigateToFlowScreen("mdBenefitsFlow/confirmation");
+        testPage.clickButton(message("confirmation.done-button"));
+        assertThat(testPage.getElementText("header")).isEqualTo(message("final-page.header.opt2"));
+        await().atMost(10, TimeUnit.SECONDS).until(
+                () -> testPage.elementExistsById("apply_now")
+        );
+    }
+
+    @Test
+    void confirmationPageWithFeedback() {
+        testPage.navigateToFlowScreen("mdBenefitsFlow/confirmation");
+        testPage.selectRadio("applicationFeedback", "Very easy");
+        testPage.clickButton(message("confirmation.submit-feedback"));
+        assertThat(testPage.getElementText("header")).isEqualTo(message("final-page.header.opt1"));
+        await().atMost(10, TimeUnit.SECONDS).until(
+                () -> testPage.elementExistsById("apply_now")
+        );
     }
 
     void loadUserPersonalData() {
