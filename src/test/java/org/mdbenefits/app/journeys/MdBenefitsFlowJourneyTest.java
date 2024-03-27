@@ -423,9 +423,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("income-signpost.title"));
         testPage.clickContinue();
 
-        assertThat(testPage.getTitle()).isEqualTo(message("income-less-than-150.title"));
-        testPage.clickButton("No");
-
         assertThat(testPage.getTitle()).isEqualTo(message("household-income.title"));
         testPage.clickButton("No");
 
@@ -560,9 +557,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         assertThat(testPage.getTitle()).isEqualTo(message("income-signpost.title"));
         testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("income-less-than-150.title"));
-        testPage.clickButton("No");
 
         assertThat(testPage.getTitle()).isEqualTo(message("household-income.title"));
         testPage.clickButton("No");
@@ -760,8 +754,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     void preloadIncomeScreen() {
         testPage.navigateToFlowScreen("mdBenefitsFlow/incomeSignPost");
         testPage.clickContinue();
-        assertThat(testPage.getTitle()).isEqualTo(message("income-less-than-150.title"));
-        testPage.clickButton("No");
+
         assertThat(testPage.getTitle()).isEqualTo(message("household-income.title"));
         testPage.clickButton("Yes");
     }
