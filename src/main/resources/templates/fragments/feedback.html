@@ -22,12 +22,13 @@
     <th:block th:replace="~{'fragments/inputs/textArea' ::
               textArea(inputName='applicationFeedbackDetail',
               rows=1,
+              helpText=#{general.optional},
               label=#{confirmation.additional-comments},
-              ariaLabel='digitalAssisterFeedback',
+              ariaLabel='applicationFeedback',
               maxLength=100)}"/>
     <div class="form-card__footer">
       <th:block th:replace="~{'fragments/inputs/submitButton' :: submitButton(
-                      text=#{confirmation.feedback-submit-feedback}, classes='button button--primary')}"/>
+                      text=#{confirmation.submit-feedback}, classes='button button--primary')}"/>
     </div>
   </div>
 </th:block>

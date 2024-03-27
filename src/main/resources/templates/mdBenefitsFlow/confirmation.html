@@ -75,7 +75,8 @@
                th:href="'/flow/' + ${flow} + '/finalPage'"
                th:text="#{confirmation.done-button}"></a>
 
-            <th:block th:if="${@environment.getProperty('spring.profiles.active', '') != 'prod'}">
+            <th:block
+                th:if="${!@environment.getProperty('spring.profiles.active', '').equals('prod')}">
               <hr>
               <div class="success-confirmation-box zero-flex-shrink spacing-below-60">
                 <th:block th:replace="~{fragments/icons :: smallDownloadDocuments}"></th:block>
