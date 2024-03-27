@@ -95,17 +95,12 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
     }
 
     private void prepareCitizenshipStatus(Map<String, Object> inputData, Map<String, SubmissionField> results) {
-        boolean applyingForSelf = ((String) inputData.get("isApplicantApplying")).equalsIgnoreCase("yes");
-        String citizen = "Yes";
+        String citizenshipStatus = (String) inputData.getOrDefault("applicantCitizenshipStatus","");
 
-        if (applyingForSelf) {
-            String citizenshipStatus = (String) inputData.get("applicantCitizenshipStatus");
-            if (!citizenshipStatus.equals(CitizenshipStatus.US_CITIZEN.name())) {
-                citizen = "No";
-            }
+        if (!citizenshipStatus.isBlank()) {
+            var status = citizenshipStatus.equals(CitizenshipStatus.US_CITIZEN.name()) ? "Yes" : "No";
+            results.put("applicantCitizenshipStatus", new SingleField("applicantCitizenshipStatus", status, null));
         }
-
-        results.put("applicantCitizenshipStatus", new SingleField("applicantCitizenshipStatus", citizen, null));
     }
 
     private void prepareRaceEthnicityInfo(Map<String, Object> inputData, Map<String, SubmissionField> results) {
