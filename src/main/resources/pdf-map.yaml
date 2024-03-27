@@ -11,6 +11,22 @@ inputFields:
   # Red lines = in PDF but not YAML
   # Green lines = in YAML but not PDF
 
+  #cover page
+  migrantOrSeasonalFarmWorkerInd: household_seasonal_or_migrant_worker_bool
+
+  householdPregnancyName1: household_pregnancy_name_1
+  householdPregnancyName2: household_pregnancy_name_2
+  householdPregnancyName3: household_pregnancy_name_3
+  householdPregnancyName4: household_pregnancy_name_4
+  householdPregnancyName5: household_pregnancy_name_5
+  householdPregnancyName6: household_pregnancy_name_6
+
+  householdDisabilityName1: household_disability_name_1
+  householdDisabilityName2: household_disability_name_2
+  householdDisabilityName3: household_disability_name_3
+  householdDisabilityName4: household_disability_name_4
+  householdDisabilityName5: household_disability_name_5
+  householdDisabilityName6: household_disability_name_6
   #Page1
   applicantFullName: applicant_full_name
   cellPhoneNumber: applicant_cell_phone_number
@@ -251,7 +267,7 @@ dbFields:
 
 subflowInfo:
   household:
-    totalIterations: 7
+    totalIterations: 21
     inputFields:
       householdMemberFullName: hhmember_full_name
       householdMemberSex: hhmember_sex
