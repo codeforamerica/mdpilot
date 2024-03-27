@@ -59,9 +59,16 @@ public class HouseholdExpensesPreparer implements SubmissionFieldPreparer {
                 var dependentCareExpensesAmount = (String) submission.getInputData().getOrDefault("expensesDependentCare", "");
                 results.put("expensesDependentCare", new SingleField("expensesDependentCare", dependentCareExpensesAmount + " /month", null));
 
+            } else {
+                results.put("hasDependentCareExpenses", new SingleField("hasDependentCareExpenses", "", null));
             }
         }
 
+        var expensesChildSupport = (String) submission.getInputData().getOrDefault("expensesChildSupport", "");
+
+        if(!expensesChildSupport.isEmpty()){
+            results.put("expensesChildSupport", new SingleField("expensesChildSupport", expensesChildSupport + " /month", null));
+        }
 
         return results;
     }
