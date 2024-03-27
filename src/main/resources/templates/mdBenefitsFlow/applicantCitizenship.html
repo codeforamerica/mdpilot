@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(title=#{applicant-applying.citizenship.title})}"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <th:block th:replace="~{fragments/icons :: face}"></th:block>
+        <th:block
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{applicant-applying.title})}"/>
+        <th:block
+            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::content})}">
+          <th:block th:ref="content">
+            <div class="form-card__content form-group-spacing-half">
+              <th:block
+                  th:replace="~{fragments/inputs/select :: select(label=#{applicant-applying.citizenship},
+                inputName='applicantCitizenshipStatus', helpText=#{applicant-applying.citizenship-help}, content=~{::selectContent})}">
+                <th:block th:ref="selectContent">
+                  <th:block
+                      th:replace="~{fragments/inputs/selectOptionPlaceholder :: selectOptionPlaceholder(optionText=#{general.select.placeholder})}"/>
+                  <th:block th:each="citizenship : ${T(org.mdbenefits.app.data.enums.CitizenshipStatus).values()}">
+                    <th:block
+                        th:replace="~{fragments/inputs/selectOption :: selectOption(value=${citizenship.name()}, optionText=#{${citizenship.getLabelSrc()}})}"/>
+                  </th:block>
+                </th:block>
+              </th:block>
+              <th:block
+                th:replace="~{fragments/inputs/ssn :: ssn(
+                inputName='applicantSSN',
+                label=#{applicant-applying.ssn},
+                helpText=#{applicant-applying.ssn-help})}"/>
+            </div>
+            <div class="form-card__footer">
+              <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
+                  text=#{general.inputs.continue})}"/>
+              <div class="spacing-above-10">
+                <a th:text="#{applicant-applying.ssn-why}" th:href="${'/flow/' + flow + '/whyWeAskForSSN'}"></a>
+              </div>
+            </div>
+          </th:block>
+        </th:block>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>

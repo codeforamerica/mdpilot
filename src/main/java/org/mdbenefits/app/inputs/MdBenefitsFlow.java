@@ -107,6 +107,9 @@ public class MdBenefitsFlow extends FlowInputs {
     private String applicantSSN;
 
     @NotBlank(message = "{error.missing-general}")
+    private String applicantCitizenshipStatus;
+
+    @NotBlank(message = "{error.missing-general}")
     private String applicantSex;
 
     @NotBlank(message = "{error.missing-general}")
@@ -163,9 +166,6 @@ public class MdBenefitsFlow extends FlowInputs {
 
     // SNAP
     private String migrantOrSeasonalFarmWorkerInd;
-
-    @NotBlank
-    private String applicantCitizenshipStatus;
 
     // Income
     private String householdHasIncome;

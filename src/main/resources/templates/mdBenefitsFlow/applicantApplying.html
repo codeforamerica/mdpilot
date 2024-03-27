@@ -27,18 +27,10 @@
                       th:replace="~{fragments/inputs/radio :: radio(inputName='isApplicantApplying',value='No', label=#{applicant-applying.no})}"/>
                 </th:block>
               </th:block>
-              <th:block
-                th:replace="~{fragments/inputs/ssn :: ssn(
-                inputName='applicantSSN',
-                label=#{applicant-applying.ssn},
-                helpText=#{applicant-applying.ssn-help})}"/>
             </div>
             <div class="form-card__footer">
               <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
                   text=#{general.inputs.continue})}"/>
-              <div class="spacing-above-10">
-                <a th:text="#{applicant-applying.ssn-why}" th:href="${'/flow/' + flow + '/whyWeAskForSSN'}"></a>
-              </div>
             </div>
           </th:block>
         </th:block>
