@@ -15,7 +15,6 @@ flow:
     nextScreens:
       - name: redirectToMDThink
   selectHelpNeeded:
-    beforeSaveAction: PreCheckPrograms
     nextScreens:
       - name: choosePrograms
   choosePrograms:
@@ -162,9 +161,6 @@ flow:
     nextScreens:
       - name: legalStuff
   incomeSignPost:
-    nextScreens:
-      - name: incomeLessThan150
-  incomeLessThan150:
     nextScreens:
       - name: householdIncome
   householdIncome:
