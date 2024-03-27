@@ -232,8 +232,6 @@ flow:
   ohepHeating:
     nextScreens:
       - name: householdMedicalExpenses
-        condition: HasHouseholdMemberDisabledOrOver60
-      - name: expensesDependentCare
   householdMedicalExpenses:
     beforeSaveAction: ClearUnusedMedicalExpensesFields
     nextScreens:
