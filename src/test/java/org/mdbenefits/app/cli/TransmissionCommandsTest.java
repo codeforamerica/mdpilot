@@ -7,6 +7,8 @@ import formflow.library.email.MailgunEmailClient;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+
+import formflow.library.pdf.PdfService;
 import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
@@ -51,6 +53,8 @@ public class TransmissionCommandsTest {
     @MockBean
     MailgunEmailClient mailgunEmailClient;
     @Autowired
+    PdfService pdfService;
+    @Autowired
     MessageSource messageSource;
     @Autowired
     SubmissionRepositoryService submissionRepositoryService;
@@ -68,7 +72,7 @@ public class TransmissionCommandsTest {
     @BeforeAll
     void setup() {
         handleApplicationSigned = new HandleApplicationSigned(messageSource, mailgunEmailClient, submissionRepositoryService,
-                transmissionRepository, jdbcTemplate);
+                transmissionRepository, jdbcTemplate, pdfService);
 
         submissionList.add(new SubmissionTestBuilder()
                 .with("programs[]", List.of(ProgramType.SNAP))

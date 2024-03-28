@@ -5,6 +5,7 @@ import formflow.library.config.submission.Action;
 import formflow.library.data.Submission;
 import formflow.library.data.SubmissionRepositoryService;
 import formflow.library.email.MailgunEmailClient;
+import formflow.library.pdf.PdfService;
 import lombok.extern.slf4j.Slf4j;
 import org.mdbenefits.app.data.Transmission;
 import org.mdbenefits.app.data.TransmissionRepository;
@@ -12,6 +13,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.util.List;
 import java.util.Locale;
 
 @Slf4j
@@ -28,13 +31,21 @@ public class HandleApplicationSigned implements Action {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public HandleApplicationSigned(MessageSource messageSource, MailgunEmailClient mailgunEmailClient,
-            SubmissionRepositoryService submissionRepositoryService, TransmissionRepository transmissionRepository, JdbcTemplate jdbcTemplate) {
+    private final PdfService pdfService;
+
+    public HandleApplicationSigned(
+            MessageSource messageSource,
+            MailgunEmailClient mailgunEmailClient,
+            SubmissionRepositoryService submissionRepositoryService,
+            TransmissionRepository transmissionRepository,
+            JdbcTemplate jdbcTemplate,
+            PdfService pdfService) {
         this.messageSource = messageSource;
         this.mailgunEmailClient = mailgunEmailClient;
         this.submissionRepositoryService = submissionRepositoryService;
         this.transmissionRepository = transmissionRepository;
         this.jdbcTemplate = jdbcTemplate;
+        this.pdfService = pdfService;
     }
 
     @Override
@@ -73,10 +84,13 @@ public class HandleApplicationSigned implements Action {
         String messageBody = messageSource.getMessage(
                 "email-to-recipient.body", new Object[]{confirmationNumber, countyPhone, countyEmail}, Locale.ENGLISH);
 
+        File applicationPdfFile = pdfService.generate(submission);
+
         MessageResponse mailgunResponse = mailgunEmailClient.sendEmail(
                 subject,
                 recipientEmail,
-                messageBody
+                messageBody,
+                List.of(applicationPdfFile)
         );
         if (mailgunResponse != null) {
             log.info("Sent email. Mailgun response: {}", mailgunResponse.getMessage());
