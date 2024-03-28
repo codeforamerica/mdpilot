@@ -77,11 +77,8 @@ public class MdBenefitsFlow extends FlowInputs {
 
     private String mailingAddressZipCode;
 
-    // Verify Address
-    private String verifyAddress;
-
-    // Select Address
-    private String selectAddress;
+    // Verify Address & Select Address
+    private String useSuggestedAddress;
 
     //Contact Info
     @Pattern(regexp = "^\\(\\d{3}\\) \\d{3}-\\d{4}$", message = "{error.invalid-phone}")
