@@ -35,7 +35,7 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
                 .reduce((e, c) -> e + "/" + c)
                 .get();
 
-        String applyingStatus = (String) inputData.get("isApplicantApplying");
+        String applyingStatus = (String) inputData.getOrDefault("isApplicantApplying", "no");
         if (applyingStatus.equalsIgnoreCase("yes")) {
 
             results.put("applicantDOB", new SingleField("applicantDOB", (String) dob, null));
@@ -51,10 +51,10 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
             prepareCitizenshipStatus(inputData, results);
 
             prepareRaceEthnicityInfo(inputData, results);
-
-            results.put("applicantMailingAddressFull",
-                    new SingleField("applicantMailingAddressFull", formatMailingAddress(inputData), null));
         }
+
+        results.put("applicantMailingAddressFull",
+                new SingleField("applicantMailingAddressFull", formatMailingAddress(inputData), null));
 
         return results;
     }
@@ -63,24 +63,34 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
         String mailingAddressFull;
         if (inputData.getOrDefault("sameAsHomeAddress", "false").equals("true")) {
             mailingAddressFull = "";
-        } else {
-            if (inputData.get("mailingAddressStreetAddress2") != null) {
-                mailingAddressFull = String.format("%s, %s, %s, %s %s",
-                        inputData.get("mailingAddressStreetAddress1"),
-                        inputData.get("mailingAddressStreetAddress2"),
-                        inputData.get("mailingAddressCity"),
-                        inputData.get("mailingAddressState"),
-                        inputData.get("mailingAddressZipCode")
-                );
-            } else {
-                mailingAddressFull = String.format("%s, %s, %s %s",
-                        inputData.get("mailingAddressStreetAddress1"),
-                        inputData.get("mailingAddressCity"),
-                        inputData.get("mailingAddressState"),
-                        inputData.get("mailingAddressZipCode")
-                );
+            return mailingAddressFull;
+        }
+        
+        if (inputData.getOrDefault("useSuggestedAddress", "false").equals("true")) {
+            mailingAddressFull = String.format("%s, %s, %s %s",
+                    inputData.get("mailingAddressStreetAddress1_validated"),
+                    inputData.get("mailingAddressCity_validated"),
+                    inputData.get("mailingAddressState_validated"),
+                    inputData.get("mailingAddressZipCode_validated"));
+            
+            return mailingAddressFull;
+        }
 
-            }
+        if (inputData.get("mailingAddressStreetAddress2") != null) {
+            mailingAddressFull = String.format("%s, %s, %s, %s %s",
+                    inputData.get("mailingAddressStreetAddress1"),
+                    inputData.get("mailingAddressStreetAddress2"),
+                    inputData.get("mailingAddressCity"),
+                    inputData.get("mailingAddressState"),
+                    inputData.get("mailingAddressZipCode")
+            );
+        } else {
+            mailingAddressFull = String.format("%s, %s, %s %s",
+                    inputData.get("mailingAddressStreetAddress1"),
+                    inputData.get("mailingAddressCity"),
+                    inputData.get("mailingAddressState"),
+                    inputData.get("mailingAddressZipCode")
+            );
         }
         return mailingAddressFull;
     }
