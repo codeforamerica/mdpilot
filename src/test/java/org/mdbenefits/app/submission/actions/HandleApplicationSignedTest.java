@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.SubmissionTestBuilder;
 import org.mdbenefits.app.data.Transmission;
 import org.mdbenefits.app.data.TransmissionRepository;
+import org.mdbenefits.app.data.enums.Counties;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mockito;
@@ -64,6 +65,7 @@ class HandleApplicationSignedTest {
     public void shouldRecordSuccessfulSend() {
         Submission submission = new SubmissionTestBuilder()
                 .with("emailAddress", "foo@example.com")
+                .with("county", Counties.QUEEN_ANNES.name())
                 .build();
         submission.setFlow("mdBenefitsFlow");
         MessageResponse mockResponse = mock(MessageResponse.class);
@@ -82,6 +84,7 @@ class HandleApplicationSignedTest {
     public void includesConfirmationNumberInEmailBody() {
         Submission submission = new SubmissionTestBuilder()
                 .with("emailAddress", "foo@example.com")
+                .with("county", Counties.QUEEN_ANNES.name())
                 .build();
         submission.setFlow("mdBenefitsFlow");
         MessageResponse mockResponse = mock(MessageResponse.class);
@@ -97,6 +100,7 @@ class HandleApplicationSignedTest {
     public void shouldRecordFailedSend() {
         Submission submission = new SubmissionTestBuilder()
                 .with("emailAddress", "foo@example.com")
+                .with("county", Counties.QUEEN_ANNES.name())
                 .build();
         submission.setFlow("mdBenefitsFlow");
         Mockito.when(mailgunEmailClient.sendEmail(any(), any(), any()))

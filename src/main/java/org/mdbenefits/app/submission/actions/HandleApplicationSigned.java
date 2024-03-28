@@ -62,9 +62,17 @@ public class HandleApplicationSigned implements Action {
         if (recipientEmail == null || recipientEmail.isBlank()) {
             return;
         }
+
         String confirmationNumber = (String) submission.getInputData().get("confirmationNumber");
+        String county = (String) submission.getInputData().get("county");
+
+        String countyPhone = messageSource.getMessage("email-to-recipient.phone." + county, null, Locale.ENGLISH);
+        String countyEmail = messageSource.getMessage("email-to-recipient.email." + county, null, Locale.ENGLISH);
+
         String subject = messageSource.getMessage("email-to-recipient.subject", null, Locale.ENGLISH);
-        String messageBody = messageSource.getMessage("email-to-recipient.body", new Object[]{confirmationNumber}, Locale.ENGLISH);
+        String messageBody = messageSource.getMessage(
+                "email-to-recipient.body", new Object[]{confirmationNumber, countyPhone, countyEmail}, Locale.ENGLISH);
+
         MessageResponse mailgunResponse = mailgunEmailClient.sendEmail(
                 subject,
                 recipientEmail,
