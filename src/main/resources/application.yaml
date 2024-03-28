@@ -37,6 +37,9 @@ form-flow:
       domain: 'mg.marylandbenefits.org'
       sender-email: 'Maryland Benefits <help@marylandbenefits.org>'
 spring:
+  messages:
+    encoding: ISO-8859-1
+    basename: messages, messages-form-flow
   flyway:
     placeholders:
       uuid_function: "gen_random_uuid"
@@ -46,18 +49,11 @@ spring:
       test:
         - test
         - form-flow-library-test
-      dev:
-        - dev
-        - form-flow-library
-      demo:
-        - demo
-        - form-flow-library
-      staging:
-        - staging
-        - form-flow-library
-      prod:
-        - prod
-        - form-flow-library
+    # NOTE: we removed the other profile groups as we were finding that
+    # the form flow library's file was overriding ours, rather than the
+    # other way around.  We copied in the form flow library's configuration
+    # here, so it's still here.  We are disconnected from the
+    # form flow library's file now and need to keep an eye on that.
   thymeleaf:
     cache: false
     template-resolver-order: 0
@@ -78,6 +74,13 @@ spring:
     multipart:
       max-file-size: ${form-flow.uploads.max-file-size}MB
       max-request-size: ${form-flow.uploads.max-file-size}MB
+  session:
+    timeout: 30M
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
+  jpa:
+    open-in-view: false
 logging:
   level:
     root: INFO
