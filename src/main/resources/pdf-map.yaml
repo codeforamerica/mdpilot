@@ -42,15 +42,11 @@ inputFields:
   speaksEnglish: applicant_speaks_english
   needsCashAssistance: applicant_needs_cash_assistance
   needsSNAP: applicant_needs_snap
-  isApplicantPregnant: household_pregnancy_bool
-  applicantIsPregnantName: hhmember_pregnancy_see_cover
-  applicantHasDisability: household_disability_bool
-  applicantHasDisabilityName: hhmember_disability_see_cover
   signature: applicant_signature
-  householdMemberHasDisability: household_disability_bool
-  householdMemberHasDisabilitySeeCover: hhmember_disability_see_cover
-  householdMemberIsPregnant: household_pregnancy_bool
-  householdMemberIsPregnantSeeCover: hhmember_pregnancy_see_cover
+  householdHasDisability: household_disability_bool
+  householdHasDisabilitySeeCover: hhmember_disability_see_cover
+  householdHasPregnancy: household_pregnancy_bool
+  householdHasPregnancySeeCover: hhmember_pregnancy_see_cover
   heatingCompanyName: expense_heating_company_name
   heatingAccountNumber: expense_heating_account_number
   electricityAccountNumber: expense_electricity_account_number
