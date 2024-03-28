@@ -50,13 +50,7 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
                 results.put("applicantSex", new SingleField("applicantSex", "", null));
             }
 
-            if (inputData.getOrDefault("isApplicantPregnant", "No").toString().equalsIgnoreCase("Yes")) {
-                results.put("applicantIsPregnantName", new SingleField("applicantIsPregnantName", "See cover page", null));
-            }
 
-            if (inputData.getOrDefault("applicantHasDisability", "").toString().equalsIgnoreCase("Yes")) {
-                results.put("applicantHasDisabilityName", new SingleField("applicantHasDisabilityName", "See cover page", null));
-            }
             prepareCitizenshipStatus(inputData, results);
 
             prepareRaceEthnicityInfo(inputData, results);

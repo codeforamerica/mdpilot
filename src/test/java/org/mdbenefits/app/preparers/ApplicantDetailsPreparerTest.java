@@ -44,10 +44,6 @@ public class ApplicantDetailsPreparerTest {
                 .isEqualTo(new SingleField("applicantRace", "1,2", null));
         assertThat(result.get("applicantEthnicity"))
                 .isEqualTo(new SingleField("applicantEthnicity", "1", null));
-        assertThat(result.get("applicantIsPregnantName"))
-                .isEqualTo(new SingleField("applicantIsPregnantName", "See cover page", null));
-        assertThat(result.get("applicantHasDisabilityName"))
-                .isEqualTo(new SingleField("applicantHasDisabilityName", "See cover page", null));
     }
 
     @Test
@@ -79,6 +75,7 @@ public class ApplicantDetailsPreparerTest {
         assertThat(preparer.formatMailingAddress(inputData)).isEqualTo("10 Main St, Baltimore, MD 21201");
     }
 
+    @Test
     public void testWithMiddleName() {
         submission.getInputData().put("middleName", "MiddleName");
         Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);
