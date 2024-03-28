@@ -65,6 +65,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("select-app.title"));
     }
+
     @Test
     void personalInformationFlow() {
         testPage.navigateToFlowScreen("mdBenefitsFlow/personalInfo");
@@ -208,6 +209,9 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("personal-info.sex.title"));
         testPage.selectRadio("applicantSex", "M");
         testPage.clickContinue();
+        await().atMost(5, TimeUnit.SECONDS).until(
+                () -> testPage.elementExistsById("form-submit-button")
+        );
 
         assertThat(testPage.getTitle()).isEqualTo(message("applicant-school-enrollment.title"));
         testPage.selectRadio("applicantIsEnrolledInSchool", "Yes");
