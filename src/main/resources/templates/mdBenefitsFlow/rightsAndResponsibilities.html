@@ -12,51 +12,75 @@
         <th:block
             th:replace="~{fragments/cardHeader :: cardHeader(header=#{rights-and-responsibilities.header1})}"/>
         <p th:utext="#{rights-and-responsibilities.subheader}"></p>
-        <th:block th:replace="~{fragments/form :: form(action=${formAction}, content=~{::legalExpand1})}">
+        <th:block
+            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::legalExpand1})}">
           <th:block th:ref="legalExpand1">
             <div class="form-card__content">
               <th:block th:replace="~{fragments/accordion :: accordion(
                   buttonLabel=~{::contentLabel1},
                   content=~{::content1})}">
-                <th:block th:ref="contentLabel1" th:text="#{rights-and-responsibilities.what-you-should-know-label}"/>
-                <th:block th:ref="content1" th:replace="~{fragments/rightsAndResponsibilitiesFragments :: whatYouShouldKnow}"/>
+                <th:block th:ref="contentLabel1"
+                          th:text="#{rights-and-responsibilities.what-you-should-know-label}"/>
+                <th:block th:ref="content1"
+                          th:replace="~{fragments/rightsAndResponsibilitiesFragments :: whatYouShouldKnow}"/>
               </th:block>
               <th:block th:replace="~{fragments/accordion :: accordion(
                   buttonLabel=~{::contentLabel2},
                   content=~{::content2})}">
-                <th:block th:ref="contentLabel2" th:text="#{rights-and-responsibilities.your-rights-label}"/>
-                <th:block th:ref="content2" th:replace="~{fragments/rightsAndResponsibilitiesFragments :: yourRights}"/>
+                <th:block th:ref="contentLabel2"
+                          th:text="#{rights-and-responsibilities.your-rights-label}"/>
+                <th:block th:ref="content2"
+                          th:replace="~{fragments/rightsAndResponsibilitiesFragments :: yourRights}"/>
               </th:block>
               <th:block th:replace="~{fragments/accordion :: accordion(
                   buttonLabel=~{::contentLabel3},
                   content=~{::content3})}">
-                <th:block th:ref="contentLabel3" th:text="#{rights-and-responsibilities.your-responsibilities-label}"/>
-                <th:block th:ref="content3" th:replace="~{fragments/rightsAndResponsibilitiesFragments :: yourResponsibilities}"/>
+                <th:block th:ref="contentLabel3"
+                          th:text="#{rights-and-responsibilities.your-responsibilities-label}"/>
+                <th:block th:ref="content3"
+                          th:replace="~{fragments/rightsAndResponsibilitiesFragments :: yourResponsibilities}"/>
               </th:block>
               <th:block th:replace="~{fragments/accordion :: accordion(
                   buttonLabel=~{::contentLabel4},
                   content=~{::content4})}">
-                <th:block th:ref="contentLabel4" th:text="#{rights-and-responsibilities.work-requirements-for-snap-label}"/>
-                <th:block th:ref="content4" th:replace="~{fragments/rightsAndResponsibilitiesFragments :: workRequirementsForSnap}"/>
+                <th:block th:ref="contentLabel4"
+                          th:text="#{rights-and-responsibilities.work-requirements-for-snap-label}"/>
+                <th:block th:ref="content4"
+                          th:replace="~{fragments/rightsAndResponsibilitiesFragments :: workRequirementsForSnap}"/>
               </th:block>
               <th:block th:replace="~{fragments/accordion :: accordion(
                   buttonLabel=~{::contentLabel5},
                   content=~{::content5})}">
-                <th:block th:ref="contentLabel5" th:text="#{rights-and-responsibilities.tca-and-snap-penalties-label}"/>
-                <th:block th:ref="content5" th:replace="~{fragments/rightsAndResponsibilitiesFragments :: tcaAndSnapPenalties}"/>
+                <th:block th:ref="contentLabel5"
+                          th:text="#{rights-and-responsibilities.tca-and-snap-penalties-label}"/>
+                <th:block th:ref="content5"
+                          th:replace="~{fragments/rightsAndResponsibilitiesFragments :: tcaAndSnapPenalties}"/>
               </th:block>
               <th:block th:replace="~{fragments/accordion :: accordion(
                   buttonLabel=~{::contentLabel6},
                   content=~{::content6})}">
-                <th:block th:ref="contentLabel6" th:text="#{rights-and-responsibilities.medicaid-warning-and-penalties-label}"/>
-                <th:block th:ref="content6" th:replace="~{fragments/rightsAndResponsibilitiesFragments :: medicaidWarningAndPenalties}"/>
+                <th:block th:ref="contentLabel6"
+                          th:text="#{rights-and-responsibilities.medicaid-warning-and-penalties-label}"/>
+                <th:block th:ref="content6"
+                          th:replace="~{fragments/rightsAndResponsibilitiesFragments :: medicaidWarningAndPenalties}"/>
               </th:block>
               <th:block th:replace="~{fragments/accordion :: accordion(
                   buttonLabel=~{::contentLabel7},
                   content=~{::content7})}">
-                <th:block th:ref="contentLabel7" th:text="#{rights-and-responsibilities.read-before-signing-label}"/>
-                <th:block th:ref="content7" th:replace="~{fragments/rightsAndResponsibilitiesFragments :: readBeforeSigning}"/>
+                <th:block th:ref="contentLabel7"
+                          th:text="#{rights-and-responsibilities.read-before-signing-label}"/>
+                <th:block th:ref="content7"
+                          th:replace="~{fragments/rightsAndResponsibilitiesFragments :: readBeforeSigning}"/>
               </th:block>
+              <th:block th:replace="~{fragments/accordion :: accordion(
+                  buttonLabel=~{::contentLabel8},
+                  content=~{::content8})}">
+                <th:block th:ref="contentLabel8"
+                          th:text="#{rights-and-responsibilities.privacy-policy-label}"/>
+                <th:block th:ref="content8"
+                          th:replace="~{fragments/rightsAndResponsibilitiesFragments :: privacyPolicy}"/>
+              </th:block>
+
               <th:block th:replace="~{fragments/inputs/checkbox ::
                 checkbox(inputName='rightsAndResponsibilitiesAgree',
                 label=#{rights-and-responsibilities.agree},
