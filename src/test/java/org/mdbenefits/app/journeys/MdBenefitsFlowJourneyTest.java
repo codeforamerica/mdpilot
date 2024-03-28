@@ -55,13 +55,13 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     void redirectToMyMDTHINKOnUnsupportedCounty() {
         testPage.navigateToFlowScreen("mdBenefitsFlow/county");
         // should redirect to MyMDTHINK
-        testPage.selectFromDropdown("county", Counties.FREDERICK.getDisplayName());
+        testPage.selectFromDropdown("county", message(Counties.OTHER.getLabelSrc()));
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("redirect.mdthink.title"));
 
         // should not redirect
         testPage.navigateToFlowScreen("mdBenefitsFlow/county");
-        testPage.selectFromDropdown("county", Counties.BALTIMORE.getDisplayName());
+        testPage.selectFromDropdown("county", message(Counties.BALTIMORE.getLabelSrc()));
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("select-app.title"));
     }
@@ -300,7 +300,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickButton("Apply Now");
         assertThat(testPage.getTitle()).isEqualTo("County");
 
-        testPage.selectFromDropdown("county", Counties.BALTIMORE.getDisplayName());
+        testPage.selectFromDropdown("county", message(Counties.BALTIMORE.getLabelSrc()));
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo("Select application");
 
@@ -709,11 +709,11 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
     @Test
     void howThisWorksShouldShowCorrectEmailForCounty() {
-        preloadCountyScreen(Counties.BALTIMORE.getDisplayName());
+        preloadCountyScreen(message(Counties.BALTIMORE.getLabelSrc()));
         testPage.navigateToFlowScreen("mdBenefitsFlow/howThisWorks");
         testPage.findAccordionByButtonText("How to add documents").click();
         assertThat(testPage.findElementById("county-document-email").getText()).contains("baltimorecounty.dmc@maryland.gov");
-        preloadCountyScreen(Counties.QUEEN_ANNES.getDisplayName());
+        preloadCountyScreen(message(Counties.QUEEN_ANNES.getLabelSrc()));
         testPage.navigateToFlowScreen("mdBenefitsFlow/howThisWorks");
         testPage.findAccordionByButtonText("How to add documents").click();
         assertThat(testPage.findElementById("county-document-email").getText()).contains("qacfia.customeraccount@maryland.gov");
