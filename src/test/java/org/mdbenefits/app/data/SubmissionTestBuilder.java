@@ -33,6 +33,48 @@ public class SubmissionTestBuilder {
         return this;
     }
 
+    public SubmissionTestBuilder withApplicantWithPregnancy(
+        String firstName, String lastName) {
+        submission.getInputData().put("firstName", firstName);
+        submission.getInputData().put("lastName", lastName);
+        submission.getInputData().put("birthDay", "11");
+        submission.getInputData().put("birthMonth", "11");
+        submission.getInputData().put("birthYear", "2011");
+        submission.getInputData().put("relationship", "daughter");
+        submission.getInputData().put("applicantSex", "F");
+        submission.getInputData().put("maritalStatus", "Single");
+        submission.getInputData().put("isApplicantApplying", "Yes");
+        submission.getInputData().put("isApplicantPregnant", "Yes");
+        return this;
+    }
+
+    public SubmissionTestBuilder withApplicantWithDisability(
+        String firstName, String lastName) {
+        submission.getInputData().put("firstName", firstName);
+        submission.getInputData().put("lastName", lastName);
+        submission.getInputData().put("birthDay", "11");
+        submission.getInputData().put("birthMonth", "11");
+        submission.getInputData().put("birthYear", "2011");
+        submission.getInputData().put("relationship", "daughter");
+        submission.getInputData().put("applicantSex", "F");
+        submission.getInputData().put("maritalStatus", "Single");
+        submission.getInputData().put("isApplicantApplying", "Yes");
+        submission.getInputData().put("applicantHasDisability", "Yes");
+        return this;
+    }
+
+    public SubmissionTestBuilder withHouseholdMemberWithPregnancy(String firstName, String lastName){
+         withHouseholdMemberApplying(firstName,lastName, "11", "11", "2001", "daughter", "F", "NeverMarried", "firstGrade",
+            "123456789", "Yes", "No", null, null);
+         return this;
+    }
+
+    public SubmissionTestBuilder withHouseholdMemberWithDisability(String firstName, String lastName){
+        withHouseholdMemberApplying(firstName,lastName, "11", "11", "2001", "daughter", "F", "NeverMarried", "firstGrade",
+            "123456789", "No", "Yes", null, null);
+        return this;
+    }
+
     public SubmissionTestBuilder withHouseholdMemberApplying(
         String firstName, String lastName,
         String birthDay, String birthMonth, String birthYear,

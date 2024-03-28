@@ -128,6 +128,24 @@ public class SubmissionUtilities {
         return names;
     }
 
+    public static String householdMemberFullNameFormatted(Map<String, Object> householdMember) {
+        String fullName = String.format("%s, %s", householdMember.get("householdMemberLastName"), householdMember.get("householdMemberFirstName"));
+        if (householdMember.get("householdMemberMiddleName") != null) {
+            fullName += ", " + householdMember.get("householdMemberMiddleName");
+        }
+        return fullName;
+    }
+
+    public static String applicantFullNameFormatted(Submission submission){
+        Map<String, Object> inputData = submission.getInputData();
+
+        String fullName = String.format("%s, %s", inputData.get("lastName"), inputData.get("firstName"));
+        if (inputData.get("middleName") != null) {
+            fullName += ", " + inputData.get("middleName");
+        }
+        return fullName;
+    }
+
     public static String getHouseholdMemberFullnameByUUID(String uuid, Map<String, Object> inputData) {
         var members = (List<Map<String, Object>>) inputData.getOrDefault("household", emptyList());
         for (var member : members) {
