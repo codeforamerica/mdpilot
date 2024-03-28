@@ -4,6 +4,7 @@ import com.mailgun.model.message.MessageResponse;
 import formflow.library.data.Submission;
 import formflow.library.data.SubmissionRepositoryService;
 import formflow.library.email.MailgunEmailClient;
+import formflow.library.pdf.PdfService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.SubmissionTestBuilder;
@@ -20,6 +21,9 @@ import org.springframework.context.MessageSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.io.File;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -31,6 +35,8 @@ class HandleApplicationSignedTest {
     @MockBean
     MailgunEmailClient mailgunEmailClient;
     @Autowired
+    PdfService pdfService;
+    @Autowired
     MessageSource messageSource;
     @Autowired
     SubmissionRepositoryService submissionRepositoryService;
@@ -41,13 +47,15 @@ class HandleApplicationSignedTest {
 
     @Captor
     ArgumentCaptor<String> emailBodyCaptor;
+    @Captor
+    ArgumentCaptor<List<File>> attachmentsCaptor;
 
     private HandleApplicationSigned handleApplicationSigned;
 
     @BeforeEach
     void setup() {
         handleApplicationSigned = new HandleApplicationSigned(messageSource, mailgunEmailClient, submissionRepositoryService,
-                transmissionRepository, jdbcTemplate);
+                transmissionRepository, jdbcTemplate, pdfService);
     }
 
     @Test
@@ -63,13 +71,9 @@ class HandleApplicationSignedTest {
 
     @Test
     public void shouldRecordSuccessfulSend() {
-        Submission submission = new SubmissionTestBuilder()
-                .with("emailAddress", "foo@example.com")
-                .with("county", Counties.QUEEN_ANNES.name())
-                .build();
-        submission.setFlow("mdBenefitsFlow");
+        Submission submission = buildValidSubmission();
         MessageResponse mockResponse = mock(MessageResponse.class);
-        Mockito.when(mailgunEmailClient.sendEmail(any(), any(), any()))
+        Mockito.when(mailgunEmailClient.sendEmail(any(), any(), any(), any()))
                 .thenReturn(mockResponse);
 
         handleApplicationSigned.run(submission);
@@ -82,13 +86,9 @@ class HandleApplicationSignedTest {
 
     @Test
     public void includesConfirmationNumberInEmailBody() {
-        Submission submission = new SubmissionTestBuilder()
-                .with("emailAddress", "foo@example.com")
-                .with("county", Counties.QUEEN_ANNES.name())
-                .build();
-        submission.setFlow("mdBenefitsFlow");
+        Submission submission = buildValidSubmission();
         MessageResponse mockResponse = mock(MessageResponse.class);
-        Mockito.when(mailgunEmailClient.sendEmail(any(), any(), emailBodyCaptor.capture()))
+        Mockito.when(mailgunEmailClient.sendEmail(any(), any(), emailBodyCaptor.capture(), any()))
                 .thenReturn(mockResponse);
 
         handleApplicationSigned.run(submission);
@@ -96,18 +96,36 @@ class HandleApplicationSignedTest {
         assertThat(emailBodyCaptor.getValue()).contains((String) submission.getInputData().get("confirmationNumber"));
     }
 
+
+    @Test
+    public void includesAttachedPdf() {
+        Submission submission = buildValidSubmission();
+        MessageResponse mockResponse = mock(MessageResponse.class);
+        Mockito.when(mailgunEmailClient.sendEmail(any(), any(), any(), attachmentsCaptor.capture()))
+                .thenReturn(mockResponse);
+
+        handleApplicationSigned.run(submission);
+
+        assertThat(attachmentsCaptor.getValue()).hasSize(1);
+    }
+
     @Test
     public void shouldRecordFailedSend() {
-        Submission submission = new SubmissionTestBuilder()
-                .with("emailAddress", "foo@example.com")
-                .with("county", Counties.QUEEN_ANNES.name())
-                .build();
-        submission.setFlow("mdBenefitsFlow");
+        Submission submission = buildValidSubmission();
         Mockito.when(mailgunEmailClient.sendEmail(any(), any(), any()))
                 .thenReturn(null);
 
         handleApplicationSigned.run(submission);
 
         assertThat(submission.getInputData().get("sentEmailToApplicant")).isEqualTo(false);
+    }
+
+    private Submission buildValidSubmission() {
+        Submission submission = new SubmissionTestBuilder()
+                .with("emailAddress", "foo@example.com")
+                .with("county", Counties.QUEEN_ANNES.name())
+                .build();
+        submission.setFlow("mdBenefitsFlow");
+        return submission;
     }
 }
