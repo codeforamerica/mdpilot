@@ -24,13 +24,13 @@ public class StaticPagesJourneyTest extends AbstractBasePageTest {
         assertThat(driver.getWindowHandles().size()).isEqualTo(1);
         String originalWindow = driver.getWindowHandle();
         // Go to privacy policy tab
-        testPage.clickLink("Privacy Policy");
+        testPage.clickLink(message("footer.privacy"));
         assertThat(driver.getWindowHandles().size()).isEqualTo(2);
         switchAwayFromOriginalWindow(originalWindow);
         await().atMost(5, TimeUnit.SECONDS).until(
-                () -> testPage.getTitle().equals("Privacy Policy")
+                () -> testPage.getTitle().equals(message("privacy.title"))
         );
-        assertThat(testPage.getTitle()).isEqualTo("Privacy Policy");
+        assertThat(testPage.getTitle()).isEqualTo(message("privacy.title"));
     }
 
     void switchAwayFromOriginalWindow(String originalWindow) {
