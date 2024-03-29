@@ -4,44 +4,45 @@
 <body>
 <div class="page-wrapper">
   <th:block th:replace="~{fragments/toolbar :: toolbar}"/>
-  <section class="slab slab--yellow">
+  <section class="slab">
     <div class="grid">
       <div class="grid__item">
-        <h1 class="header" th:text="#{privacy.title}"></h1>
+        <th:block th:replace="~{fragments/icons :: nextSteps}"></th:block>
+        <h1 class="header" th:text="#{privacy.title}" style="margin-top:1rem;"></h1>
         <p th:text="#{privacy.sub-title}"></p>
       </div>
     </div>
   </section>
   <main id="content" role="main" class="slab slab--white">
-    <div class="grid">
-      <nav class="grid__item width-one-third">
-        <p class="h3" th:text="#{privacy.toc}"></p>
 
-        <div class="spacing-below-35">
+    <div class="grid">
+      <nav class="grid__item width-one-third spacing-below-35">
+        <div class="spacing-below-10">
           <a href="#overview" th:text="#{privacy.overview.title}"></a>
         </div>
-        <div class="spacing-below-35">
+        <div class="spacing-below-10">
           <a href="#info" th:text="#{privacy.information-we-collect.title}"></a>
         </div>
-        <div class="spacing-below-35">
+        <div class="spacing-below-10">
           <a href="#how-we-use" th:text="#{privacy.how-we-use.title}"></a>
         </div>
-        <div class="spacing-below-35">
+        <div class="spacing-below-10">
           <a href="#how-we-share" th:text="#{privacy.how-we-share-your-info.title}"></a>
         </div>
-        <div class="spacing-below-35">
+        <div class="spacing-below-10">
           <a href="#how-we-protect" th:text="#{privacy.how-we-protect}"></a>
         </div>
-        <div class="spacing-below-35">
+        <div class="spacing-below-10">
           <a href="#changes" th:text="#{privacy.changes.title}"></a>
         </div>
-        <div class="spacing-below-35">
+        <div class="spacing-below-10">
           <a href="#effective-date" th:text="#{privacy.effective-date.title}"></a>
         </div>
-        <div class="spacing-below-35">
+        <div class="spacing-below-10">
           <a href="#questions" th:text="#{privacy.questions.title}"></a>
         </div>
       </nav>
+
       <div class="grid__item shift-one-twelfth width-seven-twelfths">
         <div class="grid">
           <div class="grid__item spacing-below-35">
@@ -50,7 +51,6 @@
             <p th:utext="#{privacy.overview.p1}"></p>
             <p th:utext="#{privacy.overview.p2}"></p>
             <p th:utext="#{privacy.overview.p3}"></p>
-
 
             <h2 id="info" class="h3 spacing-above-60"
                 th:text="#{privacy.information-we-collect.title}"></h2>
@@ -62,9 +62,10 @@
               <li th:text="#{privacy.information-we-collect.li4}"></li>
             </ul>
 
-            <p th:utext="#{privacy.information-we-collect.p2.1}"></p>
-            <p th:utext="#{privacy.information-we-collect.p2.2}"></p>
-            <p th:utext="#{privacy.information-we-collect.p2.3}"></p>
+            <p th:utext="#{privacy.information-we-collect.p2}"></p>
+            <p th:utext="#{privacy.information-we-collect.p3}"></p>
+            <p th:utext="#{privacy.information-we-collect.p4}"></p>
+            <p th:utext="#{privacy.information-we-collect.p5}"></p>
 
             <ul class="list--bulleted">
               <li th:text="#{privacy.information-we-collect.ul2.li1}"></li>
@@ -77,10 +78,10 @@
               <li th:text="#{privacy.information-we-collect.ul2.li8}"></li>
             </ul>
 
-            <p th:utext="#{privacy.information-we-collect.p2.4}"></p>
-            <p th:utext="#{privacy.information-we-collect.p2.5}"></p>
-            <p th:utext="#{privacy.information-we-collect.p2.6}"></p>
-            <p th:utext="#{privacy.information-we-collect.p2.7}"></p>
+            <p th:utext="#{privacy.information-we-collect.p6}"></p>
+            <p th:utext="#{privacy.information-we-collect.p7}"></p>
+            <p th:utext="#{privacy.information-we-collect.p8}"></p>
+            <p th:utext="#{privacy.information-we-collect.p9}"></p>
 
 
             <h2 id="how-we-use" class="h3 spacing-above-60"
@@ -120,55 +121,14 @@
                 th:text="#{privacy.how-we-protect}"></h2>
             <p th:text="#{privacy.how-we-protect.p1}"></p>
             <p th:text="#{privacy.how-we-protect.p2}"></p>
+            <p th:text="#{privacy.how-we-protect.p3}"></p>
+            <p th:text="#{privacy.how-we-protect.p4}"></p>
 
-
-            <p th:text="#{privacy.your-info.title}"></p>
-            <p th:text="#{privacy.your-info.p1}"></p>
-
-            <h2 class="h3 spacing-above-60 privacy-policy-choices"
-                th:text="#{privacy.your-info.email}"></h2>
-            <p th:text="#{privacy.your-info.email.p1}"></p>
-            <p th:text="#{privacy.your-info.email.p2}"></p>
-            <p th:text="#{privacy.your-info.email.p3}"></p>
-
-            <h2 class="h3 spacing-above-60 privacy-policy-choices"
-                th:text="#{privacy.your-info.cookies}"></h2>
-            <p th:text="#{privacy.your-info.cookies.p1}"></p>
-            <ul class="list--bulleted">
-              <li th:text="#{privacy.your-info.cookies.li1}"></li>
-              <li th:text="#{privacy.your-info.cookies.li2}"></li>
+            <ul class="list--bulleted padding-left-25">
+              <li th:text="#{privacy.how-we-protect.li1}"></li>
+              <li th:text="#{privacy.how-we-protect.li2}"></li>
+              <li th:text="#{privacy.how-we-protect.li3}"></li>
             </ul>
-            <p th:utext="#{privacy.your-info.cookies.p2}"></p>
-
-            <h2 class="h3 spacing-above-60 privacy-policy-choices"
-                th:text="#{privacy.your-info.text}"></h2>
-            <p th:text="#{privacy.your-info.text.p1}"></p>
-
-            <h2 class="h3 spacing-above-60 privacy-policy-choices"
-                th:text="#{privacy.your-info.analytics}"></h2>
-            <p th:utext="#{privacy.your-info.analytics.p1}"></p>
-
-            <h2 class="h3 spacing-above-60 privacy-policy-choices"
-                th:text="#{privacy.la-dcfs.website}"></h2>
-            <p th:text="#{privacy.la-dcfs.website.p1}"></p>
-
-            <h2 class="h3 spacing-above-60 privacy-policy-choices"
-                th:text="#{privacy.additional-services}"></h2>
-            <p th:text="#{privacy.additional-services.p1}"></p>
-
-
-            <h2 id="data-retention" class="h3 spacing-above-60"
-                th:text="#{privacy.data-retention.title}"></h2>
-            <p th:text="#{privacy.data-retention.p1}"></p>
-
-            <h2 id="childrens-privacy" class="h3 spacing-above-60"
-                th:text="#{privacy.childrens-privacy.title}"></h2>
-            <p th:text="#{privacy.childrens-privacy.p1}"></p>
-
-            <h2 id="access-request" class="h3 spacing-above-60"
-                th:text="#{privacy.access-request.title}"></h2>
-            <p th:utext="#{privacy.access-request.p1}"></p>
-            <p th:text="#{privacy.access-request.p2}"></p>
 
             <h2 id="changes" class="h3 spacing-above-60" th:text="#{privacy.changes.title}"></h2>
             <p th:text="#{privacy.changes.p1}"></p>
@@ -183,6 +143,7 @@
             <p th:text="#{privacy.questions.p2}"></p>
           </div>
         </div>
+        <a class="button button--primary" href="/" th:text="#{general.go-back}"></a>
       </div>
     </div>
   </main>
