@@ -264,7 +264,7 @@ flow:
       - name: docUploadInstructions
   docUploadInstructions:
     nextScreens:
-      - name: signature
+      - name: legalStuff
         condition: DoesNotWantToAddDocs
       - name: docUpload
   docUpload:
