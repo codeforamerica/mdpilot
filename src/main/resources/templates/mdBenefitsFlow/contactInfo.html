@@ -46,7 +46,7 @@
               <th:block th:replace="~{fragments/inputs/text ::
                   text(inputName='emailAddress',
                   label=#{contact-info.email-address},
-                  helpText=#{contact-info.email-address.help})}"/>
+                  helpText=#{general.optional} + ' ' + #{contact-info.email-address.help})}"/>
             </div>
             <div class="form-card__footer">
               <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
