@@ -17,6 +17,15 @@ body {
   margin-bottom: 0;
 }
 
+.go-back-link {
+  color: #000
+}
+
+.go-back-link:hover,
+.go-back-link:active {
+  color: #5F5854
+}
+
 .subflow-list__item-actions {
   margin-left: 3rem;
   font-size: 16px;
@@ -360,6 +369,12 @@ input[type="number"] {
 .toolbar__wrapper, .main-footer, .button--primary, .dz-button {
   color: #FFF;
   background-color: var(--primary);
+}
+
+.button--primary {
+  background-color: var(--primary);
+  border-color: #333;
+  box-shadow: 0 2px 0 #333;
 }
 
 .center {
