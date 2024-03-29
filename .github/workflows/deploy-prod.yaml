@@ -47,5 +47,4 @@ jobs:
             'QUEENANNES_COUNTY_EMAIL_ADDRESSES=${{ secrets.PROD_QUEENANNES_COUNTY_EMAIL_ADDRESSES }}' \
             'BALTIMORE_COUNTY_EMAIL_ADDRESSES=${{ secrets.PROD_BALTIMORE_COUNTY_EMAIL_ADDRESSES }}' \
             'DEFAULT_LOCALE=en' \
-            'demo=true' \
             'FORCE_SSL=true'
