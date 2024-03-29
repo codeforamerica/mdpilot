@@ -50,25 +50,24 @@ public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
         if (income != null) {
             int i = 1;
             for (Map<String, Object> incomeDetails : income) {
-                var employeeName = incomeDetails.get("householdMemberJobAdd");
+                String employeeName = (String) incomeDetails.get("householdMemberJobAdd");
                 if (employeeName.equals("you")) {
                     employeeName = inputData.get("firstName") + " " + inputData.get("lastName");
                 }
 
-                var employerName = incomeDetails.get("employerName");
-                var payFrequency = incomeDetails.get("payPeriod");
-                var payPeriodAmount = incomeDetails.get("payPeriodAmount");
+                String employerName = (String) incomeDetails.get("employerName");
+                String payFrequency = (String) incomeDetails.get("payPeriod");
+                String payPeriodAmount = (String) incomeDetails.get("payPeriodAmount");
+                String moneyString = String.format("$%,.0f", Double.valueOf(payPeriodAmount));
 
                 fields.put("employeeName" + i,
-                        new SingleField("employeeName" + i, (String) employeeName, null));
+                        new SingleField("employeeName" + i, employeeName, null));
                 fields.put("employerName" + i,
-                        new SingleField("employerName" + i, (String) employerName, null));
-                fields.put("employmentRateOfPay" + i,
-                        new SingleField("employmentRateOfPay" + i, "Last 30 Days", null));
+                        new SingleField("employerName" + i, employerName, null));
                 fields.put("employmentPayPerPeriod" + i,
-                        new SingleField("employmentPayPerPeriod" + i, (String) payPeriodAmount, null));
+                        new SingleField("employmentPayPerPeriod" + i, moneyString, null));
                 fields.put("employmentPayFreq" + i,
-                        new SingleField("employmentPayFreq" + i, preparePayPeriod((String) payFrequency), null));
+                        new SingleField("employmentPayFreq" + i, preparePayPeriod(payFrequency), null));
 
                 i++;
             }
@@ -140,10 +139,10 @@ public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
         Map<String, SubmissionField> fields = new HashMap<>();
         var moneyOnHandSelected = (List<String>) submission.getInputData().getOrDefault("moneyOnHandTypes[]", emptyList());
 
-        if (moneyOnHandSelected.isEmpty()){
+        if (moneyOnHandSelected.isEmpty()) {
             return fields;
         }
-        if(isNoneOfAboveSelection(moneyOnHandSelected)) {
+        if (isNoneOfAboveSelection(moneyOnHandSelected)) {
             fields.put("householdHasResourcesOrAssets", new SingleField("householdHasResourcesOrAssets", "false", null
             ));
             return fields;
@@ -153,8 +152,9 @@ public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
                 if (moneyOnHandSelected.contains(type.name())) {
                     fields.put("householdHasResourcesOrAssets", new SingleField("householdHasResourcesOrAssets", "true", null
                     ));
-                    fields.put("resourcesOrAssetsType" + i, new SingleField("resourcesOrAssetsType" + i, messagesSource.getMessage(
-                        type.getLabelSrc(), null, Locale.ENGLISH), null));
+                    fields.put("resourcesOrAssetsType" + i,
+                            new SingleField("resourcesOrAssetsType" + i, messagesSource.getMessage(
+                                    type.getLabelSrc(), null, Locale.ENGLISH), null));
                     i++;
                 }
             }

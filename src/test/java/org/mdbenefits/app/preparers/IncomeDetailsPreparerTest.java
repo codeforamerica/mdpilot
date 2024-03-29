@@ -27,7 +27,7 @@ class IncomeDetailsPreparerTest {
 
     private IncomeDetailsPreparer incomePreparer;
 
-    final int FIELDS_PER_JOB = 5;
+    final int FIELDS_PER_JOB = 4;
 
     @BeforeEach
     void setup() {
@@ -109,36 +109,37 @@ class IncomeDetailsPreparerTest {
     @Test
     public void testPrepareMoneyOnHandResourcesDoesNotAddWhenNONEisPresent() {
         Submission submission = new SubmissionTestBuilder()
-            .withPersonalInfo("Person", "One", "", "", "", "", "", "", "", "")
-            .with("moneyOnHandTypes[]", List.of(NONE_OF_ABOVE_SELECTION_VALUE))
-            .build();
+                .withPersonalInfo("Person", "One", "", "", "", "", "", "", "", "")
+                .with("moneyOnHandTypes[]", List.of(NONE_OF_ABOVE_SELECTION_VALUE))
+                .build();
 
         Map<String, SubmissionField> result = incomePreparer.prepareSubmissionFields(submission, null);
         assertThat(result.get("householdHasResourcesOrAssets"))
-            .isEqualTo(new SingleField("householdHasResourcesOrAssets", "false", null));
+                .isEqualTo(new SingleField("householdHasResourcesOrAssets", "false", null));
     }
 
     @Test
     public void testPrepareMoneyOnHandResourcesAddsRelevantItems() {
         Submission submission = new SubmissionTestBuilder()
-            .withPersonalInfo("Person", "One", "", "", "", "", "", "", "", "")
-            .with("moneyOnHandTypes[]", List.of("CHECKING", "SAVINGS", "BONDS"))
-            .build();
+                .withPersonalInfo("Person", "One", "", "", "", "", "", "", "", "")
+                .with("moneyOnHandTypes[]", List.of("CHECKING", "SAVINGS", "BONDS"))
+                .build();
 
         Map<String, SubmissionField> result = incomePreparer.prepareSubmissionFields(submission, null);
 
         assertThat(withNoJobIncome(result).size()).isEqualTo(4);
         assertThat(result.get("householdHasResourcesOrAssets"))
-            .isEqualTo(new SingleField("householdHasResourcesOrAssets", "true", null));
+                .isEqualTo(new SingleField("householdHasResourcesOrAssets", "true", null));
         assertThat(result.get("resourcesOrAssetsType1"))
-            .isEqualTo(new SingleField("resourcesOrAssetsType1", "Checking account", null));
+                .isEqualTo(new SingleField("resourcesOrAssetsType1", "Checking account", null));
 
         assertThat(result.get("resourcesOrAssetsType2"))
-            .isEqualTo(new SingleField("resourcesOrAssetsType2", "Savings account", null));
+                .isEqualTo(new SingleField("resourcesOrAssetsType2", "Savings account", null));
 
         assertThat(result.get("resourcesOrAssetsType3"))
-            .isEqualTo(new SingleField("resourcesOrAssetsType3", "Bonds", null));
+                .isEqualTo(new SingleField("resourcesOrAssetsType3", "Bonds", null));
     }
+
     private void assertJobIncome(Map<String, SubmissionField> results, String expected) {
         assertThat(results).containsKey("householdHasEarnedIncome");
         var hasIncomeField = (SingleField) results.get("householdHasEarnedIncome");
