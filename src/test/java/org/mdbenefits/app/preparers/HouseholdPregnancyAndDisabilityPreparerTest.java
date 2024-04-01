@@ -31,15 +31,15 @@ class HouseholdPregnancyAndDisabilityPreparerTest {
         assertThat(result.get("householdHasDisabilitySeeCover")).isNull();
 
         assertThat(result.get("householdPregnancyName1")).isEqualTo(
-            new SingleField("householdPregnancyName1", "Test, Alice", null));
+            new SingleField("householdPregnancyName1", "Alice Test", null));
         assertThat(result.get("householdPregnancyName2")).isEqualTo(
-            new SingleField("householdPregnancyName2", "Test, Benny", null));
+            new SingleField("householdPregnancyName2", "Benny Test", null));
         assertThat(result.get("householdPregnancyName3")).isEqualTo(
-            new SingleField("householdPregnancyName3", "Test, Carla", null));
+            new SingleField("householdPregnancyName3", "Carla Test", null));
         assertThat(result.get("householdPregnancyName4")).isEqualTo(
-            new SingleField("householdPregnancyName4", "Test, Damian", null));
+            new SingleField("householdPregnancyName4", "Damian Test", null));
         assertThat(result.get("householdPregnancyName5")).isEqualTo(
-            new SingleField("householdPregnancyName5", "Test, Eli", null));
+            new SingleField("householdPregnancyName5", "Eli Test", null));
         assertThat(result.get("householdPregnancyName6")).isNull();
     }
 
@@ -61,15 +61,15 @@ class HouseholdPregnancyAndDisabilityPreparerTest {
         assertThat(result.get("householdHasPregnancySeeCover")).isNull();
 
         assertThat(result.get("householdDisabilityName1")).isEqualTo(
-            new SingleField("householdDisabilityName1", "Test, Alice", null));
+            new SingleField("householdDisabilityName1", "Alice Test", null));
         assertThat(result.get("householdDisabilityName2")).isEqualTo(
-            new SingleField("householdDisabilityName2", "Test, Benny", null));
+            new SingleField("householdDisabilityName2", "Benny Test", null));
         assertThat(result.get("householdDisabilityName3")).isEqualTo(
-            new SingleField("householdDisabilityName3", "Test, Carla", null));
+            new SingleField("householdDisabilityName3", "Carla Test", null));
         assertThat(result.get("householdDisabilityName4")).isEqualTo(
-            new SingleField("householdDisabilityName4", "Test, Damian", null));
+            new SingleField("householdDisabilityName4", "Damian Test", null));
         assertThat(result.get("householdDisabilityName5")).isEqualTo(
-            new SingleField("householdDisabilityName5", "Test, Eli", null));
+            new SingleField("householdDisabilityName5", "Eli Test", null));
         assertThat(result.get("householdDisabilityName6")).isNull();
     }
 
@@ -87,7 +87,7 @@ class HouseholdPregnancyAndDisabilityPreparerTest {
         assertThat(result.get("householdHasDisabilitySeeCover")).isNull();
 
         assertThat(result.get("householdPregnancyName1")).isEqualTo(
-            new SingleField("householdPregnancyName1", "Test, Alice", null));
+            new SingleField("householdPregnancyName1", "Alice Test", null));
         assertThat(result.get("householdPregnancyName2")).isNull();
     }
 
@@ -105,7 +105,7 @@ class HouseholdPregnancyAndDisabilityPreparerTest {
         assertThat(result.get("householdHasPregnancySeeCover")).isNull();
 
         assertThat(result.get("householdDisabilityName1")).isEqualTo(
-            new SingleField("householdDisabilityName1", "Test, Alice", null));
+            new SingleField("householdDisabilityName1", "Alice Test", null));
         assertThat(result.get("householdDisabilityName2")).isNull();
     }
 
@@ -128,15 +128,15 @@ class HouseholdPregnancyAndDisabilityPreparerTest {
 
 
         assertThat(result.get("householdPregnancyName1")).isEqualTo(
-            new SingleField("householdPregnancyName1", "Test, Benny", null));
+            new SingleField("householdPregnancyName1", "Benny Test", null));
         assertThat(result.get("householdPregnancyName2")).isEqualTo(
-            new SingleField("householdPregnancyName2", "Test, Carla", null));
+            new SingleField("householdPregnancyName2", "Carla Test", null));
         assertThat(result.get("householdPregnancyName3")).isEqualTo(
-            new SingleField("householdPregnancyName3", "Test, Damian", null));
+            new SingleField("householdPregnancyName3", "Damian Test", null));
         assertThat(result.get("householdPregnancyName4")).isEqualTo(
-            new SingleField("householdPregnancyName4", "Test, Eli", null));
+            new SingleField("householdPregnancyName4", "Eli Test", null));
         assertThat(result.get("householdPregnancyName5")).isEqualTo(
-            new SingleField("householdPregnancyName5", "Test, Frankie", null));
+            new SingleField("householdPregnancyName5", "Frankie Test", null));
     }
 
     @Test
@@ -158,15 +158,15 @@ class HouseholdPregnancyAndDisabilityPreparerTest {
 
 
         assertThat(result.get("householdDisabilityName1")).isEqualTo(
-            new SingleField("householdDisabilityName1", "Test, Benny", null));
+            new SingleField("householdDisabilityName1", "Benny Test", null));
         assertThat(result.get("householdDisabilityName2")).isEqualTo(
-            new SingleField("householdDisabilityName2", "Test, Carla", null));
+            new SingleField("householdDisabilityName2", "Carla Test", null));
         assertThat(result.get("householdDisabilityName3")).isEqualTo(
-            new SingleField("householdDisabilityName3", "Test, Damian", null));
+            new SingleField("householdDisabilityName3", "Damian Test", null));
         assertThat(result.get("householdDisabilityName4")).isEqualTo(
-            new SingleField("householdDisabilityName4", "Test, Eli", null));
+            new SingleField("householdDisabilityName4", "Eli Test", null));
         assertThat(result.get("householdDisabilityName5")).isEqualTo(
-            new SingleField("householdDisabilityName5", "Test, Frankie", null));
+            new SingleField("householdDisabilityName5", "Frankie Test", null));
     }
     
     @Test
