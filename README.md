@@ -1,7 +1,5 @@
 # Overview
 
-Test
-
 This is the app for the MD Pilot. This is a standard Spring Boot application that uses the `form-flow` Java package as a library.
 
 To see an example of an application built on form flow, check out the [form-flow-starter-app repo.](https://github.com/codeforamerica/form-flow-starter-app)
