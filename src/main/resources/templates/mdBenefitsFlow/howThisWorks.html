@@ -10,8 +10,7 @@
       <main id="content" role="main" class="form-card spacing-above-35">
         <th:block th:replace="~{fragments/icons :: prepareToApply}"></th:block>
         <th:block
-            th:replace="~{fragments/cardHeader :: cardHeader(header=#{how-this-works.header})}"/>
-        <p th:utext="#{how-this-works.subtext}"></p>
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{how-this-works.header}, subtext=#{how-this-works.subtext})}"/>
         <p th:utext="#{how-this-works.we-will-ask}"></p>
         <ul class="list--bulleted spacing-below-60">
           <li th:text="#{how-this-works.we-will-ask-l1}"></li>
