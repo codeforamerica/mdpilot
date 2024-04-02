@@ -1,7 +1,9 @@
 name: Deploy to Aptible Staging
 
 on:
-  push:
+  workflow_run: 
+    workflows: [ "Run tests" ]
+    types: [ completed ]
     branches: [ main ]
   workflow_dispatch:
     inputs: { }
