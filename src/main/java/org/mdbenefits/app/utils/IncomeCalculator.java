@@ -21,11 +21,11 @@ public class IncomeCalculator {
 //    if submission.getInputData().
         var jobs = (List<Map<String, Object>>) submission.getInputData()
                 .getOrDefault("income", new ArrayList<Map<String, Object>>());
-        var total = jobs.stream()
+        var completedJobs = jobs.stream().filter(job -> job.get(Submission.ITERATION_IS_COMPLETE_KEY).equals(true)).toList();
+
+        return completedJobs.stream()
                 .map(IncomeCalculator::futureIncomeForJob)
                 .reduce(0.0d, Double::sum);
-
-        return total;
     }
 
     public static double futureIncomeForJob(Map<String, Object> job) throws NumberFormatException {

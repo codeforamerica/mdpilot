@@ -7,6 +7,7 @@ import java.text.DecimalFormat;
 import java.time.OffsetDateTime;
 import java.util.*;
 
+import static formflow.library.data.Submission.ITERATION_IS_COMPLETE_KEY;
 import static formflow.library.inputs.FieldNameMarkers.DYNAMIC_FIELD_MARKER;
 import static java.util.Collections.emptyList;
 
@@ -183,9 +184,11 @@ public class SubmissionUtilities {
                 .getOrDefault("lastName", "");
         var notYetShownNames = getHouseholdMemberNames(submission);
         ArrayList<HashMap<String, Object>> items = new ArrayList<>();
+        List<HashMap<String, Object>> incomeSubflowIterations = (List<HashMap<String, Object>>) submission.getInputData()
+                .getOrDefault("income", new ArrayList<HashMap<String, Object>>());
 
-        for (var job : (List<HashMap<String, Object>>) submission.getInputData()
-                .getOrDefault("income", new ArrayList<HashMap<String, Object>>())) {
+        for (var job : incomeSubflowIterations.stream().filter(job -> 
+                job.get(ITERATION_IS_COMPLETE_KEY).equals(true)).toList()) {
             var item = new HashMap<String, Object>();
             var name = job.get("householdMemberJobAdd").equals("you") ? applicantFullName : job.get("householdMemberJobAdd");
             item.put("name", name);
@@ -266,7 +269,7 @@ public class SubmissionUtilities {
      * Uses the "birthDay", "birthMonth", and "birthYear" fields from the input data to create an "MM/DD/YYYY" formatted string.
      *
      * @param inputData input data map to pull the dates from.
-     * @return
+     * @return formatted birthdate string in format of "MM/DD/YYYY"
      */
     public static String getFormattedBirthdate(Map<String, Object> inputData) {
         Integer month = Integer.valueOf((String) inputData.getOrDefault("birthMonth", "0"));

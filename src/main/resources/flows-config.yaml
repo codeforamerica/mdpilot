@@ -127,6 +127,7 @@ flow:
   ## END applicant information
 
   householdList:
+    beforeDisplayAction: ClearIncompleteIterationsFromHousehold
     nextScreens:
       - name: householdSeasonalFarmWorker
   householdInfo:
@@ -175,6 +176,7 @@ flow:
     nextScreens:
       - name: householdIncomeWho
   householdIncomeWho:
+    beforeSaveAction: ClearIncompleteIncomeIterations
     subflow: income
     nextScreens:
       - name: householdEmployerName
