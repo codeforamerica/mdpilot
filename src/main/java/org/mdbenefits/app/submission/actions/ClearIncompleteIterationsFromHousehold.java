@@ -3,6 +3,7 @@ package org.mdbenefits.app.submission.actions;
 import formflow.library.config.submission.Action;
 import formflow.library.data.Submission;
 import formflow.library.data.SubmissionRepository;
+import formflow.library.data.SubmissionRepositoryService;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,8 +16,11 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class ClearIncompleteIterationsFromHousehold implements Action {
     
-    @Autowired
-    SubmissionRepository submissionRepository;
+    SubmissionRepositoryService submissionRepositoryService;
+    
+    public ClearIncompleteIterationsFromHousehold(SubmissionRepositoryService submissionRepositoryService) {
+        this.submissionRepositoryService = submissionRepositoryService;
+    }
 
     /**
      * This action will clear out the incomplete iterations from the household subflow. These can be created when the user goes back
@@ -32,7 +36,7 @@ public class ClearIncompleteIterationsFromHousehold implements Action {
                     .filter(iteration -> Boolean.TRUE.equals(iteration.get(Submission.ITERATION_IS_COMPLETE_KEY)))
                             .collect(Collectors.toList());
             submission.getInputData().put("household", filteredHouseholdSubflow);
-            submissionRepository.save(submission);
+            submissionRepositoryService.save(submission);
         }
     }
 }
