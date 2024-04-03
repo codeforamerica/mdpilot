@@ -187,8 +187,8 @@ flow:
   jobPayPeriod:
     subflow: income
     nextScreens:
-      - name: jobPayAmount
-  jobPayAmount:
+      - name: jobPayLast30Days
+  jobPayLast30Days:
     subflow: income
     nextScreens:
       - name: householdIncomeList

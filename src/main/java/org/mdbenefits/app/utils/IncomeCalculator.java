@@ -16,6 +16,7 @@ public class IncomeCalculator {
         this.submission = submission;
     }
 
+    /*
     public Double totalFutureEarnedIncome() {
         // TODO: check for annualIncome key and use that if it is entered?
 //    if submission.getInputData().
@@ -51,4 +52,5 @@ public class IncomeCalculator {
             return payPeriodAmount;
         }
     }
+     */
 }

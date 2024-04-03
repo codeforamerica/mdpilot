@@ -26,55 +26,6 @@ public class SubmissionUtilities {
 
     public static Long expiryHours = 2L;
 
-    public static final Map<String, String> PDF_EDUCATION_MAP = new HashMap<>();
-    public static final Map<String, String> PDF_MARITAL_STATUS_MAP = new HashMap<>();
-    public static final Map<String, String> PDF_RELATIONSHIP_MAP = new HashMap<>();
-
-    static {
-        PDF_EDUCATION_MAP.put("firstGrade", "1st grade");
-        PDF_EDUCATION_MAP.put("secondGrade", "2nd grade");
-        PDF_EDUCATION_MAP.put("thirdGrade", "3rd grade");
-        PDF_EDUCATION_MAP.put("fourthGrade", "4th grade");
-        PDF_EDUCATION_MAP.put("fifthGrade", "5th grade");
-        PDF_EDUCATION_MAP.put("sixthGrade", "6th grade");
-        PDF_EDUCATION_MAP.put("seventhGrade", "7th grade");
-        PDF_EDUCATION_MAP.put("eighthGrade", "8th grade");
-        PDF_EDUCATION_MAP.put("ninthGrade", "9th grade");
-        PDF_EDUCATION_MAP.put("tenthGrade", "10th grade");
-        PDF_EDUCATION_MAP.put("eleventhGrade", "11th grade");
-        PDF_EDUCATION_MAP.put("highSchoolOrEquivalent", "High school / GED");
-        PDF_EDUCATION_MAP.put("associatesDegree", "Associate's degree");
-        PDF_EDUCATION_MAP.put("bachelorsDegree", "Bachelor's degree");
-        PDF_EDUCATION_MAP.put("graduateDegree", "Graduate/Master's degree");
-        PDF_EDUCATION_MAP.put("certificateOrDiploma", "Other certificate or diploma");
-        PDF_EDUCATION_MAP.put("noFormalEducation", "None");
-        PDF_EDUCATION_MAP.put("notSure", "Not sure");
-
-        PDF_MARITAL_STATUS_MAP.put("NeverMarried", "Never Married");
-        PDF_MARITAL_STATUS_MAP.put("MarriedLivingWithSpouse", "Married");
-        PDF_MARITAL_STATUS_MAP.put("MarriedNotLivingWithSpouse", "Married");
-        PDF_MARITAL_STATUS_MAP.put("LegallySeparated", "Separated");
-        PDF_MARITAL_STATUS_MAP.put("Divorced", "Divorced");
-        PDF_MARITAL_STATUS_MAP.put("Widowed", "Widowed");
-
-        PDF_RELATIONSHIP_MAP.put("child", "child");
-        PDF_RELATIONSHIP_MAP.put("stepChild", "step child");
-        PDF_RELATIONSHIP_MAP.put("spouse", "spouse");
-        PDF_RELATIONSHIP_MAP.put("partner", "partner");
-        PDF_RELATIONSHIP_MAP.put("sibling", "sibling");
-        PDF_RELATIONSHIP_MAP.put("stepSibling", "step sibling");
-        PDF_RELATIONSHIP_MAP.put("halfSibling", "half sibling");
-        PDF_RELATIONSHIP_MAP.put("parent", "parent");
-        PDF_RELATIONSHIP_MAP.put("grandparent", "grandparent");
-        PDF_RELATIONSHIP_MAP.put("childsParent", "child's parent");
-        PDF_RELATIONSHIP_MAP.put("auntOrUncle", "aunt or uncle");
-        PDF_RELATIONSHIP_MAP.put("nieceOrNephew", "niece or nephew");
-        PDF_RELATIONSHIP_MAP.put("roommate", "roommate");
-        PDF_RELATIONSHIP_MAP.put("friend", "friend");
-        PDF_RELATIONSHIP_MAP.put("grandchild", "grandchild");
-        PDF_RELATIONSHIP_MAP.put("other", "other");
-    }
-
     public static String formatMoney(String value) {
         if (value == null) {
             return "";
@@ -129,7 +80,8 @@ public class SubmissionUtilities {
     }
 
     public static String householdMemberFullNameFormatted(Map<String, Object> householdMember) {
-        String fullName = String.format("%s, %s", householdMember.get("householdMemberLastName"), householdMember.get("householdMemberFirstName"));
+        String fullName = String.format("%s, %s", householdMember.get("householdMemberLastName"),
+                householdMember.get("householdMemberFirstName"));
         if (householdMember.get("householdMemberMiddleName") != null) {
             fullName += ", " + householdMember.get("householdMemberMiddleName");
         }
@@ -137,7 +89,7 @@ public class SubmissionUtilities {
     }
 
     public static String householdMemberFullNameFormattedFirstMiddleLast(Map<String, Object> householdMember) {
-        String fullName =  (String) householdMember.get("householdMemberFirstName");
+        String fullName = (String) householdMember.get("householdMemberFirstName");
         if (householdMember.get("householdMemberMiddleName") != null) {
             fullName += " " + householdMember.get("householdMemberMiddleName");
         }
@@ -146,7 +98,7 @@ public class SubmissionUtilities {
         return fullName;
     }
 
-    public static String applicantFullNameFormattedFirstMiddleLast(Submission submission){
+    public static String applicantFullNameFormattedFirstMiddleLast(Submission submission) {
         Map<String, Object> inputData = submission.getInputData();
 
         String fullName = (String) inputData.get("firstName");
@@ -158,7 +110,7 @@ public class SubmissionUtilities {
         return fullName;
     }
 
-    public static String applicantFullNameFormatted(Submission submission){
+    public static String applicantFullNameFormatted(Submission submission) {
         Map<String, Object> inputData = submission.getInputData();
 
         String fullName = String.format("%s, %s", inputData.get("lastName"), inputData.get("firstName"));
@@ -179,29 +131,30 @@ public class SubmissionUtilities {
     }
 
     public static ArrayList<HashMap<String, Object>> getHouseholdIncomeReviewItems(Submission submission) {
-        var applicantFullName = submission.getInputData().getOrDefault("firstName", "") + " " + submission.getInputData()
-                .getOrDefault("lastName", "");
+        var applicantFullName = submission.getInputData().getOrDefault("firstName", "") + " "
+                + submission.getInputData().getOrDefault("lastName", "");
         var notYetShownNames = getHouseholdMemberNames(submission);
         ArrayList<HashMap<String, Object>> items = new ArrayList<>();
 
-        for (var job : (List<HashMap<String, Object>>) submission.getInputData()
-                .getOrDefault("income", new ArrayList<HashMap<String, Object>>())) {
+        for (var job : (List<HashMap<String, Object>>) submission.getInputData().getOrDefault("income", List.of())) {
             var item = new HashMap<String, Object>();
             var name = job.get("householdMemberJobAdd").equals("you") ? applicantFullName : job.get("householdMemberJobAdd");
             item.put("name", name);
             item.put("itemType", "job");
             item.put("jobName", job.get("employerName"));
             item.put("isApplicant", name.equals(applicantFullName));
+            /*
             // TODO: handle income types - hourly vs. non hourly
             var payPeriod =
                     job.getOrDefault("jobPaidByHour", "false").equals("true") ? "Hourly, " + job.get("hoursPerWeek").toString()
                             + " hours per week" : job.getOrDefault("payPeriod", "It varies").toString();
             item.put("payPeriod", payPeriod);
 
+            */
             // TODO: add wage amount and not future income
-            var payAmount = job.getOrDefault("jobPaidByHour", "false").equals("true") ? job.get("hourlyWage").toString()
-                    : job.get("payPeriodAmount").toString();
-            item.put("income", formatMoney(payAmount));
+            //var payAmount30Days = job.getOrDefault("jobPaidByHour", "false").equals("true") ? job.get("hourlyWage").toString()
+            //       : job.get("payPeriodAmount").toString();
+            item.put("income", formatMoney((String) job.get("payAmountLast30Days")));
             item.put("uuid", job.get("uuid"));
 
             notYetShownNames.remove(name);
@@ -236,12 +189,13 @@ public class SubmissionUtilities {
             var combineWithPrevious = (i > 0) && items.get(i - 1).get("name").equals(items.get(i).get("name"));
             items.get(i).put("combineWithPrevious", combineWithPrevious);
         }
-
+/*
         items.add(new HashMap<String, Object>() {{
             put("name", null);
             put("itemType", "household-total");
             put("income", formatMoney(new IncomeCalculator(submission).totalFutureEarnedIncome()));
         }});
+ */
 
         return items;
     }

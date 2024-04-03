@@ -57,15 +57,15 @@ public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
 
                 String employerName = (String) incomeDetails.get("employerName");
                 String payFrequency = (String) incomeDetails.get("payPeriod");
-                String payPeriodAmount = (String) incomeDetails.get("payPeriodAmount");
-                String moneyString = String.format("$%,.0f", Double.valueOf(payPeriodAmount));
+                String payAmountLast30Days = (String) incomeDetails.get("payAmountLast30Days");
+                String moneyString = String.format("$%,.0f", Double.valueOf(payAmountLast30Days));
 
                 fields.put("employeeName" + i,
                         new SingleField("employeeName" + i, employeeName, null));
                 fields.put("employerName" + i,
                         new SingleField("employerName" + i, employerName, null));
                 fields.put("employmentPayPerPeriod" + i,
-                        new SingleField("employmentPayPerPeriod" + i, moneyString, null));
+                        new SingleField("employmentPayLast30Days" + i, moneyString, null));
                 fields.put("employmentPayFreq" + i,
                         new SingleField("employmentPayFreq" + i, preparePayPeriod(payFrequency), null));
 

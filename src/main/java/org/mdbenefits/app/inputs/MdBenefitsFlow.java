@@ -175,6 +175,7 @@ public class MdBenefitsFlow extends FlowInputs {
     @NotBlank(message = "{error.missing-general}")
     private String employerName;
 
+    /*
     private String jobPaidByHour;
 
     @Money(message = "{error.invalid-money}")
@@ -184,13 +185,13 @@ public class MdBenefitsFlow extends FlowInputs {
     @Range(message = "{error.invalid-range}", min = 1, max = 100)
     @NotBlank(message = "{error.missing-general}")
     private String hoursPerWeek;
+*/
+    @Money(message = "{error.invalid-money}")
+    @NotBlank(message = "{error.missing-dollar-amount}")
+    private String payAmountLast30Days;
 
     @NotBlank(message = "{error.missing-pay-period}")
     private String payPeriod;
-
-    @Money(message = "{error.invalid-money}")
-    @NotBlank(message = "{error.missing-dollar-amount}")
-    private String payPeriodAmount;
 
     @NotEmpty(message = "{error.missing-general}")
     private List<String> additionalIncome;
@@ -287,12 +288,12 @@ public class MdBenefitsFlow extends FlowInputs {
 
     private String expenseSection8Housing;
 
-    @Size(max=30, message="{error.character-length}")
+    @Size(max = 30, message = "{error.character-length}")
     private String electricityAccountNumber;
 
     private String heatingCompanyName;
 
-    @Size(max=30, message="{error.character-length}")
+    @Size(max = 30, message = "{error.character-length}")
     private String heatingAccountNumber;
 
     // medical expenses for 60+ or disability

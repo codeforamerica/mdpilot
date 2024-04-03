@@ -155,7 +155,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
 
         assert (testPage.hasErrorText(message("error.invalid-money")));
-        testPage.enter("payPeriodAmount", "282.99");
+        testPage.enter("payAmountLast30Days", "282.99");
 
         testPage.clickContinue();
 

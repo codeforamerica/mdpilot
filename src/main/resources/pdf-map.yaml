@@ -78,49 +78,49 @@ inputFields:
   employerName1: income_employer_details_1
   employmentRateOfPay1: income_rate_of_pay_1
   employmentHoursWorked1: income_hours_worked_1
-  employmentPayPerPeriod1: income_amount_per_pay_period_1
+  employmentPayLast30Days1: income_amount_per_pay_period_1
   employmentPayFreq1: income_pay_period_1
   employeeName2: income_earner_full_name_2
   employerName2: income_employer_details_2
   employmentRateOfPay2: income_rate_of_pay_2
   employmentHoursWorked2: income_hours_worked_2
-  employmentPayPerPeriod2: income_amount_per_pay_period_2
+  employmentPayLast30Days2: income_amount_per_pay_period_2
   employmentPayFreq2: income_pay_period_2
   employeeName3: income_earner_full_name_3
   employerName3: income_employer_details_3
   employmentRateOfPay3: income_rate_of_pay_3
   employmentHoursWorked3: income_hours_worked_3
-  employmentPayPerPeriod3: income_amount_per_pay_period_3
+  employmentPayLast30Days3: income_amount_per_pay_period_3
   employmentPayFreq3: income_pay_period_3
   employeeName4: income_earner_full_name_4
   employerName4: income_employer_details_4
   employmentRateOfPay4: income_rate_of_pay_4
   employmentHoursWorked4: income_hours_worked_4
-  employmentPayPerPeriod4: income_amount_per_pay_period_4
+  employmentPayLast30Days4: income_amount_per_pay_period_4
   employmentPayFreq4: income_pay_period_4
   employeeName5: income_earner_full_name_5
   employerName5: income_employer_details_5
   employmentRateOfPay5: income_rate_of_pay_5
   employmentHoursWorked5: income_hours_worked_5
-  employmentPayPerPeriod5: income_amount_per_pay_period_5
+  employmentPayLast30Days5: income_amount_per_pay_period_5
   employmentPayFreq5: income_pay_period_5
   employeeName6: income_earner_full_name_6
   employerName6: income_employer_details_6
   employmentRateOfPay6: income_rate_of_pay_6
   employmentHoursWorked6: income_hours_worked_6
-  employmentPayPerPeriod6: income_amount_per_pay_period_6
+  employmentPayLast30Days6: income_amount_per_pay_period_6
   employmentPayFreq6: income_pay_period_6
   employeeName7: income_earner_full_name_7
   employerName7: income_employer_details_7
   employmentRateOfPay7: income_rate_of_pay_7
   employmentHoursWorked7: income_hours_worked_7
-  employmentPayPerPeriod7: income_amount_per_pay_period_7
+  employmentPayLast30Days7: income_amount_per_pay_period_7
   employmentPayFreq7: income_pay_period_7
   employeeName8: income_earner_full_name_8
   employerName8: income_employer_details_8
   employmentRateOfPay8: income_rate_of_pay_8
   employmentHoursWorked8: income_hours_worked_8
-  employmentPayPerPeriod8: income_amount_per_pay_period_8
+  employmentPayLast30Days8: income_amount_per_pay_period_8
   employmentPayFreq8: income_pay_period_8
 
   #Section H
