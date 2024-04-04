@@ -239,46 +239,32 @@ public class MdBenefitsFlow extends FlowInputs {
     private List<String> householdHomeExpenses;
 
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String homeExpenseRent;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String homeExpenseMortgage;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String homeExpensePhone;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String homeExpenseElectricity;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String homeExpenseWater;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String homeExpenseSewer;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String homeExpenseGarbage;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String homeExpenseGas;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String homeExpenseOil;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String homeExpenseWoodOrCoal;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String homeExpenseCondominiumFees;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String homeExpensePropertyTax;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String homeExpenseHomeownerInsurance;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String homeExpenseOtherHomeExpenses;
 
     private List<String> ohepRentSituations;
