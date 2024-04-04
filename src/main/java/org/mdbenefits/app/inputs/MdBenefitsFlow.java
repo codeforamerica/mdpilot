@@ -196,34 +196,24 @@ public class MdBenefitsFlow extends FlowInputs {
     private List<String> additionalIncome;
 
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String additionalIncomeAlimony;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String additionalIncomeChildSupport;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String additionalIncomeFriendsAndFamily;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String additionalIncomePensionRetirement;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String additionalIncomeSSI;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String additionalIncomeSS;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String additionalIncomeUnemployment;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String additionalIncomeVeteransBenefits;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String additionalIncomeWorkersComp;
     @Money(message = "{error.invalid-money}")
-    @NotEmpty(message = "{error.missing-general}")
     private String additionalIncomeOther;
 
     @NotEmpty
