@@ -184,6 +184,25 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("review-contact-info.title"));
     }
 
+    @Test
+    void minimumAppFlow() {
+        loadUserPersonalData();
+        loadAddressData();
+        loadContactData();
+        testPage.navigateToFlowScreen("mdBenefitsFlow/contactInfoReview");
+        assertThat(testPage.getTitle()).isEqualTo(message("review-contact-info.title"));
+        testPage.clickLink(message("review-contact-info.submit-incomplete"));
+
+        assertThat(testPage.getTitle()).isEqualTo(message("minimum-app-confirmation.title"));
+        testPage.clickLink(message("minimum-app-confirmation.yes"));
+
+        assertThat(testPage.getTitle()).isEqualTo(message("household-signpost.title"));
+        testPage.goBack();
+
+        testPage.clickLink(message("minimum-app-confirmation.no"));
+        assertThat(testPage.getTitle()).isEqualTo(message("legal-stuff.title"));
+    }
+
     // TODO: re-enable once we implement the expedited SNAP flow
     @Test
     @Disabled
