@@ -21,7 +21,8 @@
         <th:block
             th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
           <th:block th:ref="formContent">
-            <th:block th:if="${fieldData.containsKey('emailAddress')}">
+            <th:block
+                th:if="${fieldData.containsKey('emailAddress') && !(fieldData.get('emailAddress').isBlank())}">
               <th:block th:replace="~{fragments/icons :: greenCheckmark}"/>
               <span class="email-confirmation-text" th:text="#{confirmation.email-info}"></span>
             </th:block>

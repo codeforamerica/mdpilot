@@ -325,6 +325,10 @@ public class Page {
         return driver.findElement(By.id(id));
     }
 
+    public WebElement findElementByClassName(String className) {
+        return driver.findElement(By.className(className));
+    }
+
     public WebElement findElementByButtonText(String buttonText) {
         return driver.findElements(By.className("button")).stream()
                 .filter(button -> button.getText().contains(buttonText))
@@ -337,6 +341,15 @@ public class Page {
                 .filter(button -> button.getText().contains(buttonText))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public boolean elementExistsByClassName(String className) {
+        try {
+            driver.findElement(By.className(className));
+            return true;
+        } catch (org.openqa.selenium.NoSuchElementException e) {
+            return false;
+        }
     }
 
     public boolean elementExistsById(String id) {
