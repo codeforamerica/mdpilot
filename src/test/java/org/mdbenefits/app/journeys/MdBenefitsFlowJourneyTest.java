@@ -162,6 +162,28 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("income-list.title"));
     }
 
+    @Test
+    void testEmailAddresses() {
+        preloadCountyScreen(message(Counties.BALTIMORE.getLabelSrc()));
+        loadUserPersonalData();
+        loadAddressData();
+        testPage.navigateToFlowScreen("mdBenefitsFlow/contactInfo");
+        testPage.enter("cellPhoneNumber", "555-456-7891");
+        testPage.enter("emailAddress", "test123@com");
+        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo(message("contact-info.title"));
+        assert (testPage.hasErrorText(message("contact-info.provide-correct-email")));
+
+        testPage.enter("emailAddress", "test.com@mail");
+        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo(message("contact-info.title"));
+        assert (testPage.hasErrorText(message("contact-info.provide-correct-email")));
+
+        testPage.enter("emailAddress", "test123+hello@mailinator.com");
+        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo(message("review-contact-info.title"));
+    }
+
     // TODO: re-enable once we implement the expedited SNAP flow
     @Test
     @Disabled
@@ -752,7 +774,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.enter("signature", "My signature");
         testPage.clickButton(message("signature-submit"));
         assertThat(testPage.getTitle()).isEqualTo(message("confirmation.title"));
-        assertThat(testPage.findElementByClassName("email-confirmation-text").getText()).isEqualTo(
+        assertThat(testPage.findElementTextById("email-confirmation-info")).isEqualTo(
                 message("confirmation.email-info"));
     }
 
@@ -768,7 +790,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.enter("signature", "My signature");
         testPage.clickButton(message("signature-submit"));
         assertThat(testPage.getTitle()).isEqualTo(message("confirmation.title"));
-        assertThat(testPage.elementExistsByClassName("email-confirmation-text")).isFalse();
+        assertThat(testPage.elementExistsById("email-confirmation-info")).isFalse();
     }
 
     void loadUserPersonalData() {
