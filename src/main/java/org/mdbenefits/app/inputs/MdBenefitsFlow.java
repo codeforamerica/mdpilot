@@ -3,6 +3,8 @@ package org.mdbenefits.app.inputs;
 import formflow.library.data.FlowInputs;
 import formflow.library.data.annotations.DynamicField;
 import formflow.library.data.annotations.Money;
+import formflow.library.utils.RegexUtils;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -92,6 +94,7 @@ public class MdBenefitsFlow extends FlowInputs {
 
     private String textingCellNumberIsOkay;
 
+    @Email(message = "{contact-info.provide-correct-email}", regexp = RegexUtils.EMAIL_REGEX)
     private String emailAddress;
 
     // Household
@@ -263,12 +266,12 @@ public class MdBenefitsFlow extends FlowInputs {
 
     private String expenseSection8Housing;
 
-    @Size(max=30, message="{error.character-length}")
+    @Size(max = 30, message = "{error.character-length}")
     private String electricityAccountNumber;
 
     private String heatingCompanyName;
 
-    @Size(max=30, message="{error.character-length}")
+    @Size(max = 30, message = "{error.character-length}")
     private String heatingAccountNumber;
 
     // medical expenses for 60+ or disability
