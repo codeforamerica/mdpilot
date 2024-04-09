@@ -5,6 +5,7 @@ import formflow.library.pdf.PdfMap;
 import formflow.library.pdf.SingleField;
 import formflow.library.pdf.SubmissionField;
 import formflow.library.pdf.SubmissionFieldPreparer;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
@@ -35,7 +36,7 @@ public class ApplicantNeedsPreparer implements SubmissionFieldPreparer {
 
         if(needsCash){
             results.put("tcaSignature", new SingleField("tcaSignature", inputData.getOrDefault("signature", "").toString(), null));
-            results.put("tcaSubmissionDate", new SingleField("tcaSubmissionDate", inputData.getOrDefault("submittedAt", "").toString(), null));
+            results.put("tcaSubmissionDate", new SingleField("tcaSubmissionDate", submission.getSubmittedAt().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")), null));
         }
 
         return results;

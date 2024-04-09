@@ -4,13 +4,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import formflow.library.data.Submission;
 import formflow.library.pdf.SingleField;
 import formflow.library.pdf.SubmissionField;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.SubmissionTestBuilder;
+import org.mdbenefits.app.testutils.TestUtils;
 
 class ApplicantNeedsPreparerTest {
     private final ApplicantNeedsPreparer preparer = new ApplicantNeedsPreparer();
+
+    private final OffsetDateTime NovTwelve = TestUtils.makeOffsetDateTime("2024-11-12");
 
     @Test
     public void tdapProgramSelectionGeneratesNeedsCashAssistance() {
@@ -19,8 +23,9 @@ class ApplicantNeedsPreparerTest {
                 "", "", "", "", "")
             .with("programs[]", List.of("TDAP"))
             .with("signature", "My Signature")
-            .with("submittedAt", "11/12/2024")
             .build();
+
+        submission.setSubmittedAt(NovTwelve);
 
         Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);
         assertThat(result.get("needsSNAP"))
@@ -39,8 +44,9 @@ class ApplicantNeedsPreparerTest {
                 "", "", "", "", "")
             .with("programs[]", List.of("RCA"))
             .with("signature", "My Signature")
-            .with("submittedAt", "11/12/2024")
             .build();
+
+        submission.setSubmittedAt(NovTwelve);
 
         Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);
         assertThat(result.get("needsSNAP"))
@@ -59,8 +65,9 @@ class ApplicantNeedsPreparerTest {
                 "", "", "", "", "")
             .with("programs[]", List.of("SNAP"))
             .with("signature", "My Signature")
-            .with("submittedAt", "11/12/2024")
             .build();
+
+        submission.setSubmittedAt(NovTwelve);
 
         Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);
         assertThat(result.get("needsSNAP"))
@@ -79,8 +86,9 @@ class ApplicantNeedsPreparerTest {
                 "", "", "", "", "")
             .with("programs[]", List.of("TCA"))
             .with("signature", "My Signature")
-            .with("submittedAt", "11/12/2024")
             .build();
+
+        submission.setSubmittedAt(NovTwelve);
 
         Map<String, SubmissionField> result = preparer.prepareSubmissionFields(submission, null);
         assertThat(result.get("needsSNAP"))
