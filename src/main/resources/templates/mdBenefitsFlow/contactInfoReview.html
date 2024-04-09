@@ -81,6 +81,8 @@
                   text=#{review-contact-info.this-looks-correct})}"/>
               <a class="button button--secondary" th:text="#{review-contact-info.edit}"
                  th:href="'/flow/' + ${flow} + '/personalInfo'"></a>
+              <div><a th:text="#{review-contact-info.submit-incomplete}"
+                      th:href="'/flow/' + ${flow} + '/minimumAppSubmission'"></a></div>
             </div>
           </th:block>
         </th:block>

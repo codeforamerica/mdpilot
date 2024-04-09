@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="~{fragments/head :: head(title=#{minimum-app-confirmation.title})}"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <div class="grid__item spacing-above-35">
+          <th:block th:replace="~{fragments/icons :: nextSteps}"></th:block>
+          <th:block
+              th:replace="~{fragments/cardHeader :: cardHeader(header=#{minimum-app-confirmation.header})}"/>
+          <h2 th:text="#{minimum-app-confirmation.subheader}"></h2>
+        </div>
+        <th:block
+            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::minimumApp})}">
+          <th:block th:ref="minimumApp">
+            <div class="form-card__content">
+              <th:block th:replace="~{fragments/honeycrisp/accordion :: accordion(
+                buttonLabel=#{minimum-app-confirmation.q1},
+                content=~{::minimumAppContent})}">
+                <th:block th:ref="minimumAppContent">
+                  <p th:utext="#{minimum-app-confirmation.expand1}"></p>
+                </th:block>
+              </th:block>
+              <div class="boxed-content spacing-below-60 notice-container">
+                <p th:utext="#{minimum-app-confirmation.p1}"></p>
+              </div>
+              <input type="hidden" name="isMinimumApp" value="true">
+            </div>
+            <div class="form-card__footer">
+              <a class="button button--secondary" th:text="#{minimum-app-confirmation.yes}"
+                 th:href="'/flow/' + ${flow} + '/householdSignPost'"></a>
+              <th:block
+                  th:replace="~{fragments/inputs/submitButton :: submitButton(text=#{minimum-app-confirmation.no})}"/>
+            </div>
+          </th:block>
+        </th:block>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>
