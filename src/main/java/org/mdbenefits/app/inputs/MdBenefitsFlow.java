@@ -333,6 +333,9 @@ public class MdBenefitsFlow extends FlowInputs {
     private String applicationFeedbackDetail;
 
     // Expedited Snap Start
+
+    private String isMinimumApp;
+
     private String isApplyingForExpeditedSnap;
 
     // Household 30 Day Income
