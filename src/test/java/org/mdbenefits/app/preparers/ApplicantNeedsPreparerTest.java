@@ -28,8 +28,8 @@ class ApplicantNeedsPreparerTest {
         assertThat(result.get("needsCashAssistance"))
             .isEqualTo(new SingleField("needsCashAssistance", "true", null));
         assertThat(result.get("tcaSignature"))
-            .isEqualTo(null);
-        assertThat(result.get("tcaSubmissionDate")).isEqualTo(null);
+            .isEqualTo(new SingleField("tcaSignature", "My Signature", null));
+        assertThat(result.get("tcaSubmissionDate")).isEqualTo(new SingleField("tcaSubmissionDate", "11/12/2024", null));
     }
 
     @Test
@@ -48,8 +48,8 @@ class ApplicantNeedsPreparerTest {
         assertThat(result.get("needsCashAssistance"))
             .isEqualTo(new SingleField("needsCashAssistance", "true", null));
         assertThat(result.get("tcaSignature"))
-            .isEqualTo(null);
-        assertThat(result.get("tcaSubmissionDate")).isEqualTo(null);
+            .isEqualTo(new SingleField("tcaSignature", "My Signature", null));
+        assertThat(result.get("tcaSubmissionDate")).isEqualTo(new SingleField("tcaSubmissionDate", "11/12/2024", null));
     }
 
     @Test

@@ -28,15 +28,14 @@ public class ApplicantNeedsPreparer implements SubmissionFieldPreparer {
         results.put("needsSNAP",
             new SingleField("needsSNAP", String.valueOf(programs.contains("SNAP")), null));
 
-        boolean needsCash = programs.contains("TDAP") ||  programs.contains("RCA");
-        boolean needsTCA = programs.contains("TCA");
+        boolean needsCash = programs.contains("TDAP") ||  programs.contains("RCA") || programs.contains("TCA");
 
         results.put("needsCashAssistance",
-            new SingleField("needsCashAssistance", String.valueOf(needsCash || needsTCA), null));
+            new SingleField("needsCashAssistance", String.valueOf(needsCash), null));
 
-        if(needsTCA){
+        if(needsCash){
             results.put("tcaSignature", new SingleField("tcaSignature", inputData.getOrDefault("signature", "").toString(), null));
-            results.put("tcaSubmissionData", new SingleField("tcaSubmissionDate", inputData.getOrDefault("submittedAt", "").toString(), null));
+            results.put("tcaSubmissionDate", new SingleField("tcaSubmissionDate", inputData.getOrDefault("submittedAt", "").toString(), null));
         }
 
         return results;
