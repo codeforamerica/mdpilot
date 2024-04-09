@@ -44,7 +44,7 @@ inputFields:
   needsSNAP: applicant_needs_snap
   signature: applicant_signature
   tcaSignature: tca_applicant_signature
-  tcaSubmissionData: tca_date_submitted
+  tcaSubmissionDate: tca_date_submitted
   householdHasDisability: household_disability_bool
   householdHasDisabilitySeeCover: hhmember_disability_see_cover
   householdHasPregnancy: household_pregnancy_bool

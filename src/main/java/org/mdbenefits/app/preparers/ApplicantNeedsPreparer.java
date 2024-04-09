@@ -36,7 +36,7 @@ public class ApplicantNeedsPreparer implements SubmissionFieldPreparer {
 
         if(needsTCA){
             results.put("tcaSignature", new SingleField("tcaSignature", inputData.getOrDefault("signature", "").toString(), null));
-            results.put("tcaSubmissionData", new SingleField("tcaSubmissionData", inputData.getOrDefault("submittedAt", "").toString(), null));
+            results.put("tcaSubmissionData", new SingleField("tcaSubmissionDate", inputData.getOrDefault("submittedAt", "").toString(), null));
         }
 
         return results;

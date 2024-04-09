@@ -29,7 +29,7 @@ class ApplicantNeedsPreparerTest {
             .isEqualTo(new SingleField("needsCashAssistance", "true", null));
         assertThat(result.get("tcaSignature"))
             .isEqualTo(null);
-        assertThat(result.get("tcaSubmissionData")).isEqualTo(null);
+        assertThat(result.get("tcaSubmissionDate")).isEqualTo(null);
     }
 
     @Test
@@ -49,7 +49,7 @@ class ApplicantNeedsPreparerTest {
             .isEqualTo(new SingleField("needsCashAssistance", "true", null));
         assertThat(result.get("tcaSignature"))
             .isEqualTo(null);
-        assertThat(result.get("tcaSubmissionData")).isEqualTo(null);
+        assertThat(result.get("tcaSubmissionDate")).isEqualTo(null);
     }
 
     @Test
@@ -69,7 +69,7 @@ class ApplicantNeedsPreparerTest {
             .isEqualTo(new SingleField("needsCashAssistance", "false", null));
         assertThat(result.get("tcaSignature"))
             .isEqualTo(null);
-        assertThat(result.get("tcaSubmissionData")).isEqualTo(null);
+        assertThat(result.get("tcaSubmissionDate")).isEqualTo(null);
     }
 
     @Test
@@ -89,6 +89,6 @@ class ApplicantNeedsPreparerTest {
             .isEqualTo(new SingleField("needsCashAssistance", "true", null));
         assertThat(result.get("tcaSignature"))
             .isEqualTo(new SingleField("tcaSignature", "My Signature", null));
-        assertThat(result.get("tcaSubmissionData")).isEqualTo(new SingleField("tcaSubmissionData", "11/12/2024", null));
+        assertThat(result.get("tcaSubmissionDate")).isEqualTo(new SingleField("tcaSubmissionDate", "11/12/2024", null));
     }
 }
