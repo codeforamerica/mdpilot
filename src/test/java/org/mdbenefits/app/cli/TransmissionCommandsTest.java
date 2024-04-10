@@ -45,9 +45,14 @@ import static org.mockito.Mockito.when;
 
 @Slf4j
 @ActiveProfiles("test")
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(OrderAnnotation.class)
+@SpringBootTest(
+        properties = {
+                "transmission.transmission-rate-seconds=5",
+                "transmission.transmission-initial-delay-seconds=2"
+        },
+        webEnvironment = WebEnvironment.RANDOM_PORT)
 public class TransmissionCommandsTest {
 
     @MockBean
@@ -126,7 +131,8 @@ public class TransmissionCommandsTest {
     @Test
     @Order(1)
     public void ensureSubmittedSubmissionsAreEnqueued() {
-        List<Transmission> transmissions = transmissionRepository.findTransmissionsByStatus(TransmissionStatus.QUEUED.name());
+        List<Transmission> transmissions = transmissionRepository.findByStatusAndRetryCountLessThanOrderByCreatedAtAsc(
+                TransmissionStatus.QUEUED.name(), 5);
 
         assertThat(transmissions.size()).isEqualTo(submissionList.size());
     }
@@ -139,7 +145,9 @@ public class TransmissionCommandsTest {
                 () -> verify(transmissionCommands, times(2)).transmit());
 
         // ensure that all transmissions were processed
-        assertThat(transmissionRepository.findTransmissionsByStatus(TransmissionStatus.QUEUED.name()).isEmpty()).isTrue();
+        assertThat(
+                transmissionRepository.findByStatusAndRetryCountLessThanOrderByCreatedAtAsc(TransmissionStatus.QUEUED.name(), 5)
+                        .isEmpty()).isTrue();
 
         submissionList.forEach(s -> {
             Transmission transmission = transmissionRepository.findTransmissionBySubmission(s);
@@ -151,7 +159,8 @@ public class TransmissionCommandsTest {
     @Order(3)
     public void transmitterRunsWhenNoWorkIsQueued() {
 
-        assertThat(transmissionRepository.findTransmissionsByStatus(TransmissionStatus.QUEUED.name())).isEmpty();
+        assertThat(transmissionRepository.findByStatusAndRetryCountLessThanOrderByCreatedAtAsc(TransmissionStatus.QUEUED.name(),
+                5)).isEmpty();
 
         await().atMost(12, TimeUnit.SECONDS).untilAsserted(
                 () -> verify(transmissionCommands, times(2)).transmit());

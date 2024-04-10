@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface TransmissionRepository extends CrudRepository<Transmission, UUID> {
 
-    List<Transmission> findTransmissionsByStatus(String status);
+    List<Transmission> findByStatusAndRetryCountLessThanOrderByCreatedAtAsc(String status, int retryCount);
 
     Transmission findTransmissionBySubmission(Submission submission);
 }
