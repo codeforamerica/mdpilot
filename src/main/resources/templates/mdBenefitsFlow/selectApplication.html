@@ -27,6 +27,7 @@
                         th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(
                             inputName='applicationInfo',
                             value=${appObjective.name()},
+                            ariaLabel='header',
                             label=#{${appObjective.getLabelSrc()}},
                             noneOfTheAbove=${appObjective.name().equals('OTHER')}
                             )}">
