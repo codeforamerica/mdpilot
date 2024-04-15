@@ -15,13 +15,20 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ReformatNameBeforeSaving implements Action {
+    @Override
     public void run(Submission submission) {
-        String firstName = (String) submission.getInputData().remove("firstName");
-        String middleName = (String) submission.getInputData().remove("middleName");
-        String lastName = (String) submission.getInputData().remove("lastName");
+        String firstName = (String) submission.getInputData().getOrDefault("firstName", "");
+        String middleName = (String) submission.getInputData().getOrDefault("middleName", "");
+        String lastName = (String) submission.getInputData().getOrDefault("lastName", "");
 
-        submission.getInputData().put("firstName", firstName.trim());
-        submission.getInputData().put("middleName", middleName.trim());
-        submission.getInputData().put("lastName", lastName.trim());
+        if(!firstName.isBlank()){
+            submission.getInputData().put("firstName", firstName.trim());
+        }
+        if(!middleName.isBlank()){
+            submission.getInputData().put("middleName", middleName.trim());
+        }
+        if(!lastName.isBlank()){
+            submission.getInputData().put("lastName", lastName.trim());
+        }
     }
 }

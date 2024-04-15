@@ -16,21 +16,21 @@ public class ReformatHouseholdNameBeforeSaving implements Action {
     public void run(Submission submission, String id) {
         ArrayList<HashMap<String, Object>> householdSubflow = (ArrayList<HashMap<String, Object>>) submission.getInputData().get("household");
         if (householdSubflow != null) {
-            List<HashMap<String, Object>> householdMember = householdSubflow.stream()
-                .filter(iteration -> id.equals(iteration.get("uuid"))).toList();
-            submission.getInputData().put("income", householdMember);
+            HashMap<String, Object> householdMember = householdSubflow.stream()
+                .filter(iteration -> id.equals(iteration.get("uuid"))).toList().get(0);
+            String firstName = (String) householdMember.getOrDefault("householdMemberFirstName", "");
+            String middleName = (String) householdMember.getOrDefault("householdMemberMiddleName", "");
+            String lastName = (String) householdMember.getOrDefault("householdMemberLastName", "");
+
+            if(!firstName.isBlank()){
+                householdMember.put("householdMemberFirstName", firstName.trim());
+            }
+            if(!middleName.isBlank()){
+                householdMember.put("householdMemberMiddleName", middleName.trim());
+            }
+            if(!lastName.isBlank()){
+                householdMember.put("householdMemberLastName", lastName.trim());
+            }
         }
     }
-
-//        submission.getInputData();
-//        Map<String, Object> inputData = formSubmission.getFormData();
-//
-//        String firstName = (String) inputData.remove("householdMemberFirstName");
-//        String middleName = (String) inputData.remove("householdMemberMiddleName");
-//        String lastName = (String) inputData.remove("householdMemberLastName");
-//
-//        submission.getInputData().put("householdMemberFirstName", firstName.trim());
-//        submission.getInputData().put("householdMemberMiddleName", middleName.trim());
-//        submission.getInputData().put("householdMemberLastName", lastName.trim());
-
 }
