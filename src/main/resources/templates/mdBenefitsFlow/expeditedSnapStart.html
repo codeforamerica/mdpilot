@@ -8,7 +8,7 @@
     <div class="grid">
       <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
-        <th:block th:replace="~{fragments/icons :: choosePrograms}"></th:block>
+        <th:block th:replace="~{fragments/icons :: stepArrow}"></th:block>
         <th:block
             th:replace="~{fragments/cardHeader :: cardHeader(header=#{expedited-snap-start.header}, subtext=#{expedited-snap-start.subheader})}"/>
         <th:block th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
@@ -29,13 +29,8 @@
                     class="button button--primary">
                   <span th:text="#{expedited-snap-start.yes}"></span>
                 </button>
-                <button
-                    th:name="${inputName}"
-                    th:aria-describedby="${hasHelpText ? inputName + '-help-text' : ariaDescribe}"
-                    value="false"
-                    class="button spacing-left-0">
-                  <span th:text="#{expedited-snap-start.no}"></span>
-                </button>
+                <div><a th:text="#{expedited-snap-start.no}"
+                        th:href="'/flow/' + ${flow} + '/minimumAppSubmission'"></a></div>
               </th:block>
             </div>
           </th:block>

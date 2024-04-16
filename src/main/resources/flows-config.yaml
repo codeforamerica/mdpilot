@@ -74,9 +74,7 @@ flow:
       - name: legalStuff
   expeditedSnapStart:
     nextScreens:
-      - name: legalStuff
-        condition: IsMinimumApplication
-      - name: householdHasAdditionalMembers
+      - name: householdIncomeLast30Days
   householdIncomeLast30Days:
     nextScreens:
       - name: expeditedMoneyOnHandAmount
@@ -86,9 +84,11 @@ flow:
   householdRent:
     nextScreens:
       - name: householdRentAmount
+        condition: HouseholdPaysRent
+      - name: householdHomeExpenses
   householdRentAmount:
     nextScreens:
-      - name: householdSignPost
+      - name: householdHomeExpenses
   householdSignPost:
     nextScreens:
       - name: applicantApplying
@@ -126,6 +126,8 @@ flow:
       - name: householdList
         condition: HasHousehold
       - name: householdSeasonalFarmWorker
+        condition: IsNotApplyingForExpeditedSnap
+      - name: incomeSignPost
 
   ## END applicant information
 
@@ -133,6 +135,8 @@ flow:
     beforeDisplayAction: ClearIncompleteIterationsFromHousehold
     nextScreens:
       - name: householdSeasonalFarmWorker
+        condition: IsNotApplyingForExpeditedSnap
+      - name: incomeSignPost
   householdInfo:
     subflow: household
     nextScreens:
@@ -163,10 +167,10 @@ flow:
       - name: expeditedSnapDeferredNotice
   expeditedSnapQualificationNotice:
     nextScreens:
-      - name: legalStuff
+      - name: householdSignPost
   expeditedSnapDeferredNotice:
     nextScreens:
-      - name: legalStuff
+      - name: householdSignPost
   incomeSignPost:
     nextScreens:
       - name: householdIncome
@@ -220,11 +224,15 @@ flow:
     nextScreens:
       - name: householdHomeExpensesAmount
         condition: HasHouseholdHomeExpenses
+      - name: householdSeasonalFarmWorker
+        condition: IsApplyingForExpeditedSnap
       - name: ohepRent
         condition: HasHouseholdRentExpense
       - name: ohepElectricity
   householdHomeExpensesAmount:
     nextScreens:
+      - name: householdSeasonalFarmWorker
+        condition: IsApplyingForExpeditedSnap
       - name: ohepRent
         condition: HasHouseholdRentExpense
       - name: ohepElectricity

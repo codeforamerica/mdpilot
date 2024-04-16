@@ -4,7 +4,6 @@ import com.smartystreets.api.exceptions.SmartyException;
 import formflow.library.address_validation.AddressValidationService;
 import formflow.library.address_validation.ValidatedAddress;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.enums.ApplicantObjective;
 import org.mdbenefits.app.data.enums.Counties;
@@ -191,7 +190,11 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         loadContactData();
         testPage.navigateToFlowScreen("mdBenefitsFlow/contactInfoReview");
         assertThat(testPage.getTitle()).isEqualTo(message("review-contact-info.title"));
+
         testPage.clickLink(message("review-contact-info.submit-incomplete"));
+
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-start.title"));
+        testPage.clickLink(message("expedited-snap-start.no"));
 
         assertThat(testPage.getTitle()).isEqualTo(message("minimum-app-confirmation.title"));
         testPage.clickLink(message("minimum-app-confirmation.yes"));
@@ -199,15 +202,12 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("household-signpost.title"));
         testPage.goBack();
 
-        testPage.clickButton(message("minimum-app-confirmation.no"));
-
+        testPage.clickLink(message("minimum-app-confirmation.no"));
         assertThat(testPage.getTitle()).isEqualTo(message("legal-stuff.title"));
     }
 
-    // TODO: re-enable once we implement the expedited SNAP flow
     @Test
-    @Disabled
-    void expeditedSnapFlow() {
+    void expeditedSnapFlowWithExpenses() {
         loadUserPersonalData();
         loadAddressData();
         loadContactData();
@@ -234,6 +234,10 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         // Household Rent Amount
         assertThat(testPage.getTitle()).isEqualTo(message("household-rent-amount.title"));
         testPage.enter("householdRentAmount", "1200");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("home-expenses.title"));
+        testPage.clickElementById("none__checkbox-householdHomeExpenses");
         testPage.clickContinue();
 
         // Seasonal Farm Worker
