@@ -12,9 +12,11 @@
         <th:block
             th:replace="~{fragments/cardHeader :: cardHeader(header=#{expedited-qualification-notice.header})}"/>
         <div class="form-card__content">
-          <h2 th:text="#{expedited-qualification-notice.content1}"></h2>
-          <h2 th:text="#{expedited-qualification-notice.content2}"></h2>
-          <p th:utext="#{expedited-qualification-notice.helper}"></p>
+          <div class="form-card__content">
+            <h2 th:text="#{expedited-qualification-notice.content1}"></h2>
+            <h2 th:text="#{expedited-deferred-notice.subheader}"></h2>
+            <p th:utext="#{expedited-deferred-notice.content1}"></p>
+          </div>
         </div>
         <div class="form-card__footer">
           <th:block th:replace="~{fragments/continueButton :: continue(text=#{general.inputs.yes})}"/>

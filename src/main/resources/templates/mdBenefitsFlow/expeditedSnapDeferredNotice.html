@@ -12,7 +12,8 @@
         <th:block
             th:replace="~{fragments/cardHeader :: cardHeader(header=#{expedited-deferred-notice.header})}"/>
         <div class="form-card__content">
-          <p th:text="#{expedited-deferred-notice.content1}"></p>
+          <h2 id="deferred-notice-help-text" th:text="#{expedited-deferred-notice.subheader}"></h2>
+          <p th:utext="#{expedited-deferred-notice.content1}"></p>
         </div>
         <div class="form-card__footer">
           <th:block th:replace="~{fragments/continueButton :: continue}"/>

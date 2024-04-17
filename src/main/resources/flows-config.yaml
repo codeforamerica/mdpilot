@@ -76,6 +76,7 @@ flow:
     nextScreens:
       - name: expeditedSnapMoneyOnHand
   expeditedSnapMoneyOnHand:
+    beforeSaveAction: CheckExpeditedSnapEligibility
     nextScreens:
       - name: expeditedSnapQualificationNotice
         condition: IsEligibleForExpeditedSnap
@@ -84,6 +85,7 @@ flow:
     nextScreens:
       - name: expeditedSnapIncome
   expeditedSnapIncome:
+    beforeSaveAction: CheckExpeditedSnapEligibility
     nextScreens:
       - name: expeditedSnapQualificationNotice
         condition: IsEligibleForExpeditedSnap
@@ -97,6 +99,7 @@ flow:
         condition: HasHouseholdHomeExpenses
       - name: expeditedSnapDeferredNotice
   expeditedSnapHomeExpensesAmount:
+    beforeSaveAction: CheckExpeditedSnapEligibility
     nextScreens:
       - name: expeditedSnapQualificationNotice
         condition: IsEligibleForExpeditedSnap
