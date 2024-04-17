@@ -352,14 +352,6 @@ public class MdBenefitsFlow extends FlowInputs {
     @NotBlank(message = "{error.missing-dollar-amount}")
     private String householdIncomeLast30Days;
 
-    // Household Rent
-    private String householdPaysRent;
-
-    // Household Rent Amount
-    @Money(message = "{error.invalid-money}")
-    @NotBlank(message = "{error.missing-dollar-amount}")
-    private String householdRentAmount;
-
     private String addDocuments;
 
     @NotBlank(message = "{doc-type.select-a-type}")

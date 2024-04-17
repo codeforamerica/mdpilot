@@ -17,13 +17,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class CheckExpeditedSnapEligibility implements Action {
-
-    BigDecimal INCOME_LIMIT = new BigDecimal("150.00");
-    BigDecimal MONEY_ON_HAND_LIMIT = new BigDecimal("100.00");
-
-    private static List<String> utilities = List.of("PHONE", "ELECTRICITY", "WATER", "SEWAGE", "GARBAGE", "GAS", "OIL",
-        "WOOD_OR_COAL");
-
     @Override
     public void run(Submission submission) {
         Map<String, Object> inputData = submission.getInputData();
@@ -34,27 +27,25 @@ public class CheckExpeditedSnapEligibility implements Action {
             BigDecimal householdIncomeAmount = convertToBigDecimal(
                 inputData.getOrDefault("householdIncomeLast30Days", "0").toString());
 
-            boolean isMigrantOrSeasonalFarmWorker = inputData.get("migrantOrSeasonalFarmWorkerInd").toString().equals("true");
+            boolean isMigrantOrSeasonalFarmWorker = inputData.getOrDefault("migrantOrSeasonalFarmWorkerInd", "false").toString().equals("true");
+            boolean isBelowMoneyOnHandThreshHold = inputData.getOrDefault("householdMoneyOnHandLessThan100", "false").toString().equals("true");
+            boolean isBelowIncomeThreshHold = inputData.getOrDefault("incomeLessThan150", "false").toString().equals("true");
 
             boolean isEligibleByIncomeAndCashOnHandLessThanExpenses =
                 householdIncomeAmount.add(moneyOnHandAmount).compareTo(calculateUtilitiesExpenses(inputData)) <= 0;
 
             boolean isEligibleForExpeditedSnap =
-                (moneyOnHandAmount.compareTo(MONEY_ON_HAND_LIMIT) <= 0 && householdIncomeAmount.compareTo(INCOME_LIMIT) <= 0) || (
-                    isMigrantOrSeasonalFarmWorker && moneyOnHandAmount.compareTo(MONEY_ON_HAND_LIMIT) <= 0)
-                    || isEligibleByIncomeAndCashOnHandLessThanExpenses;
+                (isBelowMoneyOnHandThreshHold && isBelowIncomeThreshHold) || (
+                    isMigrantOrSeasonalFarmWorker && isBelowMoneyOnHandThreshHold)
+                    || calculateUtilitiesExpenses(inputData).compareTo(BigDecimal.ZERO) > 0 && isEligibleByIncomeAndCashOnHandLessThanExpenses;
             submission.getInputData().put("isEligibleForExpeditedSnap", String.valueOf(isEligibleForExpeditedSnap));
         }
     }
-
     private BigDecimal calculateUtilitiesExpenses(Map<String, Object> inputData) {
         List<String> allExpenses = new java.util.ArrayList<>();
-        allExpenses.add(inputData.getOrDefault("householdRentAmount", "0").toString());
-
         if (!isNoneOfAboveSelection(inputData.get("householdHomeExpenses[]"))) {
             List<String> utilityTypes = (List<String>) inputData.get("householdHomeExpenses[]");
-            List<String> relevantUtilities = utilities.stream().filter(expense -> utilityTypes.contains(expense)).toList();
-            relevantUtilities.forEach(val -> {
+            utilityTypes.forEach(val -> {
                 String inputFieldName = HomeExpensesType.getEnumByName(val).getInputFieldName();
                 allExpenses.add(inputData.getOrDefault(inputFieldName, "0").toString());
             });
