@@ -13,6 +13,7 @@ inputFields:
 
   #cover page
   migrantOrSeasonalFarmWorkerInd: household_seasonal_or_migrant_worker_bool
+  isEligibleForExpeditedSnap: expedited_snap_eligible
 
   householdPregnancyName1: household_pregnancy_name_1
   householdPregnancyName2: household_pregnancy_name_2
