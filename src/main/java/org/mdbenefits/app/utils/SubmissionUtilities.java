@@ -137,28 +137,6 @@ public class SubmissionUtilities {
         return fullName;
     }
 
-    public static String householdMemberFullNameFormattedFirstMiddleLast(Map<String, Object> householdMember) {
-        String fullName =  (String) householdMember.get("householdMemberFirstName");
-        if (householdMember.get("householdMemberMiddleName") != null) {
-            fullName += " " + householdMember.get("householdMemberMiddleName");
-        }
-        fullName += " " + householdMember.get("householdMemberLastName");
-
-        return fullName;
-    }
-
-    public static String applicantFullNameFormattedFirstMiddleLast(Submission submission){
-        Map<String, Object> inputData = submission.getInputData();
-
-        String fullName = (String) inputData.get("firstName");
-        if (inputData.get("middleName") != null) {
-            fullName += " " + inputData.get("middleName");
-        }
-        fullName += " " + inputData.get("lastName");
-
-        return fullName;
-    }
-
     public static String applicantFullNameFormatted(Submission submission){
         Map<String, Object> inputData = submission.getInputData();
 
