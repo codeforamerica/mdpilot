@@ -27,11 +27,11 @@ public class HouseholdPregnancyAndDisabilityPreparer implements SubmissionFieldP
 
         var inputData = submission.getInputData();
         if (inputData.getOrDefault("isApplicantPregnant", "No").toString().equalsIgnoreCase("Yes")) {
-            householdMembersPregnant.add(SubmissionUtilities.applicantFullNameFormattedFirstMiddleLast(submission));
+            householdMembersPregnant.add(SubmissionUtilities.applicantFullNameFormatted(submission));
         }
 
         if (inputData.getOrDefault("applicantHasDisability", "No").toString().equalsIgnoreCase("Yes")) {
-            householdMembersWithDisability.add(SubmissionUtilities.applicantFullNameFormattedFirstMiddleLast(submission));
+            householdMembersWithDisability.add(SubmissionUtilities.applicantFullNameFormatted(submission));
         }
 
         var household = (List<Map<String, Object>>) inputData.getOrDefault("household", emptyList());
@@ -73,6 +73,6 @@ public class HouseholdPregnancyAndDisabilityPreparer implements SubmissionFieldP
     private List<String> householdMembersWithCondition(List<Map<String, Object>> householdSubflow, String fieldName) {
         return householdSubflow.stream()
             .filter(hhMember -> "yes".equalsIgnoreCase(String.valueOf(hhMember.get(fieldName))))
-            .map(hhMember -> SubmissionUtilities.householdMemberFullNameFormattedFirstMiddleLast(hhMember)).toList();
+            .map(hhMember -> SubmissionUtilities.householdMemberFullNameFormatted(hhMember)).toList();
     }
 }
