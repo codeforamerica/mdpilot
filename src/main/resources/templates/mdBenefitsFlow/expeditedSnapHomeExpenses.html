@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="~{fragments/head :: head(title=#{expedited-home-expenses.title})}"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <th:block th:replace="~{fragments/icons :: householdMember}"></th:block>
+        <th:block
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{home-expenses.header}, subtext=#{expedited-home-expenses.subtext})}"/>
+        <th:block
+            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::whichHouseholdExpenses})}">
+          <th:block th:ref="whichHouseholdExpenses">
+            <th:block th:replace="~{fragments/inputs/checkboxFieldset ::
+                  checkboxFieldset(inputName='householdHomeExpenses',
+                  ariaLabel='header',
+                  content=~{::whichHomeExpenses})}">
+              <th:block th:ref="whichHomeExpenses">
+                <th:block
+                    th:each="option : ${T(org.mdbenefits.app.data.enums.HomeExpensesType).values()}">
+                  <th:block
+                      th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(inputName='householdHomeExpenses', value=${option.name()}, label=#{${option.getLabelSrc()}})}"/>
+                </th:block>
+                <th:block
+                    th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(inputName='householdHomeExpenses',value='None', label=#{general.none-of-the-above}, noneOfTheAbove=true)}"/>
+              </th:block>
+            </th:block>
+            <div class="form-card__footer">
+              <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
+                  text=#{general.inputs.continue})}"/>
+              <div><a th:text="#{expedited-snap-optional.skip-help-text}"
+                      th:href="'/flow/' + ${flow} + '/expeditedSnapDeferredNotice'"></a></div>
+            </div>
+          </th:block>
+        </th:block>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>

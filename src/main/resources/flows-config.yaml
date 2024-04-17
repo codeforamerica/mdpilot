@@ -69,26 +69,47 @@ flow:
   contactInfoReview:
     nextScreens:
       - name: householdSignPost
+  expeditedSnapStart:
+    nextScreens:
+      - name: expeditedSnapSeasonalFarmWorker
+  expeditedSnapSeasonalFarmWorker:
+    nextScreens:
+      - name: expeditedSnapMoneyOnHand
+  expeditedSnapMoneyOnHand:
+    nextScreens:
+      - name: expeditedSnapQualificationNotice
+        condition: IsEligibleForExpeditedSnap
+      - name: expeditedSnapMoneyOnHandAmount
+  expeditedSnapMoneyOnHandAmount:
+    nextScreens:
+      - name: expeditedSnapIncome
+  expeditedSnapIncome:
+    nextScreens:
+      - name: expeditedSnapQualificationNotice
+        condition: IsEligibleForExpeditedSnap
+      - name: expeditedSnapIncomeAmount
+  expeditedSnapIncomeAmount:
+    nextScreens:
+      - name: expeditedSnapHomeExpenses
+  expeditedSnapHomeExpenses:
+    nextScreens:
+      - name: expeditedSnapHomeExpensesAmount
+        condition: HasHouseholdHomeExpenses
+      - name: expeditedSnapDeferredNotice
+  expeditedSnapHomeExpensesAmount:
+    nextScreens:
+      - name: expeditedSnapQualificationNotice
+        condition: IsEligibleForExpeditedSnap
+      - name: expeditedSnapDeferredNotice
+  expeditedSnapQualificationNotice:
+    nextScreens:
+      - name: householdSignPost
+  expeditedSnapDeferredNotice:
+    nextScreens:
+      - name: householdSignPost
   minimumAppSubmission:
     nextScreens:
       - name: legalStuff
-  expeditedSnapStart:
-    nextScreens:
-      - name: householdIncomeLast30Days
-  householdIncomeLast30Days:
-    nextScreens:
-      - name: expeditedMoneyOnHandAmount
-  expeditedMoneyOnHandAmount:
-    nextScreens:
-      - name: householdRent
-  householdRent:
-    nextScreens:
-      - name: householdRentAmount
-        condition: HouseholdPaysRent
-      - name: householdHomeExpenses
-  householdRentAmount:
-    nextScreens:
-      - name: householdHomeExpenses
   householdSignPost:
     nextScreens:
       - name: applicantApplying
@@ -158,19 +179,8 @@ flow:
     nextScreens:
       - name: householdSeasonalFarmWorker
   householdSeasonalFarmWorker:
-    beforeSaveAction: CheckExpeditedSnapEligibility
     nextScreens:
       - name: incomeSignPost
-        condition: IsNotApplyingForExpeditedSnap
-      - name: expeditedSnapQualificationNotice
-        condition: IsEligibleForExpeditedSnap
-      - name: expeditedSnapDeferredNotice
-  expeditedSnapQualificationNotice:
-    nextScreens:
-      - name: householdSignPost
-  expeditedSnapDeferredNotice:
-    nextScreens:
-      - name: householdSignPost
   incomeSignPost:
     nextScreens:
       - name: householdIncome
@@ -224,15 +234,11 @@ flow:
     nextScreens:
       - name: householdHomeExpensesAmount
         condition: HasHouseholdHomeExpenses
-      - name: householdSeasonalFarmWorker
-        condition: IsApplyingForExpeditedSnap
       - name: ohepRent
         condition: HasHouseholdRentExpense
       - name: ohepElectricity
   householdHomeExpensesAmount:
     nextScreens:
-      - name: householdSeasonalFarmWorker
-        condition: IsApplyingForExpeditedSnap
       - name: ohepRent
         condition: HasHouseholdRentExpense
       - name: ohepElectricity

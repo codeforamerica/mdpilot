@@ -170,8 +170,6 @@ public class MdBenefitsFlow extends FlowInputs {
     // Income
     private String householdHasIncome;
 
-    private String incomeLessThan150;
-
     @NotBlank(message = "{error.missing-general}")
     private String householdMemberJobAdd;
 
@@ -338,18 +336,21 @@ public class MdBenefitsFlow extends FlowInputs {
 
     private String isApplyingForExpeditedSnap;
 
-    // Household 30 Day Income
-    @Money(message = "{error.invalid-money}")
-    @NotBlank(message = "{error.missing-dollar-amount}")
-    private String householdIncomeLast30Days;
-
     // Household Money on Hand
-    private String householdMoneyOnHand;
+    private String householdMoneyOnHandLessThan100;
 
     // Expedited Money on Hand Amount
     @Money(message = "{error.invalid-money}")
     @NotBlank(message = "{error.missing-dollar-amount}")
     private String expeditedMoneyOnHandAmount;
+
+    // Expedited Snap Income
+    private String incomeLessThan150;
+
+    // Household 30 Day Income
+    @Money(message = "{error.invalid-money}")
+    @NotBlank(message = "{error.missing-dollar-amount}")
+    private String householdIncomeLast30Days;
 
     // Household Rent
     private String householdPaysRent;
