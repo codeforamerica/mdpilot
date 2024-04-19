@@ -193,9 +193,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         testPage.clickLink(message("review-contact-info.submit-incomplete"));
 
-        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-start.title"));
-        testPage.clickLink(message("expedited-snap-start.no"));
-
         assertThat(testPage.getTitle()).isEqualTo(message("minimum-app-confirmation.title"));
         testPage.clickLink(message("minimum-app-confirmation.yes"));
 
@@ -211,9 +208,8 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         loadUserPersonalData();
         loadAddressData();
         loadContactData();
-        testPage.navigateToFlowScreen("mdBenefitsFlow/contactInfoReview");
-        assertThat(testPage.getTitle()).isEqualTo(message("review-contact-info.title"));
-        testPage.clickLink(message("review-contact-info.submit-incomplete"));
+        testPage.navigateToFlowScreen("mdBenefitsFlow/expeditedSnapStart");
+
         // Expedited Snap Start
         assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-start.title"));
         testPage.clickButton(message("expedited-snap-start.yes"));
@@ -232,9 +228,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         loadUserPersonalData();
         loadAddressData();
         loadContactData();
-        testPage.navigateToFlowScreen("mdBenefitsFlow/contactInfoReview");
-        assertThat(testPage.getTitle()).isEqualTo(message("review-contact-info.title"));
-        testPage.clickLink(message("review-contact-info.submit-incomplete"));
+        testPage.navigateToFlowScreen("mdBenefitsFlow/expeditedSnapStart");
         // Expedited Snap Start
         assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-start.title"));
         testPage.clickButton(message("expedited-snap-start.yes"));
@@ -259,9 +253,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         loadUserPersonalData();
         loadAddressData();
         loadContactData();
-        testPage.navigateToFlowScreen("mdBenefitsFlow/contactInfoReview");
-        assertThat(testPage.getTitle()).isEqualTo(message("review-contact-info.title"));
-        testPage.clickLink(message("review-contact-info.submit-incomplete"));
+        testPage.navigateToFlowScreen("mdBenefitsFlow/expeditedSnapStart");
         // Expedited Snap Start
         assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-start.title"));
         testPage.clickButton(message("expedited-snap-start.yes"));

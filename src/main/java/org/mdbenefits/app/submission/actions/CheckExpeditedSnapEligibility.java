@@ -28,15 +28,15 @@ public class CheckExpeditedSnapEligibility implements Action {
                 inputData.getOrDefault("householdIncomeLast30Days", "0").toString());
 
             boolean isMigrantOrSeasonalFarmWorker = inputData.getOrDefault("migrantOrSeasonalFarmWorkerInd", "false").toString().equals("true");
-            boolean isBelowMoneyOnHandThreshHold = inputData.getOrDefault("householdMoneyOnHandLessThan100", "false").toString().equals("true");
-            boolean isBelowIncomeThreshHold = inputData.getOrDefault("incomeLessThan150", "false").toString().equals("true");
+            boolean isBelowMoneyOnHandThreshhold = inputData.getOrDefault("householdMoneyOnHandLessThan100", "false").toString().equals("true");
+            boolean isBelowIncomeThreshhold = inputData.getOrDefault("incomeLessThan150", "false").toString().equals("true");
 
             boolean isEligibleByIncomeAndCashOnHandLessThanExpenses =
                 householdIncomeAmount.add(moneyOnHandAmount).compareTo(calculateUtilitiesExpenses(inputData)) <= 0;
 
             boolean isEligibleForExpeditedSnap =
-                (isBelowMoneyOnHandThreshHold && isBelowIncomeThreshHold) || (
-                    isMigrantOrSeasonalFarmWorker && isBelowMoneyOnHandThreshHold)
+                (isBelowMoneyOnHandThreshhold && isBelowIncomeThreshhold) || (
+                    isMigrantOrSeasonalFarmWorker && isBelowMoneyOnHandThreshhold)
                     || calculateUtilitiesExpenses(inputData).compareTo(BigDecimal.ZERO) > 0 && isEligibleByIncomeAndCashOnHandLessThanExpenses;
             submission.getInputData().put("isEligibleForExpeditedSnap", String.valueOf(isEligibleForExpeditedSnap));
         }
