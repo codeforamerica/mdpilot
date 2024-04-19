@@ -4,7 +4,6 @@ import com.smartystreets.api.exceptions.SmartyException;
 import formflow.library.address_validation.AddressValidationService;
 import formflow.library.address_validation.ValidatedAddress;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.enums.ApplicantObjective;
 import org.mdbenefits.app.data.enums.Counties;
@@ -191,6 +190,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         loadContactData();
         testPage.navigateToFlowScreen("mdBenefitsFlow/contactInfoReview");
         assertThat(testPage.getTitle()).isEqualTo(message("review-contact-info.title"));
+
         testPage.clickLink(message("review-contact-info.submit-incomplete"));
 
         assertThat(testPage.getTitle()).isEqualTo(message("minimum-app-confirmation.title"));
@@ -199,48 +199,84 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("household-signpost.title"));
         testPage.goBack();
 
-        testPage.clickButton(message("minimum-app-confirmation.no"));
-
+        testPage.clickLink(message("minimum-app-confirmation.no"));
         assertThat(testPage.getTitle()).isEqualTo(message("legal-stuff.title"));
     }
 
-    // TODO: re-enable once we implement the expedited SNAP flow
     @Test
-    @Disabled
-    void expeditedSnapFlow() {
+    void expeditedSnapEarlyQualificationNoticeSeasonalWorkerWithLowMoneyOnHand() {
         loadUserPersonalData();
         loadAddressData();
         loadContactData();
-        testPage.navigateToFlowScreen("mdBenefitsFlow/contactInfoReview");
-        assertThat(testPage.getTitle()).isEqualTo(message("review-contact-info.title"));
-        testPage.clickLink(message("review-contact-info.submit-incomplete"));
+        testPage.navigateToFlowScreen("mdBenefitsFlow/expeditedSnapStart");
+
         // Expedited Snap Start
         assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-start.title"));
-        testPage.clickButton("Yes, I want to see if I qualify");
-        // Multiple Person Household
-        assertThat(testPage.getTitle()).isEqualTo(message("multiple-person-household.title"));
-        testPage.clickButton("Yes");
-        // Household Income Last 30 Days
-        assertThat(testPage.getTitle()).isEqualTo(message("household-income-last-30-days.title"));
-        testPage.enter("householdIncomeLast30Days", "0");
-        testPage.clickContinue();
-        // Expedited Money on Hand Amount
-        assertThat(testPage.getTitle()).isEqualTo(message("expedited-money-on-hand-amount.title"));
-        testPage.enter("expeditedMoneyOnHandAmount", "0");
-        testPage.clickContinue();
-        // Household Rent
-        assertThat(testPage.getTitle()).isEqualTo(message("household-rent.title"));
-        testPage.clickButton("Yes");
-        // Household Rent Amount
-        assertThat(testPage.getTitle()).isEqualTo(message("household-rent-amount.title"));
-        testPage.enter("householdRentAmount", "1200");
-        testPage.clickContinue();
+        testPage.clickButton(message("expedited-snap-start.yes"));
 
-        // Seasonal Farm Worker
-        assertThat(testPage.getTitle()).isEqualTo(message("seasonal-farmworker.title"));
-        testPage.clickButton("No");
-        // Expedited Snap Qualification Notice
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-seasonal-farmworker.title"));
+        testPage.clickButton("Yes");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-money-on-hand.title"));
+        testPage.clickButton("Yes");
+
         assertThat(testPage.getTitle()).isEqualTo(message("expedited-qualification-notice.title"));
+    }
+
+    @Test
+    void expeditedSnapEarlyQualificationNoticeLowMoneyOnHandAndLowIncome() {
+        loadUserPersonalData();
+        loadAddressData();
+        loadContactData();
+        testPage.navigateToFlowScreen("mdBenefitsFlow/expeditedSnapStart");
+        // Expedited Snap Start
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-start.title"));
+        testPage.clickButton(message("expedited-snap-start.yes"));
+
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-seasonal-farmworker.title"));
+        testPage.clickButton("No");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-money-on-hand.title"));
+        testPage.clickButton("Yes");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-money-on-hand-amount.title"));
+        testPage.clickLink(message("expedited-snap-optional.skip-help-text"));
+
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-income.title"));
+        testPage.clickButton("Yes");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-qualification-notice.title"));
+    }
+
+    @Test
+    void userCanSkipAllExpeditedSnapQuestions() {
+        loadUserPersonalData();
+        loadAddressData();
+        loadContactData();
+        testPage.navigateToFlowScreen("mdBenefitsFlow/expeditedSnapStart");
+        // Expedited Snap Start
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-start.title"));
+        testPage.clickButton(message("expedited-snap-start.yes"));
+
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-seasonal-farmworker.title"));
+        testPage.clickLink(message("expedited-snap-optional.skip-help-text"));
+
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-money-on-hand.title"));
+        testPage.clickLink(message("expedited-snap-optional.skip-help-text"));
+
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-money-on-hand-amount.title"));
+        testPage.clickLink(message("expedited-snap-optional.skip-help-text"));
+
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-income.title"));
+        testPage.clickLink(message("expedited-snap-optional.skip-help-text"));
+
+        assertThat(testPage.getTitle()).isEqualTo(message("household-income-last-30-days.title"));
+        testPage.clickLink(message("expedited-snap-optional.skip-help-text"));
+
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-home-expenses.title"));
+        testPage.clickLink(message("expedited-snap-optional.skip-help-text"));
+
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-deferred-notice.title"));
     }
 
     @Test

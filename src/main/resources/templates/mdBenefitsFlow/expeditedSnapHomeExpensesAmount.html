@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}">
+<head th:replace="~{fragments/head :: head(title=#{home-expenses-amount.title})}"></head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
+  <section class="slab">
+    <div class="grid">
+      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
+      <main id="content" role="main" class="form-card spacing-above-35">
+        <th:block th:replace="~{fragments/icons :: householdOrange}"></th:block>
+        <th:block
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{home-expenses-amount.header}, subtext=#{expedited-money-on-hand-amount.subtext})}"/>
+        <th:block
+            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formDetails})}">
+          <th:block th:ref="formDetails">
+            <div class="form-card__content">
+              <div class="spacing-below-15">
+                <th:block
+                    th:each="addHomeExpense : ${inputData.get('householdHomeExpenses[]')}">
+                  <th:block th:with="addHomeExpenseEnum=${T(org.mdbenefits.app.data.enums.HomeExpensesType).getEnumByName(addHomeExpense)},
+                            placeholder='0.00'">
+                    <th:block
+                        th:replace="~{fragments/inputs/money :: money(
+                          inputName=${addHomeExpenseEnum.getInputFieldName()},
+                          label=${#messages.msg(addHomeExpenseEnum.getLabelSrc())},
+                          placeholder=${placeholder})}"
+                    />
+                  </th:block>
+                </th:block>
+              </div>
+            </div>
+            <div class="form-card__footer">
+              <th:block
+                  th:replace="~{fragments/inputs/submitButton :: submitButton(text=#{general.inputs.continue})}"/>
+              <div><a th:text="#{expedited-snap-optional.skip-help-text}"
+                      th:href="'/flow/' + ${flow} + '/expeditedSnapDeferredNotice'"></a></div>
+            </div>
+          </th:block>
+        </th:block>
+      </main>
+    </div>
+  </section>
+</div>
+<th:block th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>

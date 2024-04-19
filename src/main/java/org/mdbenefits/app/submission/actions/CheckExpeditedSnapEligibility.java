@@ -3,67 +3,57 @@ package org.mdbenefits.app.submission.actions;
 import formflow.library.config.submission.Action;
 import formflow.library.data.Submission;
 import java.math.BigDecimal;
+
+import static org.mdbenefits.app.utils.SubmissionUtilities.isNoneOfAboveSelection;
+
 import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.mdbenefits.app.data.enums.HomeExpensesType;
 import org.springframework.stereotype.Component;
 
 
 @Slf4j
 @Component
 public class CheckExpeditedSnapEligibility implements Action {
-
-    BigDecimal INCOME_LIMIT = new BigDecimal("150.00");
-    BigDecimal MONEY_ON_HAND_LIMIT = new BigDecimal("100.00");
-
     @Override
     public void run(Submission submission) {
         Map<String, Object> inputData = submission.getInputData();
-        if (inputData.containsKey("isApplyingForExpeditedSnap") &&
-                inputData.get("isApplyingForExpeditedSnap").toString().equals("true")) {
+        if (inputData.getOrDefault("isApplyingForExpeditedSnap", "false").toString().equals("true")) {
 
-            String householdIncomeString = inputData.getOrDefault("householdIncomeLast30Days", "0").toString();
-            BigDecimal householdIncomeAmount = new BigDecimal(householdIncomeString).setScale(2, RoundingMode.HALF_UP);
+            BigDecimal moneyOnHandAmount = convertToBigDecimal(
+                inputData.getOrDefault("expeditedMoneyOnHandAmount", "0").toString());
+            BigDecimal householdIncomeAmount = convertToBigDecimal(
+                inputData.getOrDefault("householdIncomeLast30Days", "0").toString());
 
-            String moneyOnHandString = inputData.getOrDefault("expeditedMoneyOnHandAmount", "0").toString();
-            BigDecimal moneyOnHandAmount = new BigDecimal(moneyOnHandString).setScale(2, RoundingMode.HALF_UP);
-
-            String rentString = inputData.getOrDefault("householdRentAmount", "0").toString();
-            BigDecimal rentAmount = new BigDecimal(rentString).setScale(2, RoundingMode.HALF_UP);
-
-            boolean isMigrantOrSeasonalFarmWorker = inputData.get("migrantOrSeasonalFarmWorkerInd").toString().equals("true");
-            // TODO: Update this logic with household expenses that are considered utilities
-            boolean hasUtilities = false;
-//                    inputData.containsKey("householdUtilitiesExpenses[]") && !inputData.get("householdUtilitiesExpenses[]")
-//                            .toString().equals("None");
-
-            // Household has less than 150 in monthly income, including cash on hand is less than or equal to 100
-            // BigDecimal compareTo returns -1 if less than, 0 if equal, 1 if greater than
-            boolean isEligibleByCashOnHand = householdIncomeAmount.compareTo(INCOME_LIMIT) <= 0
-                    && moneyOnHandAmount.compareTo(MONEY_ON_HAND_LIMIT) <= 0;
-
-            // Is Migrant or Seasonal farmworker household with cash on hand less than or equal to 100
-            boolean isEligibleByMigrantOrSeasonalFarmWorker = isMigrantOrSeasonalFarmWorker
-                    && moneyOnHandAmount.compareTo(MONEY_ON_HAND_LIMIT) <= 0;
-
-            // Households combined monthly income + cash on hand is less than the total monthly rent/mortgage + utilities
-            BigDecimal utilitiesTotal = BigDecimal.ZERO;
-            if (hasUtilities) {
-                // TODO: Update this logic with the relevant household expenses that are considered utilities
-//                List<String> utilityTypes = (List<String>) inputData.get("householdUtilitiesExpenses[]");
-//                utilitiesTotal = utilityTypes.stream()
-//                        .map(type -> inputData.getOrDefault("householdUtilitiesExpenseAmount_wildcard_" + type, "0").toString())
-//                        .map(stringValue -> new BigDecimal(stringValue).setScale(2, RoundingMode.HALF_UP))
-//                        .reduce(BigDecimal.ZERO, BigDecimal::add);
-            }
+            boolean isMigrantOrSeasonalFarmWorker = inputData.getOrDefault("migrantOrSeasonalFarmWorkerInd", "false").toString().equals("true");
+            boolean isBelowMoneyOnHandThreshhold = inputData.getOrDefault("householdMoneyOnHandLessThan100", "false").toString().equals("true");
+            boolean isBelowIncomeThreshhold = inputData.getOrDefault("incomeLessThan150", "false").toString().equals("true");
 
             boolean isEligibleByIncomeAndCashOnHandLessThanExpenses =
-                    householdIncomeAmount.add(moneyOnHandAmount).compareTo(rentAmount.add(utilitiesTotal)) <= 0;
+                householdIncomeAmount.add(moneyOnHandAmount).compareTo(calculateUtilitiesExpenses(inputData)) <= 0;
 
-            boolean isEligibleForExpeditedSnap = isEligibleByCashOnHand || isEligibleByMigrantOrSeasonalFarmWorker
-                    || isEligibleByIncomeAndCashOnHandLessThanExpenses;
+            boolean isEligibleForExpeditedSnap =
+                (isBelowMoneyOnHandThreshhold && isBelowIncomeThreshhold) || (
+                    isMigrantOrSeasonalFarmWorker && isBelowMoneyOnHandThreshhold)
+                    || calculateUtilitiesExpenses(inputData).compareTo(BigDecimal.ZERO) > 0 && isEligibleByIncomeAndCashOnHandLessThanExpenses;
             submission.getInputData().put("isEligibleForExpeditedSnap", String.valueOf(isEligibleForExpeditedSnap));
         }
+    }
+    private BigDecimal calculateUtilitiesExpenses(Map<String, Object> inputData) {
+        List<String> allExpenses = new java.util.ArrayList<>();
+        if (!isNoneOfAboveSelection(inputData.get("householdHomeExpenses[]"))) {
+            List<String> utilityTypes = (List<String>) inputData.get("householdHomeExpenses[]");
+            utilityTypes.forEach(val -> {
+                String inputFieldName = HomeExpensesType.getEnumByName(val).getInputFieldName();
+                allExpenses.add(inputData.getOrDefault(inputFieldName, "0").toString());
+            });
+        }
+        return allExpenses.stream().map(n -> convertToBigDecimal(n)).reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private BigDecimal convertToBigDecimal(String value) {
+        return new BigDecimal(value).setScale(2, RoundingMode.HALF_UP);
     }
 }

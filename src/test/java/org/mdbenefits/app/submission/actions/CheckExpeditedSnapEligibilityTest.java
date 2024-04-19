@@ -3,10 +3,8 @@ package org.mdbenefits.app.submission.actions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import formflow.library.data.Submission;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import org.junit.jupiter.api.Disabled;
+import org.mdbenefits.app.data.SubmissionTestBuilder;
 import org.junit.jupiter.api.Test;
 
 
@@ -15,120 +13,109 @@ class CheckExpeditedSnapEligibilityTest {
     private final CheckExpeditedSnapEligibility checkExpeditedSnapEligibility = new CheckExpeditedSnapEligibility();
 
     @Test
-    void shouldQualifyForExpeditedSnapIfIncomeAndCasOnHandIsLessThanExpenses() {
-        Map<String, Object> inputData = new HashMap<>();
-        inputData.put("isApplyingForExpeditedSnap", "true");
-        inputData.put("householdIncomeLast30Days", "806.12");
-        inputData.put("expeditedMoneyOnHandAmount", "304.45");
-        inputData.put("householdRentAmount", "1500");
-        inputData.put("migrantOrSeasonalFarmWorkerInd", "false");
-
-        Submission submission = Submission.builder()
-                .inputData(inputData)
-                .build();
+    void eligibleForExpeditedSnapIfIncomeAndCashOnHandIsLessThanExpenses() {
+        Submission submission = new SubmissionTestBuilder()
+            .with("isApplyingForExpeditedSnap", "true")
+            .with("householdMoneyOnHandLessThan100", "true")
+            .with("incomeLessThan150", "true")
+            .build();
 
         checkExpeditedSnapEligibility.run(submission);
         assertEquals("true", submission.getInputData().get("isEligibleForExpeditedSnap"));
     }
-
     @Test
-    void shouldNotQualifyIfIncomeAndCashOnHandIsGreaterThanExpenses() {
-        Map<String, Object> inputData = new HashMap<>();
-        inputData.put("isApplyingForExpeditedSnap", "true");
-        inputData.put("householdIncomeLast30Days", "1600.51");
-        inputData.put("expeditedMoneyOnHandAmount", "400.45");
-        inputData.put("householdRentAmount", "1399.99");
-        inputData.put("migrantOrSeasonalFarmWorkerInd", "false");
-
-        Submission submission = Submission.builder()
-                .inputData(inputData)
-                .build();
-
-        checkExpeditedSnapEligibility.run(submission);
-        assertEquals("false", submission.getInputData().get("isEligibleForExpeditedSnap"));
-    }
-
-    @Disabled
-    @Test
-    void shouldQualifyIfIncomeAndCashOnHandIsEqualToExpenses() {
-        Map<String, Object> inputData = new HashMap<>();
-        inputData.put("isApplyingForExpeditedSnap", "true");
-        inputData.put("householdIncomeLast30Days", "1500.00");
-        inputData.put("expeditedMoneyOnHandAmount", "300.00");
-        inputData.put("householdRentAmount", "1500");
-        inputData.put("migrantOrSeasonalFarmWorkerInd", "false");
-
-        Submission submission = Submission.builder()
-                .inputData(inputData)
-                .build();
-
-        checkExpeditedSnapEligibility.run(submission);
-        assertEquals("true", submission.getInputData().get("isEligibleForExpeditedSnap"));
-    }
-
-    @Test
-    void shouldQualifyIfMonthlyIncomeIsLessThan150AndCashOnHandIsLessThan100() {
-        Map<String, Object> inputData = new HashMap<>();
-        inputData.put("isApplyingForExpeditedSnap", "true");
-        inputData.put("householdIncomeLast30Days", "149.99");
-        inputData.put("expeditedMoneyOnHandAmount", "99.99");
-        inputData.put("householdRentAmount", "0");
-        inputData.put("migrantOrSeasonalFarmWorkerInd", "false");
-
-        Submission submission = Submission.builder()
-                .inputData(inputData)
-                .build();
-
-        checkExpeditedSnapEligibility.run(submission);
-        assertEquals("true", submission.getInputData().get("isEligibleForExpeditedSnap"));
-    }
-
-    @Test
-    void shouldNotQualifyIfMonthlyIncomeIsLessThan150AndCashOnHandIsGreaterThan100() {
-        Map<String, Object> inputData = new HashMap<>();
-        inputData.put("isApplyingForExpeditedSnap", "true");
-        inputData.put("householdIncomeLast30Days", "149.99");
-        inputData.put("expeditedMoneyOnHandAmount", "100.01");
-        inputData.put("householdRentAmount", "0");
-        inputData.put("migrantOrSeasonalFarmWorkerInd", "false");
-
-        Submission submission = Submission.builder()
-                .inputData(inputData)
-                .build();
+    void ineligibleIfMonthlyIncomeIsGreaterThan150AndCashOnHandIsLessThan100() {
+        Submission submission = new SubmissionTestBuilder()
+            .with("isApplyingForExpeditedSnap", "true")
+            .with("householdMoneyOnHandLessThan100", "false")
+            .with("incomeLessThan150", "true")
+            .build();
 
         checkExpeditedSnapEligibility.run(submission);
         assertEquals("false", submission.getInputData().get("isEligibleForExpeditedSnap"));
     }
 
     @Test
-    void shouldNotQualifyIfMonthlyIncomeIsGreaterThan150AndCashOnHandIsLessThan100() {
-        Map<String, Object> inputData = new HashMap<>();
-        inputData.put("isApplyingForExpeditedSnap", "true");
-        inputData.put("householdIncomeLast30Days", "150.01");
-        inputData.put("expeditedMoneyOnHandAmount", "99.99");
-        inputData.put("householdRentAmount", "0");
-        inputData.put("migrantOrSeasonalFarmWorkerInd", "false");
+    void eligibleIfMigrantOrSeasonalFarmWorkerAndCashOnHandIsLessThan100() {
+        Submission submission = new SubmissionTestBuilder()
+            .with("isApplyingForExpeditedSnap", "true")
+            .with("householdMoneyOnHandLessThan100", "true")
+            .with("migrantOrSeasonalFarmWorkerInd", "true")
+            .build();
 
-        Submission submission = Submission.builder()
-                .inputData(inputData)
-                .build();
+        checkExpeditedSnapEligibility.run(submission);
+        assertEquals("true", submission.getInputData().get("isEligibleForExpeditedSnap"));
+    }
+
+    @Test
+    void ineligibleIfMigrantOrSeasonalFarmWorkerAndCashOnHandIsGreaterThan100() {
+        Submission submission = new SubmissionTestBuilder()
+            .with("isApplyingForExpeditedSnap", "true")
+            .with("householdMoneyOnHandLessThan100", "false")
+            .with("migrantOrSeasonalFarmWorkerInd", "true")
+            .build();
 
         checkExpeditedSnapEligibility.run(submission);
         assertEquals("false", submission.getInputData().get("isEligibleForExpeditedSnap"));
     }
 
     @Test
-    void shouldQualifyIfMigrantOrSeasonalFarmWorkerAndCashOnHandIsLessThan100() {
-        Map<String, Object> inputData = new HashMap<>();
-        inputData.put("isApplyingForExpeditedSnap", "true");
-        inputData.put("householdIncomeLast30Days", "0");
-        inputData.put("expeditedMoneyOnHandAmount", "99.99");
-        inputData.put("householdRentAmount", "0");
-        inputData.put("migrantOrSeasonalFarmWorkerInd", "true");
+    void eligibleIfIncomeAndCashOnHandIsEqualToExpenses() {
+        Submission submission = new SubmissionTestBuilder()
+            .with("isApplyingForExpeditedSnap", "true")
+            .with("householdIncomeLast30Days", "1500")
+            .with("expeditedMoneyOnHandAmount", "200")
+            .with("householdHomeExpenses[]", List.of("GARBAGE", "PHONE", "RENT"))
+            .with("homeExpenseGarbage", "500")
+            .with("homeExpensePhone", "1000")
+            .with("homeExpenseRent", "200")
+            .build();
 
-        Submission submission = Submission.builder()
-                .inputData(inputData)
-                .build();
+        checkExpeditedSnapEligibility.run(submission);
+        assertEquals("true", submission.getInputData().get("isEligibleForExpeditedSnap"));
+    }
+
+    @Test
+    void eligibleIfIncomeAndCashOnHandLessThanExpenses() {
+        Submission submission = new SubmissionTestBuilder()
+            .with("isApplyingForExpeditedSnap", "true")
+            .with("householdIncomeLast30Days", "1000")
+            .with("expeditedMoneyOnHandAmount", "200")
+            .with("householdHomeExpenses[]", List.of("GARBAGE", "PHONE", "RENT"))
+            .with("homeExpenseGarbage", "500")
+            .with("homeExpensePhone", "1000")
+            .with("homeExpenseRent", "200")
+            .build();
+
+        checkExpeditedSnapEligibility.run(submission);
+        assertEquals("true", submission.getInputData().get("isEligibleForExpeditedSnap"));
+    }
+
+    @Test
+    void ineligibleIfIncomeAndCashOnHandIsGreaterThanExpenses() {
+        Submission submission = new SubmissionTestBuilder()
+            .with("isApplyingForExpeditedSnap", "true")
+            .with("householdIncomeLast30Days", "1000")
+            .with("expeditedMoneyOnHandAmount", "1000")
+            .with("householdHomeExpenses[]", List.of("GARBAGE", "PHONE", "RENT"))
+            .with("homeExpenseGarbage", "500")
+            .with("homeExpensePhone", "1000")
+            .with("homeExpenseRent", "200")
+            .build();
+
+        checkExpeditedSnapEligibility.run(submission);
+        assertEquals("false", submission.getInputData().get("isEligibleForExpeditedSnap"));
+    }
+
+    @Test
+    void eligibleEvenIfContradictoryDataIsProvided() {
+        Submission submission = new SubmissionTestBuilder()
+            .with("isApplyingForExpeditedSnap", "true")
+            .with("householdMoneyOnHandLessThan100", "true")
+            .with("householdIncomeLast30Days", "1000")
+            .with("incomeLessThan150", "true")
+            .with("expeditedMoneyOnHandAmount", "1000")
+            .build();
 
         checkExpeditedSnapEligibility.run(submission);
         assertEquals("true", submission.getInputData().get("isEligibleForExpeditedSnap"));
