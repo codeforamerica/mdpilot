@@ -15,7 +15,7 @@
             th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContents})}">
           <th:block th:ref="formContents">
             <th:block
-                th:replace="~{fragments/inputs/select :: select(helpText=#{county.subheader}, ariaLabel=#{county.select}, inputName='county', content=~{::selectContent})}">
+                th:replace="~{fragments/inputs/select :: select(helpText=#{county.subheader}, ariaLabel='header', inputName='county', content=~{::selectContent})}">
               <th:block th:ref="selectContent">
                 <th:block
                     th:replace="~{fragments/inputs/selectOptionPlaceholder :: selectOptionPlaceholder(optionText=#{county.select})}"/>
