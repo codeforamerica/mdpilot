@@ -3,13 +3,13 @@
 <head th:replace="~{fragments/head :: head(title=#{household-list.title})}"></head>
 <body>
 <div class="page-wrapper" th:with="hasHouseholdSubflow=${inputData.containsKey('household')}">
-  
+
   <div th:replace="~{fragments/toolbar :: toolbar}"></div>
   <section class="slab">
     <div class="grid">
       <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
-        <th:block th:replace="~{fragments/icons :: 'householdOrange'}"></th:block>
+        <th:block th:replace="~{fragments/icons :: household}"></th:block>
         <th:block
             th:replace="~{fragments/cardHeader :: cardHeader(header=#{household-list.header},
             subtext=${hasHouseholdSubflow ? #messages.msg('household-list.subheader-2') : #messages.msg('household-list.subheader')})}"/>
