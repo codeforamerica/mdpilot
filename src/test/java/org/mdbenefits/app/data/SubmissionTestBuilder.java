@@ -34,7 +34,7 @@ public class SubmissionTestBuilder {
     }
 
     public SubmissionTestBuilder withApplicantWithPregnancy(
-        String firstName, String lastName) {
+            String firstName, String lastName) {
         submission.getInputData().put("firstName", firstName);
         submission.getInputData().put("lastName", lastName);
         submission.getInputData().put("birthDay", "11");
@@ -49,7 +49,7 @@ public class SubmissionTestBuilder {
     }
 
     public SubmissionTestBuilder withApplicantWithDisability(
-        String firstName, String lastName) {
+            String firstName, String lastName) {
         submission.getInputData().put("firstName", firstName);
         submission.getInputData().put("lastName", lastName);
         submission.getInputData().put("birthDay", "11");
@@ -63,24 +63,24 @@ public class SubmissionTestBuilder {
         return this;
     }
 
-    public SubmissionTestBuilder withHouseholdMemberWithPregnancy(String firstName, String lastName){
-         withHouseholdMemberApplying(firstName,lastName, "11", "11", "2001", "daughter", "F", "NeverMarried", "firstGrade",
-            "123456789", "Yes", "No", null, null);
-         return this;
+    public SubmissionTestBuilder withHouseholdMemberWithPregnancy(String firstName, String lastName) {
+        withHouseholdMemberApplying(firstName, lastName, "11", "11", "2001", "daughter", "F", "NeverMarried", "firstGrade",
+                "123456789", "Yes", "No", null, null);
+        return this;
     }
 
-    public SubmissionTestBuilder withHouseholdMemberWithDisability(String firstName, String lastName){
-        withHouseholdMemberApplying(firstName,lastName, "11", "11", "2001", "daughter", "F", "NeverMarried", "firstGrade",
-            "123456789", "No", "Yes", null, null);
+    public SubmissionTestBuilder withHouseholdMemberWithDisability(String firstName, String lastName) {
+        withHouseholdMemberApplying(firstName, lastName, "11", "11", "2001", "daughter", "F", "NeverMarried", "firstGrade",
+                "123456789", "No", "Yes", null, null);
         return this;
     }
 
     public SubmissionTestBuilder withHouseholdMemberApplying(
-        String firstName, String lastName,
-        String birthDay, String birthMonth, String birthYear,
-        String relationship, String sex, String maritalStatus,
-        String education, String ssn, String isPregnant, String isDisabled, List<String> raceInfo, String ethnicity) {
-        
+            String firstName, String lastName,
+            String birthDay, String birthMonth, String birthYear,
+            String relationship, String sex, String maritalStatus,
+            String education, String ssn, String isPregnant, String isDisabled, List<String> raceInfo, String ethnicity) {
+
         List<Map<String, Object>> household = (List<Map<String, Object>>) submission.getInputData().get("household");
         if (household == null) {
             household = new ArrayList<>();
@@ -105,6 +105,7 @@ public class SubmissionTestBuilder {
         member.put("householdMemberHasDisability", isDisabled);
         member.put("householdMemberRace[]", raceInfo);
         member.put("householdMemberEthnicity", ethnicity);
+        member.put("iterationIsComplete", true);
 
         household.add(member);
 
@@ -154,6 +155,7 @@ public class SubmissionTestBuilder {
         job.put("employerName", employerName);
         job.put("payPeriodAmount", amount);
         job.put("payPeriod", freq);
+        job.put("iterationIsComplete", true);
 
         income.add(job);
         submission.getInputData().put("income", income);
