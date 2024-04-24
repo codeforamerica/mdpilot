@@ -105,7 +105,7 @@ public class SubmissionTestBuilder {
         member.put("householdMemberHasDisability", isDisabled);
         member.put("householdMemberRace[]", raceInfo);
         member.put("householdMemberEthnicity", ethnicity);
-        member.put("iterationIsComplete", true);
+        member.put(Submission.ITERATION_IS_COMPLETE_KEY, true);
 
         household.add(member);
 
@@ -155,7 +155,7 @@ public class SubmissionTestBuilder {
         job.put("employerName", employerName);
         job.put("payPeriodAmount", amount);
         job.put("payPeriod", freq);
-        job.put("iterationIsComplete", true);
+        job.put(Submission.ITERATION_IS_COMPLETE_KEY, true);
 
         income.add(job);
         submission.getInputData().put("income", income);

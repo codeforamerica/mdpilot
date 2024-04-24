@@ -48,7 +48,7 @@ public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
         if (income != null) {
             int i = 1;
             for (Map<String, Object> incomeDetails : income) {
-                boolean iterationIsComplete = (boolean) incomeDetails.get("iterationIsComplete");
+                boolean iterationIsComplete = (boolean) incomeDetails.get(Submission.ITERATION_IS_COMPLETE_KEY);
                 if (!iterationIsComplete) {
                     log.info("PDF Income Preparer: Submission {}: found incomplete income iteration ({}), skipping it...",
                             submission.getId(), incomeDetails.get("uuid"));

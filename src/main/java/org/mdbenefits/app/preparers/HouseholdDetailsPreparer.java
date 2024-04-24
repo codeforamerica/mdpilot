@@ -29,7 +29,7 @@ public class HouseholdDetailsPreparer implements SubmissionFieldPreparer {
         if (household != null) {
             int iteration = 1;  // start at one!
             for (Map<String, Object> householdMember : household) {
-                boolean iterationIsComplete = (boolean) householdMember.get("iterationIsComplete");
+                boolean iterationIsComplete = (boolean) householdMember.get(Submission.ITERATION_IS_COMPLETE_KEY);
                 if (!iterationIsComplete) {
                     log.info(
                             "PDF Household Preparer: Submission {}: found incomplete household member iteration ({}), skipping...",
