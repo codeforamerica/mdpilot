@@ -5,6 +5,7 @@ import formflow.library.pdf.PdfMap;
 import formflow.library.pdf.SingleField;
 import formflow.library.pdf.SubmissionField;
 import formflow.library.pdf.SubmissionFieldPreparer;
+import lombok.extern.slf4j.Slf4j;
 import org.mdbenefits.app.data.enums.AdditionalIncomeType;
 import org.mdbenefits.app.data.enums.MoneyOnHandType;
 import org.springframework.context.MessageSource;
@@ -18,6 +19,7 @@ import java.util.Map;
 import static java.util.Collections.emptyList;
 import static org.mdbenefits.app.utils.SubmissionUtilities.isNoneOfAboveSelection;
 
+@Slf4j
 @Component
 public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
 
@@ -41,15 +43,18 @@ public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
         Map<String, SubmissionField> fields = new HashMap<>();
         Map<String, Object> inputData = submission.getInputData();
         var income = (List<Map<String, Object>>) inputData.get("income");
-
-        boolean hasIncome = income != null && !income.isEmpty();
-        fields.put(
-                "householdHasEarnedIncome",
-                new SingleField("householdHasEarnedIncome", hasIncome ? "true" : "false", null));
+        boolean hasIncome = false;
 
         if (income != null) {
             int i = 1;
             for (Map<String, Object> incomeDetails : income) {
+                boolean iterationIsComplete = (boolean) incomeDetails.get("iterationIsComplete");
+                if (!iterationIsComplete) {
+                    log.info("PDF Income Preparer: Submission {}: found incomplete income iteration ({}), skipping it...",
+                            submission.getId(), incomeDetails.get("uuid"));
+                    continue;
+                }
+                hasIncome = true;
                 String employeeName = (String) incomeDetails.get("householdMemberJobAdd");
                 if (employeeName.equals("you")) {
                     employeeName = inputData.get("firstName") + " " + inputData.get("lastName");
@@ -72,6 +77,11 @@ public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
                 i++;
             }
         }
+
+        fields.put(
+                "householdHasEarnedIncome",
+                new SingleField("householdHasEarnedIncome", hasIncome ? "true" : "false", null));
+
         return fields;
     }
 

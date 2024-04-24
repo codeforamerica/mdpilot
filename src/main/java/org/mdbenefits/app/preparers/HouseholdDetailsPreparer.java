@@ -9,12 +9,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
+import lombok.extern.slf4j.Slf4j;
 import org.mdbenefits.app.data.enums.CitizenshipStatus;
 import org.mdbenefits.app.data.enums.EthnicityType;
 import org.mdbenefits.app.data.enums.RaceType;
 import org.mdbenefits.app.data.enums.RelationshipType;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class HouseholdDetailsPreparer implements SubmissionFieldPreparer {
 
@@ -27,6 +29,13 @@ public class HouseholdDetailsPreparer implements SubmissionFieldPreparer {
         if (household != null) {
             int iteration = 1;  // start at one!
             for (Map<String, Object> householdMember : household) {
+                boolean iterationIsComplete = (boolean) householdMember.get("iterationIsComplete");
+                if (!iterationIsComplete) {
+                    log.info(
+                            "PDF Household Preparer: Submission {}: found incomplete household member iteration ({}), skipping...",
+                            submission.getId(), householdMember.get("uuid"));
+                    continue;
+                }
                 String fullName = removeTrailingCommaAndSpace(String.format("%s, %s, %s",
                         householdMember.get("householdMemberLastName"),
                         householdMember.get("householdMemberFirstName"),
