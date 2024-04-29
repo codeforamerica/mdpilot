@@ -44,11 +44,11 @@ body {
 }
 
 .subflow-edit {
-  color: #008060 !important;
+  color: #003865 !important;
 }
 
 .subflow-delete {
-  color: #D13F00 !important;
+  color: #003865 !important;
 }
 
 .subflow-list__item-actions a:not(:last-child) {
