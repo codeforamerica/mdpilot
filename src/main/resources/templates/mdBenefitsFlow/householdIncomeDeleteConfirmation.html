@@ -14,7 +14,6 @@
           <th:block th:if="${noEntryToDelete != null}">
             <th:block
                 th:replace="~{fragments/cardHeader :: cardHeader(header=#{delete-confirmation-back-redirect.header})}"/>
-            <b>hello</b>
             <div class="form-card__footer" th:with="subflowIsEmpty=${subflowIsEmpty != null}">
               <a class="button button--primary"
                  th:href="${subflowIsEmpty ? entryScreen : reviewScreen}"
