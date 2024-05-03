@@ -116,3 +116,6 @@ transmission:
     team-drive: ${GOOGLE_DRIVE_SHARED_ID:''}
     baltimore-county: ${BALTIMORE_COUNTY_GOOGLE_DIR_ID}
     queen-annes-county: ${QUEENANNES_COUNTY_GOOGLE_DIR_ID}
+sentry:
+  dsn: ${SENTRY_DSN}
+  traces-sample-rate: 0.6
