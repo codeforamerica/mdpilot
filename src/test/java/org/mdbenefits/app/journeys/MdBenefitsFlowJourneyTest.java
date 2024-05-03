@@ -192,14 +192,16 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("review-contact-info.title"));
 
         testPage.clickLink(message("review-contact-info.submit-incomplete"));
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-start.title"));
+        testPage.clickLink(message("expedited-snap-start.no"));
 
         assertThat(testPage.getTitle()).isEqualTo(message("minimum-app-confirmation.title"));
-        testPage.clickLink(message("minimum-app-confirmation.yes"));
+        testPage.clickLink(message("minimum-app-confirmation.answer-more-questions"));
 
         assertThat(testPage.getTitle()).isEqualTo(message("household-signpost.title"));
         testPage.goBack();
 
-        testPage.clickLink(message("minimum-app-confirmation.no"));
+        testPage.clickButton(message("minimum-app-confirmation.submit-app"));
         assertThat(testPage.getTitle()).isEqualTo(message("legal-stuff.title"));
     }
 
