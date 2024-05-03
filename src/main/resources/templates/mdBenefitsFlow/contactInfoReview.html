@@ -25,18 +25,30 @@
                 <p th:text="${T(org.mdbenefits.app.utils.SubmissionUtilities).getFormattedBirthdate(fieldData)}"></p>
               </div>
               <b th:text="#{review-contact-info.mailing-address}"></b>
-              <div class="spacing-above-10" th:if="${fieldData.getOrDefault('useSuggestedAddress', 'false').equals('false')}">
-                <th:block th:text="${fieldData.mailingAddressStreetAddress1}"></th:block><br>
-                <div th:if="${fieldData.mailingAddressStreetAddress2 != null && !fieldData.mailingAddressStreetAddress2.trim().isEmpty()}">
-                  <th:block th:text="${fieldData.mailingAddressStreetAddress2}"></th:block><br>
+              <div class="spacing-above-10"
+                   th:if="${fieldData.getOrDefault('useSuggestedAddress', 'false').equals('false')}">
+                <th:block th:text="${fieldData.mailingAddressStreetAddress1}"></th:block>
+                <br>
+                <div
+                    th:if="${fieldData.mailingAddressStreetAddress2 != null && !fieldData.mailingAddressStreetAddress2.trim().isEmpty()}">
+                  <th:block th:text="${fieldData.mailingAddressStreetAddress2}"></th:block>
+                  <br>
                 </div>
-                <th:block th:text="${fieldData.mailingAddressCity} + ', ' + ${fieldData.mailingAddressState}"></th:block><br>
-                <th:block th:text="${fieldData.mailingAddressZipCode}"></th:block><br>
+                <th:block
+                    th:text="${fieldData.mailingAddressCity} + ', ' + ${fieldData.mailingAddressState}"></th:block>
+                <br>
+                <th:block th:text="${fieldData.mailingAddressZipCode}"></th:block>
+                <br>
               </div>
-              <div class="spacing-above-15" th:if="${fieldData.getOrDefault('useSuggestedAddress', 'false').equals('true')}">
-                <th:block th:text="${fieldData.mailingAddressStreetAddress1_validated}"></th:block><br>
-                <th:block th:text="${fieldData.mailingAddressCity_validated} + ', ' + ${fieldData.mailingAddressState_validated}"></th:block><br>
-                <th:block th:text="${fieldData.mailingAddressZipCode_validated}"></th:block><br>
+              <div class="spacing-above-15"
+                   th:if="${fieldData.getOrDefault('useSuggestedAddress', 'false').equals('true')}">
+                <th:block th:text="${fieldData.mailingAddressStreetAddress1_validated}"></th:block>
+                <br>
+                <th:block
+                    th:text="${fieldData.mailingAddressCity_validated} + ', ' + ${fieldData.mailingAddressState_validated}"></th:block>
+                <br>
+                <th:block th:text="${fieldData.mailingAddressZipCode_validated}"></th:block>
+                <br>
               </div>
               <hr class="spacing-below-25 spacing-above-25">
               <div class="spacing-above-15">
@@ -82,7 +94,7 @@
               <a class="button button--secondary" th:text="#{review-contact-info.edit}"
                  th:href="'/flow/' + ${flow} + '/personalInfo'"></a>
               <div><a th:text="#{review-contact-info.submit-incomplete}"
-                      th:href="'/flow/' + ${flow} + '/minimumAppSubmission'"></a></div>
+                      th:href="'/flow/' + ${flow} + '/expeditedSnapStart'"></a></div>
             </div>
           </th:block>
         </th:block>

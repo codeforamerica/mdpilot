@@ -333,6 +333,9 @@ public class MdBenefitsFlow extends FlowInputs {
     // Expedited Snap Start
     private String isApplyingForExpeditedSnap;
 
+    // Minimum App flow
+    private String usedMinimumApplicationFlow;
+
     // Household Money on Hand
     private String householdMoneyOnHandLessThan100;
 
