@@ -195,6 +195,7 @@ flow:
         condition: HasIncome
       - name: householdAdditionalIncome
   householdIncomeByJob:
+    subflow: income
     nextScreens:
       - name: householdIncomeWho
   householdIncomeWho:
@@ -336,7 +337,7 @@ subflows:
     reviewScreen: householdList
     deleteConfirmationScreen: householdMemberDeleteConfirmation
   income:
-    entryScreen: householdIncomeByJob
+    entryScreen: householdIncome
     iterationStartScreen: householdIncomeWho
     reviewScreen: householdIncomeList
     deleteConfirmationScreen: householdIncomeDeleteConfirmation
