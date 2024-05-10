@@ -339,6 +339,14 @@ public class Page {
                 .orElse(null);
     }
 
+    public WebElement findLinkByText(String linkText) {
+        try {
+            return driver.findElement(By.linkText(linkText));
+        } catch (org.openqa.selenium.NoSuchElementException e) {
+            return null;
+        }
+    }
+
     public boolean elementExistsById(String id) {
         try {
             driver.findElement(By.id(id));

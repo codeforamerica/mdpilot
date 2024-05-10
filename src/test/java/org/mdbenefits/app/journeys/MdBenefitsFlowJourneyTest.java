@@ -283,6 +283,28 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     }
 
     @Test
+    void minAppLinkShowsUpForSNAPApplications() {
+        loadProgramsScreen(List.of("programs-SNAP"));
+        loadUserPersonalData();
+        loadAddressData();
+        loadContactData();
+        testPage.navigateToFlowScreen("mdBenefitsFlow/contactInfoReview");
+
+        assertThat(testPage.findLinkByText(message("review-contact-info.submit-incomplete"))).isNotNull();
+    }
+
+    @Test
+    void minAppLinkDoesNotShowUpForNoNSNAPApplication() {
+        loadProgramsScreen(List.of("programs-TCA", "programs-RCA"));
+        loadUserPersonalData();
+        loadAddressData();
+        loadContactData();
+        testPage.navigateToFlowScreen("mdBenefitsFlow/contactInfoReview");
+
+        assertThat(testPage.findLinkByText(message("review-contact-info.submit-incomplete"))).isNull();
+    }
+
+    @Test
     void maleApplicantsSkipPregnancyQuestion() {
         loadUserPersonalData();
         testPage.navigateToFlowScreen("mdBenefitsFlow/applicantSex");
@@ -925,6 +947,17 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     void preloadCountyScreen(String county) {
         testPage.navigateToFlowScreen("mdBenefitsFlow/county");
         testPage.selectFromDropdown("county", county);
+        testPage.clickContinue();
+    }
+
+    void loadProgramsScreen(List<String> programs) {
+        testPage.navigateToFlowScreen("mdBenefitsFlow/selectHelpNeeded");
+        testPage.clickElementById("helpNeeded-FOOD");
+        testPage.clickElementById("helpNeeded-REFUGEE");
+        testPage.clickContinue();
+        for (String program : programs) {
+            testPage.clickElementById(program);
+        }
         testPage.clickContinue();
     }
 }
