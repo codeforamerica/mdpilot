@@ -118,6 +118,8 @@ flow:
     nextScreens:
       - name: applicantApplying
   applicantApplying:
+    # if they come through here, it's not a minimum flow, so clear the flag
+    onPostAction: UnsetMinimumFlowFlag
     nextScreens:
       - name: applicantCitizenship
         condition: IsApplicantApplyingForSelf
