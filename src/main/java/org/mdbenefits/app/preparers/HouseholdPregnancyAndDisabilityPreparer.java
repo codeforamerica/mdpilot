@@ -22,14 +22,23 @@ public class HouseholdPregnancyAndDisabilityPreparer implements SubmissionFieldP
     public Map<String, SubmissionField> prepareSubmissionFields(Submission submission, PdfMap pdfMap) {
         Map<String, SubmissionField> results = new HashMap<>();
 
+        var inputData = submission.getInputData();
+
+        if (inputData.getOrDefault("isMinimumApplication", "false").toString().equalsIgnoreCase("true")) {
+            // they used the minimum app flow, don't assert anything about pregnancy / disability
+            // since we didn't collect it
+            return results;
+        }
+
         ArrayList<String> householdMembersPregnant = new ArrayList<String>();
         ArrayList<String> householdMembersWithDisability = new ArrayList<String>();
 
-        var inputData = submission.getInputData();
+        // only looking for a yes here, so it doesn't matter if we default to "No" in the case of this being unset
         if (inputData.getOrDefault("isApplicantPregnant", "No").toString().equalsIgnoreCase("Yes")) {
             householdMembersPregnant.add(SubmissionUtilities.applicantFullNameFormatted(submission));
         }
 
+        // only looking for a yes here, so it doesn't matter if we default to "No" in the case of this being unset
         if (inputData.getOrDefault("applicantHasDisability", "No").toString().equalsIgnoreCase("Yes")) {
             householdMembersWithDisability.add(SubmissionUtilities.applicantFullNameFormatted(submission));
         }
@@ -42,27 +51,27 @@ public class HouseholdPregnancyAndDisabilityPreparer implements SubmissionFieldP
         }
 
         results.put("householdHasDisability",
-            new SingleField("householdHasDisability", !householdMembersWithDisability.isEmpty() ? "Yes" : "No", null));
+                new SingleField("householdHasDisability", !householdMembersWithDisability.isEmpty() ? "Yes" : "No", null));
         results.put("householdHasPregnancy",
-            new SingleField("householdHasPregnancy", !householdMembersPregnant.isEmpty() ? "Yes" : "No", null));
+                new SingleField("householdHasPregnancy", !householdMembersPregnant.isEmpty() ? "Yes" : "No", null));
 
         if (!householdMembersWithDisability.isEmpty()) {
             results.put("householdHasDisabilitySeeCover",
-                new SingleField("householdHasDisabilitySeeCover", "See cover page", null));
+                    new SingleField("householdHasDisabilitySeeCover", "See cover page", null));
             for (int i = 0; (i < 5 && i < householdMembersWithDisability.size()); i++) {
                 var index = i + 1;
                 results.put("householdDisabilityName" + index,
-                    new SingleField("householdDisabilityName" + index, householdMembersWithDisability.get(i), null));
+                        new SingleField("householdDisabilityName" + index, householdMembersWithDisability.get(i), null));
             }
         }
 
         if (!householdMembersPregnant.isEmpty()) {
             results.put("householdHasPregnancySeeCover",
-                new SingleField("householdHasPregnancySeeCover", "See cover page", null));
+                    new SingleField("householdHasPregnancySeeCover", "See cover page", null));
             for (int i = 0; (i < 5 && i < householdMembersPregnant.size()); i++) {
                 var index = i + 1;
                 results.put("householdPregnancyName" + index,
-                    new SingleField("householdPregnancyName" + index, householdMembersPregnant.get(i), null));
+                        new SingleField("householdPregnancyName" + index, householdMembersPregnant.get(i), null));
             }
         }
 
@@ -72,7 +81,7 @@ public class HouseholdPregnancyAndDisabilityPreparer implements SubmissionFieldP
 
     private List<String> householdMembersWithCondition(List<Map<String, Object>> householdSubflow, String fieldName) {
         return householdSubflow.stream()
-            .filter(hhMember -> "yes".equalsIgnoreCase(String.valueOf(hhMember.get(fieldName))))
-            .map(hhMember -> SubmissionUtilities.householdMemberFullNameFormatted(hhMember)).toList();
+                .filter(hhMember -> "yes".equalsIgnoreCase(String.valueOf(hhMember.get(fieldName))))
+                .map(hhMember -> SubmissionUtilities.householdMemberFullNameFormatted(hhMember)).toList();
     }
 }

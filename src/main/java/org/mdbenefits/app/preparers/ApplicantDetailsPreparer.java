@@ -47,10 +47,17 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
                 results.put("applicantSex", new SingleField("applicantSex", "", null));
             }
 
-
             prepareCitizenshipStatus(inputData, results);
 
             prepareRaceEthnicityInfo(inputData, results);
+        }
+
+        // Is this a minimum application? If so, the applicant is applying, but didn't go through
+        // many pages, including the one to indicate if they are applying. But the assumption with a minimum
+        // app is that they are applying
+        if (inputData.getOrDefault("isMinimumApplication", "false").toString().equalsIgnoreCase("true")) {
+            results.put("isApplicantApplying",
+                    new SingleField("isApplicantApplying", "Yes", null));
         }
 
         results.put("applicantMailingAddressFull",
@@ -65,14 +72,14 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
             mailingAddressFull = "";
             return mailingAddressFull;
         }
-        
+
         if (inputData.getOrDefault("useSuggestedAddress", "false").equals("true")) {
             mailingAddressFull = String.format("%s, %s, %s %s",
                     inputData.get("mailingAddressStreetAddress1_validated"),
                     inputData.get("mailingAddressCity_validated"),
                     inputData.get("mailingAddressState_validated"),
                     inputData.get("mailingAddressZipCode_validated"));
-            
+
             return mailingAddressFull;
         }
 
@@ -96,7 +103,7 @@ public class ApplicantDetailsPreparer implements SubmissionFieldPreparer {
     }
 
     private void prepareCitizenshipStatus(Map<String, Object> inputData, Map<String, SubmissionField> results) {
-        String citizenshipStatus = (String) inputData.getOrDefault("applicantCitizenshipStatus","");
+        String citizenshipStatus = (String) inputData.getOrDefault("applicantCitizenshipStatus", "");
 
         if (!citizenshipStatus.isBlank()) {
             var status = citizenshipStatus.equals(CitizenshipStatus.US_CITIZEN.name()) ? "Yes" : "No";

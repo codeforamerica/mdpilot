@@ -82,4 +82,27 @@ public class ApplicantDetailsPreparerTest {
         assertThat(result.get("applicantFullName"))
                 .isEqualTo(new SingleField("applicantFullName", "Doe, John, MiddleName", null));
     }
+
+    @Test
+    public void testWithMinimumApp() {
+        Submission minAppSubmission = new SubmissionTestBuilder()
+                .with("firstName", "John")
+                .with("lastName", "Doe")
+                .with("birthDay", "10")
+                .with("birthMonth", "12")
+                .with("birthYear", "1999")
+                .with("useSuggestedAddress", "true")
+                .with("mailingAddressStreetAddress1_validated", "123 Main Street")
+                .with("mailingAddressCity_validated", "Some City")
+                .with("mailingAddressState_validated", "NY")
+                .with("mailingAddressZipCode_validated", "14626")
+                .with("isMinimumApplication", "True")
+                .build();
+        Map<String, SubmissionField> result = preparer.prepareSubmissionFields(minAppSubmission, null);
+        assertThat(result.size()).isEqualTo(3);
+        assertThat(result.get("isApplicantApplying"))
+                .isEqualTo(new SingleField("isApplicantApplying", "Yes", null));
+        assertThat(result.get("applicantDOB")).isNull();
+        assertThat(result.get("applicantCitizenshipStatus")).isNull();
+    }
 }
