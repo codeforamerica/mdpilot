@@ -2,11 +2,15 @@ package org.mdbenefits.app.submission.actions;
 
 import com.mailgun.model.message.MessageResponse;
 import formflow.library.data.Submission;
+import formflow.library.data.SubmissionRepository;
 import formflow.library.data.SubmissionRepositoryService;
 import formflow.library.email.MailgunEmailClient;
 import formflow.library.pdf.PdfService;
+import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.mdbenefits.app.data.SubmissionTestBuilder;
 import org.mdbenefits.app.data.Transmission;
 import org.mdbenefits.app.data.TransmissionRepository;
@@ -30,6 +34,7 @@ import static org.mockito.Mockito.mock;
 
 @ActiveProfiles("test")
 @SpringBootTest
+@TestInstance(Lifecycle.PER_CLASS)
 class HandleApplicationSignedTest {
 
     @MockBean
@@ -52,6 +57,9 @@ class HandleApplicationSignedTest {
 
     private HandleApplicationSigned handleApplicationSigned;
 
+    @Autowired
+    private SubmissionRepository submissionRepository;
+
     @BeforeEach
     void setup() {
         handleApplicationSigned = new HandleApplicationSigned(messageSource, mailgunEmailClient, submissionRepositoryService,
@@ -67,6 +75,8 @@ class HandleApplicationSignedTest {
         handleApplicationSigned.run(submission);
 
         Mockito.verify(mailgunEmailClient, Mockito.never()).sendEmail(Mockito.any(), Mockito.any(), Mockito.any());
+
+        cleanupSubmissionTransmission(submission);
     }
 
     @Test
@@ -82,6 +92,8 @@ class HandleApplicationSignedTest {
         assertThat((String) submission.getInputData().get("confirmationNumber")).matches("M\\d{5,}");
         Transmission transmission = transmissionRepository.findTransmissionBySubmission(submission);
         assertThat(transmission.getStatus()).isEqualTo("QUEUED");
+
+        cleanupSubmissionTransmission(submission);
     }
 
     @Test
@@ -94,6 +106,8 @@ class HandleApplicationSignedTest {
         handleApplicationSigned.run(submission);
 
         assertThat(emailBodyCaptor.getValue()).contains((String) submission.getInputData().get("confirmationNumber"));
+
+        cleanupSubmissionTransmission(submission);
     }
 
 
@@ -107,6 +121,8 @@ class HandleApplicationSignedTest {
         handleApplicationSigned.run(submission);
 
         assertThat(attachmentsCaptor.getValue()).hasSize(1);
+
+        cleanupSubmissionTransmission(submission);
     }
 
     @Test
@@ -118,7 +134,9 @@ class HandleApplicationSignedTest {
         handleApplicationSigned.run(submission);
 
         assertThat(submission.getInputData().get("sentEmailToApplicant")).isEqualTo(false);
+        cleanupSubmissionTransmission(submission);
     }
+
 
     private Submission buildValidSubmission() {
         Submission submission = new SubmissionTestBuilder()
@@ -127,5 +145,13 @@ class HandleApplicationSignedTest {
                 .build();
         submission.setFlow("mdBenefitsFlow");
         return submission;
+    }
+
+    private void cleanupSubmissionTransmission(Submission submission) {
+        Transmission transmission = transmissionRepository.findTransmissionBySubmission(submission);
+        if (transmission != null) {
+            transmissionRepository.delete(transmission);
+        }
+        submissionRepository.delete(submission);
     }
 }

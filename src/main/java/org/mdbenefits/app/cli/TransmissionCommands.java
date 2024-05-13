@@ -1,6 +1,7 @@
 package org.mdbenefits.app.cli;
 
 import com.amazonaws.services.s3.model.AmazonS3Exception;
+import com.amazonaws.services.s3.model.Tag;
 import com.mailgun.model.message.MessageResponse;
 import formflow.library.data.Submission;
 import formflow.library.data.UserFile;
@@ -17,6 +18,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 import org.mdbenefits.app.data.Transmission;
 import org.mdbenefits.app.data.TransmissionRepository;
 import org.mdbenefits.app.data.enums.Counties;
@@ -47,6 +49,8 @@ public class TransmissionCommands {
 
     @Value("${transmission.email-recipients.queen-annes-county}")
     private String QUEEN_ANNES_COUNTY_EMAIL_RECIPIENTS;
+
+    private final int MAX_RETRY_COUNT = 5;
 
     private final TransmissionRepository transmissionRepository;
     private final CloudFileRepository cloudFileRepository;
@@ -90,7 +94,8 @@ public class TransmissionCommands {
     public void transmit() {
         log.info("[Transmission] Checking for submissions to transmit...");
 
-        List<Transmission> queuedTransmissions = transmissionRepository.findTransmissionsByStatus("QUEUED");
+        List<Transmission> queuedTransmissions =
+                transmissionRepository.findByStatusAndRetryCountLessThanOrderByCreatedAtAsc("QUEUED", MAX_RETRY_COUNT);
         if (queuedTransmissions.isEmpty()) {
             log.info("[Transmission] Nothing to transmit. Exiting.");
             return;
@@ -125,8 +130,10 @@ public class TransmissionCommands {
         transmissions.forEach(transmission -> {
             Map<String, String> errorMap = new HashMap<>();
             Submission submission = transmission.getSubmission();
+
             log.info("[Transmission {}] Sending transmission for submission with ID: {}.", transmission.getId(),
                     submission.getId());
+
             updateTransmissionStatus(transmission, TransmissionStatus.TRANSMITTING, errorMap, false);
             byte[] pdfFileBytes;
             try {
@@ -139,13 +146,14 @@ public class TransmissionCommands {
                 handleError(transmission, "pdfGeneration", error, errorMap);
                 return;
             }
+
             String county = (String) submission.getInputData().get("county");
             String folderId = getCountyFolderId(county);
             String emailRecipients = getCountyEmailRecipients(county);
             String confirmationNumber = (String) submission.getInputData().get("confirmationNumber");
-
             String pdfFileName = getPdfFilename(confirmationNumber);
 
+            // delete any existing directories with the same name
             List<File> existingDirectories = googleDriveClient.findDirectory(confirmationNumber, folderId);
             if (!existingDirectories.isEmpty()) {
                 log.info(
@@ -154,17 +162,11 @@ public class TransmissionCommands {
                         existingDirectories.size(),
                         confirmationNumber,
                         submission.getId());
-                // remove any already existing folders
-                for (File dir : existingDirectories) {
-                    if (!googleDriveClient.trashDirectory(dir.getName(), dir.getId(), errorMap)) {
-                        String error = String.format("Failed to delete existing Google Drive directory '%s'", dir.getId());
-                        handleError(transmission, null, error, errorMap);
-                        // don't return - keep going. A new folder will be created and the link to that new
-                        // folder will be sent to caseworker's office
-                    }
-                }
+
+                removeExistingGoogleDriveFolders(existingDirectories, transmission, errorMap);
             }
 
+            // create google drive folder
             GoogleDriveFolder newFolder = googleDriveClient.createFolder(folderId, confirmationNumber, errorMap);
             if (newFolder == null || newFolder.getId() == null) {
                 // something is really wrong here; note the error and skip the entry
@@ -186,35 +188,62 @@ public class TransmissionCommands {
                 return;
             }
 
-            List<UserFile> userFilesForSubmission = userFileRepositoryService.findAllBySubmission(submission);
-
-            for (int count = 0; count < userFilesForSubmission.size(); count++) {
-                UserFile file = userFilesForSubmission.get(count);
-                try {
-                    // get the file from S3
-                    CloudFile cloudFile = cloudFileRepository.get(file.getRepositoryPath());
-
-                    String fileName = getUserFileName(confirmationNumber, file, count + 1, userFilesForSubmission.size());
-                    log.info("[Transmission {}] Uploading file {} of {} for submission with ID: {}.",
-                            transmission.getId(),
-                            count + 1,
-                            userFilesForSubmission.size(),
-                            submission.getId());
-                    // send to google
-                    googleDriveClient.uploadFile(newFolder.getId(), fileName, file.getMimeType(), cloudFile.getFileBytes(),
-                            file.getFileId().toString(), errorMap);
-                } catch (AmazonS3Exception e) {
-                    String error = String.format(
-                            "Unable to upload the UserFile (ID: %s) for submission with ID: %s. Exception: %s",
-                            file.getFileId(), submission.getId(), e.getMessage());
-                    handleError(transmission, "fetchingS3File", error, errorMap);
-                }
-            }
+            sendFilesToGoogleDrive(transmission, confirmationNumber, newFolder, errorMap);
 
             sendEmailToCaseworkers(transmission, confirmationNumber, emailRecipients, newFolder.getUrl(), errorMap);
 
             updateTransmissionStatus(transmission, TransmissionStatus.COMPLETED, errorMap, true);
         });
+    }
+
+    private void removeExistingGoogleDriveFolders(List<File> directories, Transmission transmission,
+            Map<String, String> errorMap) {
+        // remove any already existing folders
+        for (File dir : directories) {
+            if (!googleDriveClient.trashDirectory(dir.getName(), dir.getId(), errorMap)) {
+                String error = String.format("Failed to delete existing Google Drive directory '%s'", dir.getId());
+                handleError(transmission, null, error, errorMap);
+                // don't return - keep going. A new folder will be created and the link to that new
+                // folder will be sent to caseworker's office. The fact that this one couldn't be trashed
+                // doesn't mean that a new one cannot be created.
+                // Removing old ones just keeps it less confusing if someone in the office does a search for a particular
+                // folder.  Then only 1 will show up.
+            }
+        }
+    }
+
+    private void sendFilesToGoogleDrive(Transmission transmission, String confirmationNumber, GoogleDriveFolder destFolder,
+            Map<String, String> errorMap) {
+        Submission submission = transmission.getSubmission();
+
+        List<UserFile> userFilesForSubmission = userFileRepositoryService.findAllBySubmission(submission);
+
+        for (int count = 0; count < userFilesForSubmission.size(); count++) {
+            UserFile file = userFilesForSubmission.get(count);
+            try {
+                // get the file from S3
+                CloudFile cloudFile = cloudFileRepository.get(file.getRepositoryPath());
+                if (!hasBeenVirusScanned(cloudFile)) {
+                    String message = String.format("Has not been scanned for virus yet. Re-queuing submission");
+                    handleRequeue(transmission, "fileVirusStatus", message, errorMap);
+                }
+
+                String fileName = getUserFileName(confirmationNumber, file, count + 1, userFilesForSubmission.size());
+                log.info("[Transmission {}] Uploading file {} of {} for submission with ID: {}.",
+                        transmission.getId(),
+                        count + 1,
+                        userFilesForSubmission.size(),
+                        submission.getId());
+                // send to google
+                googleDriveClient.uploadFile(destFolder.getId(), fileName, file.getMimeType(), cloudFile.getFileBytes(),
+                        file.getFileId().toString(), errorMap);
+            } catch (AmazonS3Exception e) {
+                String error = String.format(
+                        "Unable to upload the UserFile (ID: %s) for submission with ID: %s. Exception: %s",
+                        file.getFileId(), submission.getId(), e.getMessage());
+                handleError(transmission, "fetchingS3File", error, errorMap);
+            }
+        }
     }
 
     /**
@@ -262,8 +291,8 @@ public class TransmissionCommands {
      *
      * @param transmission the transmission to update
      * @param errorKey     the error key to use when recording the error in the error map
-     * @param errorMsg     the message to put in the log and the errorMap
-     * @param errorMap     the map of errors to get stored with the transmission in the db.
+     * @param errorMsg     the message to put in the log and the error map
+     * @param errorMap     the map of errors to get stored with the transmission in the db
      */
     private void handleError(Transmission transmission, String errorKey, String errorMsg, Map<String, String> errorMap) {
         log.error("[Transmission {}]: {}", transmission.getId(), errorMsg);
@@ -274,21 +303,47 @@ public class TransmissionCommands {
     }
 
     /**
+     * This will handle the re-queuing of a transmission.  It will 1) log info about it 2) mark the transmission as QUEUED and 3)
+     * update the transmission status in the database.
+     *
+     * @param transmission the transmission to update
+     * @param messageKey   the message key to use when recording the message in the error map
+     * @param message      the message to put in the log or error map
+     * @param errorMap     the map of errors (messages) to get stored with the transmission in the db
+     */
+    private void handleRequeue(Transmission transmission, String messageKey, String message, Map<String, String> errorMap) {
+        log.warn("[Transmission {}]: {}", transmission.getId(), message);
+        if (messageKey != null) {
+            errorMap.put(messageKey, message);
+        }
+        updateTransmissionStatus(transmission, TransmissionStatus.QUEUED, errorMap, false);
+    }
+
+    /**
      * Updates the transmission's status information, including the overall status, error messages and mark it sent (if
      * requested).
      *
      * @param transmission the transmission to update
      * @param status       the TransmissionStatus status
      * @param errorMap     a Map<String,String>
-     * @param markSent
+     * @param markSent     whether this should mark the record as sent to google drive or not
      */
     private void updateTransmissionStatus(Transmission transmission, TransmissionStatus status, Map<String, String> errorMap,
             boolean markSent) {
-        transmission.setStatus(status.name());
         transmission.setErrors(errorMap);
         if (markSent) {
             transmission.setSentAt(OffsetDateTime.now());
         }
+
+        // don't increment retry when just marking as in process
+        if (!status.equals(TransmissionStatus.TRANSMITTING)) {
+            int retryCount = transmission.getRetryCount();
+            retryCount++;
+            transmission.setRetryCount(retryCount);
+        }
+
+        transmission.setStatus(status.name());
+
         transmissionRepository.save(transmission);
     }
 
@@ -335,5 +390,28 @@ public class TransmissionCommands {
      */
     private String getCountyEmailRecipients(String county) {
         return county.equals(Counties.BALTIMORE.name()) ? BALITMORE_COUNTY_EMAIL_RECIPIENTS : QUEEN_ANNES_COUNTY_EMAIL_RECIPIENTS;
+    }
+
+    /**
+     * Checks S3 tags included in the CloudFile metadata to ensure that the file has been virus scanned.
+     *
+     * @param cloudFile
+     * @return
+     */
+    private boolean hasBeenVirusScanned(CloudFile cloudFile) {
+        Map<String, Object> metadata = cloudFile.getMetadata();
+        boolean scanned = false;
+        if (metadata != null) {
+            List<Tag> tags = (List<Tag>) metadata.getOrDefault("tags", List.of());
+            List<Tag> filteredList = tags.stream()
+                    .filter(tag -> tag.getKey().equals("scan-result"))
+                    .toList();
+            if (!filteredList.isEmpty()) {
+                if (filteredList.get(0).getValue().equalsIgnoreCase("clean")) {
+                    scanned = true;
+                }
+            }
+        }
+        return scanned;
     }
 }

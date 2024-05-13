@@ -20,6 +20,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Data
 @Table(name = "transmissions")
 public class Transmission {
+
     @Id
     @GeneratedValue
     private UUID id;
@@ -34,6 +35,8 @@ public class Transmission {
     private OffsetDateTime updatedAt;
 
     private OffsetDateTime sentAt;
+
+    private int retryCount;
 
     String status = "QUEUED";
 
