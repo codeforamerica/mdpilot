@@ -36,8 +36,9 @@ spring:
     jdbc:
       initialize-schema: always
 transmission:
-  transmission-rate-seconds: 5
-  transmission-initial-delay-seconds: 2
+  # keep these large so transmissions do not run during testing
+  transmission-rate-seconds: 10000
+  transmission-initial-delay-seconds: 10000
   email-recipients:
     baltimore-county: test@maininator.com
     queen-annes-county: test@mailinator.com

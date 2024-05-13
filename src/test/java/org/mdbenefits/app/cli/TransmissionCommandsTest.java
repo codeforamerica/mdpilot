@@ -45,9 +45,14 @@ import static org.mockito.Mockito.when;
 
 @Slf4j
 @ActiveProfiles("test")
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(OrderAnnotation.class)
+@SpringBootTest(
+        properties = {
+                "transmission.transmission-rate-seconds=5",
+                "transmission.transmission-initial-delay-seconds=2"
+        },
+        webEnvironment = WebEnvironment.RANDOM_PORT)
 public class TransmissionCommandsTest {
 
     @MockBean
