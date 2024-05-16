@@ -14,16 +14,15 @@
         <th:block
             th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
           <th:block th:ref="formContent">
-            <div class="form-card__content">
-
-            </div>
             <div class="form-card__footer">
               <th:block th:replace="~{fragments/inputs/yesOrNo :: yesOrNo(
                 inputName='incomeLessThan150',
                 ariaDescribe='header')}"/>
             </div>
-            <div><a th:text="#{expedited-snap-optional.skip-help-text}"
-                    th:href="'/flow/' + ${flow} + '/expeditedSnapIncomeAmount'"></a></div>
+            <div>
+              <a th:text="#{expedited-snap-optional.skip-help-text}"
+                 th:href="'/flow/' + ${flow} + '/expeditedSnapIncomeAmount'"></a>
+            </div>
           </th:block>
         </th:block>
       </main>

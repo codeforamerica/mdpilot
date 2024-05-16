@@ -187,6 +187,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     @Test
     void minimumAppFlow() {
         loadUserPersonalData();
+        loadProgramsScreen(List.of("programs-SNAP"));
         loadAddressData();
         loadContactData();
         testPage.navigateToFlowScreen("mdBenefitsFlow/contactInfoReview");
@@ -302,6 +303,107 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.navigateToFlowScreen("mdBenefitsFlow/contactInfoReview");
 
         assertThat(testPage.findLinkByText(message("review-contact-info.submit-incomplete"))).isNull();
+    }
+
+    @Test
+    void mainFlowMoneyOnHandQuestionDoesntShowForNonSnapApp() {
+        loadProgramsScreen(List.of("programs-TCA", "programs-RCA"));
+        loadUserPersonalData();
+        loadAddressData();
+        loadContactData();
+
+        testPage.navigateToFlowScreen("mdBenefitsFlow/ohepHeating");
+        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo(message("medical-expenses.title"));
+    }
+
+    @Test
+    void mainFlowMoneyOnHandQuestionShowsUpForSnap() {
+        loadProgramsScreen(List.of("programs-TCA", "programs-SNAP"));
+        loadUserPersonalData();
+        loadAddressData();
+        loadContactData();
+
+        testPage.navigateToFlowScreen("mdBenefitsFlow/ohepHeating");
+        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-money-on-hand.title"));
+    }
+
+    @Test
+    void mainFlowHowMuchMoneyOnHandTest() {
+        loadProgramsScreen(List.of("programs-TCA", "programs-SNAP"));
+        loadUserPersonalData();
+        loadAddressData();
+        loadContactData();
+
+        testPage.navigateToFlowScreen("mdBenefitsFlow/incomeSignPost");
+        assertThat(testPage.getTitle()).isEqualTo(message("income-signpost.title"));
+        testPage.clickContinue();
+
+        // SNAP check
+        testPage.clickButton("No");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("household-income.title"));
+        testPage.clickButton("Yes");
+
+        // householdIncomeByJob
+        testPage.clickContinue();
+
+        // householdIncomeWho
+        testPage.clickElementById("householdMemberJobAdd-you");
+        testPage.clickContinue();
+
+        // householdEmployerName
+        testPage.enter("employerName", "test employer");
+        testPage.clickContinue();
+
+        // jobPayPeriod
+        testPage.clickElementById("payPeriod-Every 2 weeks");
+        testPage.clickContinue();
+
+        // jobPayAmount
+        testPage.enter("payPeriodAmount", "200.00");
+        testPage.clickContinue();
+
+        testPage.navigateToFlowScreen("mdBenefitsFlow/householdHomeExpenses");
+        testPage.clickElementById("householdHomeExpenses-RENT");
+        testPage.clickElementById("householdHomeExpenses-PHONE");
+        testPage.clickElementById("householdHomeExpenses-ELECTRICITY");
+        testPage.clickContinue();
+
+        testPage.enter("homeExpenseRent", "200");
+        testPage.enter("homeExpensePhone", "100");
+        testPage.enter("homeExpenseElectricity", "120");
+
+        testPage.clickContinue();
+
+        // ohepRent
+        testPage.clickContinue();
+        // ohepElectricity
+        testPage.clickContinue();
+        // ohepHeating
+        testPage.clickContinue();
+
+        // Expedited SNAP check pages
+
+        assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-money-on-hand.title"));
+        testPage.clickButton("Yes");
+        assertThat(testPage.getTitle()).isEqualTo(message("medical-expenses.title"));
+
+        testPage.goBack();
+        testPage.clickButton("No");
+
+        assertThat(testPage.getTitle()).isEqualTo(message("household-expedited-snap-amount.title"));
+        testPage.enter("expeditedMoneyOnHandAmount", "200");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("household-expedited-snap-check.title"));
+        testPage.goBack();
+
+        testPage.enter("expeditedMoneyOnHandAmount", "2000");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("medical-expenses.title"));
     }
 
     @Test
@@ -557,9 +659,9 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickElementById("none__checkbox-additionalIncome");
         testPage.clickContinue();
 
-        assertThat(testPage.getTitle()).isEqualTo(message("moneyonhand-types.title"));
-        testPage.clickElementById("none__checkbox-moneyOnHandTypes");
-        testPage.clickContinue();
+        //assertThat(testPage.getTitle()).isEqualTo(message("moneyonhand-types.title"));
+        //testPage.clickElementById("none__checkbox-moneyOnHandTypes");
+        //testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("expenses-signpost.title"));
         testPage.clickContinue();
@@ -690,10 +792,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         assertThat(testPage.getTitle()).isEqualTo(message("additional-income.title"));
         testPage.clickElementById("none__checkbox-additionalIncome");
-        testPage.clickContinue();
-
-        assertThat(testPage.getTitle()).isEqualTo(message("moneyonhand-types.title"));
-        testPage.clickElementById("none__checkbox-moneyOnHandTypes");
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("expenses-signpost.title"));

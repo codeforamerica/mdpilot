@@ -17,8 +17,6 @@ public class IncomeCalculator {
     }
 
     public Double totalFutureEarnedIncome() {
-        // TODO: check for annualIncome key and use that if it is entered?
-//    if submission.getInputData().
         var jobs = (List<Map<String, Object>>) submission.getInputData()
                 .getOrDefault("income", new ArrayList<Map<String, Object>>());
         var completedJobs = jobs.stream().filter(job -> job.get(Submission.ITERATION_IS_COMPLETE_KEY).equals(true)).toList();
@@ -29,6 +27,11 @@ public class IncomeCalculator {
     }
 
     public static double futureIncomeForJob(Map<String, Object> job) throws NumberFormatException {
+
+        // right now payPeriodAmount is the amount of money they made
+        // for the job in the last 30 days. No calculations necessary
+        return Double.parseDouble(job.getOrDefault("payPeriodAmount", "0").toString());
+/*
         if (job.getOrDefault("jobPaidByHour", "false").toString().equals("true")) {
             var hoursPerWeek = Double.parseDouble(job.get("hoursPerWeek").toString());
             var hourlyWage = Double.parseDouble(job.get("hourlyWage").toString());
@@ -50,5 +53,6 @@ public class IncomeCalculator {
             // based on 30D estimate
             return payPeriodAmount;
         }
+ */
     }
 }

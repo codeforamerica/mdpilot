@@ -16,11 +16,11 @@
           <th:block th:ref="formContent">
             <div class="form-card__content">
               <th:block
-                  th:replace="'fragments/inputs/money' :: money(inputName='householdIncomeLast30Days', ariaLabel='header', placeholder='0.00')"/>
+                  th:replace="~{fragments/inputs/money :: money(inputName='householdIncomeLast30Days', ariaLabel='header', placeholder='0.00')}"/>
             </div>
             <div class="form-card__footer">
               <th:block
-                  th:replace="fragments/inputs/submitButton :: submitButton( text=#{general.inputs.continue})"/>
+                  th:replace="~{fragments/inputs/submitButton :: submitButton( text=#{general.inputs.continue})}"/>
               <div><a th:text="#{expedited-snap-optional.skip-help-text}"
                       th:href="'/flow/' + ${flow} + '/expeditedSnapHomeExpenses'"></a></div>
             </div>
