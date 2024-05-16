@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html th:lang="${#locale.language}">
-<head th:replace="~{fragments/head :: head(title=#{expedited-snap-money-on-hand.title})}"></head>
+<head th:replace="~{fragments/head :: head(title=#{expedited-snap-income.title})}"></head>
 <body>
 <div class="page-wrapper">
   <div th:replace="~{fragments/toolbar :: toolbar}"></div>
@@ -8,22 +8,17 @@
     <div class="grid">
       <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
-        <th:block th:replace="~{fragments/icons :: assetsCashAccounts}"></th:block>
+        <th:block th:replace="~{fragments/icons :: household}"></th:block>
         <th:block
-            th:replace="~{fragments/cardHeader :: cardHeader(header=#{expedited-snap-money-on-hand.header}, subtext=#{expedited-snap-money-on-hand.subheader})}"/>
+            th:replace="~{fragments/cardHeader :: cardHeader(header=#{expedited-snap-income.header})}"/>
         <th:block
             th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
           <th:block th:ref="formContent">
-            <div class="form-card__content">
-
-            </div>
             <div class="form-card__footer">
               <th:block th:replace="~{fragments/inputs/yesOrNo :: yesOrNo(
-                inputName='householdMoneyOnHandLessThan100',
+                inputName='incomeLessThan150',
                 ariaDescribe='header')}"/>
             </div>
-            <!-- <div><a th:text="#{expedited-snap-optional.skip-help-text}"
-                     th:href="'/flow/' + ${flow} + '/expeditedSnapMoneyOnHandAmount'"></a></div> -->
           </th:block>
         </th:block>
       </main>

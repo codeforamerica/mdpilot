@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.mdbenefits.app.data.enums.HomeExpensesType;
+import org.mdbenefits.app.utils.ExpenseCalculator;
+import org.mdbenefits.app.utils.IncomeCalculator;
 import org.springframework.stereotype.Component;
 
 
@@ -21,41 +23,37 @@ public class CheckExpeditedSnapEligibility implements Action {
     @Override
     public void run(Submission submission) {
         Map<String, Object> inputData = submission.getInputData();
-        if (inputData.getOrDefault("isApplyingForExpeditedSnap", "false").toString().equals("true")) {
+        boolean isApplyingForExpeditedSnap = Boolean.parseBoolean(
+                inputData.getOrDefault("isApplyingForExpeditedSnap", "false").toString());
 
-            BigDecimal moneyOnHandAmount = convertToBigDecimal(
-                    inputData.getOrDefault("expeditedMoneyOnHandAmount", "0").toString());
-            BigDecimal householdIncomeAmount = convertToBigDecimal(
-                    inputData.getOrDefault("householdIncomeLast30Days", "0").toString());
+        ExpenseCalculator expenseCalculator = new ExpenseCalculator(submission);
 
-            boolean isMigrantOrSeasonalFarmWorker = inputData.getOrDefault("migrantOrSeasonalFarmWorkerInd", "false").toString()
-                    .equals("true");
-            boolean isBelowMoneyOnHandThreshhold = inputData.getOrDefault("householdMoneyOnHandLessThan100", "false").toString()
-                    .equals("true");
-            boolean isBelowIncomeThreshhold = inputData.getOrDefault("incomeLessThan150", "false").toString().equals("true");
-
-            boolean isEligibleByIncomeAndCashOnHandLessThanExpenses =
-                    householdIncomeAmount.add(moneyOnHandAmount).compareTo(calculateUtilitiesExpenses(inputData)) <= 0;
-
-            boolean isEligibleForExpeditedSnap =
-                    (isBelowMoneyOnHandThreshhold && isBelowIncomeThreshhold) || (
-                            isMigrantOrSeasonalFarmWorker && isBelowMoneyOnHandThreshhold)
-                            || calculateUtilitiesExpenses(inputData).compareTo(BigDecimal.ZERO) > 0
-                            && isEligibleByIncomeAndCashOnHandLessThanExpenses;
-            submission.getInputData().put("isEligibleForExpeditedSnap", String.valueOf(isEligibleForExpeditedSnap));
+        BigDecimal moneyOnHandAmount = convertToBigDecimal(
+                inputData.getOrDefault("expeditedMoneyOnHandAmount", "0").toString());
+        BigDecimal householdIncomeAmount = convertToBigDecimal(
+                inputData.getOrDefault("householdIncomeLast30Days", "0").toString());
+        if (!isApplyingForExpeditedSnap) {
+            // they are in the main flow, so we need to use the income they entered there.
+            IncomeCalculator incomeCalculator = new IncomeCalculator(submission);
+            householdIncomeAmount = BigDecimal.valueOf(incomeCalculator.totalFutureEarnedIncome())
+                    .setScale(2, RoundingMode.HALF_UP);
         }
-    }
 
-    private BigDecimal calculateUtilitiesExpenses(Map<String, Object> inputData) {
-        List<String> allExpenses = new java.util.ArrayList<>();
-        if (!isNoneOfAboveSelection(inputData.get("householdHomeExpenses[]"))) {
-            List<String> utilityTypes = (List<String>) inputData.get("householdHomeExpenses[]");
-            utilityTypes.forEach(val -> {
-                String inputFieldName = HomeExpensesType.getEnumByName(val).getInputFieldName();
-                allExpenses.add(inputData.getOrDefault(inputFieldName, "0").toString());
-            });
-        }
-        return allExpenses.stream().map(n -> convertToBigDecimal(n)).reduce(BigDecimal.ZERO, BigDecimal::add);
+        boolean isMigrantOrSeasonalFarmWorker = inputData.getOrDefault("migrantOrSeasonalFarmWorkerInd", "false").toString()
+                .equals("true");
+        boolean isBelowMoneyOnHandThreshhold = inputData.getOrDefault("householdMoneyOnHandLessThan100", "false").toString()
+                .equals("true");
+        boolean isBelowIncomeThreshhold = inputData.getOrDefault("incomeLessThan150", "false").toString().equals("true");
+
+        boolean isEligibleByIncomeAndCashOnHandLessThanExpenses =
+                householdIncomeAmount.add(moneyOnHandAmount).compareTo(expenseCalculator.totalUtilitiesExpenses()) <= 0;
+
+        boolean isEligibleForExpeditedSnap =
+                (isBelowMoneyOnHandThreshhold && isBelowIncomeThreshhold) || (
+                        isMigrantOrSeasonalFarmWorker && isBelowMoneyOnHandThreshhold)
+                        || expenseCalculator.totalUtilitiesExpenses().compareTo(BigDecimal.ZERO) > 0
+                        && isEligibleByIncomeAndCashOnHandLessThanExpenses;
+        submission.getInputData().put("isEligibleForExpeditedSnap", String.valueOf(isEligibleForExpeditedSnap));
     }
 
     private BigDecimal convertToBigDecimal(String value) {

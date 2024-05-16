@@ -30,12 +30,6 @@ flow:
       - name: choosePrograms
   choosePrograms:
     nextScreens:
-      # we are not doing expeditedSnap during the first phase, but leaving this in
-      # for v1.5 phase
-      #      - name: expeditedSnapNotice
-      #  expeditedSnapNotice:
-      #    condition: ProgramsIncludeSnap
-      #    nextScreens:
       - name: ohepNotice
   ohepNotice:
     condition: ProgramsIncludeSnapOrTCA
@@ -202,6 +196,12 @@ flow:
   incomeSignPost:
     nextScreens:
       - name: householdIncome
+        condition: NotSnapOrHasAlreadyAnsweredIncome150Check
+      - name: householdEarnsLessThan150Check
+        condition: IsApplyingForSnap
+  householdEarnsLessThan150Check:
+    nextScreens:
+      - name: householdIncome
   householdIncome:
     nextScreens:
       - name: householdIncomeByJob
@@ -238,11 +238,8 @@ flow:
     nextScreens:
       - name: householdAdditionalIncomeAmount
         condition: HasAdditionalIncome
-      - name: householdMoneyOnHand
+      - name: expensesSignPost
   householdAdditionalIncomeAmount:
-    nextScreens:
-      - name: householdMoneyOnHand
-  householdMoneyOnHand:
     nextScreens:
       - name: expensesSignPost
   expensesSignPost:
@@ -268,6 +265,24 @@ flow:
     nextScreens:
       - name: ohepHeating
   ohepHeating:
+    nextScreens:
+      - name: householdMoneyOnHand
+        condition: IsApplyingForSnap
+      - name: householdMedicalExpenses
+  householdMoneyOnHand:
+    beforeSaveAction: CheckExpeditedSnapEligibility
+    nextScreens:
+      - name: householdMoneyOnHandAmount
+        condition: HasMoreThan100OnHand
+      - name: householdMedicalExpenses
+  householdMoneyOnHandAmount:
+    beforeSaveAction: CheckExpeditedSnapEligibility
+    nextScreens:
+      - name: householdMoneyOnHandVsExpenses
+        condition: HasMoreExpensesThanMoney
+      - name: householdMedicalExpenses
+  householdMoneyOnHandVsExpenses:
+    beforeSaveAction: CheckExpeditedSnapEligibility
     nextScreens:
       - name: householdMedicalExpenses
   householdMedicalExpenses:
