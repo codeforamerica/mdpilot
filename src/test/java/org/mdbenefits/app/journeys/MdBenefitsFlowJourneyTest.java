@@ -47,7 +47,8 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.navigateToFlowScreen("mdBenefitsFlow/selectApplication");
         testPage.clickElementById("none__checkbox-applicationInfo");
         testPage.clickContinue();
-        assertThat(testPage.getTitle()).isEqualTo(message("help-needed.title"));
+
+        assertThat(testPage.getTitle()).isEqualTo(message("recertification-check.title"));
     }
 
     @Test
@@ -390,8 +391,21 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         testPage.clickElementById("none__checkbox-applicationInfo");
         testPage.clickContinue();
-        assertThat(testPage.getTitle()).isEqualTo("Select help");
 
+        assertThat(testPage.getTitle()).isEqualTo(message("recertification-check.title"));
+        testPage.clickElementById("needsToReCertify-true");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("redirect.mdthink.title"));
+        testPage.goBack();
+
+        testPage.clickElementById("needsToReCertify-false");
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("continue-with-site.title"));
+        testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo("Select help");
         testPage.clickElementById("helpNeeded-FOOD");
         testPage.clickElementById("helpNeeded-CHILDREN");
         testPage.clickContinue();
