@@ -4,6 +4,9 @@ flow:
     nextScreens:
       - name: redirectToMDThink
         condition: ShouldRedirectToMDThink
+      - name: myMdThinkOffboardNotice
+  myMdThinkOffboardNotice:
+    nextScreens:
       - name: selectApplication
   selectApplication:
     nextScreens:
