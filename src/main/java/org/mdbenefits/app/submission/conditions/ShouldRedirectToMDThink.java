@@ -10,8 +10,7 @@ import org.mdbenefits.app.data.enums.Counties;
 import org.springframework.stereotype.Component;
 
 /**
- * If certain conditions are met, we will have the flow go to a page
- * that recommends the user visit myMDTHINK instead.
+ * If certain conditions are met, we will have the flow go to a page that recommends the user visit myMDTHINK instead.
  * <p>
  * This will return true (for a redirect) if:
  * <ol>
@@ -24,8 +23,8 @@ import org.springframework.stereotype.Component;
 public class ShouldRedirectToMDThink implements Condition {
 
     private final List<String> acceptableCounties = List.of(
-        Counties.BALTIMORE.name(),
-        Counties.QUEEN_ANNES.name()
+            Counties.BALTIMORE.name(),
+            Counties.QUEEN_ANNES.name()
     );
 
     @Override
@@ -34,13 +33,21 @@ public class ShouldRedirectToMDThink implements Condition {
 
         String county = (String) inputData.getOrDefault("county", "");
         List<String> applicationInfoList =
-            (List<String>)inputData.getOrDefault("applicationInfo[]", new ArrayList<String>());
+                (List<String>) inputData.getOrDefault("applicationInfo[]", new ArrayList<String>());
+
+        // a user can get redirected to myMDTHINK for one of three reasons tested below.
+        // these three things are collected on three different pages, so this
+        // condition is used on multiple pages.
 
         if (!county.isBlank() && !acceptableCounties.contains(county)) {
             return true;
         }
 
         if (!applicationInfoList.isEmpty() && !applicationInfoList.contains(ApplicantObjective.OTHER.name())) {
+            return true;
+        }
+
+        if (inputData.getOrDefault("needsToReCertify", "false").toString().equalsIgnoreCase("true")) {
             return true;
         }
 

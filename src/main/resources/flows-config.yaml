@@ -12,11 +12,19 @@ flow:
     nextScreens:
       - name: redirectToMDThink
         condition: ShouldRedirectToMDThink
-      - name: selectHelpNeeded
-  # this page is offboarding them
+      - name: checkReCertificationStatus
+  checkReCertificationStatus:
+    nextScreens:
+      - name: redirectToMDThink
+        condition: ShouldRedirectToMDThink
+      - name: continueWithThisSite
+  # this page is offboarding them to myMDTHINK
   redirectToMDThink:
     nextScreens:
       - name: redirectToMDThink
+  continueWithThisSite:
+    nextScreens:
+      - name: selectHelpNeeded
   selectHelpNeeded:
     nextScreens:
       - name: choosePrograms

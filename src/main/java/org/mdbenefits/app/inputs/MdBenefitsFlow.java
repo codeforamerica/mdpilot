@@ -26,6 +26,9 @@ public class MdBenefitsFlow extends FlowInputs {
     private List<String> applicationInfo;
 
     @NotEmpty(message = "{error.missing-general}")
+    private String needsToReCertify;
+
+    @NotEmpty(message = "{error.missing-general}")
     private String county;
 
     // Choose help
