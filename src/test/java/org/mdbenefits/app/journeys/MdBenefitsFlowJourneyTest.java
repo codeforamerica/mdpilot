@@ -62,7 +62,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.navigateToFlowScreen("mdBenefitsFlow/county");
         testPage.selectFromDropdown("county", message(Counties.BALTIMORE.getLabelSrc()));
         testPage.clickContinue();
-        assertThat(testPage.getTitle()).isEqualTo(message("select-app.title"));
+        assertThat(testPage.getTitle()).isEqualTo(message("offboarding-information.title"));
     }
 
     @Test
@@ -382,6 +382,10 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         testPage.selectFromDropdown("county", message(Counties.BALTIMORE.getLabelSrc()));
         testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("offboarding-information.title"));
+        testPage.clickButton(message("offboarding-information.continue-text"));
+
         assertThat(testPage.getTitle()).isEqualTo("Select application");
 
         testPage.clickElementById("none__checkbox-applicationInfo");
