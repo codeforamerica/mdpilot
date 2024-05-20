@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.SubmissionTestBuilder;
 import org.mdbenefits.app.data.Transmission;
 import org.mdbenefits.app.data.TransmissionRepository;
-import org.mdbenefits.app.data.enums.Counties;
+import org.mdbenefits.app.data.enums.County;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mockito;
@@ -123,7 +123,7 @@ class HandleApplicationSignedTest {
     private Submission buildValidSubmission() {
         Submission submission = new SubmissionTestBuilder()
                 .with("emailAddress", "foo@example.com")
-                .with("county", Counties.QUEEN_ANNES.name())
+                .with("county", County.QUEEN_ANNES.name())
                 .build();
         submission.setFlow("mdBenefitsFlow");
         return submission;

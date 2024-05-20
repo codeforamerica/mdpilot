@@ -6,7 +6,7 @@ import formflow.library.address_validation.ValidatedAddress;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.enums.ApplicantObjective;
-import org.mdbenefits.app.data.enums.Counties;
+import org.mdbenefits.app.data.enums.County;
 import org.mdbenefits.app.data.enums.EthnicityType;
 import org.mdbenefits.app.testutils.AbstractBasePageTest;
 import org.openqa.selenium.By;
@@ -55,13 +55,13 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     void redirectToMyMDTHINKOnUnsupportedCounty() {
         testPage.navigateToFlowScreen("mdBenefitsFlow/county");
         // should redirect to MyMDTHINK
-        testPage.selectFromDropdown("county", message(Counties.OTHER.getLabelSrc()));
+        testPage.selectFromDropdown("county", message(County.OTHER.getLabelSrc()));
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("redirect.mdthink.title"));
 
         // should not redirect
         testPage.navigateToFlowScreen("mdBenefitsFlow/county");
-        testPage.selectFromDropdown("county", message(Counties.BALTIMORE.getLabelSrc()));
+        testPage.selectFromDropdown("county", message(County.BALTIMORE.getLabelSrc()));
         testPage.clickContinue();
         assertThat(testPage.getTitle()).isEqualTo(message("offboarding-information.title"));
     }
@@ -164,7 +164,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
     @Test
     void testEmailAddresses() {
-        preloadCountyScreen(message(Counties.BALTIMORE.getLabelSrc()));
+        preloadCountyScreen(message(County.BALTIMORE.getLabelSrc()));
         loadUserPersonalData();
         loadAddressData();
         testPage.navigateToFlowScreen("mdBenefitsFlow/contactInfo");
@@ -381,7 +381,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickButton("Apply Now");
         assertThat(testPage.getTitle()).isEqualTo("County");
 
-        testPage.selectFromDropdown("county", message(Counties.BALTIMORE.getLabelSrc()));
+        testPage.selectFromDropdown("county", message(County.BALTIMORE.getLabelSrc()));
         testPage.clickContinue();
 
         assertThat(testPage.getTitle()).isEqualTo(message("offboarding-information.title"));
@@ -807,11 +807,11 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
     @Test
     void howThisWorksShouldShowCorrectEmailForCounty() {
-        preloadCountyScreen(message(Counties.BALTIMORE.getLabelSrc()));
+        preloadCountyScreen(message(County.BALTIMORE.getLabelSrc()));
         testPage.navigateToFlowScreen("mdBenefitsFlow/howThisWorks");
         testPage.findAccordionByButtonText("How to add documents").click();
         assertThat(testPage.findElementById("county-document-email").getText()).contains("baltimorecounty.dmc@maryland.gov");
-        preloadCountyScreen(message(Counties.QUEEN_ANNES.getLabelSrc()));
+        preloadCountyScreen(message(County.QUEEN_ANNES.getLabelSrc()));
         testPage.navigateToFlowScreen("mdBenefitsFlow/howThisWorks");
         testPage.findAccordionByButtonText("How to add documents").click();
         assertThat(testPage.findElementById("county-document-email").getText()).contains("qacfia.customeraccount@maryland.gov");
@@ -840,7 +840,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
     @Test
     void confirmationPageShouldShowEmailMsg() {
-        preloadCountyScreen(message(Counties.BALTIMORE.getLabelSrc()));
+        preloadCountyScreen(message(County.BALTIMORE.getLabelSrc()));
         loadUserPersonalData();
         loadAddressData();
         loadContactData(true);
@@ -856,7 +856,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
     @Test
     void confirmationPageShouldNotShowEmailMsg() {
-        preloadCountyScreen(message(Counties.BALTIMORE.getLabelSrc()));
+        preloadCountyScreen(message(County.BALTIMORE.getLabelSrc()));
         loadUserPersonalData();
         loadAddressData();
         loadContactData(false);
