@@ -16,16 +16,12 @@ import org.springframework.stereotype.Component;
  * <ol>
  *   <li>they are in a county this pilot is not working in, or</li>
  *   <li>they have a need that this pilot is unable to work with</li>
+ *   <li>they are re-certifying versus applying for the first time</li>
  * </ol>
  * </p>
  */
 @Component
 public class ShouldRedirectToMDThink implements Condition {
-
-    private final List<String> acceptableCounties = List.of(
-            Counties.BALTIMORE.name(),
-            Counties.QUEEN_ANNES.name()
-    );
 
     @Override
     public Boolean run(Submission submission) {
@@ -35,22 +31,10 @@ public class ShouldRedirectToMDThink implements Condition {
         List<String> applicationInfoList =
                 (List<String>) inputData.getOrDefault("applicationInfo[]", new ArrayList<String>());
 
-        // a user can get redirected to myMDTHINK for one of three reasons tested below.
-        // these three things are collected on three different pages, so this
-        // condition is used on multiple pages.
+        return (!county.isBlank() && !Counties.getCountyByName(county).isInPilot()) ||
+                (!applicationInfoList.isEmpty() && !applicationInfoList.contains(ApplicantObjective.OTHER.name())) ||
+                (inputData.getOrDefault("needsToReCertify", "false")
+                        .toString().equalsIgnoreCase("true"));
 
-        if (!county.isBlank() && !acceptableCounties.contains(county)) {
-            return true;
-        }
-
-        if (!applicationInfoList.isEmpty() && !applicationInfoList.contains(ApplicantObjective.OTHER.name())) {
-            return true;
-        }
-
-        if (inputData.getOrDefault("needsToReCertify", "false").toString().equalsIgnoreCase("true")) {
-            return true;
-        }
-
-        return false;
     }
 }
