@@ -58,6 +58,9 @@ dependencies {
     implementation 'com.google.oauth-client:google-oauth-client-jetty:1.36.0'
     implementation 'com.google.apis:google-api-services-drive:v3-rev20240327-2.0.0'
 
+    implementation 'io.sentry:sentry-spring-boot-starter-jakarta:7.6.0'
+    implementation 'io.sentry:sentry-logback:7.6.0'
+
     compileOnly 'org.projectlombok:lombok'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
