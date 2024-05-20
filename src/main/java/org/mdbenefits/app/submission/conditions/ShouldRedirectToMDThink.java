@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.mdbenefits.app.data.enums.ApplicantObjective;
-import org.mdbenefits.app.data.enums.Counties;
+import org.mdbenefits.app.data.enums.County;
 import org.springframework.stereotype.Component;
 
 /**
@@ -31,7 +31,7 @@ public class ShouldRedirectToMDThink implements Condition {
         List<String> applicationInfoList =
                 (List<String>) inputData.getOrDefault("applicationInfo[]", new ArrayList<String>());
 
-        return (!county.isBlank() && !Counties.getCountyByName(county).isInPilot()) ||
+        return (!county.isBlank() && !County.getCountyByName(county).isInPilot()) ||
                 (!applicationInfoList.isEmpty() && !applicationInfoList.contains(ApplicantObjective.OTHER.name())) ||
                 (inputData.getOrDefault("needsToReCertify", "false")
                         .toString().equalsIgnoreCase("true"));

@@ -20,7 +20,7 @@
                 <th:block
                     th:replace="~{fragments/inputs/selectOptionPlaceholder :: selectOptionPlaceholder(optionText=#{county.select})}"/>
                 <th:block
-                    th:each="countyEnum : ${T(org.mdbenefits.app.data.enums.Counties).values()}">
+                    th:each="countyEnum : ${T(org.mdbenefits.app.data.enums.County).values()}">
                   <th:block
                       th:replace="~{fragments/inputs/selectOption :: selectOption(
                                                 value=${countyEnum.name()},

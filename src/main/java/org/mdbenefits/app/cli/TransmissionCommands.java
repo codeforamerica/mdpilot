@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.mdbenefits.app.data.Transmission;
 import org.mdbenefits.app.data.TransmissionRepository;
-import org.mdbenefits.app.data.enums.Counties;
+import org.mdbenefits.app.data.enums.County;
 import org.mdbenefits.app.data.enums.TransmissionStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -324,7 +324,7 @@ public class TransmissionCommands {
      * @return String containing the Google Drive ID.
      */
     private String getCountyFolderId(String county) {
-        return county.equals(Counties.BALTIMORE.name()) ? BALTIMORE_COUNTY_GOOGLE_DIR_ID : QUEEN_ANNES_COUNTY_GOOGLE_DIR_ID;
+        return county.equals(County.BALTIMORE.name()) ? BALTIMORE_COUNTY_GOOGLE_DIR_ID : QUEEN_ANNES_COUNTY_GOOGLE_DIR_ID;
     }
 
     /**
@@ -334,6 +334,6 @@ public class TransmissionCommands {
      * @return
      */
     private String getCountyEmailRecipients(String county) {
-        return county.equals(Counties.BALTIMORE.name()) ? BALITMORE_COUNTY_EMAIL_RECIPIENTS : QUEEN_ANNES_COUNTY_EMAIL_RECIPIENTS;
+        return county.equals(County.BALTIMORE.name()) ? BALITMORE_COUNTY_EMAIL_RECIPIENTS : QUEEN_ANNES_COUNTY_EMAIL_RECIPIENTS;
     }
 }

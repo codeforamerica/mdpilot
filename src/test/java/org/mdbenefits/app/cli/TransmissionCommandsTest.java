@@ -22,7 +22,7 @@ import org.mdbenefits.app.data.enums.EthnicityType;
 import org.mdbenefits.app.data.SubmissionTestBuilder;
 import org.mdbenefits.app.data.Transmission;
 import org.mdbenefits.app.data.TransmissionRepository;
-import org.mdbenefits.app.data.enums.Counties;
+import org.mdbenefits.app.data.enums.County;
 import org.mdbenefits.app.data.enums.ProgramType;
 import org.mdbenefits.app.data.enums.RaceType;
 import org.mdbenefits.app.data.enums.TransmissionStatus;
@@ -86,7 +86,7 @@ public class TransmissionCommandsTest {
                 .withHouseholdMemberApplying("Betty", "White", "10", "2", "1999",
                         "Child", "F", "NeverMarried", "firstGrade", "123456789",
                         "Yes", "Yes", List.of(RaceType.ASIAN.name()), EthnicityType.NOT_HISPANIC_OR_LATINO.name())
-                .with("county", Counties.BALTIMORE.name())
+                .with("county", County.BALTIMORE.name())
                 .build()
         );
 
@@ -97,7 +97,7 @@ public class TransmissionCommandsTest {
                 .withHouseholdMemberApplying("Betty", "Red", "10", "2", "1999",
                         "Child", "F", "NeverMarried", "firstGrade", "123456789",
                         "Yes", "Yes", List.of(RaceType.ASIAN.name()), EthnicityType.NOT_HISPANIC_OR_LATINO.name())
-                .with("county", Counties.BALTIMORE.name())
+                .with("county", County.BALTIMORE.name())
                 .build()
         );
 
@@ -108,7 +108,7 @@ public class TransmissionCommandsTest {
                 .withHouseholdMemberApplying("Malcolm", "Tester", "10", "2", "1999",
                         "Child", "F", "NeverMarried", "firstGrade", "123456789",
                         "Yes", "Yes", List.of(RaceType.ASIAN.name()), EthnicityType.NOT_HISPANIC_OR_LATINO.name())
-                .with("county", Counties.BALTIMORE.name())
+                .with("county", County.BALTIMORE.name())
                 .build()
         );
 
