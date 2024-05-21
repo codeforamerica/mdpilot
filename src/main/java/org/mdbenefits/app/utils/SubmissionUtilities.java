@@ -130,14 +130,15 @@ public class SubmissionUtilities {
     }
 
     public static String householdMemberFullNameFormatted(Map<String, Object> householdMember) {
-        String fullName = String.format("%s, %s", householdMember.get("householdMemberLastName"), householdMember.get("householdMemberFirstName"));
+        String fullName = String.format("%s, %s", householdMember.get("householdMemberLastName"),
+                householdMember.get("householdMemberFirstName"));
         if (householdMember.get("householdMemberMiddleName") != null) {
             fullName += ", " + householdMember.get("householdMemberMiddleName");
         }
         return fullName;
     }
 
-    public static String applicantFullNameFormatted(Submission submission){
+    public static String applicantFullNameFormatted(Submission submission) {
         Map<String, Object> inputData = submission.getInputData();
 
         String fullName = String.format("%s, %s", inputData.get("lastName"), inputData.get("firstName"));
@@ -165,7 +166,7 @@ public class SubmissionUtilities {
         List<HashMap<String, Object>> incomeSubflowIterations = (List<HashMap<String, Object>>) submission.getInputData()
                 .getOrDefault("income", new ArrayList<HashMap<String, Object>>());
 
-        for (var job : incomeSubflowIterations.stream().filter(job -> 
+        for (var job : incomeSubflowIterations.stream().filter(job ->
                 job.get(ITERATION_IS_COMPLETE_KEY).equals(true)).toList()) {
             var item = new HashMap<String, Object>();
             var name = job.get("householdMemberJobAdd").equals("you") ? applicantFullName : job.get("householdMemberJobAdd");
@@ -181,7 +182,7 @@ public class SubmissionUtilities {
 
             // TODO: add wage amount and not future income
             var payAmount = job.getOrDefault("jobPaidByHour", "false").equals("true") ? job.get("hourlyWage").toString()
-                    : job.get("payPeriodAmount").toString();
+                    : job.get("payAmountFor30Days").toString();
             item.put("income", formatMoney(payAmount));
             item.put("uuid", job.get("uuid"));
 

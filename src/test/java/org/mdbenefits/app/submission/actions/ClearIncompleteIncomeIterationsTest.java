@@ -21,12 +21,12 @@ class ClearIncompleteIncomeIterationsTest {
         job1.put("uuid", "complete iteration");
         job1.put("employerName", "ACME Inc");
         job1.put("payPeriod", "It varies");
-        job1.put("payPeriodAmount", 400.0);
+        job1.put("payAmountFor30Days", 400.0);
         var job2 = new HashMap<String, Object>();
         job2.put(Submission.ITERATION_IS_COMPLETE_KEY, false);
         job2.put("uuid", "Current Iteration");
         job2.put("employerName", "Monsters Inc");
-        job2.put("payPeriodAmount", 200.0);
+        job2.put("payAmountFor30Days", 200.0);
         var job3 = new HashMap<String, Object>();
         job3.put(Submission.ITERATION_IS_COMPLETE_KEY, false);
         job3.put("uuid", "Incomplete Iteration");
@@ -38,7 +38,8 @@ class ClearIncompleteIncomeIterationsTest {
         inputData.put("income", income);
         submission.setInputData(inputData);
         clearIncompleteIncomeIterations.run(submission, "Current Iteration");
-        ArrayList<HashMap<String, Object>> incomeSubflow = (ArrayList<HashMap<String, Object>>) submission.getInputData().get("income");
+        ArrayList<HashMap<String, Object>> incomeSubflow = (ArrayList<HashMap<String, Object>>) submission.getInputData()
+                .get("income");
         assertThat(incomeSubflow).size().isEqualTo(2);
         assertThat(incomeSubflow).doesNotContain(job3);
         assertThat(incomeSubflow).isEqualTo(List.of(job1, job2));

@@ -49,10 +49,11 @@ public class CheckExpeditedSnapEligibility implements Action {
                 householdIncomeAmount.add(moneyOnHandAmount).compareTo(expenseCalculator.totalUtilitiesExpenses()) <= 0;
 
         boolean isEligibleForExpeditedSnap =
-                (isBelowMoneyOnHandThreshhold && isBelowIncomeThreshhold) || (
-                        isMigrantOrSeasonalFarmWorker && isBelowMoneyOnHandThreshhold)
-                        || expenseCalculator.totalUtilitiesExpenses().compareTo(BigDecimal.ZERO) > 0
-                        && isEligibleByIncomeAndCashOnHandLessThanExpenses;
+                (isBelowMoneyOnHandThreshhold && isBelowIncomeThreshhold) ||
+                        (isMigrantOrSeasonalFarmWorker && isBelowMoneyOnHandThreshhold) ||
+                        (expenseCalculator.totalUtilitiesExpenses().compareTo(BigDecimal.ZERO) > 0) &&
+                                isEligibleByIncomeAndCashOnHandLessThanExpenses;
+
         submission.getInputData().put("isEligibleForExpeditedSnap", String.valueOf(isEligibleForExpeditedSnap));
     }
 

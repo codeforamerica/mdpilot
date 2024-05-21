@@ -19,20 +19,6 @@ public class ExpenseCalculator {
     public ExpenseCalculator(Submission submission) {
         this.submission = submission;
     }
-/*
-    public BigDecimal totalLivingExpenses() {
-        Map<String, Object> inputData = submission.getInputData();
-        List<String> expenses = (List) inputData.getOrDefault("householdHomeExpenses[]", List.of());
-
-        BigDecimal sum = new BigDecimal("0.0");
-        for (HomeExpensesType expense : HomeExpensesType.values()) {
-            if (expenses.contains(expense.name())) {
-                sum = sum.add(BigDecimal.valueOf(Double.parseDouble(inputData.get(expense.getInputFieldName()).toString())));
-            }
-        }
-        return sum;
-    }
- */
 
     public BigDecimal totalUtilitiesExpenses() {
         List<BigDecimal> expenseAmounts = new java.util.ArrayList<>();

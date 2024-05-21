@@ -192,12 +192,9 @@ public class MdBenefitsFlow extends FlowInputs {
     @NotBlank(message = "{error.missing-pay-period}")
     private String payPeriod;
 
-    // NOTE: this is really pay for the last 30 days
-    // and not the payPeriodAmount!  Don't multiply it out
-    // unless other logic is changed.
     @Money(message = "{error.invalid-money}")
     @NotBlank(message = "{error.missing-dollar-amount}")
-    private String payPeriodAmount;
+    private String payAmountFor30Days;
 
     @NotEmpty(message = "{error.missing-general}")
     private List<String> additionalIncome;
