@@ -59,7 +59,7 @@ dependencies {
     implementation 'com.google.apis:google-api-services-drive:v3-rev20240509-2.0.0'
 
     implementation 'io.sentry:sentry-spring-boot-starter-jakarta:7.9.0'
-    implementation 'io.sentry:sentry-logback:7.6.0'
+    implementation 'io.sentry:sentry-logback:7.9.0'
 
     compileOnly 'org.projectlombok:lombok'
 
