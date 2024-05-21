@@ -45,6 +45,7 @@ jobs:
             'SMARTY_AUTH_ID=${{ secrets.SMARTY_AUTH_ID }}' \
             'SMARTY_AUTH_TOKEN=${{ secrets.SMARTY_AUTH_TOKEN }}' \
             'SENTRY_DNS'=${{ secrets.SENTRY_DSN }}' \
+            'SENTRY_AUTH_TOKEN'=${{ secrets.SENTRY_AUTH_TOKEN }}' \
             'SENTRY_ENVIRONMENT=staging \
             'ENCRYPTION_KEYSET=${{ secrets.STAGING_ENCRYPTION_KEYSET }}' \
             'BALTIMORE_COUNTY_GOOGLE_DIR_ID=${{ secrets.STAGING_BALTIMORE_COUNTY_GOOGLE_DIR_ID }}' \
