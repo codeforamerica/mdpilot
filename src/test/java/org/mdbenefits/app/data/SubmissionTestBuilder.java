@@ -153,7 +153,7 @@ public class SubmissionTestBuilder {
         job.put("uuid", uuid);
         job.put("householdMemberJobAdd", employeeName);
         job.put("employerName", employerName);
-        job.put("payPeriodAmount", amount);
+        job.put("payAmountFor30Days", amount);
         job.put("payPeriod", freq);
         job.put(Submission.ITERATION_IS_COMPLETE_KEY, true);
 

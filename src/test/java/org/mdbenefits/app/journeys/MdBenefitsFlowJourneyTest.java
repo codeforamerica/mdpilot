@@ -151,11 +151,11 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         assertThat(testPage.getTitle()).isEqualTo(message("job-pay-amount.title"));
 
-        testPage.enter("payPeriodAmount", "a");
+        testPage.enter("payAmountFor30Days", "a");
         testPage.clickContinue();
 
         assert (testPage.hasErrorText(message("error.invalid-money")));
-        testPage.enter("payPeriodAmount", "282.99");
+        testPage.enter("payAmountFor30Days", "282.99");
 
         testPage.clickContinue();
 
@@ -362,7 +362,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
 
         // jobPayAmount
-        testPage.enter("payPeriodAmount", "200.00");
+        testPage.enter("payAmountFor30Days", "200.00");
         testPage.clickContinue();
 
         testPage.navigateToFlowScreen("mdBenefitsFlow/householdHomeExpenses");

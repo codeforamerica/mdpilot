@@ -22,37 +22,7 @@ public class IncomeCalculator {
         var completedJobs = jobs.stream().filter(job -> job.get(Submission.ITERATION_IS_COMPLETE_KEY).equals(true)).toList();
 
         return completedJobs.stream()
-                .map(IncomeCalculator::futureIncomeForJob)
+                .map(job -> Double.parseDouble(job.getOrDefault("payAmountFor30Days", "0").toString()))
                 .reduce(0.0d, Double::sum);
-    }
-
-    public static double futureIncomeForJob(Map<String, Object> job) throws NumberFormatException {
-
-        // right now payPeriodAmount is the amount of money they made
-        // for the job in the last 30 days. No calculations necessary
-        return Double.parseDouble(job.getOrDefault("payPeriodAmount", "0").toString());
-/*
-        if (job.getOrDefault("jobPaidByHour", "false").toString().equals("true")) {
-            var hoursPerWeek = Double.parseDouble(job.get("hoursPerWeek").toString());
-            var hourlyWage = Double.parseDouble(job.get("hourlyWage").toString());
-            log.info("Returning hourly wage");
-            return hoursPerWeek * hourlyWage * (52.0 / 12);
-        } else {
-            var payPeriod = job.getOrDefault("payPeriod", "It varies").toString();
-            var payPeriodAmount = Double.parseDouble(job.get("payPeriodAmount").toString());
-            if (Objects.equals(payPeriod, "Every week")) {
-                return payPeriodAmount * (52.0 / 12);
-            } else if (Objects.equals(payPeriod, "Every 2 weeks")) {
-                return (payPeriodAmount * ((52.0 / 2) / 12));
-            } else if (Objects.equals(payPeriod, "Twice a month")) {
-                return payPeriodAmount * 2;
-            } else if (Objects.equals(payPeriod, "Every month")) {
-                return payPeriodAmount;
-            }
-            log.info("Using 30D estimate");
-            // based on 30D estimate
-            return payPeriodAmount;
-        }
- */
     }
 }

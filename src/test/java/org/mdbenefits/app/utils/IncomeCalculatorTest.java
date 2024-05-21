@@ -19,11 +19,11 @@ class IncomeCalculatorTest {
         job1.put(Submission.ITERATION_IS_COMPLETE_KEY, true);
         job1.put("employerName", "ACME Inc");
         job1.put("payPeriod", "It varies");
-        job1.put("payPeriodAmount", 400.0);
+        job1.put("payAmountFor30Days", 400.0);
         var job2 = new HashMap<String, Object>();
         job2.put(Submission.ITERATION_IS_COMPLETE_KEY, false);
         job2.put("employerName", "Monsters Inc");
-        job2.put("payPeriodAmount", 200.0);
+        job2.put("payAmountFor30Days", 200.0);
         income.add(job1);
         income.add(job2);
         submission.setInputData(Map.of("income", income));

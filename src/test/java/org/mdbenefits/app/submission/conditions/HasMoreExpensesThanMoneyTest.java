@@ -37,12 +37,12 @@ public class HasMoreExpensesThanMoneyTest {
         job1.put(Submission.ITERATION_IS_COMPLETE_KEY, true);
         job1.put("employerName", "ACME Inc");
         job1.put("payPeriod", "It varies");
-        job1.put("payPeriodAmount", 400.0);
+        job1.put("payAmountFor30Days", 400.0);
 
         Map<String, Object> job2 = new HashMap<>();
         job2.put(Submission.ITERATION_IS_COMPLETE_KEY, false);
         job2.put("employerName", "Monsters Inc");
-        job2.put("payPeriodAmount", 200.0);
+        job2.put("payAmountFor30Days", 200.0);
 
         income.add(job1);
         income.add(job2);
@@ -75,13 +75,13 @@ public class HasMoreExpensesThanMoneyTest {
         job1.put(Submission.ITERATION_IS_COMPLETE_KEY, true);
         job1.put("employerName", "ACME Inc");
         job1.put("payPeriod", "It varies");
-        job1.put("payPeriodAmount", 400.0);
+        job1.put("payAmountFor30Days", 400.0);
 
         Map<String, Object> job2 = new HashMap<>();
         job2.put(Submission.ITERATION_IS_COMPLETE_KEY, true);
         job2.put("employerName", "Monsters Inc");
         job1.put("payPeriod", "It varies");
-        job2.put("payPeriodAmount", 1500.0);
+        job2.put("payAmountFor30Days", 1500.0);
 
         income.add(job1);
         income.add(job2);

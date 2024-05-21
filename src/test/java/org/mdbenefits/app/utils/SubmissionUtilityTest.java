@@ -34,12 +34,12 @@ public class SubmissionUtilityTest {
         job1.put("householdMemberJobAdd", "you");
         job1.put("employerName", "ACME Inc");
         job1.put("payPeriod", "It varies");
-        job1.put("payPeriodAmount", 400.0);
+        job1.put("payAmountFor30Days", 400.0);
 
         HashMap<String, Object> job2 = new HashMap<>();
         job2.put(Submission.ITERATION_IS_COMPLETE_KEY, false);
         job2.put("employerName", "Monsters Inc");
-        job2.put("payPeriodAmount", 200.0);
+        job2.put("payAmountFor30Days", 200.0);
 
         ArrayList<Map<String, Object>> income = new ArrayList<>();
         income.add(job1);
@@ -48,9 +48,12 @@ public class SubmissionUtilityTest {
         HashMap<String, Object> inputData = new HashMap<>();
         inputData.put("income", income);
         submission.setInputData(inputData);
-        
-        ArrayList<HashMap<String, Object>> householdIncomeReviewItems = SubmissionUtilities.getHouseholdIncomeReviewItems(submission);
-        assertThat(householdIncomeReviewItems.stream().noneMatch(item -> item.getOrDefault("jobName", "").equals("Monsters Inc"))).isTrue();
-        assertThat(householdIncomeReviewItems.stream().noneMatch(item -> item.getOrDefault("income", "").equals("$200"))).isTrue();
+
+        ArrayList<HashMap<String, Object>> householdIncomeReviewItems = SubmissionUtilities.getHouseholdIncomeReviewItems(
+                submission);
+        assertThat(householdIncomeReviewItems.stream()
+                .noneMatch(item -> item.getOrDefault("jobName", "").equals("Monsters Inc"))).isTrue();
+        assertThat(
+                householdIncomeReviewItems.stream().noneMatch(item -> item.getOrDefault("income", "").equals("$200"))).isTrue();
     }
 }
