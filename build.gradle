@@ -128,23 +128,28 @@ tasks.withType(Test).configureEach {
             // uncomment the following line to print stdout and stderr for every test
 //             showStandardStreams = true
         }
+        print "🌟Running test configuration 🌟"
+        // override a few things.
         environment("DEFAULT_LOCALE", "en")
+        // setting "SENTRY_DSN" to "" essentially turns off reporting to Sentry
         environment("SENTRY_DSN", "")
+        environment("SENTRY_AUTH_TOKEN", "")
         environment("MIXPANEL_API_KEY", "this-is-a-dummy-key-for-md-tests")
 }
 
 jar {
     enabled false
 }
-/*
-sentry {
-    // Generates a JVM (Java, Kotlin, etc.) source bundle and uploads your source code to Sentry.
-    // This enables source context, allowing you to see your source
-    // code as part of your stack traces in Sentry.
-    includeSourceContext = true
 
-    org = "codeforamerica"
-    projectName = "md-pilot"
-    authToken = System.getenv("SENTRY_AUTH_TOKEN")
+if (profile == 'staging' || profile == 'prod') {
+    sentry {
+        // Generates a JVM (Java, Kotlin, etc.) source bundle and uploads your source code to Sentry.
+        // This enables source context, allowing you to see your source
+        // code as part of your stack traces in Sentry.
+        includeSourceContext = true
+
+        org = "codeforamerica"
+        projectName = "md-pilot"
+        authToken = System.getenv("SENTRY_AUTH_TOKEN")
+    }
 }
-*/
