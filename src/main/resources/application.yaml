@@ -1,4 +1,6 @@
 form-flow:
+  session-continuity-interceptor:
+    enabled: true
   lock-after-submitted:
     - flow: mdBenefitsFlow
       redirect: confirmation

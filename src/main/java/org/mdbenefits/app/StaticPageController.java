@@ -26,11 +26,9 @@ public class StaticPageController {
         if (httpSession != null) {
             httpSession.invalidate();
         }
-        httpSession = request.getSession(true);
 
         Map<String, Object> model = new HashMap<>();
         model.put("screen", "/");
-
         return new ModelAndView("index", model);
     }
 
