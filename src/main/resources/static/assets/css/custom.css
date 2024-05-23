@@ -515,3 +515,11 @@ li li {
   color: #00891B;
   font-weight: bold;
 }
+
+.form-group .text--help+.text--error {
+  margin-top: 0;
+}
+
+.form-group--error fieldset .text--error {
+  margin-top: 0;
+}
