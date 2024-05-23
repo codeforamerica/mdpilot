@@ -38,6 +38,9 @@ jobs:
             'AWS_SECRET_KEY=${{ secrets.PROD_AWS_SECRET_KEY }}' \
             'MAILGUN_KEY=${{ secrets.PROD_MAILGUN_KEY }}' \
             'MIXPANEL_API_KEY=${{ secrets.PROD_MIXPANEL_API_KEY }}' \
+            'SENTRY_DSN=${{ secrets.SENTRY_DSN }}' \
+            'SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}' \
+            'SENTRY_ENVIRONMENT=production' \
             'SMARTY_AUTH_ID=${{ secrets.SMARTY_AUTH_ID }}' \
             'SMARTY_AUTH_TOKEN=${{ secrets.SMARTY_AUTH_TOKEN }}' \
             'ENCRYPTION_KEYSET=${{ secrets.PROD_ENCRYPTION_KEYSET }}' \
