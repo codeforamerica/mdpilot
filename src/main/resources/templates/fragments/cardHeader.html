@@ -5,8 +5,9 @@
     th:assert="${!#strings.isEmpty(header)}"
     class="form-card__header">
   <h1 id="header" class="h2">
-    <span th:text="${header}"></span>
-    <span th:if="${requiredField}" class="required-input" th:text="#{general.required-field}"></span>
+    <span th:utext="${header}"></span>
+    <span th:if="${requiredField}" class="required-input"
+          th:text="#{general.required-field}"></span>
   </h1>
   <p id="header-help-message"
      th:if="${hasSubtext}"

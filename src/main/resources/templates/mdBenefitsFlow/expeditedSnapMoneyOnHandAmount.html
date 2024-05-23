@@ -15,8 +15,6 @@
             th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
           <th:block th:ref="formContent">
             <div class="form-card__content">
-              <th:block
-                  th:replace="'fragments/inputs/money' :: money(inputName='expeditedMoneyOnHandAmount', ariaLabel='header header-help-message', placeholder='0.00')"/>
               <th:block th:replace="~{fragments/honeycrisp/accordion :: accordion(
                 buttonLabel=#{expedited-money-on-hand-amount.q1},
                 content=~{:: content})}">
@@ -28,7 +26,7 @@
               <th:block
                   th:replace="~{fragments/inputs/money :: money(
                       inputName='expeditedMoneyOnHandAmount',
-                      ariaLabel='header',
+                      ariaLabel='header header-help-message',
                       placeholder='0.00')}"/>
 
             </div>
