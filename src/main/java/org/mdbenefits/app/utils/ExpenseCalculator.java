@@ -26,11 +26,12 @@ public class ExpenseCalculator {
         Map<String, Object> inputData = submission.getInputData();
 
         expenses.forEach(val -> {
-            String inputFieldName = HomeExpensesType.getEnumByName(val).getInputFieldName();
-            expenseAmounts.add(
-                    new BigDecimal(inputData.getOrDefault(inputFieldName, "0").toString())
-                            .setScale(2, RoundingMode.HALF_UP));
-
+            if (!val.equals("None")) {
+                String inputFieldName = HomeExpensesType.getEnumByName(val).getInputFieldName();
+                expenseAmounts.add(
+                        new BigDecimal(inputData.getOrDefault(inputFieldName, "0").toString())
+                                .setScale(2, RoundingMode.HALF_UP));
+            }
         });
 
         return expenseAmounts.stream().reduce(BigDecimal.ZERO, BigDecimal::add);

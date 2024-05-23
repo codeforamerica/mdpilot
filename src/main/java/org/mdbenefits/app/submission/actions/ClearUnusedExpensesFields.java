@@ -22,7 +22,7 @@ public class ClearUnusedExpensesFields implements Action {
     public void run(Submission submission) {
         Map<String, String> submissionInputData = (Map) submission.getInputData();
         List<String> householdHomeExpenses = (List) submission.getInputData().getOrDefault("householdHomeExpenses[]", List.of());
-        boolean none = householdHomeExpenses.contains("NONE");
+        boolean none = householdHomeExpenses.contains("None");
 
         for (HomeExpensesType type : HomeExpensesType.values()) {
             if (none || !householdHomeExpenses.contains(type.name())) {
