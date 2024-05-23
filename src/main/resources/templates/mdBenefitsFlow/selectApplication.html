@@ -1,49 +1,32 @@
-<!DOCTYPE html>
-<html th:lang="${#locale.language}">
-<head th:replace="~{fragments/head :: head(title=#{select-app.title})}"></head>
-<body>
-<div class="page-wrapper">
-  <div th:replace="~{fragments/toolbar :: toolbar}"></div>
-  <section class="slab">
-    <div class="grid">
-      <div th:replace="~{fragments/goBack :: goBackLink}"></div>
-      <main id="content" role="main" class="form-card spacing-above-35">
-        <th:block th:replace="~{fragments/icons :: documentAndEnvelope}"/>
-        <th:block
-            th:replace="~{fragments/cardHeader :: cardHeader(header=#{select-app.header}, subtext=#{select-app.subheader})}"/>
-        <th:block
-            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::formContent})}">
-          <th:block th:ref="formContent">
-            <div class="form-card__content">
-              <th:block th:replace="~{fragments/inputs/checkboxFieldset ::
+<th:block
+  th:replace="~{fragments/screens/screenWithOneInput ::
+  screenWithOneInput(
+    title=#{select-app.title},
+    iconFragment=~{fragments/icons :: documentAndEnvelope},
+    buttonLabel=#{general.inputs.continue},
+    header=#{select-app.header},
+    subtext=#{select-app.subheader},
+    inputName='applicationInfo',
+    formAction=${formAction},
+    inputContent=~{::inputContent})}">
+  <th:block th:ref="inputContent">
+    <th:block th:replace="~{fragments/inputs/checkboxFieldset ::
                   checkboxFieldset(inputName='applicationInfo',
                   ariaLabel='header header-help-message',
                   content=~{::content})}">
-                <th:block th:ref="content">
-                  <th:block
-                      th:each="appObjective : ${T(org.mdbenefits.app.data.enums.ApplicantObjective).values()}">
-                    <th:block
-                        th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(
+      <th:block th:ref="content">
+        <th:block
+            th:each="appObjective : ${T(org.mdbenefits.app.data.enums.ApplicantObjective).values()}">
+          <th:block
+              th:replace="~{fragments/inputs/checkboxInSet :: checkboxInSet(
                             inputName='applicationInfo',
                             value=${appObjective.name()},
                             label=#{${appObjective.getLabelSrc()}},
                             noneOfTheAbove=${appObjective.name().equals('OTHER')}
                             )}">
-                    </th:block>
-                  </th:block>
-                </th:block>
-              </th:block>
-            </div>
-            <div class="form-card__footer">
-              <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
-                  text=#{general.inputs.continue})}"/>
-            </div>
           </th:block>
         </th:block>
-      </main>
-    </div>
-  </section>
-</div>
-<th:block th:replace="~{fragments/footer :: footer}"/>
-</body>
-</html>
+      </th:block>
+    </th:block>
+  </th:block>
+</th:block>
