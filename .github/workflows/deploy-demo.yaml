@@ -40,6 +40,9 @@ jobs:
             'MIXPANEL_API_KEY=${{ secrets.STAGING_MIXPANEL_API_KEY }}' \
             'SMARTY_AUTH_ID=${{ secrets.SMARTY_AUTH_ID }}' \
             'SMARTY_AUTH_TOKEN=${{ secrets.SMARTY_AUTH_TOKEN }}' \
+            'SENTRY_DSN=${{ secrets.SENTRY_DSN }}' \
+            'SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}' \
+            'SENTRY_ENVIRONMENT=demo' \
             'ENCRYPTION_KEYSET=${{ secrets.STAGING_ENCRYPTION_KEYSET }}' \
             'BALTIMORE_COUNTY_GOOGLE_DIR_ID=${{ secrets.DEMO_BALTIMORE_COUNTY_GOOGLE_DIR_ID }}' \
             'QUEENANNES_COUNTY_GOOGLE_DIR_ID=${{ secrets.DEMO_QUEENANNES_COUNTY_GOOGLE_DIR_ID }}' \
