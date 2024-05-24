@@ -26,7 +26,7 @@ public class ExpenseCalculator {
         Map<String, Object> inputData = submission.getInputData();
 
         expenses.forEach(val -> {
-            if (!val.equals("None")) {
+            if (!val.equalsIgnoreCase("None")) {
                 String inputFieldName = HomeExpensesType.getEnumByName(val).getInputFieldName();
                 expenseAmounts.add(
                         new BigDecimal(inputData.getOrDefault(inputFieldName, "0").toString())
