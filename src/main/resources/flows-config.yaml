@@ -82,6 +82,7 @@ flow:
     nextScreens:
       - name: expeditedSnapMoneyOnHand
   expeditedSnapMoneyOnHand:
+    onPostAction: MaybeClearMoneyOnHandAmount
     beforeSaveAction: CheckExpeditedSnapEligibility
     nextScreens:
       - name: expeditedSnapQualificationNotice
@@ -270,6 +271,7 @@ flow:
         condition: IsApplyingForSnap
       - name: householdMedicalExpenses
   householdMoneyOnHand:
+    onPostAction: MaybeClearMoneyOnHandAmount
     beforeSaveAction: CheckExpeditedSnapEligibility
     nextScreens:
       - name: householdMoneyOnHandAmount

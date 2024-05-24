@@ -30,6 +30,7 @@ public class CheckExpeditedSnapEligibility implements Action {
 
         BigDecimal moneyOnHandAmount = convertToBigDecimal(
                 inputData.getOrDefault("expeditedMoneyOnHandAmount", "0").toString());
+
         BigDecimal householdIncomeAmount = convertToBigDecimal(
                 inputData.getOrDefault("householdIncomeLast30Days", "0").toString());
         if (!isApplyingForExpeditedSnap) {
