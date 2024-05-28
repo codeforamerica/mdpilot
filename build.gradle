@@ -36,7 +36,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'com.jcraft:jsch:0.1.55'
-    implementation 'org.springframework.shell:spring-shell-starter:3.2.4'
+    implementation 'org.springframework.shell:spring-shell-starter:3.2.5'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation("com.mixpanel:mixpanel-java:1.5.3")
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.5.6'
@@ -51,7 +51,7 @@ dependencies {
     implementation 'com.amazonaws:aws-encryption-sdk-java:3.0.0'
     implementation 'org.bouncycastle:bcpg-jdk15on:1.70'
     implementation 'org.bouncycastle:bcpkix-jdk15on:1.70'
-    implementation 'org.springframework.shell:spring-shell-starter:3.2.4'
+    implementation 'org.springframework.shell:spring-shell-starter:3.2.5'
     implementation 'commons-net:commons-net:3.10.0'
 
     implementation 'com.google.api-client:google-api-client:2.5.1'
