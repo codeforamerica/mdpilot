@@ -30,7 +30,7 @@ public class StaticPageController {
 
         Map<String, Object> model = new HashMap<>();
         model.put("screen", "/");
-        model.put("sessionBad", request.getParameter("sessionBad"));
+        model.put("sessionBad", request.getParameter("sessionTimeout"));
         return new ModelAndView("index", model);
     }
 
