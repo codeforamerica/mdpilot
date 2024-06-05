@@ -273,6 +273,9 @@ flow:
     nextScreens:
       - name: householdMoneyOnHand
         condition: IsApplyingForSnap
+      - name: ohepThankYou
+  ohepThankYou:
+    nextScreens:
       - name: householdMedicalExpenses
   householdMoneyOnHand:
     onPostAction: MaybeClearMoneyOnHandAmount
@@ -280,17 +283,17 @@ flow:
     nextScreens:
       - name: householdMoneyOnHandAmount
         condition: HasMoreThan100OnHand
-      - name: householdMedicalExpenses
+      - name: ohepThankYou
   householdMoneyOnHandAmount:
     beforeSaveAction: CheckExpeditedSnapEligibility
     nextScreens:
       - name: householdMoneyOnHandVsExpenses
         condition: HasMoreExpensesThanMoney
-      - name: householdMedicalExpenses
+      - name: ohepThankYou
   householdMoneyOnHandVsExpenses:
     beforeSaveAction: CheckExpeditedSnapEligibility
     nextScreens:
-      - name: householdMedicalExpenses
+      - name: ohepThankYou
   householdMedicalExpenses:
     beforeSaveAction: ClearUnusedMedicalExpensesFields
     nextScreens:
