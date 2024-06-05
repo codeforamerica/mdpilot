@@ -523,3 +523,15 @@ li li {
 .form-group--error fieldset .text--error {
   margin-top: 0;
 }
+
+.text--align-center {
+  text-align: center;
+}
+
+.text--align-center .form-card__header {
+  margin-bottom: 3rem;
+}
+
+.text--align-center img {
+  margin-bottom: 3rem;
+}
