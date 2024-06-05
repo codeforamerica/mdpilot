@@ -516,10 +516,15 @@ li li {
   font-weight: bold;
 }
 
-.form-group .text--help+.text--error {
+.form-group .text--help + .text--error {
   margin-top: 0;
 }
 
 .form-group--error fieldset .text--error {
   margin-top: 0;
+}
+
+.session-timeout-message {
+  padding: 2rem;
+  background-color: #ED9B06
 }

@@ -1,4 +1,7 @@
 form-flow:
+  session-continuity-interceptor:
+    enabled: true
+    redirect-url: /?sessionExpired=true
   lock-after-submitted:
     - flow: mdBenefitsFlow
       redirect: confirmation
@@ -75,7 +78,7 @@ spring:
       max-file-size: ${form-flow.uploads.max-file-size}MB
       max-request-size: ${form-flow.uploads.max-file-size}MB
   session:
-    timeout: 30M
+    timeout: 10s
     store-type: jdbc
     jdbc:
       initialize-schema: always

@@ -12,11 +12,9 @@
         <div>
           <th:block th:replace="~{fragments/icons :: nextSteps}"></th:block>
         </div>
-        <th:block th:if="${(sessionInvalid != null && sessionInvalid.equalsIgnoreCase('true')) || (sessionExpired != null && sessionExpired.equalsIgnoreCase('true'))}">
-          <div class="session-timeout-message spacing-above-35">
-            <p th:text="#{general.session-timeout}"></p>
-          </div>
-        </th:block>
+        <div class="session-timeout-message spacing-above-35">
+          <p th:text="#{general.session-timeout}"></p>
+        </div>
         <h1 class="spacing-below-15 spacing-above-0" th:utext="#{index.header}"></h1>
         <p class="spacing-below-95" th:utext="#{index.description}"></p>
         <a id="apply_now" th:href="#{index.apply-now.link}"

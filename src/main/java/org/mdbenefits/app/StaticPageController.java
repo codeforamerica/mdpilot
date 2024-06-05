@@ -23,14 +23,15 @@ public class StaticPageController {
     @GetMapping("/")
     ModelAndView getIndex(HttpServletRequest request) {
         HttpSession httpSession = request.getSession(false);
+
         if (httpSession != null) {
             httpSession.invalidate();
         }
-        httpSession = request.getSession(true);
 
         Map<String, Object> model = new HashMap<>();
         model.put("screen", "/");
-
+        model.put("sessionExpired", request.getParameter("sessionExpired"));
+        model.put("sessionInvalid", request.getParameter("sessionInvalid"));
         return new ModelAndView("index", model);
     }
 
