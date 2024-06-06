@@ -314,7 +314,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         testPage.navigateToFlowScreen("mdBenefitsFlow/ohepHeating");
         testPage.clickContinue();
-        assertThat(testPage.getTitle()).isEqualTo(message("medical-expenses.title"));
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-thank-you.title"));
     }
 
     @Test
@@ -388,7 +388,9 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-money-on-hand.title"));
         testPage.clickButton("Yes");
-        assertThat(testPage.getTitle()).isEqualTo(message("medical-expenses.title"));
+        
+        // OHEP Thank you
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-thank-you.title"));
 
         testPage.goBack();
         testPage.clickButton("No");
@@ -402,6 +404,9 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         testPage.enter("expeditedMoneyOnHandAmount", "2000");
         testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-thank-you.title"));
+        testPage.clickButton("Next");
 
         assertThat(testPage.getTitle()).isEqualTo(message("medical-expenses.title"));
     }
@@ -675,7 +680,10 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         assertThat(testPage.getTitle()).isEqualTo(message("ohep-heating.title"));
         testPage.clickContinue();
-
+        
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-thank-you.title"));
+        testPage.clickButton("Next");
+        
         assertThat(testPage.getTitle()).isEqualTo(message("medical-expenses.title"));
         testPage.clickElementById("medicalExpenses-HEALTH_MEDICAL_INSURANCE-label");
         testPage.clickContinue();
@@ -806,6 +814,9 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         assertThat(testPage.getTitle()).isEqualTo(message("ohep-heating.title"));
         testPage.clickContinue();
+        
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-thank-you.title"));
+        testPage.clickButton("Next");
 
         assertThat(testPage.getTitle()).isEqualTo(message("medical-expenses.title"));
         testPage.clickElementById("medicalExpenses-HEALTH_MEDICAL_INSURANCE-label");
