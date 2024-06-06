@@ -28,9 +28,12 @@ public class ExpenseCalculator {
         expenses.forEach(val -> {
             if (!val.equalsIgnoreCase("None")) {
                 String inputFieldName = HomeExpensesType.getEnumByName(val).getInputFieldName();
-                expenseAmounts.add(
-                        new BigDecimal(inputData.getOrDefault(inputFieldName, "0").toString())
-                                .setScale(2, RoundingMode.HALF_UP));
+                // expense values are not required and may be blank
+                String expenseValue = inputData.getOrDefault(inputFieldName, "0").toString();
+                if (expenseValue.isBlank()) {
+                    return;
+                }
+                expenseAmounts.add(new BigDecimal(expenseValue).setScale(2, RoundingMode.HALF_UP));
             }
         });
 

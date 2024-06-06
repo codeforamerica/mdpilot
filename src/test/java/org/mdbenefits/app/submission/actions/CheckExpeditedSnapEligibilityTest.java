@@ -133,4 +133,21 @@ class CheckExpeditedSnapEligibilityTest {
         checkExpeditedSnapEligibility.run(submission);
         assertEquals("true", submission.getInputData().get("isEligibleForExpeditedSnap"));
     }
+
+    @Test
+    void testEmptyExpenseValues() {
+        Submission submission = new SubmissionTestBuilder()
+                .with("isApplyingForExpeditedSnap", "true")
+                .with("householdIncomeLast30Days", "500")
+                .with("expeditedMoneyOnHandAmount", "200")
+                .with("householdHomeExpenses[]", List.of("GARBAGE", "PHONE", "RENT", "ELECTRICITY"))
+                .with("homeExpenseGarbage", "500.23")
+                .with("homeExpensePhone", "  ")
+                .with("homeExpenseRent", "200")
+                .with("homeExpenseElectricity", "")
+                .build();
+
+        checkExpeditedSnapEligibility.run(submission);
+        assertEquals("true", submission.getInputData().get("isEligibleForExpeditedSnap"));
+    }
 }
