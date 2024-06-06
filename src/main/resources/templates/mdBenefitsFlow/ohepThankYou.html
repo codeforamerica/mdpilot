@@ -11,7 +11,7 @@
         <div class="center text--align-center">
           <th:block
               th:replace="~{fragments/cardHeader :: cardHeader(header=#{ohep-thank-you.header})}"/>
-          <img src="/assets/images/ohep-logo.png" alt="Logo for the Office of Home Energy Programs" class="ohep-logo" style="height: 33%; width: 33%;">
+          <img src="/assets/images/ohep-logo.png" th:alt="#{ohep-thank-you-alt-text}" class="ohep-logo" style="height: 33%; width: 33%;">
         </div>
         <div class="form-card__content">
           <p th:utext="#{ohep-thank-you.content1}"></p>
