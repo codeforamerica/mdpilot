@@ -8,7 +8,9 @@
     <div class="grid">
       <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35 expedited-snap-notice">
-        <th:block th:replace="~{fragments/icons :: choosePrograms}"></th:block>
+        <th:block th:replace="~{fragments/icons :: stepArrow}"></th:block>
+        <p class="grey-text" th:text="#{expedited-snap-notice.icon-tag-line}">
+        </p>
         <th:block
             th:replace="~{fragments/cardHeader :: cardHeader(header=#{expedited-snap-notice.header})}"/>
         <div class="form-card__content">
@@ -16,7 +18,7 @@
           <p class="h2 spacing-below-95" th:text="#{expedited-snap-notice.expedited-snap}"></p>
         </div>
         <div class="form-card__footer">
-          <th:block th:replace="~{fragments/continueButton :: continue}"/>
+          <th:block th:replace="~{fragments/continueButton :: continue(text=#{general.ok})}"/>
         </div>
       </main>
     </div>

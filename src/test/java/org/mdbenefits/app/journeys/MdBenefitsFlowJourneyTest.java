@@ -552,7 +552,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         // OHEP Notice
         assertThat(testPage.getTitle()).isEqualTo(message("ohep-notice.title"));
-        testPage.clickButton("Ok, thanks");
+        testPage.clickButton("Ok");
 
         // How this works
         assertThat(testPage.getTitle()).isEqualTo(message("how-this-works.title"));
