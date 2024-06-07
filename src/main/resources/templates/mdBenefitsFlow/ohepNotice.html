@@ -8,21 +8,27 @@
     <div class="grid">
       <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35 expedited-snap-notice">
-        <th:block th:replace="~{fragments/icons :: choosePrograms}"></th:block>
+        <th:block th:replace="~{fragments/icons :: householdEnergyAssistance}"></th:block>
+        <p class="grey-text" th:text="#{ohep-notice.icon-tag-line}"></p>
         <th:block
             th:replace="~{fragments/cardHeader :: cardHeader(header=#{ohep-notice.header})}"/>
         <div class="form-card__content">
+          <div>
+            <p th:text="#{ohep-notice.p1}"></p>
+            <p th:text="#{ohep-notice.p2}"></p>
+          </div>
           <th:block th:replace="~{fragments/honeycrisp/accordion :: accordion(
             buttonLabel=#{ohep-notice.ohep},
             content=~{:: content})}">
-              <th:block th:ref="content">
-                <p th:text="#{ohep-notice.ohep-l1}"></p>
-                <p th:text="#{ohep-notice.ohep-l2}"></p>
-              </th:block>
+            <th:block th:ref="content">
+              <p th:text="#{ohep-notice.ohep-l1}"></p>
+              <p th:text="#{ohep-notice.ohep-l2}"></p>
+            </th:block>
           </th:block>
         </div>
         <div class="form-card__footer">
-          <th:block th:replace="~{fragments/continueButton :: continue(text=#{general.ok-thanks})}"/>
+          <th:block
+              th:replace="~{fragments/continueButton :: continue(text=#{general.ok})}"/>
         </div>
       </main>
     </div>
