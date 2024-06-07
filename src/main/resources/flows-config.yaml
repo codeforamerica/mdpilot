@@ -255,10 +255,37 @@ flow:
     nextScreens:
       - name: householdHomeExpensesAmount
         condition: HasHouseholdHomeExpenses
+      - name: householdMoneyOnHand
+        condition: IsApplyingForSnap
       - name: ohepRent
         condition: HasHouseholdRentExpense
       - name: ohepElectricity
   householdHomeExpensesAmount:
+    nextScreens:
+      - name: householdMoneyOnHand
+        condition: IsApplyingForSnap
+      - name: ohepRent
+        condition: HasHouseholdRentExpense
+      - name: ohepElectricity
+  householdMoneyOnHand:
+    onPostAction: MaybeClearMoneyOnHandAmount
+    beforeSaveAction: CheckExpeditedSnapEligibility
+    nextScreens:
+      - name: householdMoneyOnHandAmount
+        condition: HasMoreThan100OnHand
+      - name: ohepRent
+        condition: HasHouseholdRentExpense
+      - name: ohepElectricity
+  householdMoneyOnHandAmount:
+    beforeSaveAction: CheckExpeditedSnapEligibility
+    nextScreens:
+      - name: householdMoneyOnHandVsExpenses
+        condition: HasMoreExpensesThanMoney
+      - name: ohepRent
+        condition: HasHouseholdRentExpense
+      - name: ohepElectricity
+  householdMoneyOnHandVsExpenses:
+    beforeSaveAction: CheckExpeditedSnapEligibility
     nextScreens:
       - name: ohepRent
         condition: HasHouseholdRentExpense
@@ -271,29 +298,10 @@ flow:
       - name: ohepHeating
   ohepHeating:
     nextScreens:
-      - name: householdMoneyOnHand
-        condition: IsApplyingForSnap
       - name: ohepThankYou
   ohepThankYou:
     nextScreens:
       - name: householdMedicalExpenses
-  householdMoneyOnHand:
-    onPostAction: MaybeClearMoneyOnHandAmount
-    beforeSaveAction: CheckExpeditedSnapEligibility
-    nextScreens:
-      - name: householdMoneyOnHandAmount
-        condition: HasMoreThan100OnHand
-      - name: ohepThankYou
-  householdMoneyOnHandAmount:
-    beforeSaveAction: CheckExpeditedSnapEligibility
-    nextScreens:
-      - name: householdMoneyOnHandVsExpenses
-        condition: HasMoreExpensesThanMoney
-      - name: ohepThankYou
-  householdMoneyOnHandVsExpenses:
-    beforeSaveAction: CheckExpeditedSnapEligibility
-    nextScreens:
-      - name: ohepThankYou
   householdMedicalExpenses:
     beforeSaveAction: ClearUnusedMedicalExpensesFields
     nextScreens:

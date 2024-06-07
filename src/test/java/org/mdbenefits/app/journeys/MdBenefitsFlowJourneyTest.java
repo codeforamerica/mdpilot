@@ -312,9 +312,11 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         loadAddressData();
         loadContactData();
 
-        testPage.navigateToFlowScreen("mdBenefitsFlow/ohepHeating");
+        testPage.navigateToFlowScreen("mdBenefitsFlow/householdHomeExpenses");
+        testPage.clickElementById("none__checkbox-householdHomeExpenses");
         testPage.clickContinue();
-        assertThat(testPage.getTitle()).isEqualTo(message("ohep-thank-you.title"));
+
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-electricity.title"));
     }
 
     @Test
@@ -324,8 +326,10 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         loadAddressData();
         loadContactData();
 
-        testPage.navigateToFlowScreen("mdBenefitsFlow/ohepHeating");
+        testPage.navigateToFlowScreen("mdBenefitsFlow/householdHomeExpenses");
+        testPage.clickElementById("none__checkbox-householdHomeExpenses");
         testPage.clickContinue();
+
         assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-money-on-hand.title"));
     }
 
@@ -377,20 +381,11 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         testPage.clickContinue();
 
-        // ohepRent
-        testPage.clickContinue();
-        // ohepElectricity
-        testPage.clickContinue();
-        // ohepHeating
-        testPage.clickContinue();
-
         // Expedited SNAP check pages
-
         assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-money-on-hand.title"));
         testPage.clickButton("Yes");
-        
-        // OHEP Thank you
-        assertThat(testPage.getTitle()).isEqualTo(message("ohep-thank-you.title"));
+
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-rent.title"));
 
         testPage.goBack();
         testPage.clickButton("No");
@@ -405,10 +400,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.enter("expeditedMoneyOnHandAmount", "2000");
         testPage.clickContinue();
 
-        assertThat(testPage.getTitle()).isEqualTo(message("ohep-thank-you.title"));
-        testPage.clickButton("Next");
-
-        assertThat(testPage.getTitle()).isEqualTo(message("medical-expenses.title"));
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-rent.title"));
     }
 
     @Test
@@ -545,11 +537,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         testPage.clickContinue();
 
-        // Expedited Snap Notice
-        // taking this out for now, as we have disabled expedited snap for the time being
-        //assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-notice.title"));
-        //testPage.clickContinue();
-
         // OHEP Notice
         assertThat(testPage.getTitle()).isEqualTo(message("ohep-notice.title"));
         testPage.clickButton("Ok");
@@ -664,10 +651,6 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickElementById("none__checkbox-additionalIncome");
         testPage.clickContinue();
 
-        //assertThat(testPage.getTitle()).isEqualTo(message("moneyonhand-types.title"));
-        //testPage.clickElementById("none__checkbox-moneyOnHandTypes");
-        //testPage.clickContinue();
-
         assertThat(testPage.getTitle()).isEqualTo(message("expenses-signpost.title"));
         testPage.clickContinue();
 
@@ -680,10 +663,10 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         assertThat(testPage.getTitle()).isEqualTo(message("ohep-heating.title"));
         testPage.clickContinue();
-        
+
         assertThat(testPage.getTitle()).isEqualTo(message("ohep-thank-you.title"));
         testPage.clickButton("Next");
-        
+
         assertThat(testPage.getTitle()).isEqualTo(message("medical-expenses.title"));
         testPage.clickElementById("medicalExpenses-HEALTH_MEDICAL_INSURANCE-label");
         testPage.clickContinue();
@@ -814,7 +797,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
 
         assertThat(testPage.getTitle()).isEqualTo(message("ohep-heating.title"));
         testPage.clickContinue();
-        
+
         assertThat(testPage.getTitle()).isEqualTo(message("ohep-thank-you.title"));
         testPage.clickButton("Next");
 
