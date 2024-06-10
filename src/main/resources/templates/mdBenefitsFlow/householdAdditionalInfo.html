@@ -16,12 +16,13 @@
           <th:block th:ref="formContent">
             <div class="form-card__content">
               <th:block
-                th:replace="~{fragments/inputs/select :: select(label=#{household-additional-info.citizenship}, 
+                  th:replace="~{fragments/inputs/select :: select(label=#{household-additional-info.citizenship}, 
                 inputName='householdMemberCitizenshipStatus', helpText=#{household-additional-info.citizenship-help}, content=~{::selectContent})}">
                 <th:block th:ref="selectContent">
                   <th:block
                       th:replace="~{fragments/inputs/selectOptionPlaceholder :: selectOptionPlaceholder(optionText=#{general.select.placeholder})}"/>
-                  <th:block th:each="citizenship : ${T(org.mdbenefits.app.data.enums.CitizenshipStatus).values()}">
+                  <th:block
+                      th:each="citizenship : ${T(org.mdbenefits.app.data.enums.CitizenshipStatus).values()}">
                     <th:block
                         th:replace="~{fragments/inputs/selectOption :: selectOption(value=${citizenship.name()}, optionText=#{${citizenship.getLabelSrc()}})}"/>
                   </th:block>
@@ -53,12 +54,13 @@
                       th:replace="~{fragments/inputError :: validationError(inputName=${inputName})}"></th:block>
                 </div>
               </th:block>
-              
+
               <th:block th:replace="~{fragments/inputs/date ::
                   date(inputName='householdMemberBirth',
                   label=#{household-additional-info.birthday-question},
                   helpText='personal-info.date-of-birth.help',
-                   groupName='birthDate')}"/>
+                  required=true,
+                  groupName='birthDate')}"/>
               <th:block th:replace="~{fragments/inputs/radioFieldset ::
                               radioFieldset(inputName='householdMemberSex',
                               label=#{household-additional-info.sex},
@@ -78,13 +80,13 @@
                             radioFieldset(inputName='householdMemberIsPregnant',
                             label=#{household-additional-info.pregnancy},
                             content=~{::householdPregnancy})}">
-                            <th:block th:ref="householdPregnancy">
-                              <th:block
-                                  th:replace="~{fragments/inputs/radio :: radio(inputName='householdMemberIsPregnant',value='Yes', label=#{general.inputs.yes})}"/>
-                              <th:block
-                                  th:replace="~{fragments/inputs/radio :: radio(inputName='householdMemberIsPregnant',value='No', label=#{general.inputs.no})}"/>
-                            </th:block>
-                          </th:block>
+                <th:block th:ref="householdPregnancy">
+                  <th:block
+                      th:replace="~{fragments/inputs/radio :: radio(inputName='householdMemberIsPregnant',value='Yes', label=#{general.inputs.yes})}"/>
+                  <th:block
+                      th:replace="~{fragments/inputs/radio :: radio(inputName='householdMemberIsPregnant',value='No', label=#{general.inputs.no})}"/>
+                </th:block>
+              </th:block>
               <th:block th:replace="~{fragments/inputs/radioFieldset ::
                             radioFieldset(inputName='householdMemberEnrolledInSchool',
                             label=#{household-additional-info.school},

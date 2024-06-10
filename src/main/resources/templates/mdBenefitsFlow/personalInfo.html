@@ -35,7 +35,8 @@
                   date(inputName='birth',
                   label=#{personal-info.birthdate},
                   helpText='personal-info.date-of-birth.help',
-                   groupName='birthDate')}"/>
+                  required=true,
+                  groupName='birthDate')}"/>
             </div>
             <div class="form-card__footer">
               <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
