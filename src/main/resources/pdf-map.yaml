@@ -52,7 +52,9 @@ inputFields:
   householdHasPregnancySeeCover: hhmember_pregnancy_see_cover
   heatingCompanyName: expense_heating_company_name
   heatingAccountNumber: expense_heating_account_number
+  heatingAccountOwner: expense_heating_account_owner
   electricityAccountNumber: expense_electricity_account_number
+  electricityAccountOwner: expense_electricity_account_owner
 
   #Section A
   isApplicantApplying: applicant_is_applying

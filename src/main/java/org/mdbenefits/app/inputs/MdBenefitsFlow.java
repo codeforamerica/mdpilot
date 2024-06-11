@@ -269,11 +269,12 @@ public class MdBenefitsFlow extends FlowInputs {
 
     @Size(max = 30, message = "{error.character-length}")
     private String electricityAccountNumber;
+    private String electricityAccountOwner;
 
     private String heatingCompanyName;
-
     @Size(max = 30, message = "{error.character-length}")
     private String heatingAccountNumber;
+    private String heatingAccountOwner;
 
     // medical expenses for 60+ or disability
     @NotEmpty(message = "{error.missing-general}")
