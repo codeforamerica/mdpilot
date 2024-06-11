@@ -257,35 +257,30 @@ flow:
         condition: HasHouseholdHomeExpenses
       - name: householdMoneyOnHand
         condition: IsApplyingForSnap
-      - name: ohepRent
-        condition: HasHouseholdRentExpense
-      - name: ohepElectricity
+      - name: ohepReminder
   householdHomeExpensesAmount:
     nextScreens:
       - name: householdMoneyOnHand
         condition: IsApplyingForSnap
-      - name: ohepRent
-        condition: HasHouseholdRentExpense
-      - name: ohepElectricity
+      - name: ohepReminder
   householdMoneyOnHand:
     onPostAction: MaybeClearMoneyOnHandAmount
     beforeSaveAction: CheckExpeditedSnapEligibility
     nextScreens:
       - name: householdMoneyOnHandAmount
         condition: HasMoreThan100OnHand
-      - name: ohepRent
-        condition: HasHouseholdRentExpense
-      - name: ohepElectricity
+      - name: ohepReminder
   householdMoneyOnHandAmount:
     beforeSaveAction: CheckExpeditedSnapEligibility
     nextScreens:
       - name: householdMoneyOnHandVsExpenses
         condition: HasMoreExpensesThanMoney
-      - name: ohepRent
-        condition: HasHouseholdRentExpense
-      - name: ohepElectricity
+      - name: ohepReminder
   householdMoneyOnHandVsExpenses:
     beforeSaveAction: CheckExpeditedSnapEligibility
+    nextScreens:
+      - name: ohepReminder
+  ohepReminder:
     nextScreens:
       - name: ohepRent
         condition: HasHouseholdRentExpense
