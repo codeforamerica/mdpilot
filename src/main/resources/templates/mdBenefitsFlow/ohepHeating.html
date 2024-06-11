@@ -9,22 +9,64 @@
       <div th:replace="~{fragments/goBack :: goBackLink}"></div>
       <main id="content" role="main" class="form-card spacing-above-35">
         <th:block th:replace="~{fragments/icons :: householdFamilyIncome}"></th:block>
+        <p class="grey-text" th:text="#{ohep-notice.icon-tag-line}"></p>
         <th:block
-            th:replace="~{fragments/cardHeader :: cardHeader(header=#{ohep-heating.header})}"/>
-        <p th:utext="#{ohep-heating.subheader}"></p>
-        <th:block th:replace="~{fragments/form :: form(action=${formAction}, content=~{::OHEPHeatingForm})}">
+            th:replace="~{fragments/cardHeader :: cardHeader(
+                header=#{ohep-heating.header},
+                subtext=#{ohep-heating.subheader}
+            )}"/>
+        <th:block
+            th:replace="~{fragments/form :: form(action=${formAction}, content=~{::OHEPHeatingForm})}">
           <th:block th:ref="OHEPHeatingForm">
             <div class="form-card__content">
               <th:block th:replace="~{fragments/inputs/text ::
                 text(inputName='heatingCompanyName',
-                label=#{ohep-heating.q1})}" />
+                label=#{ohep-heating.q1})}"/>
               <th:block th:replace="~{fragments/inputs/text ::
                 text(inputName='heatingAccountNumber',
-                label=#{ohep-heating.q2})}" />
+                label=#{ohep-heating.q2})}"/>
+
+              <th:block th:replace="~{fragments/inputs/radioFieldset ::
+                            radioFieldset(
+                            ariaLabel='header',
+                            inputName='heatingAccountOwner',
+                            label=#{ohep-both.household.name},
+                            fieldsetHelpText=#{ohep-both.household.name.help},
+                            content=~{::householdMembers})}">
+                <th:block th:ref="householdMembers">
+                  <th:block
+                      th:replace="~{fragments/inputs/radio :: radio(
+                          inputName=${inputName},
+                          value=${inputData.firstName + ' ' + inputData.lastName},
+                          label=${inputData.firstName + ' ' + inputData.lastName + ' ' + #messages.msg('general.you')})
+                  }"/>
+                  <th:block th:if="${inputData.containsKey('household')}">
+                    <th:block th:each="householdMember, iter: ${inputData.household}"
+                              class="spacing-below-15">
+                      <th:block
+                          th:if="${householdMember.get(T(formflow.library.data.Submission).ITERATION_IS_COMPLETE_KEY) == true}">
+                        <th:block
+                            th:replace="~{fragments/inputs/radio :: radio(
+                                inputName=${inputName},
+                                value=${householdMember.householdMemberFirstName + ' ' + householdMember.householdMemberLastName},
+                                label=${householdMember.householdMemberFirstName + ' ' + householdMember.householdMemberLastName})}"/>
+                      </th:block>
+                    </th:block>
+                  </th:block>
+                  <th:block
+                      th:replace="~{fragments/inputs/radio :: radio(
+                          inputName=${inputName},
+                          value='Unknown',
+                          label=#{general.i-dont-know}
+                  )}"/>
+                </th:block>
+              </th:block>
             </div>
             <div class="form-card__footer">
               <th:block th:replace="~{fragments/inputs/submitButton :: submitButton(
                 text=#{general.inputs.continue})}"/>
+              <div><a th:text="#{general.i-dont-know}"
+                      th:href="'/flow/' + ${flow} + '/ohepThankYou'"></a></div>
             </div>
           </th:block>
         </th:block>

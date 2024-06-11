@@ -6,6 +6,7 @@ import formflow.library.address_validation.ValidatedAddress;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.mdbenefits.app.data.enums.ApplicantObjective;
+import org.mdbenefits.app.data.enums.CitizenshipStatus;
 import org.mdbenefits.app.data.enums.County;
 import org.mdbenefits.app.data.enums.EthnicityType;
 import org.mdbenefits.app.testutils.AbstractBasePageTest;
@@ -121,8 +122,11 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     @Test
     void incomeFlow() {
         loadUserPersonalData();
-        loadHouseHoldData("Third", "User", "12", "22", "1991", true);
-        loadHouseHoldData("Fourth", "User", "01", "23", "1997", true);
+
+        loadHouseHoldData("Third", "User", "12", "22", "1991", true, "123-54-2222",
+                "F", true, true, true);
+        loadHouseHoldData("Fourth", "User", "01", "23", "1997", true, "111-11-1111",
+                "F", true, true, true);
         preloadIncomeScreen();
 
         assertThat(testPage.getTitle()).isEqualTo(message("income-by-job.title"));
@@ -932,6 +936,44 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
     }
 
     @Test
+    void allHouseholdMemberShouldBeOnOHEPPagesEvenIfNotApplying() {
+        preloadCountyScreen(message(County.BALTIMORE.getLabelSrc()));
+        loadUserPersonalData();
+        loadHouseHoldData("Second", "User", "12", "22", "1991", true,
+                "123-22-2222", "M", false, false, false);
+        loadHouseHoldData("Third", "User", "01", "23", "1997", false,
+                null, null, false, false, false);
+
+        testPage.navigateToFlowScreen("mdBenefitsFlow/ohepElectricity");
+        // make sure both family members are there, even those not technically applying
+        // selectRadio will throw an error if it cannot find a selection on the input.
+        testPage.selectRadio("electricityAccountOwner", "test test2");
+        testPage.selectRadio("electricityAccountOwner", "Second User");
+        testPage.selectRadio("electricityAccountOwner", "Third User");
+    }
+
+    @Test
+    void shouldBeAbleToSkipOHEPUtilityPages() {
+        preloadCountyScreen(message(County.BALTIMORE.getLabelSrc()));
+        loadUserPersonalData();
+        loadHouseHoldData("Second", "User", "12", "22", "1991", true,
+                "111-11-1111", "F", true, true, true);
+        loadHouseHoldData("Third", "User", "01", "23", "1997", false,
+                null, null, false, false, false);
+
+        testPage.navigateToFlowScreen("mdBenefitsFlow/ohepElectricity");
+
+        testPage.clickLink("I don't know");
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-heating.title"));
+
+        testPage.clickLink("I don't know");
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-thank-you.title"));
+
+        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo(message("medical-expenses-amount.title"));
+    }
+
+    @Test
     void confirmationPageWithNoFeedback() {
         testPage.navigateToFlowScreen("mdBenefitsFlow/confirmation");
         testPage.clickButton(message("confirmation.done-button"));
@@ -995,12 +1037,32 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickContinue();
     }
 
-    void loadHouseHoldData(String firstName, String lastName, String month, String day, String year, boolean isApplying) {
+    void loadHouseHoldData(String firstName, String lastName, String month,
+            String day, String year, boolean isApplying, String ssn, String sex,
+            boolean isPregnant, boolean isEnrolledInSchool, boolean hasDisability) {
         testPage.navigateToFlowScreen("mdBenefitsFlow/householdInfo");
         testPage.enter("householdMemberFirstName", firstName);
         testPage.enter("householdMemberLastName", lastName);
         testPage.selectFromDropdown("householdMemberRelationship", message("household-info.relationship.child"));
         testPage.selectRadio("householdMemberApplyingForBenefits", isApplying ? "Yes" : "No");
+        testPage.clickContinue();
+
+        if (isApplying == false) {
+            return;
+        }
+
+        testPage.selectFromDropdown("householdMemberCitizenshipStatus", message(CitizenshipStatus.US_CITIZEN.getLabelSrc()));
+        testPage.enter("householdMemberSsn", ssn);
+        testPage.enter("householdMemberBirthMonth", month);
+        testPage.enter("householdMemberBirthDay", day);
+        testPage.enter("householdMemberBirthYear", year);
+
+        testPage.selectRadio("householdMemberSex", sex);
+        testPage.selectRadio("householdMemberIsPregnant", isPregnant ? "Yes" : "No");
+        testPage.selectRadio("householdMemberEnrolledInSchool", isEnrolledInSchool ? "Yes" : "No");
+        testPage.selectRadio("householdMemberHasDisability", isEnrolledInSchool ? "Yes" : "No");
+        testPage.clickContinue();
+        // race/ethnicity (all optional)
         testPage.clickContinue();
     }
 

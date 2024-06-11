@@ -57,6 +57,11 @@ class PDFServiceTest {
                 .with("someoneConvictedForTradingBenefits", "true")
                 .with("someoneIsReceivingBenefitsWithFakeID", "false")
                 .with("applicantRace[]", List.of(RaceType.ASIAN.name(), RaceType.WHITE.name()))
+                .with("heatingCompanyName", "Big Heating Company")
+                .with("heatingAccountNumber", "h-54321")
+                .with("heatingAccountOwner", "Jane Doe")
+                .with("electricityAccountNumber", "e-12345")
+                .with("electricityAccountOwner", "John Doe")
                 .with("confirmationNumber", "M123456789")
                 .build();
 
@@ -64,18 +69,34 @@ class PDFServiceTest {
         submission.setSubmittedAt(OffsetDateTime.parse("2024-01-01T00:00:00Z"));
 
         File pdfFile = pdfService.generate(submission);
+
         // Cover page 1
         String page1 = getPageText(pdfFile, 1);
+
         // Confirmation number
         assertThat(page1).contains("M123456789");
+
         // Applicant full name
         assertThat(page1).contains("Doe, John");
+
         // Submission Date
         assertThat(page1).contains("01/01/2024");
+
         // Applicant Phone
         assertThat(page1).contains("(510) 555-1111");
         assertThat(page1).contains("(510) 555-2222");
         assertThat(page1).contains("(510) 555-3333");
+
+        // Heating company info on the cover page
+        assertThat(page1).contains("Big Heating Company");
+        assertThat(page1).contains("h-54321");
+        assertThat(page1).contains("Jane Doe");
+
+        // electricity company info on the cover page
+        assertThat(page1).contains("e-12345");
+        // note that this is already on the page as applicant, but as: "Doe, John"
+        assertThat(page1).contains("John Doe");
+
         // 9701 Page 1
         String page4 = getPageText(pdfFile, 4);
         assertThat(page4).contains("Doe, John");
