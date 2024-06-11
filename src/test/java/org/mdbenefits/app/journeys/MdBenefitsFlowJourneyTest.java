@@ -1060,7 +1060,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.selectRadio("householdMemberSex", sex);
         testPage.selectRadio("householdMemberIsPregnant", isPregnant ? "Yes" : "No");
         testPage.selectRadio("householdMemberEnrolledInSchool", isEnrolledInSchool ? "Yes" : "No");
-        testPage.selectRadio("householdMemberHasDisability", isEnrolledInSchool ? "Yes" : "No");
+        testPage.selectRadio("householdMemberHasDisability", hasDisability ? "Yes" : "No");
         testPage.clickContinue();
         // race/ethnicity (all optional)
         testPage.clickContinue();
