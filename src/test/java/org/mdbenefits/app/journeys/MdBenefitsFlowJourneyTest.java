@@ -103,8 +103,8 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.enter("homeExpenseRent", "55");
         testPage.clickContinue();
 
-        assertThat(testPage.getTitle()).isEqualTo(message("ohep-rent.title"));
-        testPage.clickContinue();
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-reminder.title"));
+        testPage.clickButton("Ok");
     }
 
     @Test
@@ -320,7 +320,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickElementById("none__checkbox-householdHomeExpenses");
         testPage.clickContinue();
 
-        assertThat(testPage.getTitle()).isEqualTo(message("ohep-electricity.title"));
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-reminder.title"));
     }
 
     @Test
@@ -389,7 +389,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("expedited-snap-money-on-hand.title"));
         testPage.clickButton("Yes");
 
-        assertThat(testPage.getTitle()).isEqualTo(message("ohep-rent.title"));
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-reminder.title"));
 
         testPage.goBack();
         testPage.clickButton("No");
@@ -404,7 +404,7 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.enter("expeditedMoneyOnHandAmount", "2000");
         testPage.clickContinue();
 
-        assertThat(testPage.getTitle()).isEqualTo(message("ohep-rent.title"));
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-reminder.title"));
     }
 
     @Test
@@ -662,6 +662,9 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         testPage.clickElementById("none__checkbox-householdHomeExpenses");
         testPage.clickContinue();
 
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-reminder.title"));
+        testPage.clickButton("Ok");
+        
         assertThat(testPage.getTitle()).isEqualTo(message("ohep-electricity.title"));
         testPage.clickContinue();
 
@@ -795,6 +798,9 @@ public class MdBenefitsFlowJourneyTest extends AbstractBasePageTest {
         assertThat(testPage.getTitle()).isEqualTo(message("home-expenses.title"));
         testPage.clickElementById("none__checkbox-householdHomeExpenses");
         testPage.clickContinue();
+
+        assertThat(testPage.getTitle()).isEqualTo(message("ohep-reminder.title"));
+        testPage.clickButton("Ok");
 
         assertThat(testPage.getTitle()).isEqualTo(message("ohep-electricity.title"));
         testPage.clickContinue();
