@@ -36,6 +36,7 @@ public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
         results.putAll(prepareIncome(submission));
         results.putAll(prepareAdditionIncome(submission));
         results.putAll(prepareMoneyOnHandResources(submission));
+        results.putAll(prepareHasMoreThanHundredOnHand(submission));
         return results;
     }
 
@@ -168,6 +169,14 @@ public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
                     i++;
                 }
             }
+        }
+        return fields;
+    }
+    
+    private Map<String, SubmissionField> prepareHasMoreThanHundredOnHand(Submission submission) {
+        Map<String, SubmissionField> fields = new HashMap<>();
+        if (submission.getInputData().containsKey("expeditedMoneyOnHandAmount")) {
+            fields.put("householdHasResourcesOrAssets", new SingleField("householdHasResourcesOrAssets", "true", null));
         }
         return fields;
     }
