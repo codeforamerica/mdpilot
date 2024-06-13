@@ -35,7 +35,6 @@ public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
 
         results.putAll(prepareIncome(submission));
         results.putAll(prepareAdditionIncome(submission));
-        results.putAll(prepareMoneyOnHandResources(submission));
         results.putAll(prepareHasMoreThanHundredOnHand(submission));
         return results;
     }
@@ -145,38 +144,13 @@ public class IncomeDetailsPreparer implements SubmissionFieldPreparer {
                         null
                 ));
     }
-
-    private Map<String, SubmissionField> prepareMoneyOnHandResources(Submission submission) {
-        Map<String, SubmissionField> fields = new HashMap<>();
-        var moneyOnHandSelected = (List<String>) submission.getInputData().getOrDefault("moneyOnHandTypes[]", emptyList());
-
-        if (moneyOnHandSelected.isEmpty()) {
-            return fields;
-        }
-        if (isNoneOfAboveSelection(moneyOnHandSelected)) {
-            fields.put("householdHasResourcesOrAssets", new SingleField("householdHasResourcesOrAssets", "false", null
-            ));
-            return fields;
-        } else {
-            int i = 1;
-            for (var type : MoneyOnHandType.values()) {
-                if (moneyOnHandSelected.contains(type.name())) {
-                    fields.put("householdHasResourcesOrAssets", new SingleField("householdHasResourcesOrAssets", "true", null
-                    ));
-                    fields.put("resourcesOrAssetsType" + i,
-                            new SingleField("resourcesOrAssetsType" + i, messagesSource.getMessage(
-                                    type.getLabelSrc(), null, Locale.ENGLISH), null));
-                    i++;
-                }
-            }
-        }
-        return fields;
-    }
     
     private Map<String, SubmissionField> prepareHasMoreThanHundredOnHand(Submission submission) {
         Map<String, SubmissionField> fields = new HashMap<>();
-        if (submission.getInputData().containsKey("expeditedMoneyOnHandAmount")) {
-            fields.put("householdHasResourcesOrAssets", new SingleField("householdHasResourcesOrAssets", "true", null));
+        Map<String, Object> inputData = submission.getInputData();
+        if (inputData.containsKey("expeditedMoneyOnHandAmount")) {
+            double expeditedMoneyOnHandAmount = Double.parseDouble(inputData.get("expeditedMoneyOnHandAmount").toString());
+            fields.put("householdHasResourcesOrAssets", new SingleField("householdHasResourcesOrAssets", expeditedMoneyOnHandAmount > 0 ? "true" : "false", null));
         }
         return fields;
     }
