@@ -113,7 +113,7 @@ transmission:
     baltimore-county: ${BALTIMORE_COUNTY_EMAIL_ADDRESSES}
     queen-annes-county: ${QUEENANNES_COUNTY_EMAIL_ADDRESSES}
   google-drive-directory-id:
-    team-drive: ${GOOGLE_DRIVE_SHARED_ID:''}
+    team-drive: ${GOOGLE_DRIVE_SHARED_ID:}
     baltimore-county: ${BALTIMORE_COUNTY_GOOGLE_DIR_ID}
     queen-annes-county: ${QUEENANNES_COUNTY_GOOGLE_DIR_ID}
 sentry:
