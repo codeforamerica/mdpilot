@@ -26,7 +26,8 @@
                 <th:block th:replace="~{fragments/inputs/address ::
                                   address(
                                     validate=true,
-                                    inputName='mailingAddress'
+                                    inputName='mailingAddress',
+                                    requireAddressFields=true
                                   )}"/>
               </span>
             </div>
@@ -50,11 +51,14 @@
     var checkbox = document.getElementById("sameAsHomeAddress-true");
     if (checkbox && checkbox.checked) {
       // Copy values from home address to mailing address
-      document.getElementById("mailingAddressStreetAddress1").value = inputData['homeAddressStreetAddress1'] || '';
-      document.getElementById("mailingAddressStreetAddress2").value = inputData['homeAddressStreetAddress2'] || '';
+      document.getElementById(
+          "mailingAddressStreetAddress1").value = inputData['homeAddressStreetAddress1'] || '';
+      document.getElementById(
+          "mailingAddressStreetAddress2").value = inputData['homeAddressStreetAddress2'] || '';
       document.getElementById("mailingAddressCity").value = inputData['homeAddressCity'] || '';
       document.getElementById("mailingAddressState").value = inputData['homeAddressState'] || '';
-      document.getElementById("mailingAddressZipCode").value = inputData['homeAddressZipCode'] || '';
+      document.getElementById("mailingAddressZipCode").value = inputData['homeAddressZipCode']
+          || '';
     } else {
       if (!onPageLoad) {
         // Clear mailing address fields if checkbox is unchecked
@@ -71,7 +75,7 @@
   document.getElementById("sameAsHomeAddress-true").addEventListener("change", updateAddressFields);
 
   // Call the function on page load to check the initial state of the checkbox
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     updateAddressFields(true);
   });
 </script>
