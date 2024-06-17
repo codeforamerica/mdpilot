@@ -220,9 +220,6 @@ public class MdBenefitsFlow extends FlowInputs {
     @Money(message = "{error.invalid-money}")
     private String additionalIncomeOther;
 
-    @NotEmpty
-    private List<String> moneyOnHandTypes;
-
     @Money(message = "{error.invalid-money}")
     @NotBlank(message = "{error.missing-dollar-amount}")
     private String monthlyHouseholdIncome;
