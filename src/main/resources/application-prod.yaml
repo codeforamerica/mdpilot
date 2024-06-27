@@ -4,6 +4,9 @@ form-flow:
       key: ${MAILGUN_KEY:'no-key-set'}
       domain: 'mg.marylandbenefits.org'
       sender-email: 'Maryland Benefits <help@marylandbenefits.org>'
+  disabled-flows:
+    - flow: mdBenefitsFlow
+      staticRedirectPage: '/'
 spring:
   thymeleaf:
     cache: true
