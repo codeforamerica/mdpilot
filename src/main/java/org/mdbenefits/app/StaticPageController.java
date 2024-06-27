@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -19,6 +20,8 @@ public class StaticPageController {
     
     @Autowired
     private ApplicationContext applicationContext;
+    
+    private List<String> allowedProfiles = Arrays.asList("demo", "staging", "test", "dev");
 
     /**
      * Renders the website index page.
@@ -38,7 +41,7 @@ public class StaticPageController {
         model.put("screen", "/");
 
         String[] activeProfiles = applicationContext.getEnvironment().getActiveProfiles();
-        if (Arrays.asList(activeProfiles).contains("demo") || Arrays.asList(activeProfiles).contains("staging")) {
+        if (allowedProfiles.contains(activeProfiles[0])) {
             return new ModelAndView("index", model);
         }
         return new ModelAndView("pilot-ended", model);
