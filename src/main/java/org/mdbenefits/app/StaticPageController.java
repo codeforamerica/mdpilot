@@ -2,8 +2,12 @@ package org.mdbenefits.app;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,6 +17,11 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class StaticPageController {
+    
+    @Autowired
+    private ApplicationContext applicationContext;
+    
+    private List<String> allowedProfiles = Arrays.asList("demo", "staging", "test", "dev");
 
     /**
      * Renders the website index page.
@@ -31,7 +40,11 @@ public class StaticPageController {
         Map<String, Object> model = new HashMap<>();
         model.put("screen", "/");
 
-        return new ModelAndView("index", model);
+        String[] activeProfiles = applicationContext.getEnvironment().getActiveProfiles();
+        if (allowedProfiles.contains(activeProfiles[0])) {
+            return new ModelAndView("index", model);
+        }
+        return new ModelAndView("pilot-ended", model);
     }
 
     @GetMapping("/privacy")
